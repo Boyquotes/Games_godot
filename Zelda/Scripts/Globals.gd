@@ -8,9 +8,9 @@ var inventory
 var inventory_items = []
 var prev_scene
 var GUI = null
-var enemy_pos = range(0, 1)
-var enemy_dir = range(0, 1)
-var enemy_id = range(0, 1)
+var enemy_pos = range(0, 50)
+var enemy_dir = range(0, 50)
+var enemy_id = range(0, 50)
 var enemy_tracker = null
 var boss = null
 
@@ -59,7 +59,8 @@ func _deferred_goto_scene(path, spawn):
 		GUI.get_node("number").text = str(enemy_tracker)
 	
 	if player_weapon and current_scene.name == "Shop":
-		current_scene.get_node("Weapons_TileMap").tile_set.clear()	
+		current_scene.get_node("Weapons_TileMap").tile_set.remove_tile(current_scene.get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
+#		Weapons in inventory are still shown in Shop bc only player wep is removed when entering the shop
 	
 	print_stray_nodes()
 	
@@ -104,6 +105,7 @@ func spawn_enemies(pos):
 		enemy.position = enemy_pos[pos]
 		enemy.move_vec = enemy_dir[pos]
 		enemy_id[pos] = (str(enemy))
+		
 		
 		
 

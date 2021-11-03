@@ -96,9 +96,10 @@ func player_collision():
 			
 		if "Enemy" in coll.collider.name:
 			Globals.goto_scene("res://Scenes/game_over_screen.tscn", "null")
-			Globals.enemy_pos = range(0, 50)
-			Globals.enemy_dir = range(0, 50)
-			Globals.enemy_id = range(0, 50)
+			Globals.enemy_pos = range(0, 1)
+			Globals.enemy_dir = range(0, 1)
+			Globals.enemy_id = range(0, 1)
+			
 			
 #			BUG: only triggers once. Maybe leave it this way bc it could be intentional this way (triggering the camera transition is a bit tedious)
 
@@ -107,7 +108,6 @@ func weapon_achievement_anim(weapons_tile_name, coll, cell):
 			Globals.player_weapon = weapons_tile_name
 		
 		clear_tile(coll, cell)
-#		weapons_tilemap.tile_set.clear()
 		
 		var weapon_sprite = load("res://Scenes/weapons/" + weapons_tile_name + ".tscn").instance()
 		add_child(weapon_sprite)
