@@ -183,7 +183,7 @@ root_node = NodePath("../Entities_TileMap")
 anims/enemy_goober_walk = SubResource( 6 )
 
 [node name="camera_transition" type="KinematicBody2D" parent="."]
-position = Vector2( 1118.45, 511.164 )
+position = Vector2( 1115.62, 512.108 )
 __meta__ = {
 "_edit_group_": true
 }

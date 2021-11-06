@@ -8,9 +8,9 @@ var inventory
 var inventory_items = []
 var prev_scene
 var GUI = null
-var enemy_pos = range(0, 50)
-var enemy_dir = range(0, 50)
-var enemy_id = range(0, 50)
+var enemy_pos = range(0, 1)
+var enemy_dir = range(0, 1)
+var enemy_id = range(0, 1)
 var enemy_tracker = null
 var boss = null
 
@@ -33,7 +33,7 @@ func _deferred_goto_scene(path, spawn):
 	
 	current_scene = ResourceLoader.load(path).instance()
 	get_tree().get_root().add_child(current_scene)
-	if path != "res://Scenes/game_over_screen.tscn":
+	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
 		player = ResourceLoader.load("res://Scenes/Player.tscn").instance()
 		inventory = ResourceLoader.load("res://Scenes/Inventory.tscn").instance()
 		GUI = ResourceLoader.load("res://Scenes/GUI.tscn").instance()
@@ -44,8 +44,8 @@ func _deferred_goto_scene(path, spawn):
 		
 		inventory.rect_position = player.position
 		
-		if prev_scene != "start_screen" and prev_scene != "game_over_screen" and path != "res://Scenes/game_over_screen.tscn":
-			player_spawn_pos = current_scene.get_node("PlayerSpawn").position	
+		if prev_scene != "start_screen" and prev_scene != "game_over_screen" and prev_scene != "game_won_screen" and path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
+			player_spawn_pos = current_scene.get_node("PlayerSpawn").position
 		else:
 			player_spawn_pos = Vector2(512, 300)
 		
@@ -64,6 +64,11 @@ func _deferred_goto_scene(path, spawn):
 	
 	print_stray_nodes()
 	
+func num_of_enemies(n):
+	enemy_pos = range(0, n)
+	enemy_dir = range(0, n)
+	enemy_id = range(0, n)
+	
 func spawn_enemies(pos):
 	var rand = RandomNumberGenerator.new()
 	var screen_size = get_viewport().get_visible_rect().size
@@ -71,7 +76,7 @@ func spawn_enemies(pos):
 	
 	screen_size[0] = 2048
 
-	if current_scene.name == "Starting_World" and prev_scene == "start_screen" or prev_scene == "game_over_screen":
+	if current_scene.name == "Starting_World" and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen":
 		var enemy = ResourceLoader.load("res://Scenes/Enemy_goober.tscn").instance() 
 		current_scene.add_child(enemy)
 

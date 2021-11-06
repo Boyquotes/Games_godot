@@ -94,14 +94,12 @@ func player_collision():
 			1124, 2248, 5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 			tween.start()
 			
+#			BUG: only triggers once. Maybe leave it this way bc it could be intentional this way (triggering the camera transition is a bit tedious)
+			
 		if "Enemy" in coll.collider.name:
 			Globals.goto_scene("res://Scenes/game_over_screen.tscn", "null")
-			Globals.enemy_pos = range(0, 1)
-			Globals.enemy_dir = range(0, 1)
-			Globals.enemy_id = range(0, 1)
+			Globals.num_of_enemies(1)
 			
-			
-#			BUG: only triggers once. Maybe leave it this way bc it could be intentional this way (triggering the camera transition is a bit tedious)
 
 func weapon_achievement_anim(weapons_tile_name, coll, cell):
 		if !Globals.player_weapon:
