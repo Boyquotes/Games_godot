@@ -24,7 +24,7 @@ func enemy_movement():
 #		
 	move_vec = move_vec.normalized()
 
-	var coll = move_and_collide(move_vec * move_speed)	
+	var coll = move_and_collide(move_vec * move_speed)
 
 	if coll:
 		if "Enemy" in coll.collider.name or coll.collider.name == "Level_TileMap":

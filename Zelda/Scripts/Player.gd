@@ -4,7 +4,7 @@ var level_tilemap
 var objects_tilemap
 var weapons_tilemap
 var anim_player
-var move_speed = 2.5
+var move_speed = 5
 
 var weapon = preload("res://Scenes/Weapon.tscn")
 
@@ -18,7 +18,7 @@ func _ready():
 
 	if level_tilemap == null:
 			level_tilemap = $"/root/Main/Starting_World/Level_TileMap"
-	
+
 func _process(delta):
 	pass
 
@@ -59,7 +59,7 @@ func player_movement():
 		anim_player.play("Idle")
 	if Input.is_action_just_pressed("attack"):
 		weapon_attack(move_vec)
-#		
+
 	move_vec = move_vec.normalized()
 	
 	move_and_collide(move_vec * move_speed)	
