@@ -98,7 +98,7 @@ func player_collision():
 			
 		if "Enemy" in coll.collider.name:
 			Globals.goto_scene("res://Scenes/game_over_screen.tscn", "null")
-			Globals.num_of_enemies(1)
+			Globals.num_of_enemies(3)
 			
 
 func weapon_achievement_anim(weapons_tile_name, coll, cell):

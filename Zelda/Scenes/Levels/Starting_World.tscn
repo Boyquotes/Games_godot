@@ -164,6 +164,15 @@ extents = Vector2( 10, 59.9985 )
 
 [node name="Starting_World" type="Node2D"]
 
+[node name="spawn_area" type="ViewportContainer" parent="."]
+margin_left = 22.0
+margin_top = 24.0
+margin_right = 2183.0
+margin_bottom = 593.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Level_TileMap" type="TileMap" parent="."]
 show_behind_parent = true
 tile_set = SubResource( 5 )

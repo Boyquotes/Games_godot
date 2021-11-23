@@ -8,9 +8,9 @@ var inventory
 var inventory_items = []
 var prev_scene
 var GUI = null
-var enemy_pos = range(0, 1)
-var enemy_dir = range(0, 1)
-var enemy_id = range(0, 1)
+var enemy_pos
+var enemy_dir
+var enemy_id
 var enemy_tracker = null
 var boss = null
 
@@ -63,7 +63,8 @@ func _deferred_goto_scene(path, spawn):
 #		Weapons in inventory are still shown in Shop bc only player wep is removed when entering the shop
 	
 	print_stray_nodes()
-	
+
+
 func num_of_enemies(n):
 	enemy_pos = range(0, n)
 	enemy_dir = range(0, n)
@@ -71,17 +72,15 @@ func num_of_enemies(n):
 	
 func spawn_enemies(pos):
 	var rand = RandomNumberGenerator.new()
-	var screen_size = get_viewport().get_visible_rect().size
 	var tilemap = current_scene.get_node("Level_TileMap")
-	
-	screen_size[0] = 2048
 
 	if current_scene.name == "Starting_World" and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen":
+		var spawn_area = current_scene.get_node("spawn_area").rect_size
 		var enemy = ResourceLoader.load("res://Scenes/Enemy_goober.tscn").instance() 
 		current_scene.add_child(enemy)
 
 		rand.randomize()
-		enemy.position = Vector2(rand.randf_range(0, screen_size.x), rand.randf_range(0, screen_size.y))
+		enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 #	
 		var dir = [Vector2.DOWN, Vector2.UP, Vector2.RIGHT, Vector2.LEFT]
 		enemy.move_vec = dir[rand.randi() % dir.size()]
@@ -89,13 +88,11 @@ func spawn_enemies(pos):
 		var distance_to_player = enemy.get_global_position().distance_to(player.get_global_position())
 
 		if distance_to_player < 150:
-			enemy.position = Vector2(rand.randf_range(0, screen_size.x), rand.randf_range(0, screen_size.y))
+			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 			
 		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
-			rand.randomize()
-			enemy.position = Vector2(rand.randf_range(0, screen_size.x), rand.randf_range(0, screen_size.y))
-			
-		#BUG: enemy could spawn inside of a wall again, maybe use a loop?
+			print("fuckingdogshit")
+			enemy.queue_free()
 		
 		enemy_pos.remove(pos)
 		enemy_dir.remove(pos)
@@ -106,10 +103,13 @@ func spawn_enemies(pos):
 
 	elif current_scene.name == "Starting_World":
 		var enemy = ResourceLoader.load("res://Scenes/Enemy_goober.tscn").instance() 
-		current_scene.add_child(enemy)
+		current_scene.add_child(enemy)			
 		enemy.position = enemy_pos[pos]
 		enemy.move_vec = enemy_dir[pos]
 		enemy_id[pos] = (str(enemy))
+		
+		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
+			enemy.queue_free()
 		
 		
 		
