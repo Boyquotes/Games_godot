@@ -3,7 +3,7 @@
 - simple inventory system ==done==
 - enemy attack
 - xp system, no lvl ups, you just get stronger or 1 stat point when/if lvl up.
-- stat system (int, str, agi), probably just one stat -> char ui
+- stat system (int, str, agi) -> char ui
 - (item) or gold drops, xp gain when enemy kill -> enemy hp (weapons do different dmg)
 - save files of current process on local system
 - main game loop
@@ -22,4 +22,4 @@ code optimization
 - make global func for spawning enemies == done ==
 
 Bugs:
-- enemies can spawn out of bounds
+- enemies can spawn out of bounds ==fixed==

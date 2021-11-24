@@ -166,3 +166,7 @@ script = ExtResource( 15 )
 [node name="Position2D" type="Position2D" parent="."]
 visible = false
 position = Vector2( -5.83478, 0.0595398 )
+
+[node name="invuln_timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="invuln_timer" to="." method="_on_invuln_timer_timeout"]

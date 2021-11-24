@@ -64,7 +64,6 @@ func _deferred_goto_scene(path, spawn):
 	
 	print_stray_nodes()
 
-
 func num_of_enemies(n):
 	enemy_pos = range(0, n)
 	enemy_dir = range(0, n)
@@ -89,10 +88,8 @@ func spawn_enemies(pos):
 
 		if distance_to_player < 150:
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
-			
-		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
-			print("fuckingdogshit")
-			enemy.queue_free()
+		
+		spawn_correction(tilemap, enemy)
 		
 		enemy_pos.remove(pos)
 		enemy_dir.remove(pos)
@@ -103,13 +100,17 @@ func spawn_enemies(pos):
 
 	elif current_scene.name == "Starting_World":
 		var enemy = ResourceLoader.load("res://Scenes/Enemy_goober.tscn").instance() 
-		current_scene.add_child(enemy)			
+		current_scene.add_child(enemy)
 		enemy.position = enemy_pos[pos]
 		enemy.move_vec = enemy_dir[pos]
 		enemy_id[pos] = (str(enemy))
 		
-		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
-			enemy.queue_free()
+		spawn_correction(tilemap, enemy)
+			
+func spawn_correction(tilemap, i):
+	if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(i.position))).begins_with("floor_tiles"):
+			i.queue_free()
+	
 		
 		
 		

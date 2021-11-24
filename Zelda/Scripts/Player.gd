@@ -5,11 +5,16 @@ var objects_tilemap
 var weapons_tilemap
 var anim_player
 var move_speed = 5
+var player_hp
+var player_invuln
 
 var weapon = preload("res://Scenes/Weapon.tscn")
 
 func _ready():
 	anim_player = $AnimationPlayer
+	
+	player_hp = 50
+	player_invuln = false
 
 	level_tilemap = Globals.current_scene.get_node("Level_TileMap")
 	
@@ -18,11 +23,6 @@ func _ready():
 
 	if level_tilemap == null:
 			level_tilemap = $"/root/Main/Starting_World/Level_TileMap"
-
-func _process(delta):
-	pass
-
-#	move_speed = Globals.move_speed
 
 func _physics_process(delta):
 	
@@ -96,10 +96,21 @@ func player_collision():
 			
 #			BUG: only triggers once. Maybe leave it this way bc it could be intentional this way (triggering the camera transition is a bit tedious)
 			
-		if "Enemy" in coll.collider.name:
-			Globals.goto_scene("res://Scenes/game_over_screen.tscn", "null")
-			Globals.num_of_enemies(3)
-			
+		if "Enemy" in coll.collider.name and player_invuln == false:
+			var hp= int(Globals.GUI.get_node("hp_num").text)
+			hp -= 25
+			Globals.GUI.get_node("hp_num").text = str(hp)
+			print(Globals.GUI.get_node("hp_num").text)
+			self.visible = false
+			player_invuln = true
+			$invuln_timer.start()
+			emit_signal("player_loose_hp")
+			if Globals.GUI.get_node("hp_num").text == str(0):
+				Globals.goto_scene("res://Scenes/game_over_screen.tscn", "null")
+
+func _on_invuln_timer_timeout():
+	self.visible = true
+	player_invuln = false
 
 func weapon_achievement_anim(weapons_tile_name, coll, cell):
 		if !Globals.player_weapon:
@@ -163,6 +174,9 @@ func weapon_attack(move_vec):
 			elif move_vec == Vector2.LEFT:
 				weapon.rotation_degrees = 0
 				weapon.velocity = Vector2.LEFT
+
+
+
 
 
 

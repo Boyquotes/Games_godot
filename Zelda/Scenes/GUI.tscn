@@ -1,24 +1,64 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/progress_back.png" type="Texture" id=1]
+[ext_resource path="res://Assets/progress_fill.png" type="Texture" id=2]
 
 [node name="GUI" type="CanvasLayer"]
 
 [node name="enemy_counter" type="Label" parent="."]
-margin_left = 850.0
+margin_left = 900.0
 margin_top = 10.0
-margin_right = 878.0
+margin_right = 984.0
 margin_bottom = 24.0
 size_flags_horizontal = 8
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Enemies left:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="number" type="Label" parent="."]
-margin_left = 950.0
+margin_left = 990.0
 margin_top = 10.0
-margin_right = 990.0
+margin_right = 1010.0
 margin_bottom = 24.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="player_hp" type="Label" parent="."]
+margin_left = 25.0
+margin_top = 10.0
+margin_right = 40.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "HP: "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hp_num" type="Label" parent="."]
+margin_left = 50.0
+margin_top = 10.0
+margin_right = 40.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "50"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureProgress" type="TextureProgress" parent="."]
+margin_left = 377.0
+margin_top = 10.0
+margin_right = 627.0
+margin_bottom = 34.0
+min_value = 30.0
+value = 30.0
+texture_under = ExtResource( 1 )
+texture_progress = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
