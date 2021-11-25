@@ -5,7 +5,6 @@ var objects_tilemap
 var weapons_tilemap
 var anim_player
 var move_speed = 5
-var player_hp
 var player_invuln
 
 var weapon = preload("res://Scenes/Weapon.tscn")
@@ -13,7 +12,6 @@ var weapon = preload("res://Scenes/Weapon.tscn")
 func _ready():
 	anim_player = $AnimationPlayer
 	
-	player_hp = 50
 	player_invuln = false
 
 	level_tilemap = Globals.current_scene.get_node("Level_TileMap")
@@ -100,11 +98,10 @@ func player_collision():
 			var hp= int(Globals.GUI.get_node("hp_num").text)
 			hp -= 25
 			Globals.GUI.get_node("hp_num").text = str(hp)
-			print(Globals.GUI.get_node("hp_num").text)
+			Globals.player_hp = hp
 			self.visible = false
 			player_invuln = true
 			$invuln_timer.start()
-			emit_signal("player_loose_hp")
 			if Globals.GUI.get_node("hp_num").text == str(0):
 				Globals.goto_scene("res://Scenes/game_over_screen.tscn", "null")
 

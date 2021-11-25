@@ -50,13 +50,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureProgress" type="TextureProgress" parent="."]
+[node name="lvl_progress" type="TextureProgress" parent="."]
 margin_left = 377.0
 margin_top = 10.0
 margin_right = 627.0
 margin_bottom = 34.0
-min_value = 30.0
-value = 30.0
+max_value = 250.0
+step = 50.0
 texture_under = ExtResource( 1 )
 texture_progress = ExtResource( 2 )
 __meta__ = {

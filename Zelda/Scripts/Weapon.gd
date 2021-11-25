@@ -12,13 +12,27 @@ func _physics_process(delta):
 	position += velocity * speed
 
 func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
-	if "Enemy" in body.name:#
+	if "Enemy" in body.name:
+		var lvl_progress = Globals.GUI.get_node("lvl_progress")
 		for i in Globals.enemy_pos.size():
 			if str(body) == Globals.enemy_id[i]:
-				Globals.enemy_id.remove(i)
-				Globals.enemy_pos.remove(i)
-				Globals.enemy_tracker -= 1
-				Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
+				if Globals.enemy_hp[i] >= 250:
+					Globals.enemy_hp[i] -= 50
+					print(Globals.enemy_hp[i])
+				else:
+					Globals.enemy_id.remove(i)
+					Globals.enemy_pos.remove(i)
+					Globals.enemy_hp.remove(i)
+					Globals.enemy_tracker -= 1
+					Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
+#					body.queue_free()
+					
+				if lvl_progress.value == lvl_progress.max_value:
+					print("lvl up")
+				else:
+					lvl_progress.value += lvl_progress.step
+				
+				Globals.player_xp = lvl_progress.value
 				
 				if Globals.enemy_tracker == 0:
 					Globals.boss = ResourceLoader.load("res://Scenes/boss.tscn").instance()

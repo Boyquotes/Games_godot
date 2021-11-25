@@ -4,6 +4,8 @@ var player = null
 var current_scene = null
 var player_spawn_pos = null
 var player_weapon = false
+var player_hp = 50
+var player_xp = 0
 var inventory
 var inventory_items = []
 var prev_scene
@@ -12,6 +14,7 @@ var enemy_pos
 var enemy_dir
 var enemy_id
 var enemy_tracker = null
+var enemy_hp
 var boss = null
 
 func _ready():
@@ -45,7 +48,10 @@ func _deferred_goto_scene(path, spawn):
 		inventory.rect_position = player.position
 		
 		if prev_scene != "start_screen" and prev_scene != "game_over_screen" and prev_scene != "game_won_screen" and path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
+#			wtf is dis
 			player_spawn_pos = current_scene.get_node("PlayerSpawn").position
+			GUI.get_node("hp_num").text = str(player_hp)
+			GUI.get_node("lvl_progress").value = player_xp
 		else:
 			player_spawn_pos = Vector2(512, 300)
 		
@@ -68,6 +74,7 @@ func num_of_enemies(n):
 	enemy_pos = range(0, n)
 	enemy_dir = range(0, n)
 	enemy_id = range(0, n)
+	enemy_hp = range(0, n)
 	
 func spawn_enemies(pos):
 	var rand = RandomNumberGenerator.new()
@@ -94,9 +101,11 @@ func spawn_enemies(pos):
 		enemy_pos.remove(pos)
 		enemy_dir.remove(pos)
 		enemy_id.remove(pos)
+		enemy_hp.remove(pos)
 		enemy_pos.push_front(Vector2(enemy.position.x, enemy.position.y))
 		enemy_dir.push_front(enemy.move_vec)
 		enemy_id.push_front(str(enemy))
+		enemy_hp.push_front(250)
 
 	elif current_scene.name == "Starting_World":
 		var enemy = ResourceLoader.load("res://Scenes/Enemy_goober.tscn").instance() 
