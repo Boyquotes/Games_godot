@@ -4,8 +4,9 @@ var player = null
 var current_scene = null
 var player_spawn_pos = null
 var player_weapon = false
-var player_hp = 50
+var player_hp = 300
 var player_xp = 0
+var player_lvl = 0
 var inventory
 var inventory_items = []
 var prev_scene
@@ -52,6 +53,7 @@ func _deferred_goto_scene(path, spawn):
 			player_spawn_pos = current_scene.get_node("PlayerSpawn").position
 			GUI.get_node("hp_num").text = str(player_hp)
 			GUI.get_node("lvl_progress").value = player_xp
+			GUI.get_node("lvl").text = str(player_lvl)
 		else:
 			player_spawn_pos = Vector2(512, 300)
 		
@@ -105,7 +107,7 @@ func spawn_enemies(pos):
 		enemy_pos.push_front(Vector2(enemy.position.x, enemy.position.y))
 		enemy_dir.push_front(enemy.move_vec)
 		enemy_id.push_front(str(enemy))
-		enemy_hp.push_front(250)
+		enemy_hp.push_front(150)
 
 	elif current_scene.name == "Starting_World":
 		var enemy = ResourceLoader.load("res://Scenes/Enemy_goober.tscn").instance() 

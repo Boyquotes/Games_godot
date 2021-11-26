@@ -45,20 +45,42 @@ margin_top = 10.0
 margin_right = 40.0
 margin_bottom = 14.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "50"
+text = "300"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="lvl_progress" type="TextureProgress" parent="."]
 margin_left = 377.0
-margin_top = 10.0
+margin_top = 6.0
 margin_right = 627.0
-margin_bottom = 34.0
+margin_bottom = 30.0
 max_value = 250.0
 step = 50.0
 texture_under = ExtResource( 1 )
 texture_progress = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 635.0
+margin_top = 10.0
+margin_right = 659.0
+margin_bottom = 35.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "lvl:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lvl" type="Label" parent="."]
+margin_left = 660.0
+margin_top = 10.0
+margin_right = 684.0
+margin_bottom = 34.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }

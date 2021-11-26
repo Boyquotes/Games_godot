@@ -2,7 +2,7 @@
 - axe attack ==done==
 - simple inventory system ==done==
 - enemy attack
-- enemy/player HP system (lifebar for enemy entities)
+- enemy/player HP system (lifebar for enemy entities) ==done==
 - xp system, no lvl ups, you just get stronger or 1 stat point when/if lvl up.
 - stat system (int, str, agi) -> char ui
 - (item) or gold drops, xp gain when enemy kill -> enemy hp (weapons do different dmg)
