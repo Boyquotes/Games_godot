@@ -18,14 +18,11 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		for i in Globals.enemy_pos.size():
 			if str(body) == Globals.enemy_id[i]:
 				if Globals.enemy_hp[i] > 50:
-					print(Globals.enemy_hp[i])
 					if "arrow" in self.get_node("weapon").texture.get_path():
-						print("bow")
 						Globals.enemy_hp[i] -= 50
 						enemy_hp_bar.visible = true
 						enemy_hp_bar.value -= enemy_hp_bar.step
 					else:
-						print("axe")
 						Globals.enemy_hp[i] -= 100
 						enemy_hp_bar.visible = true
 						for j in 2:
@@ -56,7 +53,6 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 					Globals.boss.position.y = 250
 					Globals.current_scene.call_deferred("add_child", Globals.boss)
 
-				
 	if "boss" in body.name:
 		Globals.boss.queue_free()
 		Globals.goto_scene("res://Scenes/game_won_screen.tscn", "null")

@@ -6,6 +6,9 @@ var weapons_tilemap
 var anim_player
 var move_speed = 5
 var player_invuln
+var axe_pos
+var axe_dir
+var attacking = false
 
 var weapon = preload("res://Scenes/Weapon.tscn")
 
@@ -56,7 +59,26 @@ func player_movement():
 	if move_vec == Vector2.ZERO:
 		anim_player.play("Idle")
 	if Input.is_action_just_pressed("attack"):
-		weapon_attack(move_vec)
+		if Globals.player_weapon == "axe":
+			if !attacking:
+				axe_pos = - 18
+				axe_dir = "y"
+			elif attacking and axe_pos == - 18:
+				axe_pos = + 15
+				axe_dir = "x"
+			elif attacking and axe_pos == + 15:
+				axe_pos = + 30
+				axe_dir = "y"
+			elif attacking and axe_pos == + 30:
+				axe_pos = -15
+				axe_dir = "x"
+				attacking = false
+			else:
+				axe_pos = - 18
+				axe_dir = "y"
+			weapon_attack(move_vec, axe_pos, axe_dir)
+		else:
+			weapon_attack(move_vec, axe_pos, axe_dir)
 
 	move_vec = move_vec.normalized()
 	
@@ -125,6 +147,7 @@ func weapon_achievement_anim(weapons_tile_name, coll, cell):
 		get_tree().paused = false
 
 		weapon_sprite.queue_free()
+		
 
 func get_tile_name(coll, tilemap):
 	var cell = tilemap.world_to_map(coll.position - coll.normal)
@@ -136,25 +159,28 @@ func get_tile_name(coll, tilemap):
 func clear_tile(coll, tile_id):
 	return coll.collider.tile_set.remove_tile(tile_id)
 	
-func weapon_attack(move_vec):
+func weapon_attack(move_vec, axe_pos, axe_dir):
+	attacking = true
 	if Globals.player_weapon:
 		var weapon = load("res://Scenes/Weapon.tscn").instance()
-		Globals.current_scene.get_node("Player").add_child(weapon)
-		
+
 		if Globals.player_weapon == "axe":
+			Globals.current_scene.get_node("Player").add_child(weapon)
 			var axe = load("res://Assets/axe_small.png")
+			
+			if axe_dir == "y":
+				weapon.position.y = axe_pos
+			else:
+				weapon.position.x = axe_pos
+			
 			weapon.get_node("weapon").set_texture(axe)
 			weapon.speed = 0
-			if move_vec == Vector2.DOWN:
-				weapon.position.y += 30
-			elif move_vec == Vector2.UP:
-				weapon.position.y -= 18
-			elif move_vec == Vector2.RIGHT:
-				weapon.position.x += 15
-			elif move_vec == Vector2.LEFT:
-				weapon.position.x -= 15
-				
+			
 			weapon.get_node("AnimationPlayer").play("axe_swirl")
+		
+		if Globals.player_weapon == "bow":
+			Globals.current_scene.add_child(weapon)
+			weapon.position = self.position
 
 		if Globals.player_weapon == "bow": 
 			var arrow = load("res://Assets/arrow.png")
