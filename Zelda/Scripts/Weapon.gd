@@ -17,18 +17,15 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		var enemy_hp_bar = body.get_node("enemy_hp_bar")
 		for i in Globals.enemy_pos.size():
 			if str(body) == Globals.enemy_id[i]:
-				if Globals.enemy_hp[i] > 50:
-					if "arrow" in self.get_node("weapon").texture.get_path():
-						Globals.enemy_hp[i] -= 50
-						enemy_hp_bar.visible = true
-						enemy_hp_bar.value -= enemy_hp_bar.step
-					else:
-						Globals.enemy_hp[i] -= 100
-						enemy_hp_bar.visible = true
-						for j in 2:
-							enemy_hp_bar.value -= enemy_hp_bar.step
+				if "axe" in self.get_node("weapon").texture.get_path():
+					Globals.enemy_hp[i] -= (Globals.player_pwr*2)
+				else: 
+					Globals.enemy_hp[i] -= Globals.player_pwr
+					
+				enemy_hp_bar.visible = true
+				enemy_hp_bar.value -= Globals.player_pwr
 						
-				else:
+				if Globals.enemy_hp[i] <= 0:
 					Globals.enemy_id.remove(i)
 					Globals.enemy_pos.remove(i)
 					Globals.enemy_hp.remove(i)
@@ -41,8 +38,12 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 						Globals.GUI.get_node("lvl").text = str(curr_lvl)
 						Globals.player_lvl = str(curr_lvl)
 						lvl_progress.value = 0
+						if int(Globals.player_lvl)%2 == 0 and int(Globals.player_lvl) != 0:
+							Globals.player_pwr += 50
+							print("new player pwr ", Globals.player_pwr)
 					else:
 						lvl_progress.value += lvl_progress.step
+
 					break
 
 				Globals.player_xp = lvl_progress.value

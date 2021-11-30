@@ -38,7 +38,7 @@ func _physics_process(delta):
 			Globals.inventory.visible = false
 			
 func player_movement():
-	var move_vec = Vector2()#
+	var move_vec = Vector2()
 	if Input.is_action_pressed("move_down"):
 		move_vec += Vector2.DOWN
 		anim_player.play("walking_front")
@@ -105,7 +105,7 @@ func player_collision():
 				weapon_achievement_anim(weapons_tile_name, coll, cell)
 				Globals.inventory_items.push_front(weapons_tile_name)
 				Globals.inventory.pickup_item(weapons_tile_name)
-				
+	
 		if coll.collider.name == "camera_transition":
 			var tween = get_node("Camera_Transition")
 			self.get_parent().get_node("camera_transition/CollisionShape2D").disabled = true
@@ -148,7 +148,8 @@ func weapon_achievement_anim(weapons_tile_name, coll, cell):
 
 		weapon_sprite.queue_free()
 		
-
+		Globals.current_scene.get_node("Weapons_TileMap").queue_free()
+		
 func get_tile_name(coll, tilemap):
 	var cell = tilemap.world_to_map(coll.position - coll.normal)
 	var tile_id = tilemap.get_cellv(cell)

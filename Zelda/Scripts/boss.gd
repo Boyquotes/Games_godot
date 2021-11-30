@@ -5,8 +5,6 @@ var move_speed = 1
 
 func _ready():
 	anim_boss = $AnimationPlayer
-#	self.position.x = Globals.player.position.x + 100
-#	self.position.y = Globals.player.position.y + 100
 
 func _physics_process(delta):
 	anim_boss.play("idle")
