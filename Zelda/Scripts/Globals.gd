@@ -16,6 +16,7 @@ var enemy_pos
 var enemy_dir
 var enemy_id
 var enemy_tracker = null
+var enemy_removed = false
 var enemy_hp
 var boss = null
 
@@ -60,9 +61,9 @@ func _deferred_goto_scene(path, spawn):
 		
 		player.position = player_spawn_pos
 		
-		for i in enemy_pos.size():
-			spawn_enemies(i)
-			i += 1
+		if current_scene.name == "Starting_World":
+			for i in enemy_pos.size():
+				spawn_enemies(i)
 			
 		enemy_tracker = enemy_pos.size()
 		GUI.get_node("number").text = str(enemy_tracker)
@@ -98,9 +99,12 @@ func spawn_enemies(pos):
 		var distance_to_player = enemy.get_global_position().distance_to(player.get_global_position())
 
 		if distance_to_player < 150:
-			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
+			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))		
 		
-		spawn_correction(tilemap, enemy)
+		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
+			enemy.queue_free()
+			spawn_enemies(pos)
+			return
 		
 		enemy_pos.remove(pos)
 		enemy_dir.remove(pos)
@@ -117,10 +121,4 @@ func spawn_enemies(pos):
 		enemy.position = enemy_pos[pos]
 		enemy.move_vec = enemy_dir[pos]
 		enemy_id[pos] = (str(enemy))
-		
-		spawn_correction(tilemap, enemy)
-			
-func spawn_correction(tilemap, i):
-	if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(i.position))).begins_with("floor_tiles"):
-			i.queue_free()
 

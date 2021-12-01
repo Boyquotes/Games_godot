@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Assets/floor_tiles.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/Starting_World.gd" type="Script" id=2]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -163,6 +164,7 @@ resource_name = "enemy_goober_walk"
 extents = Vector2( 10, 59.9985 )
 
 [node name="Starting_World" type="Node2D"]
+script = ExtResource( 2 )
 
 [node name="spawn_area" type="ViewportContainer" parent="."]
 margin_left = 22.0

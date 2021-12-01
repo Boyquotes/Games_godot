@@ -21,38 +21,38 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 					Globals.enemy_hp[i] -= (Globals.player_pwr*2)
 				else: 
 					Globals.enemy_hp[i] -= Globals.player_pwr
-					
 				enemy_hp_bar.visible = true
 				enemy_hp_bar.value -= Globals.player_pwr
-						
 				if Globals.enemy_hp[i] <= 0:
 					Globals.enemy_id.remove(i)
 					Globals.enemy_pos.remove(i)
 					Globals.enemy_hp.remove(i)
 					Globals.enemy_tracker -= 1
 					Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
-					body.queue_free()
+#					body.call_deferred("queue_free")
 					if lvl_progress.value == (lvl_progress.max_value-lvl_progress.step):
 						var curr_lvl = int(Globals.GUI.get_node("lvl").text)
 						curr_lvl += 1
 						Globals.GUI.get_node("lvl").text = str(curr_lvl)
-						Globals.player_lvl = str(curr_lvl)
+						Globals.player_lvl = curr_lvl
 						lvl_progress.value = 0
-						if int(Globals.player_lvl)%2 == 0 and int(Globals.player_lvl) != 0:
+						if Globals.player_lvl%2 == 0 and Globals.player_lvl != 0:
 							Globals.player_pwr += 50
-							print("new player pwr ", Globals.player_pwr)
+#							print("new player pwr ", Globals.player_pwr)
 					else:
 						lvl_progress.value += lvl_progress.step
-
+					body.call_deferred("queue_free")
+					print("enemey removed")
 					break
 
 				Globals.player_xp = lvl_progress.value
 				
-				if Globals.enemy_tracker == 0:
-					Globals.boss = ResourceLoader.load("res://Scenes/boss.tscn").instance()
-					Globals.boss.position.x = 500
-					Globals.boss.position.y = 250
-					Globals.current_scene.call_deferred("add_child", Globals.boss)
+		if Globals.enemy_tracker == 0:
+			print("spawn boss")
+			Globals.boss = ResourceLoader.load("res://Scenes/boss.tscn").instance()
+			Globals.boss.position.x = 500
+			Globals.boss.position.y = 250
+			Globals.current_scene.call_deferred("add_child", Globals.boss)
 
 	if "boss" in body.name:
 		Globals.boss.queue_free()

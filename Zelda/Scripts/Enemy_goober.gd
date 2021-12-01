@@ -5,10 +5,13 @@ var anim_enemy
 var move_vec
 
 func _ready():
-	anim_enemy = $AnimationPlayer	
+	anim_enemy = $AnimationPlayer
 
 func _physics_process(delta):
-	enemy_movement()	
+	if Globals.player_lvl >= 2:
+		enemy_attack_mov()
+	else:
+		enemy_movement()	
 
 func enemy_movement():
 	if move_vec == Vector2.DOWN:
@@ -36,6 +39,12 @@ func enemy_movement():
 				move_vec = Vector2.RIGHT
 			elif move_vec == Vector2.RIGHT:
 				move_vec = Vector2.LEFT
+				
+func enemy_attack_mov():
+	var dir = self.position.direction_to(Globals.player.position)
+	move_and_collide(Vector2.move_toward(dir, move_speed))
+	anim_enemy.play("walk_side")
+	move_speed = 3
 	
 #	======stupid movement solution==========
 	#	var prev_pos = follow_path.get_global_position()
