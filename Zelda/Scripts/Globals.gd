@@ -15,6 +15,7 @@ var GUI = null
 var enemy_pos
 var enemy_dir
 var enemy_id
+var enemy_num = 50
 var enemy_tracker = null
 var enemy_removed = false
 var enemy_hp
@@ -58,6 +59,9 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("lvl").text = str(player_lvl)
 		else:
 			player_spawn_pos = Vector2(512, 300)
+			player_lvl = 0
+			player_pwr = 50
+			player_weapon = null
 		
 		player.position = player_spawn_pos
 		
@@ -99,7 +103,7 @@ func spawn_enemies(pos):
 		var distance_to_player = enemy.get_global_position().distance_to(player.get_global_position())
 
 		if distance_to_player < 150:
-			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))		
+			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 		
 		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
 			enemy.queue_free()
@@ -121,4 +125,16 @@ func spawn_enemies(pos):
 		enemy.position = enemy_pos[pos]
 		enemy.move_vec = enemy_dir[pos]
 		enemy_id[pos] = (str(enemy))
+		
+func spawn_weapon_shop():
+	var rand = RandomNumberGenerator.new()
+	var shop_entrance = ResourceLoader.load("res://Scenes/Weapon_Shop_Entrance.tscn").instance()
+	var spawn_area = current_scene.get_node("weaponshop_spawn_area").rect_size
+	current_scene.call_deferred("add_child", shop_entrance)
+#	.add_child(shop_entrance) 
+	
+	rand.randomize()
+	shop_entrance.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
+	
+	print(shop_entrance)
 

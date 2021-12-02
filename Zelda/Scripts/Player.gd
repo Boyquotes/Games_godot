@@ -121,6 +121,7 @@ func player_collision():
 			hp -= 25
 			Globals.GUI.get_node("hp_num").text = str(hp)
 			Globals.player_hp = hp
+#			hp goes up instead down. could not reproduce why this happened
 			self.visible = false
 			player_invuln = true
 			$invuln_timer.start()
