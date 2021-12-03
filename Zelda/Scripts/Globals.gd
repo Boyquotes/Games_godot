@@ -4,6 +4,7 @@ var player = null
 var current_scene = null
 var player_spawn_pos = null
 var player_weapon = false
+var starter_weapon
 var player_hp = 300
 var player_xp = 0
 var player_lvl = 0
@@ -20,6 +21,7 @@ var enemy_tracker = null
 var enemy_removed = false
 var enemy_hp
 var boss = null
+var shop_spawn_pos
 
 func _ready():
 	var root = get_tree().get_root()
@@ -35,8 +37,8 @@ func goto_scene(path, spawn):
 
 func _deferred_goto_scene(path, spawn):
 	
-	current_scene.free()
 	prev_scene = spawn
+	current_scene.free()
 	
 	current_scene = ResourceLoader.load(path).instance()
 	get_tree().get_root().add_child(current_scene)
@@ -53,7 +55,7 @@ func _deferred_goto_scene(path, spawn):
 		
 		if prev_scene != "start_screen" and prev_scene != "game_over_screen" and prev_scene != "game_won_screen" and path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
 #			wtf is dis
-			player_spawn_pos = current_scene.get_node("PlayerSpawn").position
+			player_spawn_pos = current_scene.get_node("Player_Spawn").position
 			GUI.get_node("hp_num").text = str(player_hp)
 			GUI.get_node("lvl_progress").value = player_xp
 			GUI.get_node("lvl").text = str(player_lvl)
@@ -62,7 +64,9 @@ func _deferred_goto_scene(path, spawn):
 			player_lvl = 0
 			player_pwr = 50
 			player_weapon = null
-		
+			player_weapon = "bow"
+			starter_weapon = true
+			
 		player.position = player_spawn_pos
 		
 		if current_scene.name == "Starting_World":
@@ -72,11 +76,12 @@ func _deferred_goto_scene(path, spawn):
 		enemy_tracker = enemy_pos.size()
 		GUI.get_node("number").text = str(enemy_tracker)
 	
-	if player_weapon and current_scene.name == "Shop":
+	if current_scene.name == "Shop" and player_weapon and !starter_weapon:
 #		current_scene.get_node("Weapons_TileMap").tile_set.remove_tile(current_scene.get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
 		current_scene.get_node("Weapons_TileMap").queue_free()
-#		Weapons in inventory are still shown in Shop bc only player wep is removed when entering the shop
-	
+	elif current_scene.name == "Shop" and player_weapon and starter_weapon:
+		starter_weapon = false
+#		Weapons in inventory are still shown in Shop bc only player wep is removed when entering the shop	
 	print_stray_nodes()
 
 func num_of_enemies(n):
@@ -128,13 +133,24 @@ func spawn_enemies(pos):
 		
 func spawn_weapon_shop():
 	var rand = RandomNumberGenerator.new()
+#	var shop_entrance = ResourceLoader.load("res://Scenes/Weapon_Shop_Entrance.tscn").instance()
+	
+#	if current_scene.name == "Starting_World" and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen":
 	var shop_entrance = ResourceLoader.load("res://Scenes/Weapon_Shop_Entrance.tscn").instance()
 	var spawn_area = current_scene.get_node("weaponshop_spawn_area").rect_size
 	current_scene.call_deferred("add_child", shop_entrance)
-#	.add_child(shop_entrance) 
-	
+		
 	rand.randomize()
 	shop_entrance.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
+	shop_spawn_pos = shop_entrance.position
+	print("shop spawn")
+#	elif current_scene.name == "Starting_World" and prev_scene == "Shop":
+#		var shop_entrance = ResourceLoader.load("res://Scenes/Weapon_Shop_Entrance.tscn").instance()
+#		print("shop respawn")
+#		current_scene.call_deferred("add_child", shop_entrance)
+#		shop_entrance.position = shop_spawn_area
+#
+
 	
-	print(shop_entrance)
+	
 

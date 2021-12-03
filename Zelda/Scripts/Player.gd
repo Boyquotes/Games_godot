@@ -88,11 +88,11 @@ func player_collision():
 	var coll = move_and_collide(Vector2() * move_speed)
 
 	if coll:
+		if coll.collider.name == "Shop_Entrance":
+			Globals.goto_scene("res://Scenes/Levels/Shop.tscn", "null")
+		
 		if coll.collider.name == "Level_TileMap":
 			var level_tile_name = get_tile_name(coll, level_tilemap)[0]
-	
-			if level_tile_name == "shop_stairs_entry":
-				Globals.goto_scene("res://Scenes/Levels/Shop.tscn", "null")
 	
 			if level_tile_name == "shop_stairs_exit":
 				Globals.goto_scene("res://Scenes/Levels/Starting_World.tscn", "null")
@@ -100,7 +100,7 @@ func player_collision():
 		if coll.collider.name == "Weapons_TileMap":
 			var weapons_tile_name = get_tile_name(coll, weapons_tilemap)[0]
 			var cell = get_tile_name(coll, weapons_tilemap)[1]
-	
+
 			if weapons_tile_name:
 				weapon_achievement_anim(weapons_tile_name, coll, cell)
 				Globals.inventory_items.push_front(weapons_tile_name)
@@ -121,7 +121,7 @@ func player_collision():
 			hp -= 25
 			Globals.GUI.get_node("hp_num").text = str(hp)
 			Globals.player_hp = hp
-#			hp goes up instead down. could not reproduce why this happened
+#			BUG: hp inc instead dec. could not reproduce why this happened
 			self.visible = false
 			player_invuln = true
 			$invuln_timer.start()
@@ -133,8 +133,8 @@ func _on_invuln_timer_timeout():
 	player_invuln = false
 
 func weapon_achievement_anim(weapons_tile_name, coll, cell):
-		if !Globals.player_weapon:
-			Globals.player_weapon = weapons_tile_name
+#		if !Globals.player_weapon:
+		Globals.player_weapon = weapons_tile_name
 		
 		clear_tile(coll, cell)
 		
@@ -199,6 +199,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			elif move_vec == Vector2.LEFT:
 				weapon.rotation_degrees = 0
 				weapon.velocity = Vector2.LEFT
+
 
 
 

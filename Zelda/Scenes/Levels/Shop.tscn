@@ -281,7 +281,7 @@ cell_size = Vector2( 32, 32 )
 format = 1
 tile_data = PoolIntArray( 524302, 4, 0, 524303, 2, 0, 589835, 5, 0, 589837, 0, 0 )
 
-[node name="PlayerSpawn" type="Position2D" parent="."]
+[node name="Player_Spawn" type="Position2D" parent="."]
 position = Vector2( 264.777, 182.643 )
 
 [node name="shop_owner" type="KinematicBody2D" parent="."]

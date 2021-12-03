@@ -47,11 +47,9 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 
 				Globals.player_xp = lvl_progress.value
 				
-		if Globals.enemy_tracker == Globals.enemy_num - 10:
-			print("spawn weapon")
+		if Globals.enemy_tracker == Globals.enemy_num - 2 and !Globals.current_scene.has_node("Shop_Entrance"):
 			Globals.spawn_weapon_shop()
-#			for i in 
-				
+			
 		if Globals.enemy_tracker == 0:
 			print("spawn boss")
 #			multiple axes hit make boss spawn multiple times
