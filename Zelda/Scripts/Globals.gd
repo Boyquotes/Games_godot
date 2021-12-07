@@ -9,6 +9,7 @@ var player_hp = 300
 var player_xp = 0
 var player_lvl = 0
 var player_pwr = 50
+var player_attack = false
 var inventory
 var inventory_items = []
 var prev_scene
@@ -22,6 +23,7 @@ var enemy_removed = false
 var enemy_hp
 var boss = null
 var shop_spawn_pos
+var shop_spawned = false
 
 func _ready():
 	var root = get_tree().get_root()
@@ -55,6 +57,9 @@ func _deferred_goto_scene(path, spawn):
 		
 		if prev_scene != "start_screen" and prev_scene != "game_over_screen" and prev_scene != "game_won_screen" and path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
 #			wtf is dis
+			if current_scene.name == "Starting_World":
+				current_scene.get_node("Player_Spawn").position = shop_spawn_pos
+
 			player_spawn_pos = current_scene.get_node("Player_Spawn").position
 			GUI.get_node("hp_num").text = str(player_hp)
 			GUI.get_node("lvl_progress").value = player_xp
@@ -133,22 +138,16 @@ func spawn_enemies(pos):
 		
 func spawn_weapon_shop():
 	var rand = RandomNumberGenerator.new()
-#	var shop_entrance = ResourceLoader.load("res://Scenes/Weapon_Shop_Entrance.tscn").instance()
-	
-#	if current_scene.name == "Starting_World" and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen":
 	var shop_entrance = ResourceLoader.load("res://Scenes/Weapon_Shop_Entrance.tscn").instance()
 	var spawn_area = current_scene.get_node("weaponshop_spawn_area").rect_size
 	current_scene.call_deferred("add_child", shop_entrance)
-		
+	
 	rand.randomize()
 	shop_entrance.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 	shop_spawn_pos = shop_entrance.position
-	print("shop spawn")
-#	elif current_scene.name == "Starting_World" and prev_scene == "Shop":
-#		var shop_entrance = ResourceLoader.load("res://Scenes/Weapon_Shop_Entrance.tscn").instance()
-#		print("shop respawn")
-#		current_scene.call_deferred("add_child", shop_entrance)
-#		shop_entrance.position = shop_spawn_area
+	
+	print("shop spawned")
+#
 #
 
 	

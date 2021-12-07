@@ -88,7 +88,7 @@ func player_collision():
 	var coll = move_and_collide(Vector2() * move_speed)
 
 	if coll:
-		if coll.collider.name == "Shop_Entrance":
+		if coll.collider.name == "Shop_Entrance_Entry":
 			Globals.goto_scene("res://Scenes/Levels/Shop.tscn", "null")
 		
 		if coll.collider.name == "Level_TileMap":

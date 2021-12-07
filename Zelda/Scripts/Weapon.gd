@@ -16,6 +16,8 @@ func _physics_process(delta):
 
 func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 	if "Enemy" in body.name:
+#		Globals.player_attack = true
+		body.enemy_attack_move(body)
 		var lvl_progress = Globals.GUI.get_node("lvl_progress")
 		var enemy_hp_bar = body.get_node("enemy_hp_bar")
 		for i in Globals.enemy_pos.size():
@@ -43,16 +45,17 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 					else:
 						lvl_progress.value += lvl_progress.step
 					body.queue_free()
+#					Globals.player_attack = false
 					break
 
 				Globals.player_xp = lvl_progress.value
-				
-		if Globals.enemy_tracker == Globals.enemy_num - 2 and !Globals.current_scene.has_node("Shop_Entrance"):
+
+		if Globals.enemy_tracker == Globals.enemy_num - 2 and !Globals.shop_spawned:
 			Globals.spawn_weapon_shop()
+			Globals.shop_spawned = true
 			
 		if Globals.enemy_tracker == 0:
 			print("spawn boss")
-#			multiple axes hit make boss spawn multiple times
 			Globals.boss = ResourceLoader.load("res://Scenes/boss.tscn").instance()
 			Globals.boss.position.x = 500
 			Globals.boss.position.y = 250
