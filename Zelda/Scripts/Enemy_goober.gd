@@ -9,17 +9,10 @@ func _ready():
 	anim_enemy = $AnimationPlayer
 
 func _physics_process(delta):
-#	if Globals.player_lvl >= 2:
-#		enemy_attack_mov()
-#	if Globals.player_attack:
-#		enemy_attack_mov()
-#	else:
+
 	enemy_movement()
-	
-#	enemy_attack_move(self)
 
 func enemy_movement():
-#	if !Globals.player_attack:	
 	move_speed = 1
 	if move_vec == Vector2.DOWN:
 		anim_enemy.play("walk_down")
@@ -32,7 +25,7 @@ func enemy_movement():
 		$Body.set_flip_h(false)
 		anim_enemy.play("walk_side")
 
-	move_vec = move_vec.normalized()	
+	move_vec = move_vec.normalized()
 	
 	var coll = move_and_collide(move_vec * move_speed)
 
@@ -47,16 +40,13 @@ func enemy_movement():
 			elif move_vec == Vector2.RIGHT:
 				move_vec = Vector2.LEFT
 
-func enemy_attack_move(body):
-#	set_physics_process(false)
-	print(body)
-	
-	var dir = body.position.direction_to(Globals.player.position)
-	var attack_coll = move_and_collide(Vector2.move_toward(dir, move_speed))
-	anim_enemy.play("walk_side")
-	move_speed = 3
-	
-	print(attack_coll)
+#func enemy_attack_move(body):
+##	set_physics_process(false)
+##	print(body)	
+#	var dir = body.position.direction_to(Globals.player.position)
+#	var attack_coll = move_and_collide(Vector2.move_toward(dir, move_speed))
+#	anim_enemy.play("walk_side")
+#	move_speed = 3
 
 #			print("attack")
 	

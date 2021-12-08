@@ -13,11 +13,15 @@ func _ready():
 	
 func _physics_process(delta):
 	position += velocity * speed
+		
 
 func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
-	if "Enemy" in body.name:
-#		Globals.player_attack = true
-		body.enemy_attack_move(body)
+	if Globals.player_weapon == "bow" and "Enemy" in body.name or "Level_TileMap" in body.name:
+		self.queue_free()
+	
+	if "Enemy" in body.name:#	
+		body.set_script(load("res://Scripts/attack_movement.gd"))
+		
 		var lvl_progress = Globals.GUI.get_node("lvl_progress")
 		var enemy_hp_bar = body.get_node("enemy_hp_bar")
 		for i in Globals.enemy_pos.size():
@@ -45,7 +49,6 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 					else:
 						lvl_progress.value += lvl_progress.step
 					body.queue_free()
-#					Globals.player_attack = false
 					break
 
 				Globals.player_xp = lvl_progress.value
