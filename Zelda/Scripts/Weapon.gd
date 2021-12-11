@@ -9,6 +9,7 @@ func _ready():
 		life_time = 1
 	
 	yield(get_tree().create_timer(life_time), "timeout")
+#	yield creates error when entering shop Resumed fundtion "ready()" after yield, but script is gone
 	queue_free()
 	
 func _physics_process(delta):

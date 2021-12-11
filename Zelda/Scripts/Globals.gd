@@ -86,6 +86,14 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.get_node("Weapons_TileMap").queue_free()
 	elif current_scene.name == "Shop" and player_weapon and starter_weapon:
 		starter_weapon = false
+		var rand = RandomNumberGenerator.new()
+		var weapons = current_scene.get_node("Weapons_TileMap").get_tileset().get_tiles_ids()
+		rand.randomize()
+		current_scene.get_node("Weapons_TileMap").set_cell(14,8,rand.randi_range(1, weapons.size()))
+		current_scene.get_node("Weapons_TileMap").set_cell(15,8,rand.randi_range(1, weapons.size()))
+		while current_scene.get_node("Weapons_TileMap").get_cell(14,8) == current_scene.get_node("Weapons_TileMap").get_cell(15,8):
+			current_scene.get_node("Weapons_TileMap").set_cell(15,8,rand.randi_range(1, weapons.size()))
+
 #		Weapons in inventory are still shown in Shop bc only player wep is removed when entering the shop	
 	print_stray_nodes()
 
@@ -145,6 +153,8 @@ func spawn_weapon_shop():
 	rand.randomize()
 	shop_entrance.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 	shop_spawn_pos = shop_entrance.position
+	
+#	cannot enter shop when spawn on the left corner of map
 	
 	print("shop spawned")
 #

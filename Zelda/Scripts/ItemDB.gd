@@ -9,6 +9,14 @@ const ITEMS = {
 	"axe": {
 		"icon": ITEM_PATH + "axe.png",
 		"slot": "WEAPON"
+	},
+	"staff": {
+		"icon": ITEM_PATH + "staff.png",
+		"slot": "WEAPON"
+	},
+	"wand": {
+		"icon": ITEM_PATH + "wand.png",
+		"slot": "WEAPON"
 	}
 }
 
