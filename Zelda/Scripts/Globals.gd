@@ -14,6 +14,7 @@ var inventory
 var inventory_items = []
 var prev_scene
 var GUI = null
+var enemies = []
 var enemy_pos
 var enemy_dir
 var enemy_id
@@ -136,6 +137,8 @@ func spawn_enemies(pos):
 		enemy_dir.push_front(enemy.move_vec)
 		enemy_id.push_front(str(enemy))
 		enemy_hp.push_front(150)
+		
+		enemies.push_front(enemy)
 
 	elif current_scene.name == "Starting_World":
 		var enemy = ResourceLoader.load("res://Scenes/Enemy_goober.tscn").instance() 

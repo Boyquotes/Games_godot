@@ -7,6 +7,11 @@ var life_time = 3
 func _ready():
 	if Globals.player_weapon == "axe":
 		life_time = 1
+		
+	if Globals.player_weapon == "wand":
+		print("wandReady")
+#		self.set_script(load("res://Scripts/wand_attack.gd"))
+		
 	
 	yield(get_tree().create_timer(life_time), "timeout")
 #	yield creates error when entering shop Resumed fundtion "ready()" after yield, but script is gone
@@ -14,6 +19,7 @@ func _ready():
 	
 func _physics_process(delta):
 	position += velocity * speed
+	
 		
 
 func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
@@ -37,6 +43,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 					Globals.enemy_id.remove(i)
 					Globals.enemy_pos.remove(i)
 					Globals.enemy_hp.remove(i)
+					Globals.enemies.remove(i)
 					Globals.enemy_tracker -= 1
 					Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
 					if lvl_progress.value == (lvl_progress.max_value-lvl_progress.step):

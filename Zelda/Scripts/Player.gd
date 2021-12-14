@@ -39,6 +39,8 @@ func _physics_process(delta):
 			
 func player_movement():
 	var move_vec = Vector2()
+#	anim_player.play("Idle")
+	
 	if Input.is_action_pressed("move_down"):
 		move_vec += Vector2.DOWN
 		anim_player.play("walking_front")
@@ -178,13 +180,11 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			weapon.get_node("weapon").set_texture(axe)
 			weapon.speed = 0
 			
-			weapon.get_node("AnimationPlayer").play("axe_swirl")
-		
-		if Globals.player_weapon == "bow":
-			Globals.current_scene.add_child(weapon)
-			weapon.position = self.position
+			weapon.get_node("AnimationPlayer").play("axe_swirl")			
 
 		if Globals.player_weapon == "bow": 
+			Globals.current_scene.add_child(weapon)
+			weapon.position = self.position
 			var arrow = load("res://Assets/arrow.png")
 			weapon.get_node("weapon").set_texture(arrow)
 			if move_vec == Vector2.DOWN or move_vec == Vector2.ZERO:
@@ -199,10 +199,22 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			elif move_vec == Vector2.LEFT:
 				weapon.rotation_degrees = 0
 				weapon.velocity = Vector2.LEFT
+			
+		
+		if Globals.player_weapon == "wand":
+			Globals.current_scene.add_child(weapon)
+			weapon.position = self.position
+			var wand = load("res://Assets/wand_attack.png")
+			weapon.get_node("weapon").set_texture(wand)
+			var shortest_distance_enemy = Globals.current_scene.get_node("Enemy_goober")
+			
+			for i in Globals.enemies:
+				var distance_to_player = i.get_global_position().distance_to(self.get_global_position())
+				if distance_to_player < shortest_distance_enemy.get_global_position().distance_to(self.get_global_position()):
+					shortest_distance_enemy = i
+			
+			var dir = weapon.position.direction_to(Globals.current_scene.get_node(shortest_distance_enemy.name).position)
 
-
-
-
-
+			weapon.velocity = Vector2.move_toward(dir, weapon.speed)
 
 
