@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Assets/starter_player_anim_walk_front_2.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=2]
@@ -17,6 +17,8 @@
 [ext_resource path="res://Scripts/Camera.gd" type="Script" id=15]
 [ext_resource path="res://Assets/Player_weapon_anim/wand_player_back_anim_1.png" type="Texture" id=16]
 [ext_resource path="res://Assets/Player_weapon_anim/wand_player_back_anim_2.png" type="Texture" id=17]
+[ext_resource path="res://Assets/Player_weapon_anim/staff_player_anim_walk_back_1.png" type="Texture" id=18]
+[ext_resource path="res://Assets/Player_weapon_anim/staff_player_anim_walk_back_2.png" type="Texture" id=19]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 8.99872
@@ -85,6 +87,23 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=6]
+resource_name = "staff_back"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 18 ), ExtResource( 19 ) ]
+}
+
+[sub_resource type="Animation" id=7]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body:texture")
@@ -99,7 +118,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 5 ), ExtResource( 7 ) ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=8]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body:texture")
@@ -114,7 +133,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 4 ), ExtResource( 1 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body:texture")
@@ -129,8 +148,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 6 ), ExtResource( 8 ) ]
 }
 
-[sub_resource type="Animation" id=9]
-resource_name = "wand_back"
+[sub_resource type="Animation" id=10]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -167,10 +185,11 @@ anims/Idle = SubResource( 2 )
 anims/axe_back = SubResource( 3 )
 anims/bow_back = SubResource( 4 )
 anims/get_wep = SubResource( 5 )
-anims/walking_back = SubResource( 6 )
-anims/walking_front = SubResource( 7 )
-anims/walking_side = SubResource( 8 )
-anims/wand_back = SubResource( 9 )
+anims/staff_back = SubResource( 6 )
+anims/walking_back = SubResource( 7 )
+anims/walking_front = SubResource( 8 )
+anims/walking_side = SubResource( 9 )
+anims/wand_back = SubResource( 10 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true

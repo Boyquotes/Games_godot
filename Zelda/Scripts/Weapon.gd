@@ -8,18 +8,11 @@ func _ready():
 	if Globals.player_weapon == "axe":
 		life_time = 1
 		
-	if Globals.player_weapon == "wand":
-		print("wandReady")
-#		self.set_script(load("res://Scripts/wand_attack.gd"))
-		
-	
-	yield(get_tree().create_timer(life_time), "timeout")
-#	yield creates error when entering shop Resumed fundtion "ready()" after yield, but script is gone
-	queue_free()
+	$Weapon_Timeout.set_wait_time(life_time)
+	$Weapon_Timeout.start()
 	
 func _physics_process(delta):
 	position += velocity * speed
-	
 		
 
 func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
@@ -77,3 +70,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		Globals.boss.queue_free()
 		Globals.goto_scene("res://Scenes/game_won_screen.tscn", "null")
 		Globals.num_of_enemies(1)
+
+func _on_Weapon_Timeout_timeout():
+	self.queue_free()
+

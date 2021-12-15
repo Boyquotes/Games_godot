@@ -43,4 +43,7 @@ shape = SubResource( 1 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/axe_swirl = SubResource( 2 )
 
+[node name="Weapon_Timeout" type="Timer" parent="."]
+
 [connection signal="body_shape_entered" from="." to="." method="_on_Area2D_body_shape_entered"]
+[connection signal="timeout" from="Weapon_Timeout" to="." method="_on_Weapon_Timeout_timeout"]

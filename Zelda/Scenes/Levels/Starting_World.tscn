@@ -190,10 +190,10 @@ __meta__ = {
 shape = SubResource( 6 )
 
 [node name="weaponshop_spawn_area" type="ViewportContainer" parent="."]
-margin_left = 15.8409
-margin_top = 20.0
-margin_right = 1007.84
-margin_bottom = 589.0
+margin_left = 54.0
+margin_top = 92.0
+margin_right = 996.0
+margin_bottom = 475.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

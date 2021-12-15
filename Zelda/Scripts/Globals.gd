@@ -14,7 +14,7 @@ var inventory
 var inventory_items = []
 var prev_scene
 var GUI = null
-var enemies = []
+var enemies
 var enemy_pos
 var enemy_dir
 var enemy_id
@@ -70,7 +70,7 @@ func _deferred_goto_scene(path, spawn):
 			player_lvl = 0
 			player_pwr = 50
 			player_weapon = null
-			player_weapon = "bow"
+			player_weapon = "wand"
 			starter_weapon = true
 			
 		player.position = player_spawn_pos
@@ -103,6 +103,7 @@ func num_of_enemies(n):
 	enemy_dir = range(0, n)
 	enemy_id = range(0, n)
 	enemy_hp = range(0, n)
+	enemies = range(0, n)
 	
 func spawn_enemies(pos):
 	var rand = RandomNumberGenerator.new()
@@ -133,6 +134,7 @@ func spawn_enemies(pos):
 		enemy_dir.remove(pos)
 		enemy_id.remove(pos)
 		enemy_hp.remove(pos)
+		enemies.remove(pos)
 		enemy_pos.push_front(Vector2(enemy.position.x, enemy.position.y))
 		enemy_dir.push_front(enemy.move_vec)
 		enemy_id.push_front(str(enemy))
@@ -146,6 +148,9 @@ func spawn_enemies(pos):
 		enemy.position = enemy_pos[pos]
 		enemy.move_vec = enemy_dir[pos]
 		enemy_id[pos] = (str(enemy))
+		
+		enemies[pos] = enemy
+#		print(enemies)
 		
 func spawn_weapon_shop():
 	var rand = RandomNumberGenerator.new()

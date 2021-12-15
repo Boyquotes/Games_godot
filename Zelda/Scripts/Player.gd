@@ -9,6 +9,7 @@ var player_invuln
 var axe_pos
 var axe_dir
 var attacking = false
+var weapon_dir
 
 var weapon = preload("res://Scenes/Weapon.tscn")
 
@@ -39,25 +40,28 @@ func _physics_process(delta):
 			
 func player_movement():
 	var move_vec = Vector2()
-#	anim_player.play("Idle")
 	
 	if Input.is_action_pressed("move_down"):
 		move_vec += Vector2.DOWN
 		anim_player.play("walking_front")
+		weapon_dir = "DOWN"
 	if Input.is_action_pressed("move_up"):
-		move_vec += Vector2.UP
+		move_vec = Vector2.UP
 		if !Globals.player_weapon:
 			anim_player.play("walking_back")
 		else:
 			anim_player.play(Globals.player_weapon + "_back")
+		weapon_dir = "UP"
 	if Input.is_action_pressed("move_right"):
-		move_vec += Vector2.RIGHT
+		move_vec = Vector2.RIGHT
 		$Body.set_flip_h(true)
 		anim_player.play("walking_side")
+		weapon_dir = "RIGHT"
 	if Input.is_action_pressed("move_left"):
-		move_vec += Vector2.LEFT
+		move_vec = Vector2.LEFT
 		$Body.set_flip_h(false)
 		anim_player.play("walking_side")
+		weapon_dir = "LEFT"
 	if move_vec == Vector2.ZERO:
 		anim_player.play("Idle")
 	if Input.is_action_just_pressed("attack"):
@@ -187,34 +191,48 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			weapon.position = self.position
 			var arrow = load("res://Assets/arrow.png")
 			weapon.get_node("weapon").set_texture(arrow)
-			if move_vec == Vector2.DOWN or move_vec == Vector2.ZERO:
+			if weapon_dir == "DOWN":  #or move_vec == Vector2.ZERO:
 				weapon.rotation_degrees = -90
 				weapon.velocity = Vector2.DOWN
-			elif move_vec == Vector2.UP:
+			elif weapon_dir == "UP":
 				weapon.rotation_degrees = 90
 				weapon.velocity = Vector2.UP
-			elif move_vec == Vector2.RIGHT:
+			elif weapon_dir == "RIGHT":
 				weapon.rotation_degrees = 180
 				weapon.velocity = Vector2.RIGHT
-			elif move_vec == Vector2.LEFT:
+			elif weapon_dir == "LEFT":
 				weapon.rotation_degrees = 0
 				weapon.velocity = Vector2.LEFT
 			
+#			if move_vec == Vector2.DOWN or move_vec == Vector2.ZERO:
+#				weapon.rotation_degrees = -90
+#				weapon.velocity = Vector2.DOWN
+#			elif move_vec == Vector2.UP:
+#				weapon.rotation_degrees = 90
+#				weapon.velocity = Vector2.UP
+#			elif move_vec == Vector2.RIGHT:
+#				weapon.rotation_degrees = 180
+#				weapon.velocity = Vector2.RIGHT
+#			elif move_vec == Vector2.LEFT:
+#				weapon.rotation_degrees = 0
+#				weapon.velocity = Vector2.LEFT
 		
 		if Globals.player_weapon == "wand":
 			Globals.current_scene.add_child(weapon)
 			weapon.position = self.position
 			var wand = load("res://Assets/wand_attack.png")
+	
 			weapon.get_node("weapon").set_texture(wand)
-			var shortest_distance_enemy = Globals.current_scene.get_node("Enemy_goober")
-			
+			var shortest_distance_enemy = Globals.current_scene.get_node("Player_Spawn")
 			for i in Globals.enemies:
+
 				var distance_to_player = i.get_global_position().distance_to(self.get_global_position())
 				if distance_to_player < shortest_distance_enemy.get_global_position().distance_to(self.get_global_position()):
 					shortest_distance_enemy = i
-			
+#
+#
 			var dir = weapon.position.direction_to(Globals.current_scene.get_node(shortest_distance_enemy.name).position)
-
+#
 			weapon.velocity = Vector2.move_toward(dir, weapon.speed)
 
 
