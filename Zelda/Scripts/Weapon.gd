@@ -16,7 +16,7 @@ func _physics_process(delta):
 		
 
 func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
-	if Globals.player_weapon == "bow" and "Enemy" in body.name or "Level_TileMap" in body.name:
+	if Globals.player_weapon == "bow" and "Enemy" in body.name or "Level_TileMap" in body.name or Globals.player_weapon == "wand" and "Enemy" in body.name or "Level_TileMap" in body.name:
 		self.queue_free()
 	
 	if "Enemy" in body.name:#	

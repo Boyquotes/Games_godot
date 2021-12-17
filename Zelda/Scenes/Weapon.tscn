@@ -1,14 +1,15 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Assets/arrow.png" type="Texture" id=1]
+[ext_resource path="res://Assets/staff_attack.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Weapon.gd" type="Script" id=2]
 [ext_resource path="res://Assets/axe_attack_anim/axe_attack_4.png" type="Texture" id=3]
 [ext_resource path="res://Assets/axe_attack_anim/axe_attack_1.png" type="Texture" id=4]
 [ext_resource path="res://Assets/axe_attack_anim/axe_attack_2.png" type="Texture" id=5]
 [ext_resource path="res://Assets/axe_attack_anim/axe_attack_3.png" type="Texture" id=6]
+[ext_resource path="res://Assets/staff_attack_anim_1.png" type="Texture" id=7]
+[ext_resource path="res://Assets/staff_attack_anim_2.png" type="Texture" id=8]
 
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 10.8323
+[sub_resource type="CapsuleShape2D" id=4]
 height = 0.0
 
 [sub_resource type="Animation" id=2]
@@ -28,6 +29,35 @@ tracks/0/keys = {
 "values": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 3 ) ]
 }
 
+[sub_resource type="Animation" id=3]
+resource_name = "staff_attack"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("weapon:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 1 ), ExtResource( 7 ), ExtResource( 1 ), ExtResource( 8 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("weapon_coll:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 45.0, 135.0, 215.0, 305.0 ]
+}
+
 [node name="Area2D" type="Area2D"]
 script = ExtResource( 2 )
 __meta__ = {
@@ -37,11 +67,13 @@ __meta__ = {
 [node name="weapon" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+[node name="weapon_coll" type="CollisionShape2D" parent="."]
+rotation = 0.785398
+shape = SubResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/axe_swirl = SubResource( 2 )
+anims/staff_attack = SubResource( 3 )
 
 [node name="Weapon_Timeout" type="Timer" parent="."]
 

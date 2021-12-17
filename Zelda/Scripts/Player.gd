@@ -83,6 +83,9 @@ func player_movement():
 				axe_pos = - 18
 				axe_dir = "y"
 			weapon_attack(move_vec, axe_pos, axe_dir)
+		elif Globals.player_weapon == "staff":
+			weapon_attack(move_vec, axe_pos, axe_dir)
+#			Globals.current_scene.get_node("weapon").flip_h = true
 		else:
 			weapon_attack(move_vec, axe_pos, axe_dir)
 
@@ -184,7 +187,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			weapon.get_node("weapon").set_texture(axe)
 			weapon.speed = 0
 			
-			weapon.get_node("AnimationPlayer").play("axe_swirl")			
+			weapon.get_node("AnimationPlayer").play("axe_swirl")
 
 		if Globals.player_weapon == "bow": 
 			Globals.current_scene.add_child(weapon)
@@ -203,19 +206,6 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			elif weapon_dir == "LEFT":
 				weapon.rotation_degrees = 0
 				weapon.velocity = Vector2.LEFT
-			
-#			if move_vec == Vector2.DOWN or move_vec == Vector2.ZERO:
-#				weapon.rotation_degrees = -90
-#				weapon.velocity = Vector2.DOWN
-#			elif move_vec == Vector2.UP:
-#				weapon.rotation_degrees = 90
-#				weapon.velocity = Vector2.UP
-#			elif move_vec == Vector2.RIGHT:
-#				weapon.rotation_degrees = 180
-#				weapon.velocity = Vector2.RIGHT
-#			elif move_vec == Vector2.LEFT:
-#				weapon.rotation_degrees = 0
-#				weapon.velocity = Vector2.LEFT
 		
 		if Globals.player_weapon == "wand":
 			Globals.current_scene.add_child(weapon)
@@ -225,14 +215,23 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			weapon.get_node("weapon").set_texture(wand)
 			var shortest_distance_enemy = Globals.current_scene.get_node("Player_Spawn")
 			for i in Globals.enemies:
-
 				var distance_to_player = i.get_global_position().distance_to(self.get_global_position())
 				if distance_to_player < shortest_distance_enemy.get_global_position().distance_to(self.get_global_position()):
 					shortest_distance_enemy = i
 #
-#
 			var dir = weapon.position.direction_to(Globals.current_scene.get_node(shortest_distance_enemy.name).position)
 #
 			weapon.velocity = Vector2.move_toward(dir, weapon.speed)
+			
+		if Globals.player_weapon == "staff":
+			Globals.current_scene.get_node("Player").add_child(weapon)
+			var staff = load("res://Assets/staff_attack.png")
+			weapon.get_node("weapon").set_texture(staff)
+#			weapon.get_node("weapon_coll").rotation_degrees = 45
+			weapon.get_node("weapon_coll").scale.y = 3
+			weapon.get_node("AnimationPlayer").play("staff_attack")
+			
+			
+			
 
 

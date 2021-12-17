@@ -70,7 +70,7 @@ func _deferred_goto_scene(path, spawn):
 			player_lvl = 0
 			player_pwr = 50
 			player_weapon = null
-			player_weapon = "wand"
+			player_weapon = "staff"
 			starter_weapon = true
 			
 		player.position = player_spawn_pos
@@ -150,16 +150,15 @@ func spawn_enemies(pos):
 		enemy_id[pos] = (str(enemy))
 		
 		enemies[pos] = enemy
-#		print(enemies)
 		
 func spawn_weapon_shop():
 	var rand = RandomNumberGenerator.new()
 	var shop_entrance = ResourceLoader.load("res://Scenes/Weapon_Shop_Entrance.tscn").instance()
-	var spawn_area = current_scene.get_node("weaponshop_spawn_area").rect_size
-	current_scene.call_deferred("add_child", shop_entrance)
+	var wep_spawn_area = current_scene.get_node("weaponshop_spawn_area").rect_size
+	current_scene.get_node("weaponshop_spawn_area").call_deferred("add_child", shop_entrance)
 	
 	rand.randomize()
-	shop_entrance.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
+	shop_entrance.position = Vector2(rand.randf_range(0, wep_spawn_area.x), rand.randf_range(0, wep_spawn_area.y))
 	shop_spawn_pos = shop_entrance.position
 	
 #	cannot enter shop when spawn on the left corner of map
