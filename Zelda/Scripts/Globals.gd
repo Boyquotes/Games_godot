@@ -11,6 +11,7 @@ var player_lvl = 0
 var player_pwr = 50
 var player_attack = false
 var inventory
+var Items
 var inventory_items = []
 var prev_scene
 var GUI = null
@@ -49,9 +50,11 @@ func _deferred_goto_scene(path, spawn):
 		player = ResourceLoader.load("res://Scenes/Player.tscn").instance()
 		inventory = ResourceLoader.load("res://Scenes/Inventory.tscn").instance()
 		GUI = ResourceLoader.load("res://Scenes/GUI.tscn").instance()
+		Items = ResourceLoader.load("res://Scenes/Items.tscn").instance()
 		
 		current_scene.add_child(player)
 		current_scene.add_child(GUI)
+		current_scene.add_child(Items)
 		player.add_child(inventory)
 		
 		inventory.rect_position = player.position
@@ -70,9 +73,9 @@ func _deferred_goto_scene(path, spawn):
 			player_lvl = 0
 			player_pwr = 50
 			player_weapon = null
-			player_weapon = "staff"
+			player_weapon = "bow"
 			starter_weapon = true
-			
+
 		player.position = player_spawn_pos
 		
 		if current_scene.name == "Starting_World":
@@ -112,7 +115,7 @@ func spawn_enemies(pos):
 	if current_scene.name == "Starting_World" and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen":
 		var spawn_area = current_scene.get_node("spawn_area").rect_size
 		var enemy = ResourceLoader.load("res://Scenes/Enemy_goober.tscn").instance() 
-		current_scene.add_child(enemy)
+		current_scene.add_child(enemy) 
 
 		rand.randomize()
 		enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
@@ -139,7 +142,6 @@ func spawn_enemies(pos):
 		enemy_dir.push_front(enemy.move_vec)
 		enemy_id.push_front(str(enemy))
 		enemy_hp.push_front(150)
-		
 		enemies.push_front(enemy)
 
 	elif current_scene.name == "Starting_World":
@@ -148,7 +150,6 @@ func spawn_enemies(pos):
 		enemy.position = enemy_pos[pos]
 		enemy.move_vec = enemy_dir[pos]
 		enemy_id[pos] = (str(enemy))
-		
 		enemies[pos] = enemy
 		
 func spawn_weapon_shop():
@@ -164,9 +165,16 @@ func spawn_weapon_shop():
 #	cannot enter shop when spawn on the left corner of map
 	
 	print("shop spawned")
-#
-#
+	
+func drop_item(pos):
+	var rand = RandomNumberGenerator.new()
+	rand.randomize()
+	var drop_id = rand.randi_range(1, Items.get_tileset().get_tiles_ids().size())
+	var drop_texture = Items.get_tileset().tile_get_texture(drop_id)
+	var drop = ResourceLoader.load("res://Scenes/drop.tscn").instance()
 
-	
-	
+	current_scene.add_child(drop)
+	drop.get_node("drop_sprite").set_texture(drop_texture)
+
+	drop.position = pos
 

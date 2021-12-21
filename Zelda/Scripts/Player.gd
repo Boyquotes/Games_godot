@@ -40,7 +40,6 @@ func _physics_process(delta):
 			
 func player_movement():
 	var move_vec = Vector2()
-	
 	if Input.is_action_pressed("move_down"):
 		move_vec += Vector2.DOWN
 		anim_player.play("walking_front")
@@ -83,9 +82,6 @@ func player_movement():
 				axe_pos = - 18
 				axe_dir = "y"
 			weapon_attack(move_vec, axe_pos, axe_dir)
-		elif Globals.player_weapon == "staff":
-			weapon_attack(move_vec, axe_pos, axe_dir)
-#			Globals.current_scene.get_node("weapon").flip_h = true
 		else:
 			weapon_attack(move_vec, axe_pos, axe_dir)
 
@@ -186,7 +182,6 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			
 			weapon.get_node("weapon").set_texture(axe)
 			weapon.speed = 0
-			
 			weapon.get_node("AnimationPlayer").play("axe_swirl")
 
 		if Globals.player_weapon == "bow": 
@@ -213,7 +208,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			var wand = load("res://Assets/wand_attack.png")
 	
 			weapon.get_node("weapon").set_texture(wand)
-			var shortest_distance_enemy = Globals.current_scene.get_node("Player_Spawn")
+			var shortest_distance_enemy = Globals.current_scene.get_node("Level_TileMap")
 			for i in Globals.enemies:
 				var distance_to_player = i.get_global_position().distance_to(self.get_global_position())
 				if distance_to_player < shortest_distance_enemy.get_global_position().distance_to(self.get_global_position()):
@@ -227,7 +222,6 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			Globals.current_scene.get_node("Player").add_child(weapon)
 			var staff = load("res://Assets/staff_attack.png")
 			weapon.get_node("weapon").set_texture(staff)
-#			weapon.get_node("weapon_coll").rotation_degrees = 45
 			weapon.get_node("weapon_coll").scale.y = 3
 			weapon.get_node("AnimationPlayer").play("staff_attack")
 			
