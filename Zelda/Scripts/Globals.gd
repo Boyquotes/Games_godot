@@ -23,6 +23,7 @@ var enemy_num = 50
 var enemy_tracker = null
 var enemy_removed = false
 var enemy_hp
+var all_attack = false
 var boss = null
 var shop_spawn_pos
 var shop_spawned = false
@@ -169,12 +170,19 @@ func spawn_weapon_shop():
 func drop_item(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
-	var drop_id = rand.randi_range(1, Items.get_tileset().get_tiles_ids().size())
-	var drop_texture = Items.get_tileset().tile_get_texture(drop_id)
-	var drop = ResourceLoader.load("res://Scenes/drop.tscn").instance()
+	
+	var frequency = rand.randi_range(0, 2)
+	
+	if frequency == 1:
+		var drop_id = rand.randi_range(0, Items.get_tileset().get_tiles_ids().size()-1)
+		var drop_texture = Items.get_tileset().tile_get_texture(drop_id)
+		var drop_name = Items.get_tileset().tile_get_name(drop_id)
+		var drop = ResourceLoader.load("res://Scenes/drop.tscn").instance()
+		
+		current_scene.call_deferred("add_child", drop)
+		drop.get_node("drop_sprite").set_texture(drop_texture)
+		drop.name = drop_name
+		print(drop_name)
 
-	current_scene.add_child(drop)
-	drop.get_node("drop_sprite").set_texture(drop_texture)
-
-	drop.position = pos
+		drop.position = pos
 

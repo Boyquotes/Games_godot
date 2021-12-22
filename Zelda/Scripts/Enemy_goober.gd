@@ -10,7 +10,13 @@ func _ready():
 
 func _physics_process(delta):
 
-	enemy_movement()
+#	enemy_movement()
+#	
+	if Globals.all_attack:
+		enemy_attack_move()
+	else:
+		enemy_movement()
+	
 
 func enemy_movement():
 	move_speed = 1
@@ -30,7 +36,7 @@ func enemy_movement():
 	var coll = move_and_collide(move_vec * move_speed)
 
 	if coll:
-		if "Enemy" in coll.collider.name or coll.collider.name == "Level_TileMap":
+		if "Enemy" in coll.collider.name or coll.collider.name == "Level_TileMap" or coll.collider.name == "Shop_Entrance_Entry":
 			if move_vec == Vector2.DOWN:
 				move_vec = Vector2.UP
 			elif move_vec == Vector2.UP:
@@ -40,13 +46,13 @@ func enemy_movement():
 			elif move_vec == Vector2.RIGHT:
 				move_vec = Vector2.LEFT
 
-#func enemy_attack_move(body):
-##	set_physics_process(false)
-##	print(body)	
-#	var dir = body.position.direction_to(Globals.player.position)
-#	var attack_coll = move_and_collide(Vector2.move_toward(dir, move_speed))
-#	anim_enemy.play("walk_side")
-#	move_speed = 3
+func enemy_attack_move():
+#	set_physics_process(false)
+#	print(body)	
+	var dir = self.position.direction_to(Globals.player.position)
+	var attack_coll = move_and_collide(Vector2.move_toward(dir, move_speed))
+	anim_enemy.play("walk_side")
+	move_speed = 3
 
 #			print("attack")
 	

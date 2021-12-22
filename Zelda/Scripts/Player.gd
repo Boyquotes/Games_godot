@@ -4,12 +4,13 @@ var level_tilemap
 var objects_tilemap
 var weapons_tilemap
 var anim_player
-var move_speed = 5
+var move_speed = 3
 var player_invuln
 var axe_pos
 var axe_dir
 var attacking = false
 var weapon_dir
+var hp
 
 var weapon = preload("res://Scenes/Weapon.tscn")
 
@@ -19,6 +20,8 @@ func _ready():
 	player_invuln = false
 
 	level_tilemap = Globals.current_scene.get_node("Level_TileMap")
+	
+	hp = int(Globals.GUI.get_node("hp_num").text)
 	
 	if Globals.current_scene.has_node("Weapons_TileMap"):
 		weapons_tilemap = Globals.current_scene.get_node("Weapons_TileMap")
@@ -119,19 +122,48 @@ func player_collision():
 			1124, 2248, 5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 			tween.start()
 			
-#			BUG: only triggers once. Maybe leave it this way bc it could be intentional this way (triggering the camera transition is a bit tedious)
+#			BUG: only triggers once. Maybe leave it this way bc it could be intentional this way (triggering the camera transition is a bit tedious) also enemies getting stuck in coll
 			
 		if "Enemy" in coll.collider.name and player_invuln == false:
-			var hp= int(Globals.GUI.get_node("hp_num").text)
 			hp -= 25
 			Globals.GUI.get_node("hp_num").text = str(hp)
 			Globals.player_hp = hp
 #			BUG: hp inc instead dec. could not reproduce why this happened
 			self.visible = false
 			player_invuln = true
+			$invuln_timer.wait_time = 1
 			$invuln_timer.start()
 			if Globals.GUI.get_node("hp_num").text == str(0):
 				Globals.goto_scene("res://Scenes/game_over_screen.tscn", "null")
+				
+		if "speed_up" in coll.collider.name:
+			self.move_speed += 1
+			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			
+		if "muns" in coll.collider.name:
+			print(coll.collider.name)
+			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			
+		if "all_attack" in coll.collider.name:
+			Globals.all_attack = true
+			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			
+		if "invis" in coll.collider.name:
+			player_invuln = true
+			$invuln_timer.wait_time = 15
+			$invuln_timer.start()
+			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			
+		if "health_up" in coll.collider.name:
+			hp += 25
+			Globals.GUI.get_node("hp_num").text = str(hp)
+			Globals.player_hp = hp
+			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			
+		if "dmg_up" in coll.collider.name:
+			Globals.player_pwr += 25
+			Globals.current_scene.get_node(coll.collider.name).queue_free()
+		
 
 func _on_invuln_timer_timeout():
 	self.visible = true

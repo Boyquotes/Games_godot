@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=2]
 
 [sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 13.6425, 13.7647 )
 
 [node name="drop" type="StaticBody2D"]
 
