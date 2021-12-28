@@ -13,6 +13,7 @@ var player_attack = false
 var inventory
 var Items
 var inventory_items = []
+var stats
 var prev_scene
 var GUI = null
 var enemies
@@ -31,6 +32,9 @@ var shop_spawned = false
 func _ready():
 	var root = get_tree().get_root()
 	current_scene = root.get_child(root.get_child_count() - 1)
+	
+#	stats = ResourceLoader.load("res://Scenes/stat_screen.tscn").instance()
+#	stats.visible = false
 	
 func _process(delta):
 	if Input.is_action_just_pressed("exit"):

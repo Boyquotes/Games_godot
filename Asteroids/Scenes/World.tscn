@@ -64,6 +64,7 @@ volume_db = -10.0
 [node name="sound_two" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 volume_db = -10.0
+
 [connection signal="tween_completed" from="Control_Info/effect" to="Control_Info" method="_on_effect_tween_completed"]
 [connection signal="score" from="GUI" to="continue_screen" method="_on_GUI_score"]
 [connection signal="show_pause" from="GUI" to="continue_screen" method="_on_GUI_show_pause"]
@@ -75,7 +76,5 @@ volume_db = -10.0
 [connection signal="timeout" from="Sound_Timer" to="." method="_on_Sound_Timer_timeout"]
 
 [editable path="GUI"]
-
 [editable path="Player"]
-
 [editable path="continue_screen"]
