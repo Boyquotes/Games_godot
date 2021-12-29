@@ -1,8 +1,17 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/progress_back.png" type="Texture" id=1]
 [ext_resource path="res://Assets/progress_fill.png" type="Texture" id=2]
 [ext_resource path="res://Assets/lvl_up.png" type="Texture" id=3]
+[ext_resource path="res://Assets/lvl_up_hover.png" type="Texture" id=4]
+[ext_resource path="res://Scripts/lvl_up.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/stat_screen.gd" type="Script" id=6]
+[ext_resource path="res://Assets/int.png" type="Texture" id=7]
+[ext_resource path="res://Assets/str.png" type="Texture" id=8]
+[ext_resource path="res://Assets/str_pressed.png" type="Texture" id=9]
+[ext_resource path="res://Assets/dex.png" type="Texture" id=10]
+[ext_resource path="res://Assets/dex_pressed.png" type="Texture" id=11]
+[ext_resource path="res://Assets/int_pressed.png" type="Texture" id=12]
 
 [node name="GUI" type="CanvasLayer"]
 
@@ -94,6 +103,91 @@ margin_right = 687.0
 margin_bottom = 21.0
 rect_scale = Vector2( 2, 2 )
 texture_normal = ExtResource( 3 )
+texture_hover = ExtResource( 4 )
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="stat_screen" type="HBoxContainer" parent="."]
+visible = false
+margin_left = 634.293
+margin_top = 4.12243
+margin_right = 786.293
+margin_bottom = 36.1224
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="dex" type="TextureButton" parent="stat_screen"]
+margin_right = 32.0
+margin_bottom = 32.0
+texture_normal = ExtResource( 10 )
+texture_pressed = ExtResource( 11 )
+
+[node name="Label" type="Label" parent="stat_screen/dex"]
+margin_left = 2.0
+margin_top = 34.0
+margin_right = 32.0
+margin_bottom = 48.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="int" type="TextureButton" parent="stat_screen"]
+margin_left = 36.0
+margin_right = 68.0
+margin_bottom = 32.0
+texture_normal = ExtResource( 7 )
+texture_pressed = ExtResource( 12 )
+
+[node name="Label" type="Label" parent="stat_screen/int"]
+margin_left = 2.0
+margin_top = 34.0
+margin_right = 32.0
+margin_bottom = 48.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="str" type="TextureButton" parent="stat_screen"]
+margin_left = 72.0
+margin_right = 104.0
+margin_bottom = 32.0
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 9 )
+
+[node name="Label" type="Label" parent="stat_screen/str"]
+margin_left = 2.0
+margin_top = 34.0
+margin_right = 32.0
+margin_bottom = 48.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="points" type="Label" parent="stat_screen"]
+margin_left = 108.0
+margin_top = 9.0
+margin_right = 152.0
+margin_bottom = 23.0
+text = "Points:"
+
+[node name="points_num" type="Label" parent="stat_screen/points"]
+margin_left = 50.0
+margin_right = 90.0
+margin_bottom = 14.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="lvl_up" to="lvl_up" method="_on_lvl_up_pressed"]
+[connection signal="pressed" from="stat_screen/dex" to="stat_screen" method="_on_dex_pressed"]
+[connection signal="pressed" from="stat_screen/int" to="stat_screen" method="_on_int_pressed"]
+[connection signal="pressed" from="stat_screen/str" to="stat_screen" method="_on_str_pressed"]

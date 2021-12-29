@@ -43,20 +43,14 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 					if lvl_progress.value == (lvl_progress.max_value-lvl_progress.step):
 						var curr_lvl = int(Globals.GUI.get_node("lvl").text)
 						curr_lvl += 1
-#						get_tree().paused = true
-						Globals.stats = ResourceLoader.load("res://Scenes/stat_screen.tscn").instance()
-						Globals.current_scene.add_child(Globals.stats)
-						Globals.current_scene.get_node("GUI").get_node("lvl_up").visible = true
-#						Globals.current_scene.get_node("stat_screen").get_node("lvl_up").position = Globals.player.get_node("Camera2D").position
-#						Globals.current_scene.get_node("stat_screen").get_node("lvl_up").visible = true
-						
-#						Globals.current_scene.get_node("stat_screen").rect_position = Globals.player.position
-#						Globals.stats.visible = true
 						Globals.GUI.get_node("lvl").text = str(curr_lvl)
 						Globals.player_lvl = curr_lvl
 						lvl_progress.value = 0
+						Globals.current_scene.get_node("GUI").get_node("lvl_up").visible = true
+						Globals.current_scene.get_node("GUI").get_node("stat_screen").get_node("points").get_node("points_num").text = str(5)
 						if Globals.player_lvl%2 == 0 and Globals.player_lvl != 0:
-							Globals.player_pwr += 50
+							pass
+#							Globals.player_pwr += 50
 					else:
 						lvl_progress.value += lvl_progress.step
 					body.queue_free()

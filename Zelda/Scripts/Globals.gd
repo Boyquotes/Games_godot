@@ -186,7 +186,6 @@ func drop_item(pos):
 		current_scene.call_deferred("add_child", drop)
 		drop.get_node("drop_sprite").set_texture(drop_texture)
 		drop.name = drop_name
-		print(drop_name)
 
 		drop.position = pos
 
