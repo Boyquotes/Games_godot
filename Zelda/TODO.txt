@@ -4,7 +4,7 @@
 - enemy attack
 - enemy/player HP system (lifebar for enemy entities) ==done==
 - xp system, no lvl ups, you just get stronger or 1 stat point when/if lvl up. == done ==
-- stat system (int, str, agi) -> char ui
+- stat system (int, str, agi) -> char ui == done ==
 - (item) or gold drops, xp gain when enemy kill -> enemy hp (weapons do different dmg)
 - save files of current process on local system
 - main game loop
@@ -14,6 +14,15 @@
 	- new weapons spawn after certain time has passed -> you can buy new, stronger weapons if you have killed enough enemies
 	- strong boss spawns after certain time has passed, boss has follow player AI
 	- after boss defeated -> score (what score?) screen -> end of game loop
+- game loop v2
+	- spellz (mana)
+	- harder (different) enemies (in different biomes, torchlight3)
+	- procedural lvl biomes that spawn randomly (+random boss with special items)
+	- Item system with (+random) item stats (+specific items dropping in specific biomes, ++items are shown on char)
+	- what to do with gold (counter shops?)
+	- Lore, story elements?
+	- Music
+	- Graphix
 
 optional:
 - change starting world scene over time, maybe after a certain time has expired
@@ -25,3 +34,6 @@ code optimization
 
 Bugs:
 - enemies can spawn out of bounds ==fixed==
+
+Bugs Asteroid:
+point threshhold for scoreboard/lvl up not resetting 
