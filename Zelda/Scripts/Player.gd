@@ -11,6 +11,7 @@ var axe_dir
 var attacking = false
 var weapon_dir
 var hp
+var mana_progress
 
 var weapon = preload("res://Scenes/Weapon.tscn")
 
@@ -23,6 +24,8 @@ func _ready():
 	
 	hp = int(Globals.GUI.get_node("hp_num").text)
 	
+	mana_progress = Globals.GUI.get_node("mana_progress")
+	
 	if Globals.current_scene.has_node("Weapons_TileMap"):
 		weapons_tilemap = Globals.current_scene.get_node("Weapons_TileMap")
 
@@ -34,6 +37,9 @@ func _physics_process(delta):
 	player_movement()
 	
 	player_collision()
+	
+	
+#		timer.start()
 	
 	if Input.is_action_just_pressed("Inventory"):
 		if !Globals.inventory.visible:
@@ -162,8 +168,7 @@ func player_collision():
 			
 		if "dmg_up" in coll.collider.name:
 			Globals.player_pwr += 25
-			Globals.current_scene.get_node(coll.collider.name).queue_free()
-		
+			Globals.current_scene.get_node(coll.collider.name).queue_free()		
 
 func _on_invuln_timer_timeout():
 	self.visible = true
@@ -257,7 +262,37 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			weapon.get_node("weapon_coll").scale.y = 3
 			weapon.get_node("AnimationPlayer").play("staff_attack")
 			
+		if Globals.player_weapon == "fire":
+#			var mana_progress = Globals.GUI.get_node("mana_progress")
+			if mana_progress.value > 0: 
+				Globals.current_scene.add_child(weapon)
+				var fire = load("res://Assets/fire_one.png")
+				weapon.get_node("weapon").set_texture(fire)
+				weapon.position = self.position
+				weapon.get_node("AnimationPlayer").play("fireball")
+				weapon.speed = 2
 			
-			
+				if weapon_dir == "DOWN":
+					weapon.rotation_degrees = -90
+					weapon.velocity = Vector2.DOWN
+				elif weapon_dir == "UP":
+					weapon.rotation_degrees = 90
+					weapon.velocity = Vector2.UP
+				elif weapon_dir == "RIGHT":
+					weapon.rotation_degrees = 180
+					weapon.velocity = Vector2.RIGHT
+				elif weapon_dir == "LEFT":
+					weapon.rotation_degrees = 0
+					weapon.velocity = Vector2.LEFT
+				
+				mana_progress.value -= mana_progress.step
+				mana_progress.get_node("mana_value").text = str(mana_progress.value)
+				Globals.mana = mana_progress.value
+				if mana_progress.value != mana_progress.max_value:
+					$mana_fill_timer.start()
+			else:
+				print("OOM")
 
-
+func _on_mana_fill_timer_timeout():
+	mana_progress.value += 10
+	mana_progress.get_node("mana_value").text = str(mana_progress.value)

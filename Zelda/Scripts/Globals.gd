@@ -9,6 +9,7 @@ var player_hp = 300
 var player_xp = 0
 var player_lvl = 0
 var player_pwr = 50
+var mana
 var player_attack = false
 var inventory
 var Items
@@ -32,9 +33,6 @@ var shop_spawned = false
 func _ready():
 	var root = get_tree().get_root()
 	current_scene = root.get_child(root.get_child_count() - 1)
-	
-#	stats = ResourceLoader.load("res://Scenes/stat_screen.tscn").instance()
-#	stats.visible = false
 	
 func _process(delta):
 	if Input.is_action_just_pressed("exit"):
@@ -73,12 +71,15 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("hp_num").text = str(player_hp)
 			GUI.get_node("lvl_progress").value = player_xp
 			GUI.get_node("lvl").text = str(player_lvl)
+			GUI.get_node("mana_progress").value = mana
+			GUI.get_node("mana_progress").get_node("mana_value").text = str(mana)
+
 		else:
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
 			player_pwr = 50
-			player_weapon = null
-			player_weapon = "bow"
+			GUI.get_node("mana_progress").get_node("mana_value").text = str(100)
+			player_weapon = "fire"
 			starter_weapon = true
 
 		player.position = player_spawn_pos
@@ -166,8 +167,6 @@ func spawn_weapon_shop():
 	rand.randomize()
 	shop_entrance.position = Vector2(rand.randf_range(0, wep_spawn_area.x), rand.randf_range(0, wep_spawn_area.y))
 	shop_spawn_pos = shop_entrance.position
-	
-#	cannot enter shop when spawn on the left corner of map
 	
 	print("shop spawned")
 	

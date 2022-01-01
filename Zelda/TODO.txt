@@ -15,7 +15,7 @@
 	- strong boss spawns after certain time has passed, boss has follow player AI
 	- after boss defeated -> score (what score?) screen -> end of game loop
 - game loop v2
-	- spellz (mana)
+	- spellz (mana, +status effects on enemies)
 	- harder (different) enemies (in different biomes, torchlight3)
 	- procedural lvl biomes that spawn randomly (+random boss with special items)
 	- Item system with (+random) item stats (+specific items dropping in specific biomes, ++items are shown on char)

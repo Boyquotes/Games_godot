@@ -1,6 +1,5 @@
 extends HBoxContainer
 
-
 func _ready():
 	pass
 
@@ -10,6 +9,9 @@ func _on_str_pressed():
 
 func _on_int_pressed():
 	attribute_points($int/Label)
+	Globals.GUI.get_node("mana_progress").max_value += 10
+	Globals.GUI.get_node("mana_progress").get_node("mana_value").text = str(Globals.GUI.get_node("mana_progress").value)
+#	make a scene for the mana_progress node to link theses values
 
 func _on_dex_pressed():
 	attribute_points($dex/Label)
