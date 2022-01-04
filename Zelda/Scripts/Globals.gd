@@ -79,7 +79,7 @@ func _deferred_goto_scene(path, spawn):
 			player_lvl = 0
 			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(100)
-			player_weapon = "fire"
+			player_weapon = "bow"
 			starter_weapon = true
 
 		player.position = player_spawn_pos
@@ -170,7 +170,7 @@ func spawn_weapon_shop():
 	
 	print("shop spawned")
 	
-func drop_item(pos):
+func drop_pwrup(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 	
@@ -187,4 +187,39 @@ func drop_item(pos):
 		drop.name = drop_name
 
 		drop.position = pos
+		
+func drop_item(pos, ilvl, item_modifier):
+	var item_texture = [ResourceLoader.load("res://Assets/Items/caster_chest.png"), ResourceLoader.load("res://Assets/Items/gold_chest.png")]
+	var intelligence = 50 
+	var strength = 50
+	var dexterity = 50
+	var rand = RandomNumberGenerator.new()
+	rand.randomize()
+	
+	var texture = item_texture[rand.randi_range(0, item_texture.size()-1)]
+	var stats = [(intelligence - rand.randi_range(ilvl, ilvl+10)), (strength - rand.randi_range(ilvl, ilvl+10)), (dexterity - rand.randi_range(ilvl, ilvl+10))]
+	if "caster" in texture.load_path:
+		stats[0] += item_modifier
+	
+	var drop = ResourceLoader.load("res://Scenes/drop.tscn").instance()
+	current_scene.call_deferred("add_child", drop)
+	
+	drop.get_node("drop_sprite").set_texture(texture)
+	drop.name = texture.load_path
+	
+	drop.position = pos
+	
+	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = drop.name
+	drop.get_node("stats_tt").get_node("stats").get_node("dex").get_node("value").text = str(stats[2])
+	drop.get_node("stats_tt").get_node("stats").get_node("str").get_node("value").text = str(stats[1])
+	drop.get_node("stats_tt").get_node("stats").get_node("int").get_node("value").text = str(stats[0])
+	
+	print(drop.get_node("stats_tt").get_node("stats").get_node("dex").get_node("value").text)
+	
+	
+#	drop.get_node("stats_tt").popup()
+	
+	
+	
+	
 

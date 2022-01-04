@@ -27,3 +27,5 @@ func attribute_points(stat):
 		$points/points_num.text = str(j)
 	if j == 0:
 		$dex.get_parent().visible = false
+		
+# multiple lvl ups are not saved

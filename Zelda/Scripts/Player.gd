@@ -207,6 +207,9 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 	attacking = true
 	if Globals.player_weapon:
 		var weapon = load("res://Scenes/Weapon.tscn").instance()
+		
+		if mana_progress.value != mana_progress.max_value:
+					$mana_fill_timer.start()
 
 		if Globals.player_weapon == "axe":
 			Globals.current_scene.get_node("Player").add_child(weapon)
@@ -288,8 +291,8 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				mana_progress.value -= mana_progress.step
 				mana_progress.get_node("mana_value").text = str(mana_progress.value)
 				Globals.mana = mana_progress.value
-				if mana_progress.value != mana_progress.max_value:
-					$mana_fill_timer.start()
+#				if mana_progress.value != mana_progress.max_value:
+#					$mana_fill_timer.start()
 			else:
 				print("OOM")
 
