@@ -34,6 +34,8 @@ code optimization
 
 Bugs:
 - enemies can spawn out of bounds ==fixed==
+- enemies do not collide with store entrance and dropped items
+- mana is fucked
 
 Bugs Asteroid:
 point threshhold for scoreboard/lvl up not resetting 

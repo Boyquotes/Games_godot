@@ -168,7 +168,23 @@ func player_collision():
 			
 		if "dmg_up" in coll.collider.name:
 			Globals.player_pwr += 25
-			Globals.current_scene.get_node(coll.collider.name).queue_free()		
+			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			
+		if "item" in coll.collider.name:
+			for i in Globals.item["dex"]:
+				Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("dexterity").get_node("Label"), false)
+				Globals.dexterity += 1
+			for i in Globals.item["int"]:
+				Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("intelligence").get_node("Label"), false)
+				Globals.intelligence += 1
+			for i in Globals.item["str"]:
+				Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("strength").get_node("Label"), false)
+				Globals.strength += 1
+			
+#			Globals.strength += Globals.item["str"]
+#			Globals.intelligence += Globals.item["int"]
+			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			
 
 func _on_invuln_timer_timeout():
 	self.visible = true
@@ -266,7 +282,6 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			weapon.get_node("AnimationPlayer").play("staff_attack")
 			
 		if Globals.player_weapon == "fire":
-#			var mana_progress = Globals.GUI.get_node("mana_progress")
 			if mana_progress.value > 0: 
 				Globals.current_scene.add_child(weapon)
 				var fire = load("res://Assets/fire_one.png")
@@ -291,8 +306,6 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				mana_progress.value -= mana_progress.step
 				mana_progress.get_node("mana_value").text = str(mana_progress.value)
 				Globals.mana = mana_progress.value
-#				if mana_progress.value != mana_progress.max_value:
-#					$mana_fill_timer.start()
 			else:
 				print("OOM")
 

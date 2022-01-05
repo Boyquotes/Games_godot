@@ -9,10 +9,14 @@ var player_hp = 300
 var player_xp = 0
 var player_lvl = 0
 var player_pwr = 50
-var mana
+var mana = 100
+var dexterity = 0
+var intelligence = 0
+var strength = 0
 var player_attack = false
 var inventory
 var Items
+var item
 var inventory_items = []
 var stats
 var prev_scene
@@ -73,7 +77,10 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("lvl").text = str(player_lvl)
 			GUI.get_node("mana_progress").value = mana
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(mana)
-
+			GUI.get_node("stat_screen").get_node("dexterity").get_node("Label").text = str(dexterity)
+			GUI.get_node("stat_screen").get_node("intelligence").get_node("Label").text = str(intelligence)
+			GUI.get_node("stat_screen").get_node("strength").get_node("Label").text = str(strength)
+			
 		else:
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
@@ -188,33 +195,25 @@ func drop_pwrup(pos):
 
 		drop.position = pos
 		
-func drop_item(pos, ilvl, item_modifier):
-	var item_texture = [ResourceLoader.load("res://Assets/Items/caster_chest.png"), ResourceLoader.load("res://Assets/Items/gold_chest.png")]
-	var intelligence = 50 
-	var strength = 50
-	var dexterity = 50
+func drop_item(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 	
-	var texture = item_texture[rand.randi_range(0, item_texture.size()-1)]
-	var stats = [(intelligence - rand.randi_range(ilvl, ilvl+10)), (strength - rand.randi_range(ilvl, ilvl+10)), (dexterity - rand.randi_range(ilvl, ilvl+10))]
-	if "caster" in texture.load_path:
-		stats[0] += item_modifier
-	
+	item = ItemDatabase.ITEMS[str(rand.randi_range(1, ItemDatabase.ITEMS.size()))]
+	var stats = [(item["int"] + rand.randi_range(0, ilvl)), (item["str"] + rand.randi_range(0, ilvl)), (item["dex"] + rand.randi_range(0, ilvl))]
+
 	var drop = ResourceLoader.load("res://Scenes/drop.tscn").instance()
 	current_scene.call_deferred("add_child", drop)
 	
-	drop.get_node("drop_sprite").set_texture(texture)
-	drop.name = texture.load_path
+	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["texture"]))
 	
 	drop.position = pos
+	drop.name = "item"
 	
-	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = drop.name
+	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
 	drop.get_node("stats_tt").get_node("stats").get_node("dex").get_node("value").text = str(stats[2])
 	drop.get_node("stats_tt").get_node("stats").get_node("str").get_node("value").text = str(stats[1])
 	drop.get_node("stats_tt").get_node("stats").get_node("int").get_node("value").text = str(stats[0])
-	
-	print(drop.get_node("stats_tt").get_node("stats").get_node("dex").get_node("value").text)
 	
 	
 #	drop.get_node("stats_tt").popup()
