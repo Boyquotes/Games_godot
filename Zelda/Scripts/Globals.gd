@@ -177,23 +177,28 @@ func spawn_weapon_shop():
 	
 	print("shop spawned")
 	
-func drop_pwrup(pos):
+func drop_weighting(num):
 	var rand = RandomNumberGenerator.new()
-	rand.randomize()
+	var sum = 0
+	var n = randf()
 	
-	var frequency = rand.randi_range(0, 2)
+	for i in num:
+		sum += num[i]
+		if n <= sum: 
+			return i
 	
-	if frequency == 1:
-		var drop_id = rand.randi_range(0, Items.get_tileset().get_tiles_ids().size()-1)
-		var drop_texture = Items.get_tileset().tile_get_texture(drop_id)
-		var drop_name = Items.get_tileset().tile_get_name(drop_id)
-		var drop = ResourceLoader.load("res://Scenes/drop.tscn").instance()
-		
-		current_scene.call_deferred("add_child", drop)
-		drop.get_node("drop_sprite").set_texture(drop_texture)
-		drop.name = drop_name
+func drop_pwrup(pos):
+	
+	var drop_id = drop_weighting({0:0.05, 1:0.19, 2:0.19, 3:0.19, 4:0.19, 5:0.19})
+	var drop_texture = Items.get_tileset().tile_get_texture(drop_id)
+	var drop_name = Items.get_tileset().tile_get_name(drop_id)
+	var drop = ResourceLoader.load("res://Scenes/drop.tscn").instance()
 
-		drop.position = pos
+	current_scene.call_deferred("add_child", drop)
+	drop.get_node("drop_sprite").set_texture(drop_texture)
+	drop.name = drop_name
+
+	drop.position = pos
 		
 func drop_item(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
