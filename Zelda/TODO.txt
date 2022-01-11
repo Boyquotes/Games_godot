@@ -1,3 +1,8 @@
+NEXT STEPS:
+	-inventory item implementation
+	-rnd level generator (make new levels)
+
+
 - weapon shop persistance ==done==
 - axe attack ==done==
 - simple inventory system ==done==

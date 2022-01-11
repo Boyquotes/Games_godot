@@ -82,7 +82,6 @@ tracks/0/keys = {
 }
 
 [node name="Enemy_goober" type="KinematicBody2D"]
-z_index = 1
 input_pickable = true
 script = ExtResource( 3 )
 

@@ -118,7 +118,7 @@ func player_collision():
 			if weapons_tile_name:
 				weapon_achievement_anim(weapons_tile_name, coll, cell)
 				Globals.inventory_items.push_front(weapons_tile_name)
-				Globals.inventory.pickup_item(weapons_tile_name)
+				Globals.inventory.get_child(0).pickup_item(weapons_tile_name)
 	
 		if coll.collider.name == "camera_transition":
 			var tween = get_node("Camera_Transition")
@@ -180,9 +180,10 @@ func player_collision():
 			for i in Globals.item["str"]:
 				Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("strength").get_node("Label"), false)
 				Globals.strength += 1
+				
+			Globals.inventory_items.push_front(Globals.item["id"])
+			Globals.inventory.get_child(0).pickup_item(Globals.item["id"])
 			
-#			Globals.strength += Globals.item["str"]
-#			Globals.intelligence += Globals.item["int"]
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
 
@@ -191,9 +192,7 @@ func _on_invuln_timer_timeout():
 	player_invuln = false
 
 func weapon_achievement_anim(weapons_tile_name, coll, cell):
-#		if !Globals.player_weapon:
-		Globals.player_weapon = weapons_tile_name
-		
+#		Globals.player_weapon = weapons_tile_name		
 		clear_tile(coll, cell)
 		
 		var weapon_sprite = load("res://Scenes/weapons/" + weapons_tile_name + ".tscn").instance()
@@ -208,7 +207,7 @@ func weapon_achievement_anim(weapons_tile_name, coll, cell):
 		weapon_sprite.queue_free()
 		
 		Globals.current_scene.get_node("Weapons_TileMap").queue_free()
-		
+
 func get_tile_name(coll, tilemap):
 	var cell = tilemap.world_to_map(coll.position - coll.normal)
 	var tile_id = tilemap.get_cellv(cell)
@@ -265,10 +264,13 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 	
 			weapon.get_node("weapon").set_texture(wand)
 			var shortest_distance_enemy = Globals.current_scene.get_node("Level_TileMap")
-			for i in Globals.enemies:
-				var distance_to_player = i.get_global_position().distance_to(self.get_global_position())
-				if distance_to_player < shortest_distance_enemy.get_global_position().distance_to(self.get_global_position()):
-					shortest_distance_enemy = i
+			if Globals.current_scene.name != "Shop":
+				for i in Globals.enemies:
+					var distance_to_player = i.get_global_position().distance_to(self.get_global_position())
+					if distance_to_player < shortest_distance_enemy.get_global_position().distance_to(self.get_global_position()):
+						shortest_distance_enemy = i
+			else:
+				print("cannot fire in shop")
 #
 			var dir = weapon.position.direction_to(Globals.current_scene.get_node(shortest_distance_enemy.name).position)
 #

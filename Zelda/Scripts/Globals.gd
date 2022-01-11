@@ -64,7 +64,7 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.add_child(Items)
 		player.add_child(inventory)
 		
-		inventory.rect_position = player.position
+		inventory.get_child(0).rect_position = player.position
 		
 		if prev_scene != "start_screen" and prev_scene != "game_over_screen" and prev_scene != "game_won_screen" and path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
 #			wtf is dis
@@ -87,6 +87,8 @@ func _deferred_goto_scene(path, spawn):
 			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(100)
 			player_weapon = "bow"
+			inventory_items.push_front(player_weapon)
+			inventory.get_child(0).pickup_item(player_weapon)
 			starter_weapon = true
 
 		player.position = player_spawn_pos
@@ -204,24 +206,25 @@ func drop_item(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 	
-	item = ItemDatabase.ITEMS[str(rand.randi_range(1, ItemDatabase.ITEMS.size()))]
+	item = ItemDB.ARMOUR[str(rand.randi_range(1, ItemDB.ARMOUR.size()))]
+#	print(item["id"])
+
 	var stats = [(item["int"] + rand.randi_range(0, ilvl)), (item["str"] + rand.randi_range(0, ilvl)), (item["dex"] + rand.randi_range(0, ilvl))]
 
 	var drop = ResourceLoader.load("res://Scenes/drop.tscn").instance()
 	current_scene.call_deferred("add_child", drop)
 	
-	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["texture"]))
+	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
 	
 	drop.position = pos
 	drop.name = "item"
 	
-	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
+#	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
 	drop.get_node("stats_tt").get_node("stats").get_node("dex").get_node("value").text = str(stats[2])
 	drop.get_node("stats_tt").get_node("stats").get_node("str").get_node("value").text = str(stats[1])
 	drop.get_node("stats_tt").get_node("stats").get_node("int").get_node("value").text = str(stats[0])
 	
-	
-#	drop.get_node("stats_tt").popup()
+
 	
 	
 	

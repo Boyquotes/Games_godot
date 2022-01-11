@@ -47,6 +47,8 @@ func release(cursor_pos):
 		if c.insert_item(item_held):
 			if c == eq_slots:
 				Globals.player_weapon = item_held.get_meta("id")
+			elif c == grid_bkpk:
+				Globals.player_weapon = null
 			item_held = null
 		else:
 			return_item()
@@ -72,7 +74,7 @@ func return_item():
 func pickup_item(item_id):
 	var item = item_base.instance()
 	item.set_meta("id", item_id)
-	item.texture = load(ItemDB.get_item(item_id)["icon"])
+	item.texture = load(ItemDB.get_item(str(item_id))["icon"])
 	add_child(item)
 	if !weap_slot_taken:
 		eq_slots.insert_item(item)

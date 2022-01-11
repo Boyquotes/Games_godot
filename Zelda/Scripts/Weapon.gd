@@ -38,8 +38,8 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 					Globals.enemy_hp.remove(i)
 					Globals.enemies.remove(i)
 					Globals.enemy_tracker -= 1
-					Globals.drop_pwrup(body.position)
-#					Globals.drop_item(body.position, 10)
+#					Globals.drop_pwrup(body.position)
+					Globals.drop_item(body.position, 10)
 					Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
 					if lvl_progress.value == (lvl_progress.max_value-lvl_progress.step):
 						var curr_lvl = int(Globals.GUI.get_node("lvl").text)
