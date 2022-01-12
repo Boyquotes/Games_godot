@@ -21,6 +21,8 @@ func insert_item(item):
 	var item_pos = item.rect_global_position + Vector2(cell_size / 2, cell_size / 2)
 	var g_pos = pos_to_grid_coord(item_pos)
 	var item_size = get_grid_size(item)
+	if ItemDB.get_item(item.get_meta("id"))["slot"] == "WEAPON":
+		Globals.player_weapon = null
 	if is_grid_space_available(g_pos.x, g_pos.y, item_size.x, item_size.y):
 		set_grid_space(g_pos.x, g_pos.y, item_size.x, item_size.y, true)
 		item.rect_global_position = rect_global_position + Vector2(g_pos.x, g_pos.y) * cell_size

@@ -63,6 +63,7 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.add_child(GUI)
 		current_scene.add_child(Items)
 		player.add_child(inventory)
+		print(inventory_items)
 		
 		inventory.get_child(0).rect_position = player.position
 		
@@ -70,6 +71,7 @@ func _deferred_goto_scene(path, spawn):
 #			wtf is dis
 			if current_scene.name == "Starting_World":
 				current_scene.get_node("Player_Spawn").position = shop_spawn_pos
+				
 
 			player_spawn_pos = current_scene.get_node("Player_Spawn").position
 			GUI.get_node("hp_num").text = str(player_hp)
@@ -80,6 +82,10 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("stat_screen").get_node("dexterity").get_node("Label").text = str(dexterity)
 			GUI.get_node("stat_screen").get_node("intelligence").get_node("Label").text = str(intelligence)
 			GUI.get_node("stat_screen").get_node("strength").get_node("Label").text = str(strength)
+#			inventory_items.push_front(player_weapon)
+#			inventory.get_child(0).pickup_item(player_weapon)
+			
+			print("entershop")
 			
 		else:
 			player_spawn_pos = Vector2(512, 300)
@@ -90,6 +96,8 @@ func _deferred_goto_scene(path, spawn):
 			inventory_items.push_front(player_weapon)
 			inventory.get_child(0).pickup_item(player_weapon)
 			starter_weapon = true
+			
+#			print("playerwep ", player_weapon)
 
 		player.position = player_spawn_pos
 		
@@ -103,7 +111,7 @@ func _deferred_goto_scene(path, spawn):
 	if current_scene.name == "Shop" and player_weapon and !starter_weapon:
 #		current_scene.get_node("Weapons_TileMap").tile_set.remove_tile(current_scene.get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
 		current_scene.get_node("Weapons_TileMap").queue_free()
-	elif current_scene.name == "Shop" and player_weapon and starter_weapon:
+	if current_scene.name == "Shop" and player_weapon and starter_weapon:
 		starter_weapon = false
 		var rand = RandomNumberGenerator.new()
 		var weapons = current_scene.get_node("Weapons_TileMap").get_tileset().get_tiles_ids()
@@ -206,8 +214,7 @@ func drop_item(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 	
-	item = ItemDB.ARMOUR[str(rand.randi_range(1, ItemDB.ARMOUR.size()))]
-#	print(item["id"])
+	item = ItemDB.ARMOR[str(rand.randi_range(1, ItemDB.ARMOR.size()))]
 
 	var stats = [(item["int"] + rand.randi_range(0, ilvl)), (item["str"] + rand.randi_range(0, ilvl)), (item["dex"] + rand.randi_range(0, ilvl))]
 
@@ -219,7 +226,7 @@ func drop_item(pos, ilvl):
 	drop.position = pos
 	drop.name = "item"
 	
-#	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
+	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
 	drop.get_node("stats_tt").get_node("stats").get_node("dex").get_node("value").text = str(stats[2])
 	drop.get_node("stats_tt").get_node("stats").get_node("str").get_node("value").text = str(stats[1])
 	drop.get_node("stats_tt").get_node("stats").get_node("int").get_node("value").text = str(stats[0])

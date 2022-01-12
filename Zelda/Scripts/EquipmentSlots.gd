@@ -11,7 +11,10 @@ func _ready():
 func insert_item(item):
 	var item_pos = item.rect_global_position + item.rect_size / 2
 #	var slot = get_slot_under_pos(item_pos)
-	var slot = $WEAPON
+	var slot = self.get_node(ItemDB.get_item(item.get_meta("id"))["slot"])
+	
+#	var slot = $WEAPON
+#	print(ItemDB.get_item(item.get_meta("id"))["slot"])
 
 	if slot == null:
 		return false
@@ -21,12 +24,16 @@ func insert_item(item):
 		return false
 	if items[item_slot] != null:
 		return false
+		
 	items[item_slot] = item
 	item.rect_global_position = slot.rect_global_position + slot.rect_size / 2 - item.rect_size / 2
 	
 	var t = Globals.inventory_items.find(item.get_meta("id"))
 	Globals.inventory_items.remove(t)
 	Globals.inventory_items.push_front(item.get_meta("id"))
+	if slot == $WEAPON:
+		Globals.player_weapon = ItemDB.get_item(item.get_meta("id"))["name"]
+#		print(Globals.player_weapon)
 	
 	return true
 
