@@ -38,9 +38,6 @@ func _physics_process(delta):
 	
 	player_collision()
 	
-	
-#		timer.start()
-	
 	if Input.is_action_just_pressed("Inventory"):
 		if !Globals.inventory.visible:
 			Globals.inventory.visible = true
@@ -171,28 +168,16 @@ func player_collision():
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
 		if "item" in coll.collider.name:
-			for i in Globals.item["dex"]:
-				Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("dexterity").get_node("Label"), false)
-				Globals.dexterity += 1
-			for i in Globals.item["int"]:
-				Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("intelligence").get_node("Label"), false)
-				Globals.intelligence += 1
-			for i in Globals.item["str"]:
-				Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("strength").get_node("Label"), false)
-				Globals.strength += 1
-				
 			Globals.inventory_items.push_front(Globals.item["id"])
 			Globals.inventory.get_child(0).pickup_item(Globals.item["id"])
-			
+
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
-			
 
 func _on_invuln_timer_timeout():
 	self.visible = true
 	player_invuln = false
 
 func weapon_achievement_anim(weapons_tile_name, coll, cell):
-#		Globals.player_weapon = weapons_tile_name		
 		clear_tile(coll, cell)
 		
 		var weapon_sprite = load("res://Scenes/weapons/" + weapons_tile_name + ".tscn").instance()

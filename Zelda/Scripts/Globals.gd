@@ -63,16 +63,15 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.add_child(GUI)
 		current_scene.add_child(Items)
 		player.add_child(inventory)
-		print(inventory_items)
 		
 		inventory.get_child(0).rect_position = player.position
 		
 		if prev_scene != "start_screen" and prev_scene != "game_over_screen" and prev_scene != "game_won_screen" and path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
-#			wtf is dis
+#		if prev_scene == "shop":
+#		wtf is dis
 			if current_scene.name == "Starting_World":
 				current_scene.get_node("Player_Spawn").position = shop_spawn_pos
 				
-
 			player_spawn_pos = current_scene.get_node("Player_Spawn").position
 			GUI.get_node("hp_num").text = str(player_hp)
 			GUI.get_node("lvl_progress").value = player_xp
@@ -82,17 +81,13 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("stat_screen").get_node("dexterity").get_node("Label").text = str(dexterity)
 			GUI.get_node("stat_screen").get_node("intelligence").get_node("Label").text = str(intelligence)
 			GUI.get_node("stat_screen").get_node("strength").get_node("Label").text = str(strength)
-#			inventory_items.push_front(player_weapon)
-#			inventory.get_child(0).pickup_item(player_weapon)
-			
-			print("entershop")
 			
 		else:
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
 			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(100)
-			player_weapon = "bow"
+			player_weapon = "wand"
 			inventory_items.push_front(player_weapon)
 			inventory.get_child(0).pickup_item(player_weapon)
 			starter_weapon = true
@@ -227,9 +222,9 @@ func drop_item(pos, ilvl):
 	drop.name = "item"
 	
 	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
-	drop.get_node("stats_tt").get_node("stats").get_node("dex").get_node("value").text = str(stats[2])
-	drop.get_node("stats_tt").get_node("stats").get_node("str").get_node("value").text = str(stats[1])
-	drop.get_node("stats_tt").get_node("stats").get_node("int").get_node("value").text = str(stats[0])
+	drop.get_node("stats_tt").get_node("stats").get_node("dexterity").get_node("value").text = str(stats[2])
+	drop.get_node("stats_tt").get_node("stats").get_node("strength").get_node("value").text = str(stats[1])
+	drop.get_node("stats_tt").get_node("stats").get_node("intelligence").get_node("value").text = str(stats[0])
 	
 
 	

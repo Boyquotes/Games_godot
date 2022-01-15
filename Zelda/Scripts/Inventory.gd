@@ -12,13 +12,15 @@ var item_offset = Vector2()
 var last_container = null
 var last_pos = Vector2()
 var weap_slot_taken = false
+var char_slot_taken = false
 
 func _ready():
 	if Globals.inventory_items.size() > 0:
+		weap_slot_taken = false
+		pickup_item(Globals.player_weapon)
 		for i in Globals.inventory_items:
-			print(i)
-			pickup_item(i)
-#			THE PROBLEM IS HERE YOU FUCKING MORON
+			if i != Globals.player_weapon:
+				pickup_item(i)
 		return
 	pass
 
@@ -76,9 +78,12 @@ func pickup_item(item_id):
 	item.set_meta("id", item_id)
 	item.texture = load(ItemDB.get_item(item_id)["icon"])
 	add_child(item)
-	if !weap_slot_taken:
+	if !weap_slot_taken and ItemDB.get_item(item_id)["slot"] == "WEAPON":
 		eq_slots.insert_item(item)
 		weap_slot_taken = true
+	elif !char_slot_taken and ItemDB.get_item(item_id)["slot"] == "CHARACTER":
+		eq_slots.insert_item(item)
+		char_slot_taken = true
 	elif !grid_bkpk.insert_item_at_first_available_spot(item):
 		item.queue_free()
 		return false

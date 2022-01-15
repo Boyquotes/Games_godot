@@ -21,7 +21,7 @@ func _on_dex_pressed():
 	Globals.player.move_speed += 0.25
 
 func attribute_points(stat, lvlup_stats):
-	var i = int(stat.text)	
+	var i = int(stat.text)
 	if lvlup_stats:
 		var j = int($points/points_num.text)
 		if j > 0:
@@ -32,7 +32,13 @@ func attribute_points(stat, lvlup_stats):
 		if j == 0:
 			$dexterity.get_parent().visible = false
 	else:
-		i += 1
+		i+= int(Globals.current_scene.get_node("item").get_node("stats_tt").get_node("stats").get_node(stat.name).get_node("value").text)
 		stat.text = str(i)
+#		augment the Globals variable
+		
+func remove_points(stat):
+	var i = int(stat.text)
+	i-= int(Globals.current_scene.get_node("item").get_node("stats_tt").get_node("stats").get_node(stat.name).get_node("value").text)
+	stat.text = str(i)
+#	reduce the Globals variable
 
-# multiple lvl ups are not saved

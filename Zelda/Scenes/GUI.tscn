@@ -122,9 +122,9 @@ __meta__ = {
 
 [node name="lvl_up" type="TextureButton" parent="."]
 visible = false
-margin_left = 670.0
+margin_left = 338.0
 margin_top = 5.0
-margin_right = 687.0
+margin_right = 356.0
 margin_bottom = 21.0
 rect_scale = Vector2( 2, 2 )
 texture_normal = ExtResource( 3 )
@@ -135,11 +135,10 @@ __meta__ = {
 }
 
 [node name="stat_screen" type="HBoxContainer" parent="."]
-visible = false
-margin_left = 634.293
-margin_top = 4.12243
-margin_right = 786.293
-margin_bottom = 36.1224
+margin_left = 19.2787
+margin_top = 542.104
+margin_right = 171.279
+margin_bottom = 574.104
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_group_": true,
@@ -152,7 +151,7 @@ margin_bottom = 32.0
 texture_normal = ExtResource( 10 )
 texture_pressed = ExtResource( 11 )
 
-[node name="Label" type="Label" parent="stat_screen/dexterity"]
+[node name="dexterity" type="Label" parent="stat_screen/dexterity"]
 margin_left = 2.0
 margin_top = 34.0
 margin_right = 32.0
@@ -169,7 +168,7 @@ margin_bottom = 32.0
 texture_normal = ExtResource( 7 )
 texture_pressed = ExtResource( 12 )
 
-[node name="Label" type="Label" parent="stat_screen/intelligence"]
+[node name="intelligence" type="Label" parent="stat_screen/intelligence"]
 margin_left = 2.0
 margin_top = 34.0
 margin_right = 32.0
@@ -186,7 +185,7 @@ margin_bottom = 32.0
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 9 )
 
-[node name="Label" type="Label" parent="stat_screen/strength"]
+[node name="strength" type="Label" parent="stat_screen/strength"]
 margin_left = 2.0
 margin_top = 34.0
 margin_right = 32.0

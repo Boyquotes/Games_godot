@@ -1,3 +1,6 @@
+CURRENT PROBLEM:
+- Cannot remove item stats because they are no longer available -> drop and all meta data get deleted on pick up
+
 NEXT STEPS:
 	-inventory item implementation
 	-rnd level generator (make new levels)
