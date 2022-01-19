@@ -32,13 +32,16 @@ func attribute_points(stat, lvlup_stats):
 		if j == 0:
 			$dexterity.get_parent().visible = false
 	else:
-		i+= int(Globals.current_scene.get_node("item").get_node("stats_tt").get_node("stats").get_node(stat.name).get_node("value").text)
+		i+= int(Globals.inventory_items[0][stat.name])
+#		int(Globals.current_scene.get_node("item").get_node("stats_tt").get_node("stats").get_node(stat.name).get_node("value").text)
 		stat.text = str(i)
 #		augment the Globals variable
 		
 func remove_points(stat):
 	var i = int(stat.text)
-	i-= int(Globals.current_scene.get_node("item").get_node("stats_tt").get_node("stats").get_node(stat.name).get_node("value").text)
+#	i-= int(Globals.current_scene.get_node("item").get_node("stats_tt").get_node("stats").get_node(stat.name).get_node("value").text)
+	i-= int(Globals.inventory_items[0][stat.name])
+#	print(Globals.inventory_items[0])
 	stat.text = str(i)
 #	reduce the Globals variable
 

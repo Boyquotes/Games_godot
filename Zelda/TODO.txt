@@ -1,5 +1,7 @@
 CURRENT PROBLEM:
 - Cannot remove item stats because they are no longer available -> drop and all meta data get deleted on pick up
+YOU NEED TO SEPARATE ITEMS AND WEAPONS YOU FUCKING MORON
+	- currently state -> item is in inventory item array
 
 NEXT STEPS:
 	-inventory item implementation

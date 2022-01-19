@@ -18,9 +18,14 @@ func _ready():
 	if Globals.inventory_items.size() > 0:
 		weap_slot_taken = false
 		pickup_item(Globals.player_weapon)
+		print(Globals.inventory_items)
 		for i in Globals.inventory_items:
-			if i != Globals.player_weapon:
-				pickup_item(i)
+			if i["name"] != Globals.player_weapon:
+#				print(i["name"])
+				if "id" in i:
+					pickup_item(i["id"])
+				else:
+					pickup_item(i["name"])
 		return
 	pass
 
@@ -74,17 +79,18 @@ func return_item():
 	item_held = null
 
 func pickup_item(item_id):
+	print("pickup ", item_id)
 	var item = item_base.instance()
 	item.set_meta("id", item_id)
-	item.texture = load(ItemDB.get_item(item_id)["icon"])
+	item.texture = load(item_id["icon"])
 	add_child(item)
-	if !weap_slot_taken and ItemDB.get_item(item_id)["slot"] == "WEAPON":
-		eq_slots.insert_item(item)
+	if !weap_slot_taken and item_id["slot"] == "WEAPON":
+		eq_slots.insert_item(item_id, item)
 		weap_slot_taken = true
-	elif !char_slot_taken and ItemDB.get_item(item_id)["slot"] == "CHARACTER":
-		eq_slots.insert_item(item)
+	elif !char_slot_taken and item_id["slot"] == "CHARACTER":
+		eq_slots.insert_item(item_id, item)
 		char_slot_taken = true
-	elif !grid_bkpk.insert_item_at_first_available_spot(item):
+	elif !grid_bkpk.insert_item_at_first_available_spot(item_id, item):
 		item.queue_free()
 		return false
 	return true

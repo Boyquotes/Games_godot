@@ -17,6 +17,8 @@ var player_attack = false
 var inventory
 var Items
 var item
+var item_id = 0
+var dropped_items = []
 var inventory_items = []
 var stats
 var prev_scene
@@ -78,9 +80,9 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("lvl").text = str(player_lvl)
 			GUI.get_node("mana_progress").value = mana
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(mana)
-			GUI.get_node("stat_screen").get_node("dexterity").get_node("Label").text = str(dexterity)
-			GUI.get_node("stat_screen").get_node("intelligence").get_node("Label").text = str(intelligence)
-			GUI.get_node("stat_screen").get_node("strength").get_node("Label").text = str(strength)
+			GUI.get_node("stat_screen").get_node("dex").get_node("dex").text = str(dexterity)
+			GUI.get_node("stat_screen").get_node("int").get_node("int").text = str(intelligence)
+			GUI.get_node("stat_screen").get_node("str").get_node("str").text = str(strength)
 			
 		else:
 			player_spawn_pos = Vector2(512, 300)
@@ -88,8 +90,8 @@ func _deferred_goto_scene(path, spawn):
 			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(100)
 			player_weapon = "wand"
-			inventory_items.push_front(player_weapon)
-			inventory.get_child(0).pickup_item(player_weapon)
+			inventory_items.push_front(ItemDB.WEAPON[player_weapon])
+			inventory.get_child(0).pickup_item(inventory_items[0])
 			starter_weapon = true
 			
 #			print("playerwep ", player_weapon)
@@ -221,10 +223,29 @@ func drop_item(pos, ilvl):
 	drop.position = pos
 	drop.name = "item"
 	
+	drop.get_node("id").text = str(item_id)
+		
 	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
-	drop.get_node("stats_tt").get_node("stats").get_node("dexterity").get_node("value").text = str(stats[2])
-	drop.get_node("stats_tt").get_node("stats").get_node("strength").get_node("value").text = str(stats[1])
-	drop.get_node("stats_tt").get_node("stats").get_node("intelligence").get_node("value").text = str(stats[0])
+	drop.get_node("stats_tt").get_node("stats").get_node("dex").get_node("value").text = str(stats[2])
+	drop.get_node("stats_tt").get_node("stats").get_node("str").get_node("value").text = str(stats[1])
+	drop.get_node("stats_tt").get_node("stats").get_node("int").get_node("value").text = str(stats[0])
+	
+#	var id = drop.id
+	var icon = item.icon
+	
+	item = {
+		"id": item_id,
+		"name": item.name,
+		"icon": icon,
+		"type": item.type,
+		"slot": item.slot,
+		"str": str(stats[1]),
+		"int": str(stats[0]),
+		"dex": str(stats[2])
+	}
+	
+	dropped_items.push_front(item)
+	item_id += 1
 	
 
 	

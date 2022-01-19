@@ -7,31 +7,34 @@ func _ready():
 	for slot in slots:
 		items[slot.name] = null
 
-func insert_item(item):
-	var item_pos = item.rect_global_position + item.rect_size / 2
+func insert_item(item, pos):
+	var item_pos = pos.rect_global_position + pos.rect_size / 2
 #	var slot = get_slot_under_pos(item_pos)
-	var slot = self.get_node(ItemDB.get_item(item.get_meta("id"))["slot"])
+	var slot = self.get_node(item["slot"])
 
 	if slot == null:
 		return false
 	
-	var item_slot = ItemDB.get_item(item.get_meta("id"))["slot"]
+	var item_slot = item["slot"]
 	if item_slot != slot.name:
 		return false
 	if items[item_slot] != null:
 		return false
 		
+	print("items ", items)
+
 	items[item_slot] = item
-	item.rect_global_position = slot.rect_global_position + slot.rect_size / 2 - item.rect_size / 2
+	pos.rect_global_position = slot.rect_global_position + slot.rect_size / 2 - pos.rect_size / 2
 	
 	if slot == $WEAPON:
-		Globals.player_weapon = ItemDB.get_item(item.get_meta("id"))["name"]
+		Globals.player_weapon = item["name"]
 		
 	if slot == $CHARACTER:
-		Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("dexterity").get_node("dexterity"), false)
-		Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("intelligence").get_node("intelligence"), false)
-		Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("strength").get_node("strength"), false)
-
+		Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("dex").get_node("dex"), false)
+		Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("int"), false)
+		Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("str"), false)
+		
+	print("items ", items)
 	
 	return true
 
@@ -40,14 +43,14 @@ func grab_item(pos):
 	if item == null:
 		return null
 	
-	var item_slot = ItemDB.get_item(item.get_meta("id"))["slot"]
+	var item_slot = item["slot"]
 	items[item_slot] = null
 	if item_slot == "WEAPON":
 		Globals.player_weapon = null
 	elif item_slot == "CHARACTER":
-		Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("dexterity").get_node("dexterity"))
-		Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("intelligence").get_node("intelligence"))
-		Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("strength").get_node("strength"))
+		Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("dex").get_node("dex"))
+		Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("int"))
+		Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("str"))
 
 	return item
 
