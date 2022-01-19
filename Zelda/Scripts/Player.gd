@@ -114,7 +114,10 @@ func player_collision():
 
 			if weapons_tile_name:
 				weapon_achievement_anim(weapons_tile_name, coll, cell)
-				Globals.inventory_items.push_front(ItemDB.WEAPON[weapons_tile_name])
+				var weapon = ItemDB.WEAPON[weapons_tile_name]
+				weapon["id"] = Globals.item_id
+				Globals.item_id += 1
+				Globals.inventory_items.push_front(weapon)
 				Globals.inventory.get_child(0).pickup_item(weapons_tile_name)
 	
 		if coll.collider.name == "camera_transition":
@@ -168,18 +171,13 @@ func player_collision():
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
 		if "item" in coll.collider.name:
-#			Globals.inventory_items.push_front(Globals.item["id"])
-			print(coll.collider.get_node("id").text)
-			print("dropped items ", Globals.dropped_items)
 			var pos = 0
 			for i in Globals.dropped_items:
 				if i["id"] == int(coll.collider.get_node("id").text):
 					Globals.inventory_items.push_front(i)
 					Globals.dropped_items.remove(pos)
 					Globals.inventory.get_child(0).pickup_item(i)
-					print("inventory item ", Globals.inventory_items)
 					pos+=1
-#					Globals.inventory.get_child(0).pickup_item(i)
 
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 

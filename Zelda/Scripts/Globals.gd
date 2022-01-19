@@ -90,7 +90,10 @@ func _deferred_goto_scene(path, spawn):
 			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(100)
 			player_weapon = "wand"
-			inventory_items.push_front(ItemDB.WEAPON[player_weapon])
+			var weapon = ItemDB.WEAPON[player_weapon]
+			weapon["id"] = Globals.item_id
+			Globals.item_id += 1
+			inventory_items.push_front(weapon)
 			inventory.get_child(0).pickup_item(inventory_items[0])
 			starter_weapon = true
 			
@@ -246,10 +249,5 @@ func drop_item(pos, ilvl):
 	
 	dropped_items.push_front(item)
 	item_id += 1
-	
 
-	
-	
-	
-	
 
