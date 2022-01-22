@@ -10,9 +10,9 @@ var player_xp = 0
 var player_lvl = 0
 var player_pwr = 50
 var mana = 100
-var dexterity = 0
-var intelligence = 0
-var strength = 0
+var dex = 0
+var intel = 0
+var stren = 0
 var player_attack = false
 var inventory
 var Items
@@ -20,6 +20,7 @@ var item
 var item_id = 0
 var dropped_items = []
 var inventory_items = []
+var current_armor_id
 var stats
 var prev_scene
 var GUI = null
@@ -79,11 +80,14 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("lvl_progress").value = player_xp
 			GUI.get_node("lvl").text = str(player_lvl)
 			GUI.get_node("mana_progress").value = mana
-			GUI.get_node("mana_progress").get_node("mana_value").text = str(mana)
-			GUI.get_node("stat_screen").get_node("dex").get_node("dex").text = str(dexterity)
-			GUI.get_node("stat_screen").get_node("int").get_node("int").text = str(intelligence)
-			GUI.get_node("stat_screen").get_node("str").get_node("str").text = str(strength)
+			GUI.get_node("mana_progress").get_node("mana_value").text = str(mana)			
 			
+			Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("dex").get_node("dex"), current_armor_id)
+			Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("intel"), current_armor_id)
+			Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("stren"), current_armor_id)
+			GUI.get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
+			GUI.get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
+			GUI.get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
 		else:
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
@@ -96,8 +100,6 @@ func _deferred_goto_scene(path, spawn):
 			inventory_items.push_front(weapon)
 			inventory.get_child(0).pickup_item(inventory_items[0])
 			starter_weapon = true
-			
-#			print("playerwep ", player_weapon)
 
 		player.position = player_spawn_pos
 		
@@ -242,8 +244,8 @@ func drop_item(pos, ilvl):
 		"icon": icon,
 		"type": item.type,
 		"slot": item.slot,
-		"str": str(stats[1]),
-		"int": str(stats[0]),
+		"stren": str(stats[1]),
+		"intel": str(stats[0]),
 		"dex": str(stats[2])
 	}
 	

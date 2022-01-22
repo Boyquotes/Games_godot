@@ -17,14 +17,17 @@ var char_slot_taken = false
 func _ready():
 	if Globals.inventory_items.size() > 0:
 		weap_slot_taken = false
-		pickup_item(Globals.player_weapon)
 		for i in Globals.inventory_items:
-			if i["name"] != Globals.player_weapon:
-#				print(i["name"])
-				if "id" in i:
-					pickup_item(i["id"])
-				else:
-					pickup_item(i["name"])
+			if i["name"] == Globals.player_weapon:
+				pickup_item(i)
+				break
+		for i in Globals.inventory_items:
+			if i["id"] == Globals.current_armor_id:
+				pickup_item(i)
+				break
+		for i in Globals.inventory_items:
+			if i["id"] != Globals.current_armor_id and i["name"] != Globals.player_weapon:
+				pickup_item(i)
 		return
 	pass
 
@@ -77,7 +80,7 @@ func return_item():
 	last_container.insert_item(item_held)
 	item_held = null
 
-func pickup_item(item_id):
+func pickup_item(item_id):	
 	var item = item_base.instance()
 	item.set_meta("id", item_id["id"])
 	item.texture = load(item_id["icon"])

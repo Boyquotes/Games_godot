@@ -168,7 +168,7 @@ margin_bottom = 32.0
 texture_normal = ExtResource( 7 )
 texture_pressed = ExtResource( 12 )
 
-[node name="int" type="Label" parent="stat_screen/int"]
+[node name="intel" type="Label" parent="stat_screen/int"]
 margin_left = 2.0
 margin_top = 34.0
 margin_right = 32.0
@@ -185,7 +185,7 @@ margin_bottom = 32.0
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 9 )
 
-[node name="str" type="Label" parent="stat_screen/str"]
+[node name="stren" type="Label" parent="stat_screen/str"]
 margin_left = 2.0
 margin_top = 34.0
 margin_right = 32.0

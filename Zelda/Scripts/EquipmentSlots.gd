@@ -33,8 +33,9 @@ func insert_item(pos):
 		
 	if slot == $CHARACTER:
 		Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
-		Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("int"), false, item["id"])
-		Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("str"), false, item["id"])
+		Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])
+		Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("stren"), false, item["id"])
+		Globals.current_armor_id = item["id"]
 	
 	return true
 
@@ -54,8 +55,8 @@ func grab_item(pos):
 		Globals.player_weapon = null
 	elif item_slot == "CHARACTER":
 		Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("dex").get_node("dex"), item_id)
-		Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("int"), item_id)
-		Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("str"), item_id)
+		Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("intel"), item_id)
+		Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("stren"), item_id)
 
 	return item
 

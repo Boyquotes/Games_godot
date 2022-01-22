@@ -118,7 +118,7 @@ func player_collision():
 				weapon["id"] = Globals.item_id
 				Globals.item_id += 1
 				Globals.inventory_items.push_front(weapon)
-				Globals.inventory.get_child(0).pickup_item(weapons_tile_name)
+				Globals.inventory.get_child(0).pickup_item(Globals.inventory_items[0])
 	
 		if coll.collider.name == "camera_transition":
 			var tween = get_node("Camera_Transition")
