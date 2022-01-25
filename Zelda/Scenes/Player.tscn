@@ -225,7 +225,6 @@ position = Vector2( -5.83478, 0.0595398 )
 [node name="invuln_timer" type="Timer" parent="."]
 
 [node name="mana_fill_timer" type="Timer" parent="."]
-wait_time = 5.0
 
 [connection signal="timeout" from="invuln_timer" to="." method="_on_invuln_timer_timeout"]
 [connection signal="timeout" from="mana_fill_timer" to="." method="_on_mana_fill_timer_timeout"]

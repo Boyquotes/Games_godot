@@ -100,12 +100,14 @@ func player_collision():
 
 	if coll:
 		if coll.collider.name == "Shop_Entrance_Entry":
+			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 			Globals.goto_scene("res://Scenes/Levels/Shop.tscn", "null")
 		
 		if coll.collider.name == "Level_TileMap":
 			var level_tile_name = get_tile_name(coll, level_tilemap)[0]
 	
 			if level_tile_name == "shop_stairs_exit":
+				Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 				Globals.goto_scene("res://Scenes/Levels/Starting_World.tscn", "null")
 
 		if coll.collider.name == "Weapons_TileMap":
@@ -184,6 +186,16 @@ func player_collision():
 func _on_invuln_timer_timeout():
 	self.visible = true
 	player_invuln = false
+	
+func _on_mana_fill_timer_timeout():
+	if mana_progress.value != mana_progress.max_value: 
+#		print("manaProgTHREE ", Globals.GUI.get_node("mana_progress").get_node("mana_value").text)
+#		print("ASDKFHSDAKF ", mana_progress.value)
+		mana_progress.value += mana_progress.step
+		mana_progress.get_node("mana_value").text = str(mana_progress.value)
+	else:
+		$mana_fill_timer.stop()
+	
 
 func weapon_achievement_anim(weapons_tile_name, coll, cell):
 		clear_tile(coll, cell)
@@ -217,7 +229,9 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 		var weapon = load("res://Scenes/Weapon.tscn").instance()
 		
 		if mana_progress.value != mana_progress.max_value:
-					$mana_fill_timer.start()
+			$mana_fill_timer.start()
+		else:
+			$mana_fill_timer.stop()
 
 		if Globals.player_weapon == "axe":
 			Globals.current_scene.get_node("Player").add_child(weapon)
@@ -304,6 +318,4 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			else:
 				print("OOM")
 
-func _on_mana_fill_timer_timeout():
-	mana_progress.value += 10
-	mana_progress.get_node("mana_value").text = str(mana_progress.value)
+

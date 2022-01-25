@@ -47,8 +47,6 @@ func enemy_movement():
 				move_vec = Vector2.LEFT
 
 func enemy_attack_move():
-#	set_physics_process(false)
-#	print(body)	
 	var dir = self.position.direction_to(Globals.player.position)
 	var attack_coll = move_and_collide(Vector2.move_toward(dir, move_speed))
 	anim_enemy.play("walk_side")

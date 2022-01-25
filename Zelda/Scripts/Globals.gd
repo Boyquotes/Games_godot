@@ -9,7 +9,8 @@ var player_hp = 300
 var player_xp = 0
 var player_lvl = 0
 var player_pwr = 50
-var mana = 100
+var max_mana = 100
+var current_mana
 var dex = 0
 var intel = 0
 var stren = 0
@@ -52,6 +53,7 @@ func goto_scene(path, spawn):
 func _deferred_goto_scene(path, spawn):
 	
 	prev_scene = spawn
+#	current_mana = GUI.get_node("mana_progress").get_node("mana_value")
 	current_scene.free()
 	
 	current_scene = ResourceLoader.load(path).instance()
@@ -60,6 +62,7 @@ func _deferred_goto_scene(path, spawn):
 		player = ResourceLoader.load("res://Scenes/Player.tscn").instance()
 		inventory = ResourceLoader.load("res://Scenes/Inventory.tscn").instance()
 		GUI = ResourceLoader.load("res://Scenes/GUI.tscn").instance()
+		GUI.get_node("mana_progress").max_value = max_mana
 		Items = ResourceLoader.load("res://Scenes/Items.tscn").instance()
 		
 		current_scene.add_child(player)
@@ -79,20 +82,24 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("hp_num").text = str(player_hp)
 			GUI.get_node("lvl_progress").value = player_xp
 			GUI.get_node("lvl").text = str(player_lvl)
-			GUI.get_node("mana_progress").value = mana
-			GUI.get_node("mana_progress").get_node("mana_value").text = str(mana)			
-			
+			GUI.get_node("mana_progress").max_value = max_mana
+			GUI.get_node("mana_progress").value = int(current_mana)
+			GUI.get_node("mana_progress").get_node("mana_value").text = current_mana
 			Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("dex").get_node("dex"), current_armor_id)
 			Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("intel"), current_armor_id)
 			Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("stren"), current_armor_id)
 			GUI.get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
 			GUI.get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
 			GUI.get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
+			player_pwr += stren
+			player.move_speed += (0.2*dex)
+			
 		else:
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
 			player_pwr = 50
-			GUI.get_node("mana_progress").get_node("mana_value").text = str(100)
+			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
+			current_mana = max_mana
 			player_weapon = "wand"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
