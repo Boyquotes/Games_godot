@@ -134,10 +134,11 @@ __meta__ = {
 }
 
 [node name="stat_screen" type="HBoxContainer" parent="."]
-margin_left = 19.2787
-margin_top = 542.104
-margin_right = 171.279
-margin_bottom = 574.104
+visible = false
+margin_left = 428.0
+margin_top = 55.568
+margin_right = 580.0
+margin_bottom = 87.568
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_group_": true,

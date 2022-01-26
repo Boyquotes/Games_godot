@@ -29,7 +29,7 @@ var enemies
 var enemy_pos
 var enemy_dir
 var enemy_id
-var enemy_num = 50
+var enemy_num = 5
 var enemy_tracker = null
 var enemy_removed = false
 var enemy_hp
@@ -160,10 +160,11 @@ func spawn_enemies(pos):
 		if distance_to_player < 150:
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 		
-		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
-			enemy.queue_free()
-			spawn_enemies(pos)
-			return
+#		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
+#			print(tilemap.get_cellv(tilemap.world_to_map(enemy.position)))
+#			enemy.queue_free()
+#			spawn_enemies(pos)
+#			return
 		
 		enemy_pos.remove(pos)
 		enemy_dir.remove(pos)

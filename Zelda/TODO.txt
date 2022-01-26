@@ -2,10 +2,9 @@ CURRENT PROBLEM:
 - need to load and insert into inv all inv items into right position when changing scene level
 
 NEXT STEPS:
-	-inventory item implementation
+	- inventory item implementation
 	- tooltip in inventory
-	-rnd level generator (make new levels)
-
+	- rnd level generator (make new levels)
 
 - weapon shop persistance ==done==
 - axe attack ==done==
