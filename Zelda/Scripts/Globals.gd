@@ -58,6 +58,7 @@ func _deferred_goto_scene(path, spawn):
 	
 	current_scene = ResourceLoader.load(path).instance()
 	get_tree().get_root().add_child(current_scene)
+	print(current_scene.name)
 	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
 		player = ResourceLoader.load("res://Scenes/Player.tscn").instance()
 		inventory = ResourceLoader.load("res://Scenes/Inventory.tscn").instance()
@@ -71,6 +72,7 @@ func _deferred_goto_scene(path, spawn):
 		player.add_child(inventory)
 		
 		inventory.get_child(0).rect_position = player.position
+		
 		
 		if prev_scene != "start_screen" and prev_scene != "game_over_screen" and prev_scene != "game_won_screen" and path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
 #		if prev_scene == "shop":
@@ -100,7 +102,7 @@ func _deferred_goto_scene(path, spawn):
 			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
-			player_weapon = "wand"
+			player_weapon = "bow"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
 			Globals.item_id += 1
@@ -112,7 +114,22 @@ func _deferred_goto_scene(path, spawn):
 		
 		if current_scene.name == "Starting_World":
 			for i in enemy_pos.size():
-				spawn_enemies(i)
+				spawn_enemies(i, "Enemy_goober")
+				
+		if current_scene.name == "Jungle_World":
+			print("spawnEnemy")
+			for i in enemy_pos.size():
+				spawn_enemies(i, "enemy_jungle")
+				
+		if current_scene.name == "Snow_World":
+			print("spawnEnemy")
+			for i in enemy_pos.size():
+				spawn_enemies(i, "enemy_snow_golem")
+		
+		if current_scene.name == "Desert_World":
+			print("spawnEnemy")
+			for i in enemy_pos.size():
+				spawn_enemies(i, "enemy_snake")
 			
 		enemy_tracker = enemy_pos.size()
 		GUI.get_node("number").text = str(enemy_tracker)
@@ -133,6 +150,14 @@ func _deferred_goto_scene(path, spawn):
 #		Weapons in inventory are still shown in Shop bc only player wep is removed when entering the shop	
 	print_stray_nodes()
 
+func random_scene():
+	var scenes = ["Jungle_World"]
+	var rand = RandomNumberGenerator.new()
+	
+	rand.randomize()
+	
+	return scenes[rand.randf_range(0, scenes.size())]	
+
 func num_of_enemies(n):
 	enemy_pos = range(0, n)
 	enemy_dir = range(0, n)
@@ -140,13 +165,15 @@ func num_of_enemies(n):
 	enemy_hp = range(0, n)
 	enemies = range(0, n)
 	
-func spawn_enemies(pos):
+func spawn_enemies(pos, type):
 	var rand = RandomNumberGenerator.new()
 	var tilemap = current_scene.get_node("Level_TileMap")
 
 	if current_scene.name == "Starting_World" and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen":
 		var spawn_area = current_scene.get_node("spawn_area").rect_size
+#		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 
 		var enemy = ResourceLoader.load("res://Scenes/Enemy_goober.tscn").instance() 
+
 		current_scene.add_child(enemy) 
 
 		rand.randomize()
@@ -177,6 +204,7 @@ func spawn_enemies(pos):
 		enemy_hp.push_front(150)
 		enemies.push_front(enemy)
 
+# coming back from shop
 	elif current_scene.name == "Starting_World":
 		var enemy = ResourceLoader.load("res://Scenes/Enemy_goober.tscn").instance() 
 		current_scene.add_child(enemy)
@@ -243,6 +271,8 @@ func drop_item(pos, ilvl):
 	drop.get_node("stats_tt").get_node("stats").get_node("str").get_node("value").text = str(stats[1])
 	drop.get_node("stats_tt").get_node("stats").get_node("int").get_node("value").text = str(stats[0])
 	
+#	print(drop.get_node("stats_tt"))
+	
 #	var id = drop.id
 	var icon = item.icon
 	
@@ -259,5 +289,7 @@ func drop_item(pos, ilvl):
 	
 	dropped_items.push_front(item)
 	item_id += 1
+	
+	
 
 
