@@ -46,19 +46,16 @@ func _process(delta):
 	if Input.is_action_just_pressed("exit"):
 		get_tree().quit()
 	
-func goto_scene(path, spawn):
-
+func goto_scene(path, spawn):	
+	
 	call_deferred("_deferred_goto_scene", path, spawn)
 
 func _deferred_goto_scene(path, spawn):
-	
 	prev_scene = spawn
-#	current_mana = GUI.get_node("mana_progress").get_node("mana_value")
 	current_scene.free()
 	
 	current_scene = ResourceLoader.load(path).instance()
 	get_tree().get_root().add_child(current_scene)
-	print(current_scene.name)
 	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
 		player = ResourceLoader.load("res://Scenes/Player.tscn").instance()
 		inventory = ResourceLoader.load("res://Scenes/Inventory.tscn").instance()
@@ -72,7 +69,6 @@ func _deferred_goto_scene(path, spawn):
 		player.add_child(inventory)
 		
 		inventory.get_child(0).rect_position = player.position
-		
 		
 		if prev_scene != "start_screen" and prev_scene != "game_over_screen" and prev_scene != "game_won_screen" and path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
 #		if prev_scene == "shop":
@@ -95,7 +91,6 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
 			player_pwr += stren
 			player.move_speed += (0.2*dex)
-			
 		else:
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
@@ -114,22 +109,19 @@ func _deferred_goto_scene(path, spawn):
 		
 		if current_scene.name == "Starting_World":
 			for i in enemy_pos.size():
-				spawn_enemies(i, "Enemy_goober")
+				spawn_enemies(i, "Enemy_Starter")
 				
 		if current_scene.name == "Jungle_World":
-			print("spawnEnemy")
 			for i in enemy_pos.size():
-				spawn_enemies(i, "enemy_jungle")
+				spawn_enemies(i, "Enemy_Jungle")
 				
 		if current_scene.name == "Snow_World":
-			print("spawnEnemy")
 			for i in enemy_pos.size():
-				spawn_enemies(i, "enemy_snow_golem")
+				spawn_enemies(i, "Enemy_Snow")
 		
 		if current_scene.name == "Desert_World":
-			print("spawnEnemy")
 			for i in enemy_pos.size():
-				spawn_enemies(i, "enemy_snake")
+				spawn_enemies(i, "Enemy_Desert")
 			
 		enemy_tracker = enemy_pos.size()
 		GUI.get_node("number").text = str(enemy_tracker)
@@ -151,7 +143,7 @@ func _deferred_goto_scene(path, spawn):
 	print_stray_nodes()
 
 func random_scene():
-	var scenes = ["Jungle_World"]
+	var scenes = ["Jungle_World", "Snow_World", "Desert_World"]
 	var rand = RandomNumberGenerator.new()
 	
 	rand.randomize()
@@ -169,10 +161,14 @@ func spawn_enemies(pos, type):
 	var rand = RandomNumberGenerator.new()
 	var tilemap = current_scene.get_node("Level_TileMap")
 
-	if current_scene.name == "Starting_World" and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen":
+	if "World" in current_scene.name and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or "World" in prev_scene:
 		var spawn_area = current_scene.get_node("spawn_area").rect_size
-#		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 
-		var enemy = ResourceLoader.load("res://Scenes/Enemy_goober.tscn").instance() 
+		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 
+#		var enemy = ResourceLoader.load("res://Scenes/Enemy_goober.tscn").instance() 
+
+		print("enemyType ", enemy.name)
+#		print("enemyType ", enemy.get_node("Body"))
+		
 
 		current_scene.add_child(enemy) 
 
@@ -206,7 +202,7 @@ func spawn_enemies(pos, type):
 
 # coming back from shop
 	elif current_scene.name == "Starting_World":
-		var enemy = ResourceLoader.load("res://Scenes/Enemy_goober.tscn").instance() 
+		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 
 		current_scene.add_child(enemy)
 		enemy.position = enemy_pos[pos]
 		enemy.move_vec = enemy_dir[pos]

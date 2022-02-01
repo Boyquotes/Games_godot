@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/enemy_snow_golem.png-9a07158bebaea256ca055aa30c2ea8f8.stex"
+path="res://.import/enemy_jungle_anim.png-c0797439a4e36c664f4f4f72da8cc639.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/enemy_snow_golem.png"
-dest_files=[ "res://.import/enemy_snow_golem.png-9a07158bebaea256ca055aa30c2ea8f8.stex" ]
+source_file="res://Assets/enemy_jungle_anim.png"
+dest_files=[ "res://.import/enemy_jungle_anim.png-c0797439a4e36c664f4f4f72da8cc639.stex" ]
 
 [params]
 
