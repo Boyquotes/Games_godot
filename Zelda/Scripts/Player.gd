@@ -44,6 +44,12 @@ func _physics_process(delta):
 		else:
 			Globals.inventory.visible = false
 			
+	if Input.is_action_just_pressed("stats"):
+		if !Globals.GUI.get_node("stat_screen").visible:
+			Globals.GUI.get_node("stat_screen").visible = true
+		else:
+			Globals.GUI.get_node("stat_screen").visible = false
+			
 func player_movement():
 	var move_vec = Vector2()
 	if Input.is_action_pressed("move_down"):

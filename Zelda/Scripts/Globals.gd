@@ -163,12 +163,7 @@ func spawn_enemies(pos, type):
 
 	if "World" in current_scene.name and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or "World" in prev_scene:
 		var spawn_area = current_scene.get_node("spawn_area").rect_size
-		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 
-#		var enemy = ResourceLoader.load("res://Scenes/Enemy_goober.tscn").instance() 
-
-		print("enemyType ", enemy.name)
-#		print("enemyType ", enemy.get_node("Body"))
-		
+		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 		
 
 		current_scene.add_child(enemy) 
 
@@ -267,9 +262,6 @@ func drop_item(pos, ilvl):
 	drop.get_node("stats_tt").get_node("stats").get_node("str").get_node("value").text = str(stats[1])
 	drop.get_node("stats_tt").get_node("stats").get_node("int").get_node("value").text = str(stats[0])
 	
-#	print(drop.get_node("stats_tt"))
-	
-#	var id = drop.id
 	var icon = item.icon
 	
 	item = {

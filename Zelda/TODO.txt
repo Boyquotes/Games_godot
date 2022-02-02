@@ -2,9 +2,16 @@ CURRENT PROBLEM:
 - need to load and insert into inv all inv items into right position when changing scene level
 
 NEXT STEPS:
-	- inventory item implementation
-	- tooltip in inventory
-	- rnd level generator (make new levels)
+	- enemies have a chance to either: drop armour, drop pwr-up (active time limited), drop muns (high chance), spawn shop (low chance). 
+	- different enemies (movement, attacks, status effects)
+	- different item drops (make drops random)
+	- different bosses per lvl
+	- resistances (different weapons do different dmg)
+	- after some amount of lvl -> spawn uberBoss -> end of game loop or start with next lvl (newGame++?)
+	- persistant save games
+
+	- inventory item implementation ==done==
+	- rnd level generator (make new levels) -> started
 
 - weapon shop persistance ==done==
 - axe attack ==done==
@@ -27,7 +34,7 @@ NEXT STEPS:
 	- harder (different) enemies (in different biomes, torchlight3)
 	- procedural lvl biomes that spawn randomly (+random boss with special items)
 	- Item system with (+random) item stats (+specific items dropping in specific biomes, ++items are shown on char)
-	- what to do with gold (counter shops?)
+	- what to do with gold (counter shops?) -> weapons can be bought with gold in shops that have a random chance to spawn
 	- Lore, story elements?
 	- Music
 	- Graphix
