@@ -20,6 +20,7 @@ var Items
 var item
 var item_id = 0
 var dropped_items = []
+var dropped = false
 var inventory_items = []
 var current_armor_id
 var stats
@@ -218,17 +219,32 @@ func spawn_weapon_shop():
 	
 func drop_weighting(num):
 	var rand = RandomNumberGenerator.new()
+	rand.randomize()
 	var sum = 0
-	var n = randf()
+	var n = rand.randf()
 	
 	for i in num:
 		sum += num[i]
 		if n <= sum: 
 			return i
+			
+func drop(pos):
+	var rand = RandomNumberGenerator.new()
+	rand.randomize()
+	var weighting = drop_weighting({0:0.85, 1:0.15})
+	
+	var freq = rand.randi_range(0,2)
+	
+	print(freq)
+
+	if freq == 1:
+		if weighting == 0:
+			drop_pwrup(pos)
+		else:
+			drop_item(pos, 10)
 	
 func drop_pwrup(pos):
-	
-	var drop_id = drop_weighting({0:0.05, 1:0.19, 2:0.19, 3:0.19, 4:0.19, 5:0.19})
+	var drop_id = drop_weighting({0:0.05, 1:0.15, 2:0.15, 3:0.15, 4:0.35, 5:0.15})
 	var drop_texture = Items.get_tileset().tile_get_texture(drop_id)
 	var drop_name = Items.get_tileset().tile_get_name(drop_id)
 	var drop = ResourceLoader.load("res://Scenes/drop.tscn").instance()
@@ -238,7 +254,7 @@ func drop_pwrup(pos):
 	drop.name = drop_name
 
 	drop.position = pos
-		
+
 func drop_item(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
@@ -277,6 +293,7 @@ func drop_item(pos, ilvl):
 	
 	dropped_items.push_front(item)
 	item_id += 1
+	
 	
 	
 

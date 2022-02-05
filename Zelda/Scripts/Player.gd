@@ -151,16 +151,22 @@ func player_collision():
 				Globals.goto_scene("res://Scenes/game_over_screen.tscn", "null")
 				
 		if "speed_up" in coll.collider.name:
+			$pwr_up_timer.wait_time = 15
+			$pwr_up_timer.start()
 			self.move_speed += 1
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
+#			_on_pwr_up_timer_timeout(self.move_speed, 1)
 			
 		if "muns" in coll.collider.name:
 			print(coll.collider.name)
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
 		if "all_attack" in coll.collider.name:
+			$pwr_up_timer.wait_time = 15
+			$pwr_up_timer.start()
 			Globals.all_attack = true
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
+#			_on_pwr_up_timer_timeout(Globals.all_attack, null)
 			
 		if "invis" in coll.collider.name:
 			player_invuln = true
@@ -175,8 +181,11 @@ func player_collision():
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
 		if "dmg_up" in coll.collider.name:
+			$pwr_up_timer.wait_time = 15
+			$pwr_up_timer.start()
 			Globals.player_pwr += 25
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
+#			_on_pwr_up_timer_timeout(Globals.player_pwr, 25)
 			
 		if "item" in coll.collider.name:
 			var pos = 0
@@ -188,6 +197,16 @@ func player_collision():
 					pos+=1
 
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
+#
+#func _on_pwr_up_timer_timeout(type, value):
+##	type -= value
+#
+#	if type == Globals.all_attack:
+#		type = false
+#		return
+#	else:
+#		type -= value	
+			
 
 func _on_invuln_timer_timeout():
 	self.visible = true
@@ -195,8 +214,6 @@ func _on_invuln_timer_timeout():
 	
 func _on_mana_fill_timer_timeout():
 	if mana_progress.value != mana_progress.max_value: 
-#		print("manaProgTHREE ", Globals.GUI.get_node("mana_progress").get_node("mana_value").text)
-#		print("ASDKFHSDAKF ", mana_progress.value)
 		mana_progress.value += mana_progress.step
 		mana_progress.get_node("mana_value").text = str(mana_progress.value)
 	else:
@@ -323,5 +340,8 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				Globals.mana = mana_progress.value
 			else:
 				print("OOM")
+
+
+
 
 
