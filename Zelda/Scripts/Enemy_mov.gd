@@ -3,7 +3,6 @@ extends KinematicBody2D
 var move_speed
 var anim_enemy
 var move_vec
-#var coll
 
 func _ready():
 	anim_enemy = $AnimationPlayer
@@ -14,7 +13,6 @@ func _physics_process(delta):
 		enemy_attack_move()
 	else:
 		enemy_movement()
-	
 
 func enemy_movement():
 	move_speed = 1
@@ -47,8 +45,13 @@ func enemy_movement():
 func enemy_attack_move():
 	var dir = self.position.direction_to(Globals.player.position)
 	var attack_coll = move_and_collide(Vector2.move_toward(dir, move_speed))
-	anim_enemy.play("walk_side")
+	
+	anim_enemy.play("attack")
 	move_speed = 3
+	if dir.x > 0:
+		$Body.set_flip_h(true)
+	else:
+		$Body.set_flip_h(false)
 
 #			print("attack")
 	

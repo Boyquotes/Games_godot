@@ -12,6 +12,8 @@ var attacking = false
 var weapon_dir
 var hp
 var mana_progress
+var speed_up = false
+var dmg_up = false
 
 var weapon = preload("res://Scenes/Weapon.tscn")
 
@@ -139,6 +141,7 @@ func player_collision():
 #			BUG: only triggers once. Maybe leave it this way bc it could be intentional this way (triggering the camera transition is a bit tedious) also enemies getting stuck in coll
 			
 		if "Enemy" in coll.collider.name and player_invuln == false:
+			print("enemy collision")
 			hp -= 25
 			Globals.GUI.get_node("hp_num").text = str(hp)
 			Globals.player_hp = hp
@@ -154,8 +157,8 @@ func player_collision():
 			$pwr_up_timer.wait_time = 15
 			$pwr_up_timer.start()
 			self.move_speed += 1
+			speed_up = true
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
-#			_on_pwr_up_timer_timeout(self.move_speed, 1)
 			
 		if "muns" in coll.collider.name:
 			print(coll.collider.name)
@@ -166,7 +169,6 @@ func player_collision():
 			$pwr_up_timer.start()
 			Globals.all_attack = true
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
-#			_on_pwr_up_timer_timeout(Globals.all_attack, null)
 			
 		if "invis" in coll.collider.name:
 			player_invuln = true
@@ -185,7 +187,6 @@ func player_collision():
 			$pwr_up_timer.start()
 			Globals.player_pwr += 25
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
-#			_on_pwr_up_timer_timeout(Globals.player_pwr, 25)
 			
 		if "item" in coll.collider.name:
 			var pos = 0
@@ -198,15 +199,15 @@ func player_collision():
 
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 #
-#func _on_pwr_up_timer_timeout(type, value):
-##	type -= value
-#
-#	if type == Globals.all_attack:
-#		type = false
-#		return
-#	else:
-#		type -= value	
-			
+func _on_pwr_up_timer_timeout():
+	if Globals.all_attack:
+		Globals.all_attack = false
+	elif speed_up:
+		self.move_speed -= 1
+		speed_up = false
+	elif dmg_up:
+		Globals.player_pwr -= 25
+		dmg_up = false
 
 func _on_invuln_timer_timeout():
 	self.visible = true
@@ -218,7 +219,6 @@ func _on_mana_fill_timer_timeout():
 		mana_progress.get_node("mana_value").text = str(mana_progress.value)
 	else:
 		$mana_fill_timer.stop()
-	
 
 func weapon_achievement_anim(weapons_tile_name, coll, cell):
 		clear_tile(coll, cell)

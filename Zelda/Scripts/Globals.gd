@@ -234,8 +234,6 @@ func drop(pos):
 	var weighting = drop_weighting({0:0.85, 1:0.15})
 	
 	var freq = rand.randi_range(0,2)
-	
-	print(freq)
 
 	if freq == 1:
 		if weighting == 0:
