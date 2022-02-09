@@ -3,7 +3,7 @@ CURRENT PROBLEM:
 
 NEXT STEPS:
 	- enemies have a chance to either: drop armour, drop pwr-up (active time limited), drop muns (high chance), spawn shop (low chance). 
-	- different enemies (movement, attacks, status effects)
+	- different enemies (movement, attacks, status effects) -> snake projectiles prob: - added to current.scene not possible bc position of enemy is not accessible // projectile flys towards player
 	- different item drops (make drops random)
 	- different bosses per lvl
 	- resistances (different weapons do different dmg)

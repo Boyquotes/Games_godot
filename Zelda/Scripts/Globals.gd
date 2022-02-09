@@ -144,7 +144,7 @@ func _deferred_goto_scene(path, spawn):
 	print_stray_nodes()
 
 func random_scene():
-	var scenes = ["Jungle_World", "Snow_World", "Desert_World"]
+	var scenes = ["Desert_World"]
 	var rand = RandomNumberGenerator.new()
 	
 	rand.randomize()
@@ -178,6 +178,13 @@ func spawn_enemies(pos, type):
 
 		if distance_to_player < 150:
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
+		
+		if type == "Enemy_Desert":
+			var proj = load("res://Scenes/snake_proj.tscn").instance()
+			enemy.add_child(proj)
+#			current_scene.add_child(proj)
+#			proj.position = enemy.position
+			
 		
 #		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
 #			print(tilemap.get_cellv(tilemap.world_to_map(enemy.position)))
