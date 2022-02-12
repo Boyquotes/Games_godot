@@ -15,11 +15,11 @@ texture = ExtResource( 1 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="Weapon_Timeout" type="Timer" parent="."]
+[node name="fire" type="Timer" parent="."]
 
 [node name="reload_timer" type="Timer" parent="."]
 wait_time = 0.001
 
 [connection signal="body_entered" from="." to="." method="_on_poison_proj_body_entered"]
-[connection signal="timeout" from="Weapon_Timeout" to="." method="_on_Weapon_Timeout_timeout"]
+[connection signal="timeout" from="fire" to="." method="_on_fire_timeout"]
 [connection signal="timeout" from="reload_timer" to="." method="_on_reload_timer_timeout"]

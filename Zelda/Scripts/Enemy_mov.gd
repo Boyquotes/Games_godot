@@ -32,7 +32,7 @@ func enemy_movement():
 	var coll = move_and_collide(move_vec * move_speed)
 
 	if coll:
-		if "Enemy" in coll.collider.name or coll.collider.name == "Level_TileMap" or coll.collider.name == "Shop_Entrance_Entry":
+		if "Enemy" in coll.collider.name or coll.collider.name == "Level_TileMap" or coll.collider.name == "Shop_Entrance_Entry" or coll.collider.name == "Objects_TileMap":
 			if move_vec == Vector2.DOWN:
 				move_vec = Vector2.UP
 			elif move_vec == Vector2.UP:

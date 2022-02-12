@@ -20,5 +20,6 @@ polygon = PoolVector2Array( 16.4386, -19.2035, 22.2765, -7.05442, 33.3211, 4.936
 [node name="ufo_sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
 volume_db = -20.0
+
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="timeout" from="Shot_Timer" to="." method="_on_Shot_Timer_timeout"]
