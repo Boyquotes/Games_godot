@@ -106,3 +106,7 @@ texture_progress = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="attack_timeout" type="Timer" parent="."]
+
+[connection signal="timeout" from="attack_timeout" to="." method="_on_attack_timeout_timeout"]

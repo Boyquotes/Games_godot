@@ -179,9 +179,9 @@ func spawn_enemies(pos, type):
 		if distance_to_player < 150:
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 		
-		if type == "Enemy_Desert":
-			var proj = load("res://Scenes/snake_proj.tscn").instance()
-			enemy.add_child(proj)
+#		if type == "Enemy_Desert":
+#			var proj = load("res://Scenes/snake_proj.tscn").instance()
+#			enemy.add_child(proj)
 #			current_scene.add_child(proj)
 #			proj.position = enemy.position
 			

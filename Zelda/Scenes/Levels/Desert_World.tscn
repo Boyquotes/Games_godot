@@ -142,6 +142,7 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 [sub_resource type="Animation" id=6]
 
 [node name="Desert_World" type="Node2D"]
+position = Vector2( 0, -2 )
 
 [node name="Player_Spawn" type="Position2D" parent="."]
 position = Vector2( 512, 300 )
