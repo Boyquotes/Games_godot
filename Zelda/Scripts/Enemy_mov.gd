@@ -4,6 +4,7 @@ var move_speed
 var anim_enemy
 var move_vec
 var proj_life_time
+var snow_attack = false
 
 func _ready():
 	anim_enemy = $AnimationPlayer
@@ -15,7 +16,7 @@ func _ready():
 
 func _physics_process(delta):
 
-	if Globals.all_attack:
+	if Globals.all_attack or snow_attack:
 		enemy_attack_move()
 	else:
 		enemy_movement()
@@ -68,6 +69,10 @@ func fire_poison_proj():
 func _on_attack_timeout_timeout():
 	fire_poison_proj()
 	
+func _on_detection_layer_body_shape_entered(body_id, body, body_shape, local_shape):
+	if body.name == "Player":
+		$AnimationPlayer.play("attack")
+		snow_attack = true
 	
 #	if coll:
 #		print(coll.collider.name)
@@ -78,5 +83,7 @@ func _on_attack_timeout_timeout():
 #	var pos = follow_path.get_global_position()
 #	move_dir = (pos.angle_to_point(prev_pos) / 3.14) * 180
 #	anim_enemy.play("enemy_goober_walk")
+
+
 
 

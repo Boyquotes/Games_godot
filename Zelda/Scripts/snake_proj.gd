@@ -5,7 +5,6 @@ var velocity
 var proj
 
 func _ready():
-
 	var dir_to_player = (Globals.player.global_position - $proj_pos.position).normalized()
 	var angle = atan2(dir_to_player.y, dir_to_player.x)
 	self.rotation_degrees = (angle*(180/PI)+180)
@@ -22,3 +21,5 @@ func _on_poison_proj_body_entered(body):
 		Globals.GUI.get_node("hp_num").text = str(body.hp)
 		Globals.player_hp = body.hp
 		self.queue_free()
+
+

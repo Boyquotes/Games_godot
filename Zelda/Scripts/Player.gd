@@ -141,7 +141,6 @@ func player_collision():
 #			BUG: only triggers once. Maybe leave it this way bc it could be intentional this way (triggering the camera transition is a bit tedious) also enemies getting stuck in coll
 			
 		if "Enemy" in coll.collider.name and player_invuln == false:
-			print("enemy collision")
 			hp -= 25
 			Globals.GUI.get_node("hp_num").text = str(hp)
 			Globals.player_hp = hp
@@ -222,7 +221,7 @@ func _on_mana_fill_timer_timeout():
 
 func weapon_achievement_anim(weapons_tile_name, coll, cell):
 		clear_tile(coll, cell)
-		
+
 		var weapon_sprite = load("res://Scenes/weapons/" + weapons_tile_name + ".tscn").instance()
 		add_child(weapon_sprite)
 		weapon_sprite.position.y -= 32
@@ -233,7 +232,7 @@ func weapon_achievement_anim(weapons_tile_name, coll, cell):
 		get_tree().paused = false
 
 		weapon_sprite.queue_free()
-		
+
 		Globals.current_scene.get_node("Weapons_TileMap").queue_free()
 
 func get_tile_name(coll, tilemap):

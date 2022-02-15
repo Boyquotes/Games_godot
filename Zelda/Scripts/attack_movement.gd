@@ -8,7 +8,8 @@ func _ready():
 
 func _physics_process(delta):
 	
-	attack_movement(self)	
+	if Globals.current_scene.name == "Starting_World":
+		attack_movement(self)
 	
 func attack_movement(body):
 	anim_enemy = $AnimationPlayer

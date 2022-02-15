@@ -1,9 +1,9 @@
 CURRENT PROBLEM:
-- need to load and insert into inv all inv items into right position when changing scene level
+
 
 NEXT STEPS:
 	- enemies have a chance to either: drop armour, drop pwr-up (active time limited), drop muns (high chance), spawn shop (low chance). 
-	- different enemies (movement, attacks, status effects) -> snake projectiles prob: - added to current.scene not possible bc position of enemy is not accessible // projectile flys towards player
+	- different enemies (movement, attacks, status effects)
 	- different item drops (make drops random)
 	- different bosses per lvl
 	- resistances (different weapons do different dmg)
@@ -31,7 +31,7 @@ NEXT STEPS:
 	- after boss defeated -> score (what score?) screen -> end of game loop
 - game loop v2
 	- spellz (mana, +status effects on enemies)
-	- harder (different) enemies (in different biomes, torchlight3)
+	- harder (different) enemies (in different biomes, torchlight3), preview of next level on screen
 	- procedural lvl biomes that spawn randomly (+random boss with special items)
 	- Item system with (+random) item stats (+specific items dropping in specific biomes, ++items are shown on char)
 	- what to do with gold (counter shops?) -> weapons can be bought with gold in shops that have a random chance to spawn
@@ -51,6 +51,7 @@ Bugs:
 - enemies can spawn out of bounds ==fixed==
 - enemies do not collide with store entrance and dropped items
 - mana is fucked
+- pwr -> str (two systems)
 
 Bugs Asteroid:
 point threshhold for scoreboard/lvl up not resetting 

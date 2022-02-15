@@ -1,7 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Assets/enemy_snow_golem_anim.png" type="Texture" id=1]
+[ext_resource path="res://Assets/enemy_snow_golem_attack.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/Enemy_mov.gd" type="Script" id=3]
+[ext_resource path="res://Assets/enemy_snow_golem_attack_one.png" type="Texture" id=4]
+[ext_resource path="res://Assets/enemy_snow_golem_attack_two.png" type="Texture" id=5]
 [ext_resource path="res://Assets/enemy_hp_back.png" type="Texture" id=10]
 [ext_resource path="res://Assets/enemy_hp_prog.png" type="Texture" id=11]
 [ext_resource path="res://Assets/enemy_snow_golem.png" type="Texture" id=12]
@@ -9,6 +12,22 @@
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 15.311
 height = 3.5816
+
+[sub_resource type="Animation" id=7]
+resource_name = "attack"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 5 ) ]
+}
 
 [sub_resource type="Animation" id=2]
 resource_name = "enemy_goober_walk"
@@ -75,17 +94,21 @@ tracks/0/keys = {
 "values": [ ExtResource( 12 ), ExtResource( 1 ) ]
 }
 
+[sub_resource type="CircleShape2D" id=6]
+radius = 141.813
+
 [node name="Enemy_Snow" type="KinematicBody2D"]
 input_pickable = true
 script = ExtResource( 3 )
 
 [node name="Body" type="Sprite" parent="."]
-texture = ExtResource( 12 )
+texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/attack = SubResource( 7 )
 anims/enemy_goober_walk = SubResource( 2 )
 anims/walk_down = SubResource( 3 )
 anims/walk_side = SubResource( 4 )
@@ -106,3 +129,10 @@ texture_progress = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="detection_layer" type="Area2D" parent="."]
+
+[node name="detect_player" type="CollisionShape2D" parent="detection_layer"]
+shape = SubResource( 6 )
+
+[connection signal="body_shape_entered" from="detection_layer" to="." method="_on_detection_layer_body_shape_entered"]
