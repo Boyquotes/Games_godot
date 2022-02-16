@@ -73,17 +73,35 @@ func _on_detection_layer_body_shape_entered(body_id, body, body_shape, local_sha
 	if body.name == "Player":
 		$AnimationPlayer.play("attack")
 		snow_attack = true
+		
+func fire_thorn_proj(dir):
+	var proj = load("res://Scenes/thorn_proj.tscn").instance()
+	self.add_child(proj)
+	proj.rotation_degrees = dir
+	proj.velocity = Vector2(-0.5, 0.3)
 	
-#	if coll:
-#		print(coll.collider.name)
-	
-#	======alternative movement solution==========
-#	#	var prev_pos = follow_path.get_global_position()
-#	follow_path.set_offset(follow_path.get_offset() + move_speed * delta)
-#	var pos = follow_path.get_global_position()
-#	move_dir = (pos.angle_to_point(prev_pos) / 3.14) * 180
-#	anim_enemy.play("enemy_goober_walk")
+	if dir == 0:
+		proj.velocity = Vector2(-0.5, -0.3)
+	elif dir == 90:
+		proj.velocity = Vector2(0.5, -0.3)
+	elif dir == 180:
+		proj.velocity = Vector2(0.5, 0.3)
+	elif dir == 270:
+		proj.velocity = Vector2(-0.5, 0.3)
 
+func _on_detection_layer_thorn_body_entered(body):
+	if body.name == "Player":
+		$jungle_attack_timeout.set_wait_time(1)
+		$jungle_attack_timeout.start()
 
+func _on_detection_layer_thorn_body_exited(body):
+	if body.name == "Player":
+		$jungle_attack_timeout.stop()
+
+func _on_jungle_attack_timeout_timeout():
+	var dir = 0
+	for i in 4:
+		fire_thorn_proj(dir)
+		dir += 90
 
 

@@ -5,10 +5,11 @@ var velocity
 var proj
 
 func _ready():
-	var dir_to_player = (Globals.player.global_position - $proj_pos.position).normalized()
-	var angle = atan2(dir_to_player.y, dir_to_player.x)
-	self.rotation_degrees = (angle*(180/PI)+180)
-	velocity = dir_to_player
+	if "poison" in self.name:
+		var dir_to_player = (Globals.player.global_position - $proj_pos.position).normalized()
+		var angle = atan2(dir_to_player.y, dir_to_player.x)
+		self.rotation_degrees = (angle*(180/PI)+180)
+		velocity = dir_to_player
 
 func _physics_process(delta):
 	position += velocity * speed

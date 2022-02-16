@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/enemy_jungle_anim.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Enemy_mov.gd" type="Script" id=3]
@@ -75,6 +75,9 @@ tracks/0/keys = {
 "values": [ ExtResource( 12 ), ExtResource( 1 ) ]
 }
 
+[sub_resource type="CircleShape2D" id=6]
+radius = 196.115
+
 [node name="Enemy_Jungle" type="KinematicBody2D"]
 input_pickable = true
 script = ExtResource( 3 )
@@ -106,3 +109,14 @@ texture_progress = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="detection_layer_thorn" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detection_layer_thorn"]
+shape = SubResource( 6 )
+
+[node name="jungle_attack_timeout" type="Timer" parent="."]
+
+[connection signal="body_entered" from="detection_layer_thorn" to="." method="_on_detection_layer_thorn_body_entered"]
+[connection signal="body_exited" from="detection_layer_thorn" to="." method="_on_detection_layer_thorn_body_exited"]
+[connection signal="timeout" from="jungle_attack_timeout" to="." method="_on_jungle_attack_timeout_timeout"]
