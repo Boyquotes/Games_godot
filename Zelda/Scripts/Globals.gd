@@ -10,6 +10,7 @@ var player_xp = 0
 var player_lvl = 0
 var player_pwr = 50
 var max_mana = 100
+var poison_stacks = 0
 var current_mana
 var dex = 0
 var intel = 0
@@ -79,6 +80,7 @@ func _deferred_goto_scene(path, spawn):
 				
 			player_spawn_pos = current_scene.get_node("Player_Spawn").position
 			GUI.get_node("hp_num").text = str(player_hp)
+			GUI.get_node("hp_visual").value = player_hp
 			GUI.get_node("lvl_progress").value = player_xp
 			GUI.get_node("lvl").text = str(player_lvl)
 			GUI.get_node("mana_progress").max_value = max_mana
@@ -144,7 +146,7 @@ func _deferred_goto_scene(path, spawn):
 	print_stray_nodes()
 
 func random_scene():
-	var scenes = ["Jungle_World"]
+	var scenes = ["Desert_World"]
 	var rand = RandomNumberGenerator.new()
 	
 	rand.randomize()

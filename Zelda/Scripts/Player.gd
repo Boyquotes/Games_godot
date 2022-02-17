@@ -144,6 +144,7 @@ func player_collision():
 			hp -= 25
 			Globals.GUI.get_node("hp_num").text = str(hp)
 			Globals.player_hp = hp
+			Globals.GUI.get_node("hp_visual").value -= 25
 #			BUG: hp inc instead dec. could not reproduce why this happened
 			self.visible = false
 			player_invuln = true
@@ -340,7 +341,14 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			else:
 				print("OOM")
 
-
-
-
-
+func _on_poison_timer_timeout():
+	for i in self.get_children():
+		if "poison_dmg_timer" in i.name:
+			i.queue_free()
+	
+func _on_poison_dmg_timer_timeout(tick):
+	if $poison_timer.time_left != 0:
+		Globals.GUI.get_node("hp_num").text = str(self.hp)
+		Globals.GUI.get_node("hp_visual").value -= 1
+		Globals.player.hp -= 1
+	

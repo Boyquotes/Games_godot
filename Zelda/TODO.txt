@@ -1,5 +1,5 @@
 CURRENT PROBLEM:
-
+- attack fucks with enemy movement in desert_lvl
 
 NEXT STEPS:
 	- enemies have a chance to either: drop armour, drop pwr-up (active time limited), drop muns (high chance), spawn shop (low chance). 

@@ -18,4 +18,4 @@ shape = SubResource( 1 )
 
 [node name="proj_pos" type="Position2D" parent="."]
 
-[connection signal="body_entered" from="." to="." method="_on_poison_proj_body_entered"]
+[connection signal="body_entered" from="." to="." method="_on_thorn_proj_body_entered"]

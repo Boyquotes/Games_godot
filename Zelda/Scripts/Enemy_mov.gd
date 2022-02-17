@@ -8,7 +8,7 @@ var snow_attack = false
 
 func _ready():
 	anim_enemy = $AnimationPlayer
-	proj_life_time = 5
+	proj_life_time = 2
 	
 	if Globals.current_scene.name == "Desert_World":
 		$attack_timeout.set_wait_time(proj_life_time)
