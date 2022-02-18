@@ -9,6 +9,7 @@ var player_hp = 300
 var player_xp = 0
 var player_lvl = 0
 var player_pwr = 50
+var player_resistance = {"cold": 50, "fire": 50, "poison": 50, "physical": 50}
 var max_mana = 100
 var poison_stacks = 0
 var current_mana
@@ -146,7 +147,7 @@ func _deferred_goto_scene(path, spawn):
 	print_stray_nodes()
 
 func random_scene():
-	var scenes = ["Desert_World"]
+	var scenes = ["Snow_World", "Desert_World", "Jungle_World"]
 	var rand = RandomNumberGenerator.new()
 	
 	rand.randomize()

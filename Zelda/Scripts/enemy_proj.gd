@@ -26,7 +26,6 @@ func _on_poison_proj_body_entered(body):
 		poison_dmg_timer.connect("timeout", Globals.player, "_on_poison_dmg_timer_timeout", [ Globals.poison_stacks ])
 		Globals.player.add_child(poison_dmg_timer)
 		Globals.player.get_node(poison_dmg_timer.name).start()
-#		print("poisonDMG")
 
 		self.queue_free()
 
@@ -34,9 +33,12 @@ func _on_thorn_proj_body_entered(body):
 	if "Level_TileMap" in body.name:
 		self.queue_free()
 	elif "Player" in body.name:
-		body.hp -= 25
-		Globals.GUI.get_node("hp_num").text = str(body.hp)
-		Globals.player_hp = body.hp
-		Globals.GUI.get_node("hp_visual").value -= 25
+		Globals.player.get_node("bleed_timer").start()
+		var bleed_dmg_timer = Timer.new()
+		bleed_dmg_timer.name = "bleed_dmg_timer"
+		bleed_dmg_timer.connect("timeout", Globals.player, "_on_bleed_dmg_timer_timeout")
+		Globals.player.add_child(bleed_dmg_timer)
+		Globals.player.get_node(bleed_dmg_timer.name).start()
+		
 		self.queue_free()
 		

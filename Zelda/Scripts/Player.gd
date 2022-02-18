@@ -14,6 +14,7 @@ var hp
 var mana_progress
 var speed_up = false
 var dmg_up = false
+var is_moving = true
 
 var weapon = preload("res://Scenes/Weapon.tscn")
 
@@ -76,7 +77,10 @@ func player_movement():
 		anim_player.play("walking_side")
 		weapon_dir = "LEFT"
 	if move_vec == Vector2.ZERO:
+		is_moving = false
 		anim_player.play("Idle")
+	else:
+		is_moving = true
 	if Input.is_action_just_pressed("attack"):
 		if Globals.player_weapon == "axe":
 			if !attacking:
@@ -141,10 +145,9 @@ func player_collision():
 #			BUG: only triggers once. Maybe leave it this way bc it could be intentional this way (triggering the camera transition is a bit tedious) also enemies getting stuck in coll
 			
 		if "Enemy" in coll.collider.name and player_invuln == false:
-			hp -= 25
-			Globals.GUI.get_node("hp_num").text = str(hp)
-			Globals.player_hp = hp
-			Globals.GUI.get_node("hp_visual").value -= 25
+			loose_hp(25)
+			if "Snow" in coll.collider.name:
+				snow_attack()
 #			BUG: hp inc instead dec. could not reproduce why this happened
 			self.visible = false
 			player_invuln = true
@@ -198,6 +201,38 @@ func player_collision():
 					pos+=1
 
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			
+func snow_attack():
+	$freeze_timer.start()
+	move_speed -= 1
+	
+func _on_freeze_timer_timeout():
+	move_speed += 1
+
+func _on_poison_timer_timeout():
+	for i in self.get_children():
+		if "poison_dmg_timer" in i.name:
+			i.queue_free()
+	
+func _on_poison_dmg_timer_timeout(tick):
+	if $poison_timer.time_left != 0:
+		loose_hp(1)
+
+func _on_bleed_timer_timeout():
+	for i in self.get_children():
+		if "bleed_dmg_timer" in i.name:
+			i.queue_free()
+	
+func _on_bleed_dmg_timer_timeout():
+	if is_moving:
+		loose_hp(10)
+	else: 
+		loose_hp(1)
+			
+func loose_hp(value):
+	Globals.GUI.get_node("hp_visual").value -= value
+	Globals.player.hp -= value
+	Globals.GUI.get_node("hp_num").text = str(self.hp)
 #
 func _on_pwr_up_timer_timeout():
 	if Globals.all_attack:
@@ -212,7 +247,7 @@ func _on_pwr_up_timer_timeout():
 func _on_invuln_timer_timeout():
 	self.visible = true
 	player_invuln = false
-	
+
 func _on_mana_fill_timer_timeout():
 	if mana_progress.value != mana_progress.max_value: 
 		mana_progress.value += mana_progress.step
@@ -340,15 +375,3 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				Globals.mana = mana_progress.value
 			else:
 				print("OOM")
-
-func _on_poison_timer_timeout():
-	for i in self.get_children():
-		if "poison_dmg_timer" in i.name:
-			i.queue_free()
-	
-func _on_poison_dmg_timer_timeout(tick):
-	if $poison_timer.time_left != 0:
-		Globals.GUI.get_node("hp_num").text = str(self.hp)
-		Globals.GUI.get_node("hp_visual").value -= 1
-		Globals.player.hp -= 1
-	
