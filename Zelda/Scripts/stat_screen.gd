@@ -52,12 +52,10 @@ func attribute_effects(stat, effect, value):
 	elif stat == "intel":
 		if effect == "augment":
 			Globals.GUI.get_node("mana_progress").max_value += value
-#			Globals.GUI.get_node("mana_progress").get_node("mana_value").text = str(Globals.GUI.get_node("mana_progress").value)
 			Globals.max_mana += value
 			Globals.player.get_node("mana_fill_timer").start()
 		else:
 			Globals.GUI.get_node("mana_progress").max_value -= value
-#			Globals.GUI.get_node("mana_progress").get_node("mana_value").text = str(Globals.GUI.get_node("mana_progress").value)
 			Globals.max_mana -= value
 	elif stat == "dex":
 		if effect == "augment":

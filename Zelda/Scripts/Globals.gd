@@ -9,7 +9,7 @@ var player_hp = 300
 var player_xp = 0
 var player_lvl = 0
 var player_pwr = 50
-var player_resistance = {"cold": 50, "fire": 50, "poison": 50, "physical": 50}
+var player_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
 var max_mana = 100
 var poison_stacks = 0
 var current_mana
@@ -71,6 +71,12 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.add_child(Items)
 		player.add_child(inventory)
 		
+		GUI.get_node("res").get_node("f").text = "f: " + str(player_resistance["fire"])
+		GUI.get_node("res").get_node("c").text = "c: " + str(player_resistance["cold"])
+		GUI.get_node("res").get_node("l").text = "l: " + str(player_resistance["lightning"])
+		GUI.get_node("res").get_node("ph").text = "ph: " + str(player_resistance["physical"])
+		GUI.get_node("res").get_node("po").text = "po: " + str(player_resistance["poison"])
+		
 		inventory.get_child(0).rect_position = player.position
 		
 		if prev_scene != "start_screen" and prev_scene != "game_over_screen" and prev_scene != "game_won_screen" and path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
@@ -93,6 +99,12 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
 			GUI.get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
 			GUI.get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
+			GUI.get_node("res").get_node("f").text = "f: " + str(player_resistance["fire"])
+			GUI.get_node("res").get_node("c").text = "c: " + str(player_resistance["cold"])
+			GUI.get_node("res").get_node("l").text = "l: " + str(player_resistance["lightning"])
+			GUI.get_node("res").get_node("ph").text = "ph: " + str(player_resistance["physical"])
+			GUI.get_node("res").get_node("po").text = "po: " + str(player_resistance["poison"])
+			
 			player_pwr += stren
 			player.move_speed += (0.2*dex)
 		else:
@@ -239,7 +251,7 @@ func drop(pos):
 	var freq = rand.randi_range(0,2)
 
 	if freq == 1:
-		if weighting == 0:
+		if weighting == 1:
 			drop_pwrup(pos)
 		else:
 			drop_item(pos, 10)
@@ -263,6 +275,10 @@ func drop_item(pos, ilvl):
 	item = ItemDB.ARMOR[str(rand.randi_range(1, ItemDB.ARMOR.size()))]
 
 	var stats = [(item["int"] + rand.randi_range(0, ilvl)), (item["str"] + rand.randi_range(0, ilvl)), (item["dex"] + rand.randi_range(0, ilvl))]
+	rand.randomize()
+	
+	var res = [(rand.randi_range(0, ilvl)), (rand.randi_range(0, ilvl)), (rand.randi_range(0, ilvl)),
+	(rand.randi_range(0, ilvl)), (rand.randi_range(0, ilvl))]
 
 	var drop = ResourceLoader.load("res://Scenes/drop.tscn").instance()
 	current_scene.call_deferred("add_child", drop)
@@ -272,12 +288,18 @@ func drop_item(pos, ilvl):
 	drop.position = pos
 	drop.name = "item"
 	
-	drop.get_node("id").text = str(item_id)
+	drop.get_node("id").text = str(item_id)	
 		
 	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
-	drop.get_node("stats_tt").get_node("stats").get_node("dex").get_node("value").text = str(stats[2])
-	drop.get_node("stats_tt").get_node("stats").get_node("str").get_node("value").text = str(stats[1])
-	drop.get_node("stats_tt").get_node("stats").get_node("int").get_node("value").text = str(stats[0])
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("dex").get_node("value").text = str(stats[2])
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("str").get_node("value").text = str(stats[1])
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("int").get_node("value").text = str(stats[0])
+	
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("f").text = "f: " + str(res[0])
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("c").text = "c: " + str(res[1])
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("l").text = "l: " + str(res[2])
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("ph").text = "ph: " + str(res[3])
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("po").text = "po:" + str(res[4])
 	
 	var icon = item.icon
 	

@@ -226,6 +226,46 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="res" type="VBoxContainer" parent="."]
+visible = false
+margin_left = 428.0
+margin_top = 120.0
+margin_right = 501.0
+margin_bottom = 224.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="res"]
+margin_right = 73.0
+margin_bottom = 14.0
+text = "resistances"
+
+[node name="f" type="Label" parent="res"]
+margin_top = 18.0
+margin_right = 73.0
+margin_bottom = 32.0
+
+[node name="c" type="Label" parent="res"]
+margin_top = 36.0
+margin_right = 73.0
+margin_bottom = 50.0
+
+[node name="l" type="Label" parent="res"]
+margin_top = 54.0
+margin_right = 73.0
+margin_bottom = 68.0
+
+[node name="ph" type="Label" parent="res"]
+margin_top = 72.0
+margin_right = 73.0
+margin_bottom = 86.0
+
+[node name="po" type="Label" parent="res"]
+margin_top = 90.0
+margin_right = 73.0
+margin_bottom = 104.0
+
 [connection signal="pressed" from="lvl_up" to="lvl_up" method="_on_lvl_up_pressed"]
 [connection signal="pressed" from="stat_screen/dex" to="stat_screen" method="_on_dex_pressed"]
 [connection signal="pressed" from="stat_screen/int" to="stat_screen" method="_on_int_pressed"]

@@ -36,6 +36,7 @@ func insert_item(pos):
 		Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])
 		Globals.GUI.get_node("stat_screen").attribute_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("stren"), false, item["id"])
 		Globals.current_armor_id = item["id"]
+		
 	
 	return true
 
