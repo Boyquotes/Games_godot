@@ -71,11 +71,11 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.add_child(Items)
 		player.add_child(inventory)
 		
-		GUI.get_node("res").get_node("f").text = "f: " + str(player_resistance["fire"])
-		GUI.get_node("res").get_node("c").text = "c: " + str(player_resistance["cold"])
-		GUI.get_node("res").get_node("l").text = "l: " + str(player_resistance["lightning"])
-		GUI.get_node("res").get_node("ph").text = "ph: " + str(player_resistance["physical"])
-		GUI.get_node("res").get_node("po").text = "po: " + str(player_resistance["poison"])
+		GUI.get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
+		GUI.get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
+		GUI.get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
+		GUI.get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
+		GUI.get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
 		
 		inventory.get_child(0).rect_position = player.position
 		
@@ -93,17 +93,17 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("mana_progress").max_value = max_mana
 			GUI.get_node("mana_progress").value = int(current_mana)
 			GUI.get_node("mana_progress").get_node("mana_value").text = current_mana
-			Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("dex").get_node("dex"), current_armor_id)
-			Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("intel"), current_armor_id)
-			Globals.GUI.get_node("stat_screen").remove_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("stren"), current_armor_id)
+			Globals.GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("dex").get_node("dex"), current_armor_id)
+			Globals.GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("intel"), current_armor_id)
+			Globals.GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("stren"), current_armor_id)
 			GUI.get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
 			GUI.get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
 			GUI.get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
-			GUI.get_node("res").get_node("f").text = "f: " + str(player_resistance["fire"])
-			GUI.get_node("res").get_node("c").text = "c: " + str(player_resistance["cold"])
-			GUI.get_node("res").get_node("l").text = "l: " + str(player_resistance["lightning"])
-			GUI.get_node("res").get_node("ph").text = "ph: " + str(player_resistance["physical"])
-			GUI.get_node("res").get_node("po").text = "po: " + str(player_resistance["poison"])
+			GUI.get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
+			GUI.get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
+			GUI.get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
+			GUI.get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
+			GUI.get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
 			
 			player_pwr += stren
 			player.move_speed += (0.2*dex)
@@ -246,9 +246,10 @@ func drop_weighting(num):
 func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
-	var weighting = drop_weighting({0:0.85, 1:0.15})
+	var weighting = drop_weighting({0:0.95, 1:0.05})
 	
-	var freq = rand.randi_range(0,2)
+#	var freq = rand.randi_range(0,2)
+	var freq = 1
 
 	if freq == 1:
 		if weighting == 1:
@@ -295,11 +296,11 @@ func drop_item(pos, ilvl):
 	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("str").get_node("value").text = str(stats[1])
 	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("int").get_node("value").text = str(stats[0])
 	
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("f").text = "f: " + str(res[0])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("c").text = "c: " + str(res[1])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("l").text = "l: " + str(res[2])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("ph").text = "ph: " + str(res[3])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("po").text = "po:" + str(res[4])
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("fire").get_node("value").text = str(res[0])
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("cold").get_node("value").text = str(res[1])
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("lightning").get_node("value").text = str(res[2])
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("physical").get_node("value").text = str(res[3])
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("poison").get_node("value").text = str(res[4])
 	
 	var icon = item.icon
 	
@@ -311,7 +312,12 @@ func drop_item(pos, ilvl):
 		"slot": item.slot,
 		"stren": str(stats[1]),
 		"intel": str(stats[0]),
-		"dex": str(stats[2])
+		"dex": str(stats[2]),
+		"fire": str(res[0]),
+		"cold": str(res[1]),
+		"lightning": str(res[2]),
+		"physical": str(res[3]),
+		"poison": str(res[4]),
 	}
 	
 	dropped_items.push_front(item)

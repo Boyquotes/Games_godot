@@ -23,6 +23,7 @@ __meta__ = {
 shape = SubResource( 1 )
 
 [node name="stats_tt" type="Popup" parent="."]
+visible = true
 margin_right = 124.0
 margin_bottom = 124.0
 mouse_filter = 1
@@ -31,8 +32,8 @@ __meta__ = {
 }
 
 [node name="stats" type="TextureRect" parent="stats_tt"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 124.0
+margin_bottom = 200.0
 rect_scale = Vector2( 0.5, 0.5 )
 mouse_filter = 2
 texture = ExtResource( 1 )
@@ -107,49 +108,76 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="f" type="Label" parent="stats_tt/stats/stats_container/res"]
-margin_left = 30.0
-margin_right = 55.0
-margin_bottom = 14.0
-text = "f:"
+[node name="fire" type="Label" parent="stats_tt/stats/stats_container/res"]
+margin_top = 15.0
+margin_right = 25.0
+margin_bottom = 29.0
+text = "fire
+:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="c" type="Label" parent="stats_tt/stats/stats_container/res"]
-margin_left = 55.0
-margin_right = 80.0
-margin_bottom = 14.0
-text = "c:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="l" type="Label" parent="stats_tt/stats/stats_container/res"]
-margin_left = 85.0
-margin_right = 110.0
-margin_bottom = 14.0
-text = "l:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ph" type="Label" parent="stats_tt/stats/stats_container/res"]
-margin_left = 30.0
-margin_top = 14.0
-margin_right = 70.0
-margin_bottom = 28.0
-text = "ph:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="po" type="Label" parent="stats_tt/stats/stats_container/res"]
+[node name="value" type="Label" parent="stats_tt/stats/stats_container/res/fire"]
 margin_left = 80.0
-margin_top = 14.0
 margin_right = 120.0
-margin_bottom = 28.0
-text = "po:"
+margin_bottom = 14.0
+
+[node name="cold" type="Label" parent="stats_tt/stats/stats_container/res"]
+margin_top = 30.0
+margin_right = 25.0
+margin_bottom = 44.0
+text = "cold:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="value" type="Label" parent="stats_tt/stats/stats_container/res/cold"]
+margin_left = 80.0
+margin_right = 120.0
+margin_bottom = 14.0
+
+[node name="lightning" type="Label" parent="stats_tt/stats/stats_container/res"]
+margin_top = 45.0
+margin_right = 25.0
+margin_bottom = 59.0
+text = "lightning:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="value" type="Label" parent="stats_tt/stats/stats_container/res/lightning"]
+margin_left = 80.0
+margin_right = 120.0
+margin_bottom = 14.0
+
+[node name="physical" type="Label" parent="stats_tt/stats/stats_container/res"]
+margin_top = 60.0
+margin_right = 40.0
+margin_bottom = 74.0
+text = "physical:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="value" type="Label" parent="stats_tt/stats/stats_container/res/physical"]
+margin_left = 80.0
+margin_right = 120.0
+margin_bottom = 14.0
+
+[node name="poison" type="Label" parent="stats_tt/stats/stats_container/res"]
+margin_top = 75.0
+margin_right = 40.0
+margin_bottom = 89.0
+text = "poison:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="value" type="Label" parent="stats_tt/stats/stats_container/res/poison"]
+margin_left = 80.0
+margin_right = 120.0
+margin_bottom = 14.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
