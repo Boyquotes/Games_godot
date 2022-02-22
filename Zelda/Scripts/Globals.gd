@@ -10,6 +10,7 @@ var player_xp = 0
 var player_lvl = 0
 var player_pwr = 50
 var player_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
+var damage_type
 var max_mana = 100
 var poison_stacks = 0
 var current_mana
@@ -54,6 +55,7 @@ func goto_scene(path, spawn):
 	call_deferred("_deferred_goto_scene", path, spawn)
 
 func _deferred_goto_scene(path, spawn):
+	
 	prev_scene = spawn
 	current_scene.free()
 	
@@ -70,6 +72,8 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.add_child(GUI)
 		current_scene.add_child(Items)
 		player.add_child(inventory)
+		
+#		print("moveSpeed ", Globals.player.move_speed)
 		
 		GUI.get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
 		GUI.get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
@@ -93,12 +97,17 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("mana_progress").max_value = max_mana
 			GUI.get_node("mana_progress").value = int(current_mana)
 			GUI.get_node("mana_progress").get_node("mana_value").text = current_mana
-			Globals.GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("dex").get_node("dex"), current_armor_id)
-			Globals.GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("intel"), current_armor_id)
-			Globals.GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("stren"), current_armor_id)
+			GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("dex").get_node("dex"), current_armor_id)
+			GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("intel"), current_armor_id)
+			GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("stren"), current_armor_id)
 			GUI.get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
 			GUI.get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
 			GUI.get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
+			GUI.remove_points(Globals.GUI.get_node("res").get_node("fire").get_node("fire"), current_armor_id)
+			GUI.remove_points(Globals.GUI.get_node("res").get_node("cold").get_node("cold"), current_armor_id)
+			GUI.remove_points(Globals.GUI.get_node("res").get_node("lightning").get_node("lightning"), current_armor_id)
+			GUI.remove_points(Globals.GUI.get_node("res").get_node("physical").get_node("physical"), current_armor_id)
+			GUI.remove_points(Globals.GUI.get_node("res").get_node("poison").get_node("poison"), current_armor_id)
 			GUI.get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
 			GUI.get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
 			GUI.get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
@@ -106,7 +115,7 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
 			
 			player_pwr += stren
-			player.move_speed += (0.2*dex)
+			player.move_speed += (0.1*dex)
 		else:
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
@@ -164,7 +173,7 @@ func random_scene():
 	
 	rand.randomize()
 	
-	return scenes[rand.randf_range(0, scenes.size())]	
+	return scenes[rand.randf_range(0, scenes.size())]
 
 func num_of_enemies(n):
 	enemy_pos = range(0, n)
@@ -246,10 +255,8 @@ func drop_weighting(num):
 func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
-	var weighting = drop_weighting({0:0.95, 1:0.05})
-	
-#	var freq = rand.randi_range(0,2)
-	var freq = 1
+	var weighting = drop_weighting({0:0.25, 1:0.75})	
+	var freq = rand.randi_range(0,2)
 
 	if freq == 1:
 		if weighting == 1:

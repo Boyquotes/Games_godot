@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var move_speed
+var move_speed = 1
 var anim_enemy
 var move_vec
 var proj_life_time
@@ -76,7 +76,10 @@ func _on_detection_layer_body_shape_entered(body_id, body, body_shape, local_sha
 		
 func fire_thorn_proj(dir):
 	var proj = load("res://Scenes/thorn_proj.tscn").instance()
-	self.add_child(proj)
+	self.get_parent().call_deferred("add_child", proj)
+	proj.position = self.position
+	proj.get_node("proj_pos").position = self.position
+	
 	proj.rotation_degrees = dir
 	proj.velocity = Vector2(-0.5, 0.3)
 	

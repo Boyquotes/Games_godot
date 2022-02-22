@@ -44,12 +44,12 @@ func attribute_points(stat, lvlup_stats, id):
 func remove_points(stat, id):
 	var i = int(stat.text)
 	if stat.name == "dex" or stat.name == "intel" or stat.name == "stren":
-			for y in Globals.inventory_items:
-				if id == y["id"]:
-					i-= int(y[stat.name])
-					Globals[stat.name] -= int(y[stat.name])
-					attribute_effects(stat.name, "decrease", int(y[stat.name]))
-			stat.text = str(i)
+		for y in Globals.inventory_items:
+			if id == y["id"]:
+				i-= int(y[stat.name])
+				Globals[stat.name] -= int(y[stat.name])
+				attribute_effects(stat.name, "decrease", int(y[stat.name]))
+		stat.text = str(i)
 	if stat.name == "fire" or stat.name == "cold" or stat.name == "lightning" or stat.name == "physical" or stat.name == "poison":
 		for y in Globals.inventory_items:
 			if id == y["id"]:
@@ -71,9 +71,10 @@ func attribute_effects(stat, effect, value):
 		else:
 			Globals.GUI.get_node("mana_progress").max_value -= value
 			Globals.max_mana -= value
+			Globals.GUI.get_node("mana_progress").get_node("mana_value").text = str(Globals.max_mana)
 	elif stat == "dex":
 		if effect == "augment":
-			Globals.player.move_speed += (0.2 * value)
+			Globals.player.move_speed += (0.1 * value)
 		else: 
-			Globals.player.move_speed -= (0.2 * value)
+			Globals.player.move_speed -= (0.1 * value)
 

@@ -2,6 +2,7 @@ CURRENT PROBLEM:
 
 
 NEXT STEPS:
+	- fire and lightning biome
 	- enemies have a chance to either: drop armour, drop pwr-up (active time limited), drop muns (high chance), spawn shop (low chance). 
 	- different enemies (movement, attacks, status effects)
 	- different item drops (make drops random)

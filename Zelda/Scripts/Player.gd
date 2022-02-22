@@ -146,11 +146,11 @@ func player_collision():
 			
 #			BUG: only triggers once. Maybe leave it this way bc it could be intentional this way (triggering the camera transition is a bit tedious) also enemies getting stuck in coll
 			
-		if "Enemy" in coll.collider.name and player_invuln == false:
+		if "Starter" in coll.collider.name and player_invuln == false:
 			loose_hp(25)
 			if "Snow" in coll.collider.name:
+				Globals.damage_type = "cold"
 				snow_attack()
-#			BUG: hp inc instead dec. could not reproduce why this happened
 			self.visible = false
 			player_invuln = true
 			$invuln_timer.wait_time = 1
@@ -205,6 +205,7 @@ func player_collision():
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
 func snow_attack():
+	loose_hp(25)
 	$freeze_timer.start()
 	move_speed -= 1
 	
@@ -218,7 +219,7 @@ func _on_poison_timer_timeout():
 	
 func _on_poison_dmg_timer_timeout(tick):
 	if $poison_timer.time_left != 0:
-		loose_hp(1)
+		loose_hp(10)
 
 func _on_bleed_timer_timeout():
 	for i in self.get_children():
@@ -227,15 +228,32 @@ func _on_bleed_timer_timeout():
 	
 func _on_bleed_dmg_timer_timeout():
 	if is_moving:
-		loose_hp(10)
+		loose_hp(20)
 	else: 
-		loose_hp(1)
-			
+		loose_hp(10)
+		
+func resistance_damage_calc(value):
+	if Globals.damage_type == "fire":
+		value -= (Globals.player_resistance["fire"]/5)
+	elif Globals.damage_type == "cold":
+		value -= (Globals.player_resistance["cold"]/5)
+	elif Globals.damage_type == "lightning":
+		value -= (Globals.player_resistance["lightning"]/5)
+	elif Globals.damage_type == "poison":
+		value -= (Globals.player_resistance["poison"]/5)
+	elif Globals.damage_type == "physical":
+		value -= (Globals.player_resistance["physical"]/5)
+	else:
+		return value
+	return value
+
 func loose_hp(value):
-	Globals.GUI.get_node("hp_visual").value -= value
-	Globals.player.hp -= value
+	var res_value = resistance_damage_calc(value)
+	Globals.GUI.get_node("hp_visual").value -= res_value
+	Globals.player_hp -= res_value
+	Globals.player.hp -= res_value
 	Globals.GUI.get_node("hp_num").text = str(self.hp)
-#
+
 func _on_pwr_up_timer_timeout():
 	if Globals.all_attack:
 		Globals.all_attack = false
