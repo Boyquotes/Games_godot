@@ -168,6 +168,7 @@ func spawn_enemy_type():
 	var scene = current_scene.name
 	var type = regex.search(scene).get_string()
 	var enemy_type = "Enemy_" + type
+	#new commit test comment
 	
 	for i in enemy_pos.size():
 		spawn_enemies(i, enemy_type)
