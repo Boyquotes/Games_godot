@@ -1,0 +1,103 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Assets/staff_attack.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/Weapon.gd" type="Script" id=2]
+[ext_resource path="res://Assets/axe_attack_anim/axe_attack_4.png" type="Texture" id=3]
+[ext_resource path="res://Assets/axe_attack_anim/axe_attack_1.png" type="Texture" id=4]
+[ext_resource path="res://Assets/axe_attack_anim/axe_attack_2.png" type="Texture" id=5]
+[ext_resource path="res://Assets/axe_attack_anim/axe_attack_3.png" type="Texture" id=6]
+[ext_resource path="res://Assets/staff_attack_anim_1.png" type="Texture" id=7]
+[ext_resource path="res://Assets/staff_attack_anim_2.png" type="Texture" id=8]
+[ext_resource path="res://Assets/fire_one.png" type="Texture" id=9]
+[ext_resource path="res://Assets/fire_two.png" type="Texture" id=10]
+[ext_resource path="res://Assets/fire_three.png" type="Texture" id=11]
+[ext_resource path="res://Assets/fire_four.png" type="Texture" id=12]
+
+[sub_resource type="CapsuleShape2D" id=1]
+height = 0.0
+
+[sub_resource type="Animation" id=2]
+resource_name = "axe_swirl"
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("weapon:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 3 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "fireball"
+length = 0.2
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("weapon:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.001, 0.05, 0.1, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 12 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("weapon:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 1 ), ExtResource( 7 ), ExtResource( 1 ), ExtResource( 8 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("weapon_coll:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 45.0, 135.0, 215.0, 305.0 ]
+}
+
+[node name="Area2D" type="Area2D"]
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="weapon" type="Sprite" parent="."]
+texture = ExtResource( 4 )
+
+[node name="weapon_coll" type="CollisionShape2D" parent="."]
+rotation = 0.785398
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/axe_swirl = SubResource( 2 )
+anims/fireball = SubResource( 3 )
+anims/staff_attack = SubResource( 4 )
+
+[node name="Weapon_Timeout" type="Timer" parent="."]
+
+[connection signal="body_shape_entered" from="." to="." method="_on_Area2D_body_shape_entered"]
+[connection signal="timeout" from="Weapon_Timeout" to="." method="_on_Weapon_Timeout_timeout"]
