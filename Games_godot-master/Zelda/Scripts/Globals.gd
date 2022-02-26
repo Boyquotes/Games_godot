@@ -154,8 +154,8 @@ func _deferred_goto_scene(path, spawn):
 	print_stray_nodes()
 
 func random_scene():
-	var scenes = ["Snow_World", "Desert_World", "Jungle_World", "Fire_World", "lightning_World"]
-#	var scenes = ["Fire_World"]
+#	var scenes = ["Snow_World", "Desert_World", "Jungle_World", "Fire_World""lightning_World"]
+	var scenes = ["Fire_World"]
 	var rand = RandomNumberGenerator.new()
 	
 	rand.randomize()
