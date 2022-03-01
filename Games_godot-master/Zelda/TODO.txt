@@ -1,0 +1,103 @@
+CURRENT PROBLEM:
+
+
+NEXT STEPS:
+	
+- fire and lightning biome
+	
+
+- enemies have a chance to either: drop armour, drop pwr-up (active time limited), drop muns (high chance), spawn shop (low chance). 
+	
+- different enemies (movement, attacks, status effects)
+	
+- different item drops (make drops random)
+	
+- different bosses per lvl
+	
+- resistances (different weapons do different dmg)
+	
+- after some amount of lvl -> spawn uberBoss -> end of game loop or start with next lvl (newGame++?)
+	
+- persistant save games
+
+	
+- inventory item implementation ==done==
+	
+- rnd level generator (make new levels) -> started
+
+
+- weapon shop persistance ==done==
+- axe attack ==done==
+
+- simple inventory system ==done==
+
+- enemy attack
+- enemy/player HP system (lifebar for enemy entities) ==done==
+
+- xp system, no lvl ups, you just get stronger or 1 stat point when/if lvl up. == done ==
+
+- stat system (int, str, agi) -> char ui == done ==
+
+- (item) or gold drops, xp gain when enemy kill -> enemy hp (weapons do different dmg)
+
+- save files of current process on local system
+- main game loop
+	
+- enemies get stronger (and quicker?), the stronger player gets or/and as time passes (clock with game time?)
+	
+- enemies have follow player ai
+	
+- (many) new enemies spawn (based on time passed?)
+	
+- new weapons spawn after certain time has passed -> you can buy new, stronger weapons if you have killed enough enemies
+	
+- strong boss spawns after certain time has passed, boss has follow player AI
+	
+- after boss defeated -> score (what score?) screen -> end of game loop
+- game loop v2
+	
+- spellz (mana, +status effects on enemies)
+	
+- harder (different) enemies (in different biomes, torchlight3), preview of next level on screen
+	
+- procedural lvl biomes that spawn randomly (+random boss with special items)
+	
+- Item system with (+random) item stats (+specific items dropping in specific biomes, ++items are shown on char)
+	
+- what to do with gold (counter shops?) -> weapons can be bought with gold in shops that have a random chance to spawn
+	
+- Lore, story elements?
+	- Music
+
+- Graphix
+
+
+optional:
+
+- change starting world scene over time, maybe after a certain time has expired
+
+- Weapons do different amounts of dmg
+
+- Weapon bevaviour: arrow moves independently
+
+
+code optimization
+- make global func for spawning enemies == done ==
+
+
+Bugs:
+
+- enemies can spawn out of bounds ==fixed==
+
+- enemies do not collide with store entrance and dropped items
+
+- mana is fucked
+
+- pwr -> str (two systems)
+
+- tooltip shows on pwr up items
+
+
+
+Bugs Asteroid:
+point threshhold for scoreboard/lvl up not resetting 
