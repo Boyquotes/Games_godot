@@ -18,7 +18,7 @@ func _on_dex_pressed():
 func attribute_points(stat, lvlup_stats, id):
 	var i = int(stat.text)
 	if lvlup_stats:
-		var j = int($points/points_num.text)
+		var j = int($stat_screen/points/points_num.text)
 		if j > 0:
 			i += 1
 			j -= 1

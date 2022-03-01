@@ -131,22 +131,8 @@ func _deferred_goto_scene(path, spawn):
 			starter_weapon = true
 
 		player.position = player_spawn_pos
-		
-		if current_scene.name == "Starting_World":
-			for i in enemy_pos.size():
-				spawn_enemies(i, "Enemy_Starter")
-				
-		if current_scene.name == "Jungle_World":
-			for i in enemy_pos.size():
-				spawn_enemies(i, "Enemy_Jungle")
-				
-		if current_scene.name == "Snow_World":
-			for i in enemy_pos.size():
-				spawn_enemies(i, "Enemy_Snow")
-		
-		if current_scene.name == "Desert_World":
-			for i in enemy_pos.size():
-				spawn_enemies(i, "Enemy_Desert")
+
+		spawn_enemy_type()
 			
 		enemy_tracker = enemy_pos.size()
 		GUI.get_node("number").text = str(enemy_tracker)
@@ -168,12 +154,23 @@ func _deferred_goto_scene(path, spawn):
 	print_stray_nodes()
 
 func random_scene():
-	var scenes = ["Snow_World", "Desert_World", "Jungle_World"]
+	var scenes = ["Snow_World", "Desert_World", "Jungle_World", "Fire_World", "lightning_World"]
+#	var scenes = ["lightning_World"]
 	var rand = RandomNumberGenerator.new()
 	
 	rand.randomize()
 	
 	return scenes[rand.randf_range(0, scenes.size())]
+	
+func spawn_enemy_type():
+	var regex = RegEx.new()
+	regex.compile("^[^_]+")
+	var scene = current_scene.name
+	var type = regex.search(scene).get_string()
+	var enemy_type = "Enemy_" + type
+	
+	for i in enemy_pos.size():
+		spawn_enemies(i, enemy_type)
 
 func num_of_enemies(n):
 	enemy_pos = range(0, n)
@@ -188,7 +185,7 @@ func spawn_enemies(pos, type):
 
 	if "World" in current_scene.name and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or "World" in prev_scene:
 		var spawn_area = current_scene.get_node("spawn_area").rect_size
-		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 		
+		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance()
 
 		current_scene.add_child(enemy) 
 

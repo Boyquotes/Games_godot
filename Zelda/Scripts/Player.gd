@@ -146,17 +146,15 @@ func player_collision():
 			
 #			BUG: only triggers once. Maybe leave it this way bc it could be intentional this way (triggering the camera transition is a bit tedious) also enemies getting stuck in coll
 			
-		if "Starter" in coll.collider.name and player_invuln == false:
+		if "Snow" in coll.collider.name and player_invuln == false:	
+			Globals.damage_type = "cold"
+			snow_attack()
+		elif "lightning" in coll.collider.name and player_invuln == false:
 			loose_hp(25)
-			if "Snow" in coll.collider.name:
-				Globals.damage_type = "cold"
-				snow_attack()
-			self.visible = false
-			player_invuln = true
-			$invuln_timer.wait_time = 1
-			$invuln_timer.start()
-			if Globals.GUI.get_node("hp_num").text == str(0):
-				Globals.goto_scene("res://Scenes/game_over_screen.tscn", "null")
+		elif "Fire" in coll.collider.name and player_invuln == false:
+			loose_hp(25)
+		elif "Starting" in coll.collider.name and player_invuln == false:		
+			loose_hp(25)
 				
 		if "speed_up" in coll.collider.name:
 			$pwr_up_timer.wait_time = 15
@@ -253,7 +251,14 @@ func loose_hp(value):
 	Globals.player_hp -= res_value
 	Globals.player.hp -= res_value
 	Globals.GUI.get_node("hp_num").text = str(self.hp)
-
+	
+	self.visible = false
+	player_invuln = true
+	$invuln_timer.wait_time = 1
+	$invuln_timer.start()
+	if Globals.GUI.get_node("hp_num").text == str(0):
+		Globals.goto_scene("res://Scenes/game_over_screen.tscn", "null")
+	
 func _on_pwr_up_timer_timeout():
 	if Globals.all_attack:
 		Globals.all_attack = false

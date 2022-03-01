@@ -137,7 +137,7 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [sub_resource type="Animation" id=6]
 
-[node name="Snow_World" type="Node2D"]
+[node name="lightning_World" type="Node2D"]
 
 [node name="Player_Spawn" type="Position2D" parent="."]
 position = Vector2( 512, 300 )

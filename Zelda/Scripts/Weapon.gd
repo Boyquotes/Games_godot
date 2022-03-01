@@ -20,7 +20,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		self.queue_free()
 	
 	if "Enemy" in body.name:
-		if "Starter" in body.name:
+		if "Starting" in body.name:
 			body.set_script(load("res://Scripts/attack_movement.gd"))
 		var lvl_progress = Globals.GUI.get_node("lvl_progress")
 		var enemy_hp_bar = body.get_node("enemy_hp_bar")
