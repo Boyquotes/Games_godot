@@ -5,7 +5,8 @@ const WEAPON = {
 	"bow": {
 		"icon": ITEM_PATH + "bow.png",
 		"name": "bow",
-		"slot": "WEAPON"
+		"slot": "WEAPON",
+		"dmg": "physical"
 	},
 	"axe": {
 		"icon": ITEM_PATH + "axe.png",
@@ -38,7 +39,12 @@ const ARMOR = {
 		"slot": "CHARACTER",
 		"str": 20,
 		"int": 10,
-		"dex": 10
+		"dex": 10,
+		"fire": 5,
+		"cold": 5,
+		"lightning": 5,
+		"physical": 5,
+		"poison": 5
 	},
 	"2": {
 		"id": "2",
@@ -48,7 +54,12 @@ const ARMOR = {
 		"slot": "CHARACTER",
 		"str": 10,
 		"int": 20,
-		"dex": 10
+		"dex": 10,
+		"fire": 5,
+		"cold": 5,
+		"lightning": 5,
+		"physical": 5,
+		"poison": 5
 	}
 }
 

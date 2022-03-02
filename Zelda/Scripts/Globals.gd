@@ -2,6 +2,7 @@ extends Node
 
 var player = null
 var current_scene = null
+var next_scene
 var player_spawn_pos = null
 var player_weapon = false
 var starter_weapon
@@ -10,6 +11,7 @@ var player_xp = 0
 var player_lvl = 0
 var player_pwr = 50
 var player_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
+var enemy_resistance
 var damage_type
 var max_mana = 100
 var poison_stacks = 0
@@ -41,6 +43,7 @@ var all_attack = false
 var boss = null
 var shop_spawn_pos
 var shop_spawned = false
+var regex
 
 func _ready():
 	var root = get_tree().get_root()
@@ -59,6 +62,8 @@ func _deferred_goto_scene(path, spawn):
 	prev_scene = spawn
 	current_scene.free()
 	
+	next_scene = random_scene()
+	
 	current_scene = ResourceLoader.load(path).instance()
 	get_tree().get_root().add_child(current_scene)
 	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
@@ -72,8 +77,6 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.add_child(GUI)
 		current_scene.add_child(Items)
 		player.add_child(inventory)
-		
-#		print("moveSpeed ", Globals.player.move_speed)
 		
 		GUI.get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
 		GUI.get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
@@ -133,6 +136,16 @@ func _deferred_goto_scene(path, spawn):
 		player.position = player_spawn_pos
 
 		spawn_enemy_type()
+		
+#		print("enemyRes ", enemy_resistance)
+#
+#		for i in Globals.inventory_items:
+#			if i["name"] == Globals.player_weapon:
+#				print(i["dmg"])
+		
+#		print("dmgType ", Globals.inventory_items)
+		
+		GUI.get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(next_scene).get_string()
 			
 		enemy_tracker = enemy_pos.size()
 		GUI.get_node("number").text = str(enemy_tracker)
@@ -163,7 +176,7 @@ func random_scene():
 	return scenes[rand.randf_range(0, scenes.size())]
 	
 func spawn_enemy_type():
-	var regex = RegEx.new()
+	regex = RegEx.new()
 	regex.compile("^[^_]+")
 	var scene = current_scene.name
 	var type = regex.search(scene).get_string()
@@ -199,6 +212,11 @@ func spawn_enemies(pos, type):
 
 		if distance_to_player < 150:
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
+			
+		if "Fire" in current_scene.name:
+			enemy_resistance = {"fire": 50, "cold": 10, "lightning": 25, "physical": 25, "poison": 25}
+		if "Starting" in current_scene.name:
+			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 70, "poison": 5}
 		
 #		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
 #			print(tilemap.get_cellv(tilemap.world_to_map(enemy.position)))
@@ -282,8 +300,8 @@ func drop_item(pos, ilvl):
 	var stats = [(item["int"] + rand.randi_range(0, ilvl)), (item["str"] + rand.randi_range(0, ilvl)), (item["dex"] + rand.randi_range(0, ilvl))]
 	rand.randomize()
 	
-	var res = [(rand.randi_range(0, ilvl)), (rand.randi_range(0, ilvl)), (rand.randi_range(0, ilvl)),
-	(rand.randi_range(0, ilvl)), (rand.randi_range(0, ilvl))]
+	var res = [(item["fire"] + rand.randi_range(0, ilvl)), (item["cold"] + rand.randi_range(0, ilvl)), (item["lightning"] + rand.randi_range(0, ilvl)),
+	(item["physical"]+rand.randi_range(0, ilvl)), (item["poison"]+rand.randi_range(0, ilvl))]
 
 	var drop = ResourceLoader.load("res://Scenes/drop.tscn").instance()
 	current_scene.call_deferred("add_child", drop)

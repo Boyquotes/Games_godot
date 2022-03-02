@@ -10,7 +10,7 @@
 radius = 15.311
 height = 3.5816
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=2]
 resource_name = "attack"
 length = 0.6
 loop = true
@@ -27,8 +27,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 6 ), ExtResource( 1 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "enemy_goober_walk"
+[sub_resource type="Animation" id=3]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -44,24 +43,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 6 ), ExtResource( 1 ) ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "walk_down"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/path = NodePath("Body:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ ExtResource( 6 ), ExtResource( 1 ) ]
-}
-
 [sub_resource type="Animation" id=4]
-resource_name = "walk_side"
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body:texture")
@@ -77,7 +59,6 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=5]
-resource_name = "walk_up"
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body:texture")
@@ -92,7 +73,22 @@ tracks/0/keys = {
 "values": [ ExtResource( 6 ), ExtResource( 1 ) ]
 }
 
-[sub_resource type="CircleShape2D" id=6]
+[sub_resource type="Animation" id=6]
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 6 ), ExtResource( 1 ) ]
+}
+
+[sub_resource type="CircleShape2D" id=7]
 radius = 141.813
 
 [node name="Enemy_lightning" type="KinematicBody2D"]
@@ -106,11 +102,11 @@ texture = ExtResource( 6 )
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack = SubResource( 7 )
-anims/enemy_goober_walk = SubResource( 2 )
-anims/walk_down = SubResource( 3 )
-anims/walk_side = SubResource( 4 )
-anims/walk_up = SubResource( 5 )
+anims/attack = SubResource( 2 )
+anims/enemy_goober_walk = SubResource( 3 )
+anims/walk_down = SubResource( 4 )
+anims/walk_side = SubResource( 5 )
+anims/walk_up = SubResource( 6 )
 
 [node name="enemy_hp_bar" type="TextureProgress" parent="."]
 visible = false
@@ -131,6 +127,6 @@ __meta__ = {
 [node name="detection_layer" type="Area2D" parent="."]
 
 [node name="detect_player" type="CollisionShape2D" parent="detection_layer"]
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 
 [connection signal="body_shape_entered" from="detection_layer" to="." method="_on_detection_layer_body_shape_entered"]

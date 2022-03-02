@@ -252,7 +252,7 @@ func loose_hp(value):
 	Globals.player.hp -= res_value
 	Globals.GUI.get_node("hp_num").text = str(self.hp)
 	
-	self.visible = false
+#	self.visible = false
 	player_invuln = true
 	$invuln_timer.wait_time = 1
 	$invuln_timer.start()
@@ -270,7 +270,7 @@ func _on_pwr_up_timer_timeout():
 		dmg_up = false
 
 func _on_invuln_timer_timeout():
-	self.visible = true
+#	self.visible = true
 	player_invuln = false
 
 func _on_mana_fill_timer_timeout():
@@ -310,7 +310,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 	attacking = true
 	if Globals.player_weapon:
 		var weapon = load("res://Scenes/Weapon.tscn").instance()
-		
+
 		if mana_progress.value != mana_progress.max_value:
 			$mana_fill_timer.start()
 		else:

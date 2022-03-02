@@ -1,9 +1,18 @@
-CURRENT PROBLEM:
-
-
 NEXT STEPS:
+- preview for next level
+- Bosses (which do dmg specific to current biome)
+	- bosses resistances
+- new body armours (for specific biomes, "of fire" -> fire res)
+	- new weapons, new mods (specific for biomes)
+	- weapon dmg types
+- enemy resistances
+- spell system
+- invincible bug -> timer
+
+
+TODO:
 	
-- fire and lightning biome
+- fire and lightning biome ==done==
 - enemies have a chance to either: drop armour, drop pwr-up (active time limited), drop muns (high chance), spawn shop (low chance). 	
 - different enemies (movement, attacks, status effects)	
 - different item drops (make drops random)	

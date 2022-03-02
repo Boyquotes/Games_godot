@@ -302,6 +302,31 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="lvl_preview" type="HBoxContainer" parent="."]
+margin_left = 700.0
+margin_right = 872.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Next Level" type="Label" parent="lvl_preview"]
+margin_top = 13.0
+margin_right = 72.0
+margin_bottom = 27.0
+text = "Next Level:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lvl_name" type="Label" parent="lvl_preview/Next Level"]
+margin_left = 75.0
+margin_right = 115.0
+margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="lvl_up" to="lvl_up" method="_on_lvl_up_pressed"]
 [connection signal="pressed" from="stat_screen/dex" to="." method="_on_dex_pressed"]
 [connection signal="pressed" from="stat_screen/int" to="." method="_on_int_pressed"]

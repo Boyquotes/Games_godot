@@ -24,14 +24,19 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			body.set_script(load("res://Scripts/attack_movement.gd"))
 		var lvl_progress = Globals.GUI.get_node("lvl_progress")
 		var enemy_hp_bar = body.get_node("enemy_hp_bar")
+		var original_player_pwr = Globals.player_pwr
+		for j in Globals.inventory_items:
+			if j["name"] == Globals.player_weapon:
+				Globals.player_pwr -= (Globals.enemy_resistance[j["dmg"]]/10)
 		for i in Globals.enemy_pos.size():
 			if str(body) == Globals.enemy_id[i]:
 				if "axe" in self.get_node("weapon").texture.get_path():
 					Globals.enemy_hp[i] -= (Globals.player_pwr*2)
 				else: 
 					Globals.enemy_hp[i] -= Globals.player_pwr
-				enemy_hp_bar.visible = true
+				enemy_hp_bar.visible = true	
 				enemy_hp_bar.value -= Globals.player_pwr
+				Globals.player_pwr = original_player_pwr
 				if Globals.enemy_hp[i] <= 0:
 					Globals.enemy_id.remove(i)
 					Globals.enemy_pos.remove(i)
@@ -74,9 +79,9 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 
 	if "boss" in body.name:
 		Globals.all_attack = false
-		Globals.boss.queue_free()		
+		Globals.boss.queue_free()
 		Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
-		Globals.goto_scene("res://Scenes/Levels/" + Globals.random_scene() + ".tscn", Globals.current_scene.name)
+		Globals.goto_scene("res://Scenes/Levels/" + Globals.next_scene + ".tscn", Globals.current_scene.name)
 		Globals.num_of_enemies(2)
 		
 #		goto powerup screen?

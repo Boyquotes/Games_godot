@@ -13,11 +13,6 @@ func _ready():
 	if Globals.current_scene.name == "Desert_World":
 		$attack_timeout.set_wait_time(proj_life_time)
 		$attack_timeout.start()
-		
-#	if Globals.current_scene.name == "Fire_World":
-#		print("idleAnim")
-#		anim_enemy.start()
-#		anim_enemy.play("idle")
 
 func _physics_process(delta):
 
