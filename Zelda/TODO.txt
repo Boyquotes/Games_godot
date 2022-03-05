@@ -1,14 +1,13 @@
 NEXT STEPS:
-- preview for next level
-- Bosses (which do dmg specific to current biome)
-	- bosses resistances
+- preview for next level ==done==
+- random weapon stats (damage types)
+- Bosses (which do dmg / have resistances specific to current biome)
 - new body armours (for specific biomes, "of fire" -> fire res)
 	- new weapons, new mods (specific for biomes)
 	- weapon dmg types
 - enemy resistances
 - spell system
 - invincible bug -> timer
-
 
 TODO:
 	

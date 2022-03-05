@@ -137,14 +137,6 @@ func _deferred_goto_scene(path, spawn):
 
 		spawn_enemy_type()
 		
-#		print("enemyRes ", enemy_resistance)
-#
-#		for i in Globals.inventory_items:
-#			if i["name"] == Globals.player_weapon:
-#				print(i["dmg"])
-		
-#		print("dmgType ", Globals.inventory_items)
-		
 		GUI.get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(next_scene).get_string()
 			
 		enemy_tracker = enemy_pos.size()
@@ -214,9 +206,17 @@ func spawn_enemies(pos, type):
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 			
 		if "Fire" in current_scene.name:
-			enemy_resistance = {"fire": 50, "cold": 10, "lightning": 25, "physical": 25, "poison": 25}
+			enemy_resistance = {"fire": 70, "cold": 10, "lightning": 10, "physical": 10, "poison": 5}
 		if "Starting" in current_scene.name:
 			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 70, "poison": 5}
+		if "lightning" in current_scene.name:
+			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 70, "physical": 10, "poison": 5}
+		if "Snow" in current_scene.name:
+			enemy_resistance = {"fire": 10, "cold": 70, "lightning": 10, "physical": 10, "poison": 5}
+		if "Desert" in current_scene.name:
+			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 70}
+		if "Jungle" in current_scene.name:
+			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 70, "physical": 10, "poison": 5}
 		
 #		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
 #			print(tilemap.get_cellv(tilemap.world_to_map(enemy.position)))
@@ -243,7 +243,7 @@ func spawn_enemies(pos, type):
 		enemy.move_vec = enemy_dir[pos]
 		enemy_id[pos] = (str(enemy))
 		enemies[pos] = enemy
-		
+	
 func spawn_weapon_shop():
 	var rand = RandomNumberGenerator.new()
 	var shop_entrance = ResourceLoader.load("res://Scenes/Weapon_Shop_Entrance.tscn").instance()
