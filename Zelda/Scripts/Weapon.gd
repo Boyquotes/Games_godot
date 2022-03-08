@@ -24,9 +24,9 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		var lvl_progress = Globals.GUI.get_node("lvl_progress")
 		var enemy_hp_bar = body.get_node("enemy_hp_bar")
 		var original_player_pwr = Globals.player_pwr
-		for j in Globals.inventory_items:
-			if j["name"] == Globals.player_weapon:
-				Globals.player_pwr -= (Globals.enemy_resistance[j["dmg"]]/10)
+#		for j in Globals.inventory_items:
+#			if j["name"] == Globals.player_weapon:
+#				Globals.player_pwr -= (Globals.enemy_resistance[j["dmg"]]/10)
 		for i in Globals.enemy_pos.size():
 			if str(body) == Globals.enemy_id[i]:
 				if "axe" in self.get_node("weapon").texture.get_path():

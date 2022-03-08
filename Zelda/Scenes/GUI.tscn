@@ -150,19 +150,17 @@ __meta__ = {
 }
 
 [node name="stat_screen" type="HBoxContainer" parent="."]
-visible = false
 margin_left = 428.0
-margin_top = 55.568
-margin_right = 580.0
-margin_bottom = 87.568
+margin_top = 56.0
+margin_right = 708.0
+margin_bottom = 102.0
 __meta__ = {
-"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="dex" type="TextureButton" parent="stat_screen"]
 margin_right = 32.0
-margin_bottom = 32.0
+margin_bottom = 46.0
 texture_normal = ExtResource( 10 )
 texture_pressed = ExtResource( 11 )
 
@@ -179,7 +177,7 @@ __meta__ = {
 [node name="int" type="TextureButton" parent="stat_screen"]
 margin_left = 36.0
 margin_right = 68.0
-margin_bottom = 32.0
+margin_bottom = 46.0
 texture_normal = ExtResource( 7 )
 texture_pressed = ExtResource( 12 )
 
@@ -196,7 +194,7 @@ __meta__ = {
 [node name="str" type="TextureButton" parent="stat_screen"]
 margin_left = 72.0
 margin_right = 104.0
-margin_bottom = 32.0
+margin_bottom = 46.0
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 9 )
 
@@ -210,18 +208,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="points" type="Label" parent="stat_screen"]
+[node name="power" type="Label" parent="stat_screen"]
 margin_left = 108.0
-margin_top = 9.0
-margin_right = 152.0
-margin_bottom = 23.0
-text = "Points:"
+margin_top = 16.0
+margin_right = 151.0
+margin_bottom = 30.0
+text = "Power:"
 
-[node name="points_num" type="Label" parent="stat_screen/points"]
+[node name="power" type="Label" parent="stat_screen/power"]
 margin_left = 50.0
 margin_right = 90.0
 margin_bottom = 14.0
-text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -229,9 +226,9 @@ __meta__ = {
 [node name="res" type="VBoxContainer" parent="."]
 visible = false
 margin_left = 428.0
-margin_top = 120.0
+margin_top = 130.0
 margin_right = 501.0
-margin_bottom = 224.0
+margin_bottom = 234.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -323,6 +320,30 @@ __meta__ = {
 margin_left = 75.0
 margin_right = 115.0
 margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="points_container" type="VBoxContainer" parent="."]
+visible = false
+margin_left = 428.0
+margin_top = 110.0
+margin_right = 577.0
+margin_bottom = 124.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="points" type="Label" parent="points_container"]
+margin_right = 149.0
+margin_bottom = 14.0
+text = "Points:"
+
+[node name="points_num" type="Label" parent="points_container/points"]
+margin_left = 50.0
+margin_right = 90.0
+margin_bottom = 14.0
+text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -29,7 +29,12 @@ func insert_item(pos):
 	pos.rect_global_position = slot.rect_global_position + slot.rect_size / 2 - pos.rect_size / 2
 	
 	if slot == $WEAPON:
+#		print(Globals.starter_weapon)
+#		if Globals.starter_weapon==true:
 		Globals.player_weapon = item["name"]
+#		if Globals.starter_weapon==false:
+		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_screen").get_node("power").get_node("power"), false, item["id"])
+		
 		
 	if slot == $CHARACTER:
 		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
@@ -42,8 +47,6 @@ func insert_item(pos):
 		Globals.GUI.attribute_points(Globals.GUI.get_node("res").get_node("lightning").get_node("lightning"), false, item["id"])
 		Globals.GUI.attribute_points(Globals.GUI.get_node("res").get_node("physical").get_node("physical"), false, item["id"])
 		Globals.GUI.attribute_points(Globals.GUI.get_node("res").get_node("poison").get_node("poison"), false, item["id"])
-		
-#		print("moveSpeedItemEquip ", Globals.player.move_speed)
 	
 	return true
 

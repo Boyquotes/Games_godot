@@ -1,0 +1,76 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/item_tooltip.gd" type="Script" id=1]
+[ext_resource path="res://Assets/tooltip_back.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 13.6425, 13.7647 )
+
+[node name="weapon_drop" type="StaticBody2D"]
+input_pickable = true
+script = ExtResource( 1 )
+
+[node name="id" type="Label" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="drop_sprite" type="Sprite" parent="."]
+
+[node name="drop_coll" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="stats_tt" type="Popup" parent="."]
+visible = true
+margin_right = 124.0
+margin_bottom = 124.0
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="stats" type="TextureRect" parent="stats_tt"]
+margin_right = 124.0
+margin_bottom = 200.0
+rect_scale = Vector2( 0.5, 0.5 )
+mouse_filter = 2
+texture = ExtResource( 2 )
+
+[node name="item_name" type="Label" parent="stats_tt/stats"]
+margin_top = 5.0
+margin_right = 124.0
+margin_bottom = 19.0
+text = "NAME"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="stats_container" type="VBoxContainer" parent="stats_tt/stats"]
+margin_top = 30.0
+margin_right = 124.0
+margin_bottom = 124.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="potency" type="Label" parent="stats_tt/stats/stats_container"]
+margin_right = 124.0
+margin_bottom = 14.0
+text = "Potency"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="value" type="Label" parent="stats_tt/stats/stats_container/potency"]
+margin_left = 60.0
+margin_right = 100.0
+margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="mouse_entered" from="." to="." method="_on_drop_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_drop_mouse_exited"]

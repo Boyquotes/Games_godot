@@ -5,7 +5,7 @@ var current_scene = null
 var next_scene
 var player_spawn_pos = null
 var player_weapon = false
-var starter_weapon
+var starter_weapon = true
 var player_hp = 300
 var player_xp = 0
 var player_lvl = 0
@@ -24,6 +24,7 @@ var inventory
 var Items
 var item
 var item_id = 0
+var ilvl = 10
 var dropped_items = []
 var dropped = false
 var inventory_items = []
@@ -119,19 +120,22 @@ func _deferred_goto_scene(path, spawn):
 			
 			player_pwr += stren
 			player.move_speed += (0.1*dex)
+			
+			ilvl += 10
 		else:
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
 			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
-			player_weapon = "bow"
+			player_weapon = "1"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
+			weapon["pot"] = 5
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
 			inventory.get_child(0).pickup_item(inventory_items[0])
-			starter_weapon = true
+			GUI.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 
 		player.position = player_spawn_pos
 
@@ -270,20 +274,23 @@ func drop_weighting(num):
 func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
-	var weighting = drop_weighting({0:0.25, 1:0.75})	
+#	var weighting = drop_weighting({0:0.75, 1:0.15, 2:0.10})
+	var weighting = drop_weighting({0:0.05, 1:0.05, 2:0.90})	
 	var freq = rand.randi_range(0,2)
-
-	if freq == 1:
-		if weighting == 1:
-			drop_pwrup(pos)
-		else:
-			drop_item(pos, 10)
+	
+#	if freq == 1:	
+	if weighting == 0:
+		drop_pwrup(pos)
+	elif weighting == 1:
+		drop_body_armour(pos, ilvl)
+	elif weighting == 2:
+		drop_weapon(pos, ilvl)
 	
 func drop_pwrup(pos):
 	var drop_id = drop_weighting({0:0.05, 1:0.15, 2:0.15, 3:0.15, 4:0.35, 5:0.15})
 	var drop_texture = Items.get_tileset().tile_get_texture(drop_id)
 	var drop_name = Items.get_tileset().tile_get_name(drop_id)
-	var drop = ResourceLoader.load("res://Scenes/drop.tscn").instance()
+	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()
 
 	current_scene.call_deferred("add_child", drop)
 	drop.get_node("drop_sprite").set_texture(drop_texture)
@@ -291,7 +298,7 @@ func drop_pwrup(pos):
 
 	drop.position = pos
 
-func drop_item(pos, ilvl):
+func drop_body_armour(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 	
@@ -303,7 +310,7 @@ func drop_item(pos, ilvl):
 	var res = [(item["fire"] + rand.randi_range(0, ilvl)), (item["cold"] + rand.randi_range(0, ilvl)), (item["lightning"] + rand.randi_range(0, ilvl)),
 	(item["physical"]+rand.randi_range(0, ilvl)), (item["poison"]+rand.randi_range(0, ilvl))]
 
-	var drop = ResourceLoader.load("res://Scenes/drop.tscn").instance()
+	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()
 	current_scene.call_deferred("add_child", drop)
 	
 	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
@@ -344,8 +351,38 @@ func drop_item(pos, ilvl):
 	
 	dropped_items.push_front(item)
 	item_id += 1
+
+func drop_weapon(pos, ilvl):
+	var rand = RandomNumberGenerator.new()
+	rand.randomize()
 	
+	item = ItemDB.WEAPON[str(rand.randi_range(1, ItemDB.WEAPON.size()))]
 	
+	var pot = (item["pot"] + rand.randi_range(0, ilvl))
+	var drop = ResourceLoader.load("res://Scenes/weapon_drop.tscn").instance()	
+	current_scene.call_deferred("add_child", drop)	
+	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))	
+	drop.position = pos
+	drop.name = "item"	
+	drop.get_node("id").text = str(item_id)
+	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("potency").get_node("value").text = str(pot)
+	
+	var item_name = item.name
+	var icon = item.icon
+	
+	item = {
+		"id": item_id,
+		"icon": icon,
+		"name": item_name,
+		"slot": item.slot,
+		"pot": pot
+	}
+	
+	dropped_items.push_front(item)
+	item_id += 1
+	
+
 	
 
 

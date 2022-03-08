@@ -2,32 +2,41 @@ extends Node2D
 
 const ITEM_PATH = "res://Assets/items/"
 const WEAPON = {
-	"bow": {
+	"1": {
+		"id": "1",
 		"icon": ITEM_PATH + "bow.png",
 		"name": "bow",
 		"slot": "WEAPON",
-		"dmg": "physical"
+		"pot": 15
 	},
-	"axe": {
+	"2": {
+		"id": "2",
 		"icon": ITEM_PATH + "axe.png",
 		"name": "axe",
-		"slot": "WEAPON"
+		"slot": "WEAPON",
+		"pot": 20
 	},
-	"staff": {
-		"icon": ITEM_PATH + "staff.png",
-		"name": "staff",
-		"slot": "WEAPON"
-	},
-	"wand": {
+#	"staff": {
+#		"icon": ITEM_PATH + "staff.png",
+#		"name": "staff",
+#		"slot": "WEAPON",
+#		"dmg": "poison",
+#		"pot": 20
+#	},
+	"3": {
+		"id": "3",
 		"icon": ITEM_PATH + "wand.png",
 		"name": "wand",
-		"slot": "WEAPON"
+		"slot": "WEAPON",
+		"pot": 5
 	},
-	"fire": {
-		"icon": ITEM_PATH + "wand.png",
-		"name": "fire",
-		"slot": "WEAPON"
-	}
+#	"fire": {
+#		"icon": ITEM_PATH + "wand.png",
+#		"name": "fire",
+#		"slot": "WEAPON",
+#		"dmg": "cold",
+#		"pot": 20
+#	}
 }
 
 const ARMOR = {

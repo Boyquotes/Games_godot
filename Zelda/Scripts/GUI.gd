@@ -18,7 +18,7 @@ func _on_dex_pressed():
 func attribute_points(stat, lvlup_stats, id):
 	var i = int(stat.text)
 	if lvlup_stats:
-		var j = int($stat_screen/points/points_num.text)
+		var j = int($stat_screen/points_container/points/points_num.text)
 		if j > 0:
 			i += 1
 			j -= 1
@@ -40,6 +40,8 @@ func attribute_points(stat, lvlup_stats, id):
 					i += int(y[stat.name])
 					Globals.player_resistance[stat.name] += int(y[stat.name])
 			stat.text = str(i)
+		if stat.name == "power":
+			print("potincrease")
 		
 func remove_points(stat, id):
 	var i = int(stat.text)

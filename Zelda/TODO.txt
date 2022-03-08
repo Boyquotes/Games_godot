@@ -1,6 +1,9 @@
 NEXT STEPS:
 - preview for next level ==done==
 - random weapon stats (damage types)
+	- base types: bow / axe / wand
+	- ammunition types: damage types -> status effects
+	
 - Bosses (which do dmg / have resistances specific to current biome)
 - new body armours (for specific biomes, "of fire" -> fire res)
 	- new weapons, new mods (specific for biomes)
