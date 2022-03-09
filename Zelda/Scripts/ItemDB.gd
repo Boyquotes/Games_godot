@@ -7,14 +7,14 @@ const WEAPON = {
 		"icon": ITEM_PATH + "bow.png",
 		"name": "bow",
 		"slot": "WEAPON",
-		"pot": 15
+		"power": 15
 	},
 	"2": {
 		"id": "2",
 		"icon": ITEM_PATH + "axe.png",
 		"name": "axe",
 		"slot": "WEAPON",
-		"pot": 20
+		"power": 20
 	},
 #	"staff": {
 #		"icon": ITEM_PATH + "staff.png",
@@ -28,7 +28,7 @@ const WEAPON = {
 		"icon": ITEM_PATH + "wand.png",
 		"name": "wand",
 		"slot": "WEAPON",
-		"pot": 5
+		"power": 5
 	},
 #	"fire": {
 #		"icon": ITEM_PATH + "wand.png",

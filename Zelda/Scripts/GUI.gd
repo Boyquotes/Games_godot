@@ -41,7 +41,11 @@ func attribute_points(stat, lvlup_stats, id):
 					Globals.player_resistance[stat.name] += int(y[stat.name])
 			stat.text = str(i)
 		if stat.name == "power":
-			print("potincrease")
+			for y in Globals.inventory_items:
+				if id == y["id"]:
+					i += int(y[stat.name])
+					Globals.player_pwr += int(y[stat.name])
+			stat.text = str(i)
 		
 func remove_points(stat, id):
 	var i = int(stat.text)
@@ -58,13 +62,22 @@ func remove_points(stat, id):
 				i -= int(y[stat.name])
 				Globals.player_resistance[stat.name] -= int(y[stat.name])
 		stat.text = str(i)
+	if stat.name == "power":
+		for y in Globals.inventory_items:
+			if id == y["id"]:
+				i -= int(y[stat.name])
+				Globals.player_pwr -= int(y[stat.name])
+		stat.text = str(i)
+		
 			
 func attribute_effects(stat, effect, value):
 	if stat == "stren":
 		if effect == "augment":
 			Globals.player_pwr += value
+			Globals.GUI.get_node("stat_screen").get_node("power").get_node("power").text = str(Globals.player_pwr)
 		else:
 			Globals.player_pwr -= value
+			Globals.GUI.get_node("stat_screen").get_node("power").get_node("power").text = str(Globals.player_pwr)
 	elif stat == "intel":
 		if effect == "augment":
 			Globals.GUI.get_node("mana_progress").max_value += value

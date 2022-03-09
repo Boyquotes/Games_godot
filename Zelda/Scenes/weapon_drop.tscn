@@ -56,7 +56,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="potency" type="Label" parent="stats_tt/stats/stats_container"]
+[node name="power" type="Label" parent="stats_tt/stats/stats_container"]
 margin_right = 124.0
 margin_bottom = 14.0
 text = "Potency"
@@ -64,7 +64,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="value" type="Label" parent="stats_tt/stats/stats_container/potency"]
+[node name="value" type="Label" parent="stats_tt/stats/stats_container/power"]
 margin_left = 60.0
 margin_right = 100.0
 margin_bottom = 14.0

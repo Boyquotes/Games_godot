@@ -9,7 +9,7 @@ var starter_weapon = true
 var player_hp = 300
 var player_xp = 0
 var player_lvl = 0
-var player_pwr = 50
+var player_pwr
 var player_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
 var enemy_resistance
 var damage_type
@@ -29,6 +29,7 @@ var dropped_items = []
 var dropped = false
 var inventory_items = []
 var current_armor_id
+var current_weapon_id
 var stats
 var prev_scene
 var GUI = null
@@ -118,8 +119,10 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
 			GUI.get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
 			
-			player_pwr += stren
+#			player_pwr += stren
 			player.move_speed += (0.1*dex)
+			GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
+			GUI.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			
 			ilvl += 10
 		else:
@@ -131,7 +134,7 @@ func _deferred_goto_scene(path, spawn):
 			player_weapon = "1"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["pot"] = 5
+			weapon["power"] = 5
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
 			inventory.get_child(0).pickup_item(inventory_items[0])
@@ -275,7 +278,7 @@ func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 #	var weighting = drop_weighting({0:0.75, 1:0.15, 2:0.10})
-	var weighting = drop_weighting({0:0.05, 1:0.05, 2:0.90})	
+	var weighting = drop_weighting({0:0.10, 1:0.45, 2:0.45})
 	var freq = rand.randi_range(0,2)
 	
 #	if freq == 1:	
@@ -358,7 +361,7 @@ func drop_weapon(pos, ilvl):
 	
 	item = ItemDB.WEAPON[str(rand.randi_range(1, ItemDB.WEAPON.size()))]
 	
-	var pot = (item["pot"] + rand.randi_range(0, ilvl))
+	var potency = (item["power"] + rand.randi_range(0, ilvl))
 	var drop = ResourceLoader.load("res://Scenes/weapon_drop.tscn").instance()	
 	current_scene.call_deferred("add_child", drop)	
 	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))	
@@ -366,7 +369,7 @@ func drop_weapon(pos, ilvl):
 	drop.name = "item"	
 	drop.get_node("id").text = str(item_id)
 	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("potency").get_node("value").text = str(pot)
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("power").get_node("value").text = str(potency)
 	
 	var item_name = item.name
 	var icon = item.icon
@@ -376,7 +379,7 @@ func drop_weapon(pos, ilvl):
 		"icon": icon,
 		"name": item_name,
 		"slot": item.slot,
-		"pot": pot
+		"power": potency
 	}
 	
 	dropped_items.push_front(item)

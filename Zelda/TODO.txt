@@ -70,4 +70,5 @@ Bugs:
 - tooltip shows on pwr up items
 
 Bugs Asteroid:
-point threshhold for scoreboard/lvl up not resetting 
+- point threshhold for scoreboard/lvl up not resetting 
+- highscore is fucked

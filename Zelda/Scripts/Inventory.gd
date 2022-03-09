@@ -26,7 +26,7 @@ func _ready():
 				pickup_item(i)
 				break
 		for i in Globals.inventory_items:
-			if i["id"] != Globals.current_armor_id and i["name"] != Globals.player_weapon:
+			if i["id"] != Globals.current_armor_id and i["id"] != Globals.current_weapon_id:
 				pickup_item(i)
 		return
 	pass
