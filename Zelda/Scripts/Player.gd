@@ -3,6 +3,7 @@ extends KinematicBody2D
 var level_tilemap
 var objects_tilemap
 var weapons_tilemap
+var ammo_tilemap
 var anim_player
 var move_speed = 3
 var player_invuln
@@ -29,8 +30,8 @@ func _ready():
 	
 	mana_progress = Globals.GUI.get_node("mana_progress")
 	
-	if Globals.current_scene.has_node("Weapons_TileMap"):
-		weapons_tilemap = Globals.current_scene.get_node("Weapons_TileMap")
+	if Globals.current_scene.has_node("Ammo_TileMap"):
+		ammo_tilemap = Globals.current_scene.get_node("Ammo_TileMap")
 
 	if level_tilemap == null:
 			level_tilemap = $"/root/Main/Starting_World/Level_TileMap"
@@ -108,6 +109,18 @@ func player_movement():
 	move_vec = move_vec.normalized()
 	
 	move_and_collide(move_vec * move_speed)	
+	
+func get_tile_name(coll, tilemap):
+	var cell = tilemap.world_to_map(coll.position - coll.normal)
+	var tile_id = tilemap.get_cellv(cell)
+	var tile_name = coll.collider.tile_set.tile_get_name(tile_id)
+	
+#	print("cell ", cell, " tile_id ", tile_id, " tile_name ", tile_name)
+
+	return [tile_name, tile_id]
+
+func clear_tile(coll, tile_id):
+	return coll.collider.tile_set.remove_tile(tile_id)
 
 func player_collision():
 	var coll = move_and_collide(Vector2() * move_speed)
@@ -124,17 +137,20 @@ func player_collision():
 				Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 				Globals.goto_scene("res://Scenes/Levels/Starting_World.tscn", "null")
 
-		if coll.collider.name == "Weapons_TileMap":
-			var weapons_tile_name = get_tile_name(coll, weapons_tilemap)[0]
-			var cell = get_tile_name(coll, weapons_tilemap)[1]
+		if coll.collider.name == "Ammo_TileMap":
+#			var test = get_tile_name(coll, ammo_tilemap)
+			var ammo_tile_name = get_tile_name(coll, ammo_tilemap)[0]
+			var cell = get_tile_name(coll, ammo_tilemap)[1]
 
-			if weapons_tile_name:
-				weapon_achievement_anim(weapons_tile_name, coll, cell)
-				var weapon = ItemDB.WEAPON[weapons_tile_name]
-				weapon["id"] = Globals.item_id
-				Globals.item_id += 1
-				Globals.inventory_items.push_front(weapon)
-				Globals.inventory.get_child(0).pickup_item(Globals.inventory_items[0])
+			if ammo_tile_name:
+#				ammo_tile_name.queue_free()
+				Globals.current_scene.get_node("Ammo_TileMap").queue_free()
+#				weapon_achievement_anim(ammo_tile_name, coll, cell)
+#				var weapon = ItemDB.WEAPON[ammo_tile_name]
+#				weapon["id"] = Globals.item_id
+#				Globals.item_id += 1
+#				Globals.inventory_items.push_front(weapon)
+#				Globals.inventory.get_child(0).pickup_item(Globals.inventory_items[0])
 	
 		if coll.collider.name == "camera_transition":
 			var tween = get_node("Camera_Transition")
@@ -295,16 +311,6 @@ func weapon_achievement_anim(weapons_tile_name, coll, cell):
 		weapon_sprite.queue_free()
 
 		Globals.current_scene.get_node("Weapons_TileMap").queue_free()
-
-func get_tile_name(coll, tilemap):
-	var cell = tilemap.world_to_map(coll.position - coll.normal)
-	var tile_id = tilemap.get_cellv(cell)
-	var tile_name = coll.collider.tile_set.tile_get_name(tile_id)
-
-	return [tile_name, tile_id]
-
-func clear_tile(coll, tile_id):
-	return coll.collider.tile_set.remove_tile(tile_id)
 	
 func weapon_attack(move_vec, axe_pos, axe_dir):
 	attacking = true

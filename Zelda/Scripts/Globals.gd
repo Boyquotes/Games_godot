@@ -149,18 +149,18 @@ func _deferred_goto_scene(path, spawn):
 		enemy_tracker = enemy_pos.size()
 		GUI.get_node("number").text = str(enemy_tracker)
 	
-	if current_scene.name == "Shop" and player_weapon and !starter_weapon:
+#	if current_scene.name == "Shop" and player_weapon and !starter_weapon:
 #		current_scene.get_node("Weapons_TileMap").tile_set.remove_tile(current_scene.get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
-		current_scene.get_node("Weapons_TileMap").queue_free()
+#		current_scene.get_node("Weapons_TileMap").queue_free()
 	if current_scene.name == "Shop" and player_weapon and starter_weapon:
 		starter_weapon = false
 		var rand = RandomNumberGenerator.new()
-		var weapons = current_scene.get_node("Weapons_TileMap").get_tileset().get_tiles_ids()
+		var ammo = current_scene.get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
 		rand.randomize()
-		current_scene.get_node("Weapons_TileMap").set_cell(14,8,rand.randi_range(1, weapons.size()))
-		current_scene.get_node("Weapons_TileMap").set_cell(15,8,rand.randi_range(1, weapons.size()))
-		while current_scene.get_node("Weapons_TileMap").get_cell(14,8) == current_scene.get_node("Weapons_TileMap").get_cell(15,8):
-			current_scene.get_node("Weapons_TileMap").set_cell(15,8,rand.randi_range(1, weapons.size()))
+		current_scene.get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
+		current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
+		while current_scene.get_node("Ammo_TileMap").get_cell(14,8) == current_scene.get_node("Ammo_TileMap").get_cell(15,8):
+			current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
 
 #		Weapons in inventory are still shown in Shop bc only player wep is removed when entering the shop	
 	print_stray_nodes()
