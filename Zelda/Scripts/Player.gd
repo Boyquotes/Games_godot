@@ -143,8 +143,13 @@ func player_collision():
 			var cell = get_tile_name(coll, ammo_tilemap)[1]
 
 			if ammo_tile_name:
-#				ammo_tile_name.queue_free()
+				Globals.current_ammo = ammo_tile_name
+				Globals.GUI.get_node("ammo").text = ammo_tile_name
+				Globals.GUI.get_node("ammo_num").text = Globals.current_scene.get_node("ammo_capacity").text
 				Globals.current_scene.get_node("Ammo_TileMap").queue_free()
+				Globals.current_scene.get_node("ammo_capacity").visible = false
+				Globals.current_scene.get_node("ammo_capacity_two").visible = false
+
 #				weapon_achievement_anim(ammo_tile_name, coll, cell)
 #				var weapon = ItemDB.WEAPON[ammo_tile_name]
 #				weapon["id"] = Globals.item_id
@@ -339,7 +344,12 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			Globals.current_scene.add_child(weapon)
 			weapon.position = self.position
 			var arrow = load("res://Assets/arrow.png")
-			weapon.get_node("weapon").set_texture(arrow)
+			if Globals.current_ammo != null:
+				var special_arrow = load("res://Assets/ammo_" + Globals.current_ammo + ".png")
+				weapon.get_node("weapon").set_texture(special_arrow)
+				weapon.get_node("weapon").rotation_degrees = -45
+			else:
+				weapon.get_node("weapon").set_texture(arrow)
 			if weapon_dir == "DOWN":  #or move_vec == Vector2.ZERO:
 				weapon.rotation_degrees = -90
 				weapon.velocity = Vector2.DOWN

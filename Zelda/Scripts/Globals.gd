@@ -30,6 +30,7 @@ var dropped = false
 var inventory_items = []
 var current_armor_id
 var current_weapon_id
+var current_ammo = null
 var stats
 var prev_scene
 var GUI = null
@@ -124,7 +125,7 @@ func _deferred_goto_scene(path, spawn):
 			GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
 			GUI.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			
-			ilvl += 10
+#			ilvl += 10
 		else:
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
@@ -161,6 +162,8 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
 		while current_scene.get_node("Ammo_TileMap").get_cell(14,8) == current_scene.get_node("Ammo_TileMap").get_cell(15,8):
 			current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
+		current_scene.get_node("ammo_capacity").text = str(ilvl*10)
+		current_scene.get_node("ammo_capacity_two").text = str(ilvl*10)
 
 #		Weapons in inventory are still shown in Shop bc only player wep is removed when entering the shop	
 	print_stray_nodes()

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ammo_arrow_poison.png-ebad67a091f07e99e415be8c91858a3d.stex"
+path="res://.import/ammo_poison arrow.png-247b32e0acf82c28ed73c1198ce4ff32.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/ammo_arrow_poison.png"
-dest_files=[ "res://.import/ammo_arrow_poison.png-ebad67a091f07e99e415be8c91858a3d.stex" ]
+source_file="res://Assets/ammo_poison arrow.png"
+dest_files=[ "res://.import/ammo_poison arrow.png-247b32e0acf82c28ed73c1198ce4ff32.stex" ]
 
 [params]
 
