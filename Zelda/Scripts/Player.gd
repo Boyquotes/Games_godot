@@ -144,6 +144,7 @@ func player_collision():
 
 			if ammo_tile_name:
 				Globals.current_ammo = ammo_tile_name
+				Globals.current_ammo_num = int(Globals.current_scene.get_node("ammo_capacity").text)
 				Globals.GUI.get_node("ammo").text = ammo_tile_name
 				Globals.GUI.get_node("ammo_num").text = Globals.current_scene.get_node("ammo_capacity").text
 				Globals.current_scene.get_node("Ammo_TileMap").queue_free()
@@ -344,10 +345,13 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			Globals.current_scene.add_child(weapon)
 			weapon.position = self.position
 			var arrow = load("res://Assets/arrow.png")
-			if Globals.current_ammo != null:
+			if Globals.current_ammo != null and Globals.current_ammo_num != 0:
 				var special_arrow = load("res://Assets/ammo_" + Globals.current_ammo + ".png")
 				weapon.get_node("weapon").set_texture(special_arrow)
 				weapon.get_node("weapon").rotation_degrees = -45
+				Globals.current_ammo_num -= 1
+				Globals.GUI.get_node("ammo_num").text = str(Globals.current_ammo_num)
+#				ammo -= 1
 			else:
 				weapon.get_node("weapon").set_texture(arrow)
 			if weapon_dir == "DOWN":  #or move_vec == Vector2.ZERO:

@@ -24,6 +24,11 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		var lvl_progress = Globals.GUI.get_node("lvl_progress")
 		var enemy_hp_bar = body.get_node("enemy_hp_bar")
 		var original_player_pwr = Globals.player_pwr
+		if Globals.current_ammo != "standard":
+			if Globals.current_ammo == "frost arrow":
+				body.move_speed = 0.5
+			elif Globals.current_ammo == "fire arrow":
+				pass
 #		for j in Globals.inventory_items:
 #			if j["name"] == Globals.player_weapon:
 #				Globals.player_pwr -= (Globals.enemy_resistance[j["dmg"]]/10)

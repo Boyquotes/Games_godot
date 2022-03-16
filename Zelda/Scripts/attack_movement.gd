@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var move_speed
+var move_speed = 3
 var anim_enemy
 
 func _ready():
@@ -13,7 +13,7 @@ func _physics_process(delta):
 	
 func attack_movement(body):
 	anim_enemy = $AnimationPlayer
-	move_speed = 3
+#	move_speed = 3
 	var dir = body.position.direction_to(Globals.player.position)
 	var attack_coll = move_and_collide(Vector2.move_toward(dir, move_speed))
 	anim_enemy.play("attack")

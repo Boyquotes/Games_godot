@@ -30,7 +30,8 @@ var dropped = false
 var inventory_items = []
 var current_armor_id
 var current_weapon_id
-var current_ammo = null
+var current_ammo = "standard"
+var current_ammo_num = 0
 var stats
 var prev_scene
 var GUI = null
@@ -119,6 +120,8 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
 			GUI.get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
 			GUI.get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
+			GUI.get_node("ammo").text = current_ammo
+			GUI.get_node("ammo_num").text = str(current_ammo_num)
 			
 #			player_pwr += stren
 			player.move_speed += (0.1*dex)
@@ -140,6 +143,8 @@ func _deferred_goto_scene(path, spawn):
 			inventory_items.push_front(weapon)
 			inventory.get_child(0).pickup_item(inventory_items[0])
 			GUI.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
+			GUI.get_node("ammo").text = current_ammo
+			GUI.get_node("ammo_num").text = str(current_ammo_num)
 
 		player.position = player_spawn_pos
 
@@ -162,8 +167,8 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
 		while current_scene.get_node("Ammo_TileMap").get_cell(14,8) == current_scene.get_node("Ammo_TileMap").get_cell(15,8):
 			current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
-		current_scene.get_node("ammo_capacity").text = str(ilvl*10)
-		current_scene.get_node("ammo_capacity_two").text = str(ilvl*10)
+		current_scene.get_node("ammo_capacity").text = str(ilvl*2)
+		current_scene.get_node("ammo_capacity_two").text = str(ilvl*2)
 
 #		Weapons in inventory are still shown in Shop bc only player wep is removed when entering the shop	
 	print_stray_nodes()
