@@ -163,7 +163,8 @@ func _deferred_goto_scene(path, spawn):
 		var rand = RandomNumberGenerator.new()
 		var ammo = current_scene.get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
 		rand.randomize()
-		current_scene.get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
+#		current_scene.get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
+		current_scene.get_node("Ammo_TileMap").set_cell(14,8,0)
 		current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
 		while current_scene.get_node("Ammo_TileMap").get_cell(14,8) == current_scene.get_node("Ammo_TileMap").get_cell(15,8):
 			current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))

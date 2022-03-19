@@ -27,6 +27,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		if Globals.current_ammo != "standard":
 			if Globals.current_ammo == "frost arrow":
 				body.move_speed = 0.5
+				body.unfreeze_timer()
 			elif Globals.current_ammo == "fire arrow":
 				pass
 #		for j in Globals.inventory_items:
@@ -36,34 +37,16 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			if str(body) == Globals.enemy_id[i]:
 				if "axe" in self.get_node("weapon").texture.get_path():
 					Globals.enemy_hp[i] -= (Globals.player_pwr*2)
-				else: 
+				elif Globals.current_ammo == "fire arrow": 
+					body.burn_timer(i)
+				else:
 					Globals.enemy_hp[i] -= Globals.player_pwr
-				enemy_hp_bar.visible = true	
-				enemy_hp_bar.value -= Globals.player_pwr
+				enemy_hp_bar.visible = true
+				if Globals.current_ammo != "fire arrow": 
+					enemy_hp_bar.value -= Globals.player_pwr
 				Globals.player_pwr = original_player_pwr
 				if Globals.enemy_hp[i] <= 0:
-					Globals.enemy_id.remove(i)
-					Globals.enemy_pos.remove(i)
-					Globals.enemy_hp.remove(i)
-					Globals.enemies.remove(i)
-					Globals.enemy_tracker -= 1
-					Globals.drop(body.position)
-					Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
-					if lvl_progress.value == (lvl_progress.max_value-lvl_progress.step):
-						var curr_lvl = int(Globals.GUI.get_node("lvl").text)
-						curr_lvl += 1
-						Globals.GUI.get_node("lvl").text = str(curr_lvl)
-						Globals.player_lvl = curr_lvl
-						lvl_progress.value = 0
-						Globals.current_scene.get_node("GUI").get_node("lvl_up").visible = true
-						var lvlupstats = int(Globals.current_scene.get_node("GUI").get_node("stat_screen").get_node("points").get_node("points_num").text) 
-						lvlupstats += 5
-						Globals.current_scene.get_node("GUI").get_node("stat_screen").get_node("points").get_node("points_num").text = str(lvlupstats)
-						if Globals.player_lvl%2 == 0 and Globals.player_lvl != 0:
-							pass
-#							Globals.player_pwr += 50
-					else:
-						lvl_progress.value += lvl_progress.step
+					body.remove_enemy(i)
 					body.queue_free()
 					break
 
