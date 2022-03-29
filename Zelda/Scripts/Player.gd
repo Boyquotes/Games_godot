@@ -351,6 +351,9 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				weapon.get_node("weapon").rotation_degrees = -45
 				Globals.current_ammo_num -= 1
 				Globals.GUI.get_node("ammo_num").text = str(Globals.current_ammo_num)
+				if Globals.current_ammo_num == 0:
+					Globals.current_ammo = "standard arrow"
+					Globals.GUI.get_node("ammo").text = "standard arrow"
 #				ammo -= 1
 			else:
 				weapon.get_node("weapon").set_texture(arrow)

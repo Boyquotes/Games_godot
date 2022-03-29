@@ -24,31 +24,39 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		var lvl_progress = Globals.GUI.get_node("lvl_progress")
 		var enemy_hp_bar = body.get_node("enemy_hp_bar")
 		var original_player_pwr = Globals.player_pwr
-		if Globals.current_ammo != "standard":
-			if Globals.current_ammo == "frost arrow":
-				body.move_speed = 0.5
-				body.unfreeze_timer()
-			elif Globals.current_ammo == "fire arrow":
-				pass
+		print(body.arrow_ailments.test())
+#		if Globals.current_ammo != "standard":
+#			if Globals.current_ammo == "frost arrow":
+#				body.move_speed = 0.5
+#				body.unfreeze_timer()
+#			elif Globals.current_ammo == "fire arrow":
+#				pass
 #		for j in Globals.inventory_items:
 #			if j["name"] == Globals.player_weapon:
 #				Globals.player_pwr -= (Globals.enemy_resistance[j["dmg"]]/10)
 		for i in Globals.enemy_pos.size():
 			if str(body) == Globals.enemy_id[i]:
-				if "axe" in self.get_node("weapon").texture.get_path():
-					Globals.enemy_hp[i] -= (Globals.player_pwr*2)
-				elif Globals.current_ammo == "fire arrow": 
-					body.burn_timer(i)
-				else:
-					Globals.enemy_hp[i] -= Globals.player_pwr
-				enemy_hp_bar.visible = true
-				if Globals.current_ammo != "fire arrow": 
-					enemy_hp_bar.value -= Globals.player_pwr
-				Globals.player_pwr = original_player_pwr
-				if Globals.enemy_hp[i] <= 0:
-					body.remove_enemy(i)
-					body.queue_free()
-					break
+#				if "axe" in self.get_node("weapon").texture.get_path():
+#					Globals.enemy_hp[i] -= (Globals.player_pwr*2)
+				if "arrow" in Globals.current_ammo:
+					if Globals.current_ammo == "frost arrow":
+						body.move_speed = 0.5
+						body.unfreeze_timer()
+					elif Globals.current_ammo == "fire arrow": 
+						body.burn_timer(i)
+					elif Globals.current_ammo == "lightning arrow":
+						body.shock_timer(i)
+					elif Globals.current_ammo == "poison arrow":
+						body.poison_timer(i)
+					else:
+						Globals.enemy_hp[i] -= Globals.player_pwr
+						enemy_hp_bar.value -= Globals.player_pwr
+					enemy_hp_bar.visible = true
+					Globals.player_pwr = original_player_pwr
+					if Globals.enemy_hp[i] <= 0:
+						body.arrow_ailments.remove_enemy(i)
+						body.queue_free()
+						break
 
 				Globals.player_xp = lvl_progress.value
 

@@ -30,7 +30,7 @@ var dropped = false
 var inventory_items = []
 var current_armor_id
 var current_weapon_id
-var current_ammo = "standard"
+var current_ammo = "standard arrow"
 var current_ammo_num = 0
 var stats
 var prev_scene
@@ -164,8 +164,9 @@ func _deferred_goto_scene(path, spawn):
 		var ammo = current_scene.get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
 		rand.randomize()
 #		current_scene.get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
-		current_scene.get_node("Ammo_TileMap").set_cell(14,8,0)
-		current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
+#		current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
+		current_scene.get_node("Ammo_TileMap").set_cell(14,8,4)
+		current_scene.get_node("Ammo_TileMap").set_cell(15,8,0)
 		while current_scene.get_node("Ammo_TileMap").get_cell(14,8) == current_scene.get_node("Ammo_TileMap").get_cell(15,8):
 			current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
 		current_scene.get_node("ammo_capacity").text = str(ilvl*2)
@@ -238,8 +239,7 @@ func spawn_enemies(pos, type):
 #			print(tilemap.get_cellv(tilemap.world_to_map(enemy.position)))
 #			enemy.queue_free()
 #			spawn_enemies(pos)
-#			return
-		
+#			return		
 		enemy_pos.remove(pos)
 		enemy_dir.remove(pos)
 		enemy_id.remove(pos)
