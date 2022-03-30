@@ -20,11 +20,10 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 	
 	if "Enemy" in body.name:
 		if "Starting" in body.name:
-			body.set_script(load("res://Scripts/attack_movement.gd"))
+			body.enemy_attack = true
 		var lvl_progress = Globals.GUI.get_node("lvl_progress")
 		var enemy_hp_bar = body.get_node("enemy_hp_bar")
 		var original_player_pwr = Globals.player_pwr
-		print(body.arrow_ailments.test())
 #		if Globals.current_ammo != "standard":
 #			if Globals.current_ammo == "frost arrow":
 #				body.move_speed = 0.5
@@ -54,7 +53,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 					enemy_hp_bar.visible = true
 					Globals.player_pwr = original_player_pwr
 					if Globals.enemy_hp[i] <= 0:
-						body.arrow_ailments.remove_enemy(i)
+						body.remove_enemy(i)
 						body.queue_free()
 						break
 

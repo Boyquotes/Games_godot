@@ -5,11 +5,11 @@ var anim_enemy
 var move_vec
 var proj_life_time
 var snow_attack = false
+var enemy_attack = false
 
 func _ready():
 	anim_enemy = $AnimationPlayer
 	proj_life_time = 2
-	preload("res://Scripts/arrow_ailments.gd")
 	
 	if Globals.current_scene.name == "Desert_World":
 		$attack_timeout.set_wait_time(proj_life_time)
@@ -17,7 +17,7 @@ func _ready():
 
 func _physics_process(delta):
 
-	if Globals.all_attack or snow_attack:
+	if Globals.all_attack or snow_attack or enemy_attack:
 		enemy_attack_move()
 	elif Globals.current_scene.name == "Fire_World":
 		anim_enemy.play("idle")
@@ -109,5 +109,28 @@ func _on_jungle_attack_timeout_timeout():
 	for i in 4:
 		fire_thorn_proj(dir)
 		dir += 90
+		
+func remove_enemy(i):
+	var lvl_progress = Globals.GUI.get_node("lvl_progress")
+	Globals.enemy_id.remove(i)
+	Globals.enemy_pos.remove(i)
+	Globals.enemy_hp.remove(i)
+	Globals.enemies.remove(i)
+	Globals.enemy_tracker -= 1
+	Globals.drop(self.position)
+	Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
+	if lvl_progress.value == (lvl_progress.max_value-lvl_progress.step):
+		var curr_lvl = int(Globals.GUI.get_node("lvl").text)
+		curr_lvl += 1
+		Globals.GUI.get_node("lvl").text = str(curr_lvl)
+		Globals.player_lvl = curr_lvl
+		lvl_progress.value = 0
+		Globals.current_scene.get_node("GUI").get_node("lvl_up").visible = true
+		var lvlupstats = int(Globals.current_scene.get_node("GUI").get_node("stat_screen").get_node("points").get_node("points_num").text) 
+		lvlupstats += 5
+		Globals.current_scene.get_node("GUI").get_node("stat_screen").get_node("points").get_node("points_num").text = str(lvlupstats)
+	else:
+		lvl_progress.value += lvl_progress.step
+	self.queue_free()
 
 
