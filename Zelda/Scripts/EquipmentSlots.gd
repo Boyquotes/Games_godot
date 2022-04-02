@@ -30,13 +30,14 @@ func insert_item(pos):
 	
 	if slot == $WEAPON:
 		Globals.player_weapon = item["name"]
-		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_screen").get_node("power").get_node("power"), false, item["id"])
+		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), false, item["id"])
+#		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_screen").get_node("dmg_type").get_node("power"), false, item["id"])
 		Globals.current_weapon_id = item["id"]
 		
 	if slot == $CHARACTER:
-		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
-		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])
-		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("stren"), false, item["id"])
+		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
+		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])
+		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren"), false, item["id"])
 		Globals.current_armor_id = item["id"]
 		
 		Globals.GUI.attribute_points(Globals.GUI.get_node("res").get_node("fire").get_node("fire"), false, item["id"])
@@ -61,11 +62,11 @@ func grab_item(pos):
 	items[item_slot] = null
 	if item_slot == "WEAPON":
 		Globals.player_weapon = null
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("power").get_node("power"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), item_id)
 	elif item_slot == "CHARACTER":
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("dex").get_node("dex"), item_id)
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("intel"), item_id)
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("stren"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren"), item_id)
 		
 		Globals.GUI.remove_points(Globals.GUI.get_node("res").get_node("fire").get_node("fire"), item_id)
 		Globals.GUI.remove_points(Globals.GUI.get_node("res").get_node("cold").get_node("cold"), item_id)

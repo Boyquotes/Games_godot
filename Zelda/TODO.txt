@@ -3,6 +3,7 @@ NEXT STEPS:
 - random weapon stats (damage types)
 	- base types: bow / axe / wand
 	- ammunition types: damage types -> status effects
+	- make tooltip work in inventory
 	
 - Bosses (which do dmg / have resistances specific to current biome)
 - new body armours (for specific biomes, "of fire" -> fire res)

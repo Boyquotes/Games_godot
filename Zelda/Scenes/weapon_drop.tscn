@@ -72,5 +72,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="dmg_type" type="Label" parent="stats_tt/stats/stats_container"]
+margin_top = 18.0
+margin_right = 124.0
+margin_bottom = 32.0
+text = "Type"
+
+[node name="value" type="Label" parent="stats_tt/stats/stats_container/dmg_type"]
+margin_left = 60.0
+margin_right = 120.0
+margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="mouse_entered" from="." to="." method="_on_drop_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_drop_mouse_exited"]

@@ -11,6 +11,7 @@ var player_xp = 0
 var player_lvl = 0
 var player_pwr
 var player_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
+var player_dmg_types = {"fire": 0, "cold": 0, "lightning": 0, "physical": 0, "poison": 0}
 var enemy_resistance
 var damage_type
 var max_mana = 100
@@ -82,11 +83,11 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.add_child(Items)
 		player.add_child(inventory)
 		
-		GUI.get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
-		GUI.get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
-		GUI.get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
-		GUI.get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
-		GUI.get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
+		GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
+		GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
+		GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
+		GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
+		GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
 		
 		inventory.get_child(0).rect_position = player.position
 		
@@ -104,12 +105,12 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("mana_progress").max_value = max_mana
 			GUI.get_node("mana_progress").value = int(current_mana)
 			GUI.get_node("mana_progress").get_node("mana_value").text = current_mana
-			GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("dex").get_node("dex"), current_armor_id)
-			GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("int").get_node("intel"), current_armor_id)
-			GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("str").get_node("stren"), current_armor_id)
-			GUI.get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
-			GUI.get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
-			GUI.get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
+			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), current_armor_id)
+			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), current_armor_id)
+			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren"), current_armor_id)
+			GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
+			GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
+			GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
 			GUI.remove_points(Globals.GUI.get_node("res").get_node("fire").get_node("fire"), current_armor_id)
 			GUI.remove_points(Globals.GUI.get_node("res").get_node("cold").get_node("cold"), current_armor_id)
 			GUI.remove_points(Globals.GUI.get_node("res").get_node("lightning").get_node("lightning"), current_armor_id)
@@ -125,8 +126,8 @@ func _deferred_goto_scene(path, spawn):
 			
 #			player_pwr += stren
 			player.move_speed += (0.1*dex)
-			GUI.remove_points(Globals.GUI.get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
-			GUI.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
+			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
+			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			
 #			ilvl += 10
 		else:
@@ -139,10 +140,11 @@ func _deferred_goto_scene(path, spawn):
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
 			weapon["power"] = 5
+			weapon["dmg_type"] = "physical"
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
 			inventory.get_child(0).pickup_item(inventory_items[0])
-			GUI.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
+			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			GUI.get_node("ammo").text = current_ammo
 			GUI.get_node("ammo_num").text = str(current_ammo_num)
 
@@ -371,14 +373,17 @@ func drop_weapon(pos, ilvl):
 	item = ItemDB.WEAPON[str(rand.randi_range(1, ItemDB.WEAPON.size()))]
 	
 	var potency = (item["power"] + rand.randi_range(0, ilvl))
-	var drop = ResourceLoader.load("res://Scenes/weapon_drop.tscn").instance()	
-	current_scene.call_deferred("add_child", drop)	
-	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))	
+	var dmg_types = ["fire", "cold", "lightning", "physical", "poison"]
+	var dmg_type = rand.randi_range(0, dmg_types.size()-1)
+	var drop = ResourceLoader.load("res://Scenes/weapon_drop.tscn").instance()
+	current_scene.call_deferred("add_child", drop)
+	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
 	drop.position = pos
-	drop.name = "item"	
+	drop.name = "item"
 	drop.get_node("id").text = str(item_id)
 	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
 	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("power").get_node("value").text = str(potency)
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("dmg_type").get_node("value").text = str(dmg_types[dmg_type])
 	
 	var item_name = item.name
 	var icon = item.icon
@@ -388,7 +393,8 @@ func drop_weapon(pos, ilvl):
 		"icon": icon,
 		"name": item_name,
 		"slot": item.slot,
-		"power": potency
+		"power": potency,
+		"dmg_type": dmg_types[dmg_type]
 	}
 	
 	dropped_items.push_front(item)

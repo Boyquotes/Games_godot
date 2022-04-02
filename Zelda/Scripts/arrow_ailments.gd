@@ -6,10 +6,7 @@ var shocked = false
 
 func _ready():
 	pass
-	
-func test():
-	print("test")
-	
+
 func unfreeze_timer(curr_enemy):
 	yield(get_tree().create_timer(2), "timeout")
 	curr_enemy.move_speed = 3
