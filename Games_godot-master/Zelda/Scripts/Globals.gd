@@ -9,7 +9,7 @@ var starter_weapon = true
 var player_hp = 300
 var player_xp = 0
 var player_lvl = 0
-var player_pwr
+var player_pwr = 0
 var player_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
 var player_dmg_types = {"fire": 0, "cold": 0, "lightning": 0, "physical": 0, "poison": 0}
 var enemy_resistance
@@ -111,20 +111,18 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
-			GUI.remove_points(Globals.GUI.get_node("res").get_node("fire").get_node("fire"), current_armor_id)
-			GUI.remove_points(Globals.GUI.get_node("res").get_node("cold").get_node("cold"), current_armor_id)
-			GUI.remove_points(Globals.GUI.get_node("res").get_node("lightning").get_node("lightning"), current_armor_id)
-			GUI.remove_points(Globals.GUI.get_node("res").get_node("physical").get_node("physical"), current_armor_id)
-			GUI.remove_points(Globals.GUI.get_node("res").get_node("poison").get_node("poison"), current_armor_id)
-			GUI.get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
-			GUI.get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
-			GUI.get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
-			GUI.get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
-			GUI.get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
+			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire"), current_armor_id)
+			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold"), current_armor_id)
+			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning"), current_armor_id)
+			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical"), current_armor_id)
+			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), current_armor_id)
+			GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
+			GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
+			GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
+			GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
+			GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
 			GUI.get_node("ammo").text = current_ammo
 			GUI.get_node("ammo_num").text = str(current_ammo_num)
-			
-#			player_pwr += stren
 			player.move_speed += (0.1*dex)
 			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
@@ -133,13 +131,13 @@ func _deferred_goto_scene(path, spawn):
 		else:
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
-			player_pwr = 50
+#			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
 			player_weapon = "1"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 5
+			weapon["power"] = 30
 			weapon["dmg_type"] = "physical"
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
@@ -225,17 +223,17 @@ func spawn_enemies(pos, type):
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 			
 		if "Fire" in current_scene.name:
-			enemy_resistance = {"fire": 70, "cold": 10, "lightning": 10, "physical": 10, "poison": 5}
+			enemy_resistance = {"fire": 20, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
 		if "Starting" in current_scene.name:
-			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 70, "poison": 5}
+			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 20, "poison": 10}
 		if "lightning" in current_scene.name:
-			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 70, "physical": 10, "poison": 5}
+			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 20, "physical": 10, "poison": 10}
 		if "Snow" in current_scene.name:
-			enemy_resistance = {"fire": 10, "cold": 70, "lightning": 10, "physical": 10, "poison": 5}
+			enemy_resistance = {"fire": 10, "cold": 20, "lightning": 10, "physical": 10, "poison": 10}
 		if "Desert" in current_scene.name:
-			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 70}
+			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 20}
 		if "Jungle" in current_scene.name:
-			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 70, "physical": 10, "poison": 5}
+			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 20, "physical": 10, "poison": 10}
 		
 #		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
 #			print(tilemap.get_cellv(tilemap.world_to_map(enemy.position)))
@@ -289,7 +287,7 @@ func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 #	var weighting = drop_weighting({0:0.75, 1:0.15, 2:0.10})
-	var weighting = drop_weighting({0:0.10, 1:0.45, 2:0.45})
+	var weighting = drop_weighting({0:0.05, 1:0.05, 2:0.90})
 	var freq = rand.randi_range(0,2)
 	
 #	if freq == 1:	
@@ -372,7 +370,7 @@ func drop_weapon(pos, ilvl):
 	
 	item = ItemDB.WEAPON[str(rand.randi_range(1, ItemDB.WEAPON.size()))]
 	
-	var potency = (item["power"] + rand.randi_range(0, ilvl))
+	var potency = (rand.randi_range(5, ilvl))*3
 	var dmg_types = ["fire", "cold", "lightning", "physical", "poison"]
 	var dmg_type = rand.randi_range(0, dmg_types.size()-1)
 	var drop = ResourceLoader.load("res://Scenes/weapon_drop.tscn").instance()
@@ -399,8 +397,5 @@ func drop_weapon(pos, ilvl):
 	
 	dropped_items.push_front(item)
 	item_id += 1
-	
-
-	
 
 

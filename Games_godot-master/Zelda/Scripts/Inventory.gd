@@ -18,7 +18,7 @@ func _ready():
 	if Globals.inventory_items.size() > 0:
 		weap_slot_taken = false
 		for i in Globals.inventory_items:
-			if i["name"] == Globals.player_weapon:
+			if i["id"] == Globals.current_weapon_id:
 				pickup_item(i)
 				break
 		for i in Globals.inventory_items:
