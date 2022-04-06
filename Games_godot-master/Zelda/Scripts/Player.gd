@@ -300,6 +300,7 @@ func _on_mana_fill_timer_timeout():
 	else:
 		$mana_fill_timer.stop()
 
+#currently not in use
 func weapon_achievement_anim(weapons_tile_name, coll, cell):
 		clear_tile(coll, cell)
 

@@ -137,7 +137,7 @@ func _deferred_goto_scene(path, spawn):
 			player_weapon = "1"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 30
+			weapon["power"] = 100
 			weapon["dmg_type"] = "physical"
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)

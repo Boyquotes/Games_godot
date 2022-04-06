@@ -80,11 +80,15 @@ func return_item():
 	last_container.insert_item(item_held)
 	item_held = null
 
-func pickup_item(item_id):	
+func pickup_item(item_id):
 	var item = item_base.instance()
 	item.set_meta("id", item_id["id"])
 	item.texture = load(item_id["icon"])
-	add_child(item)
+	add_child(item)	
+	if item_id["slot"] == "WEAPON":
+		item.get_node("stats_tt/stats_tt_popup/stats/stats_container/power/value").text = str(item_id["power"])
+		item.get_node("stats_tt/stats_tt_popup/stats/stats_container/dmg_type/value").text = str(item_id["dmg_type"])
+		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
 	if !weap_slot_taken and item_id["slot"] == "WEAPON":
 		eq_slots.insert_item(item)
 		weap_slot_taken = true
