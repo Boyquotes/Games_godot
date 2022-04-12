@@ -286,8 +286,8 @@ func drop_weighting(num):
 func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
-#	var weighting = drop_weighting({0:0.75, 1:0.15, 2:0.10})
-	var weighting = drop_weighting({0:0.05, 1:0.05, 2:0.90})
+	var weighting = drop_weighting({0:0.75, 1:0.15, 2:0.10})
+#	var weighting = drop_weighting({0:0.05, 1:0.05, 2:0.90})
 	var freq = rand.randi_range(0,2)
 	
 #	if freq == 1:	

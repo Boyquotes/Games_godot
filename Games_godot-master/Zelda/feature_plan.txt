@@ -1,0 +1,43 @@
+||Game loop||
+
+kill enemies -> gather equipment and weapons -> lvl up stats -> kill lvl boss -> proceed to next lvl -> start from the beginning
+
+enemies and bosses get harder the further you progress
+
+||Features||
+
+- drops
+	- equipment/weapons with different dmg/res type
+	- temporary power ups
+	- money to buy ammo in shop
+
+- random spawns
+	- ammo shop with random ammo for the bow and wand weapon type
+	- additional enemies to farm more drops -> drawback
+
+(- rogue-style random boons after killing boss/choose from different options that influence playstyle and/or weapon behaviour)
+
+||plan||
+
+- drops
+	- finish all weapon types -> ammo types
+	- ammo-shop buy system
+	- body armours with different resists
+
+- enemies
+	- different dmg types depending on lvl
+	- implement possibility to spawn more enemies before boss spawn
+
+- bosses
+	- different dmg types depending on lvl
+
+- difficulty scaling 
+
+- safe game
+
+-animations/graphical updates
+	- visible armour
+
+(- boon drop/selection on boss kill implementation)
+
+

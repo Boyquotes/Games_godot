@@ -7,6 +7,8 @@ func _ready():
 func _on_lvl_up_pressed():
 	
 	self.visible = false
-	self.get_parent().get_node("stat_container").get_node("stat_screen").visible = true
+	
+	Globals.current_scene.get_node("GUI").get_node("points_container").visible = true
+	Globals.current_scene.get_node("GUI").get_node("stat_container").visible = true
 	
 	

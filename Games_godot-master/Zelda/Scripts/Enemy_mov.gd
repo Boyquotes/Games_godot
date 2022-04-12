@@ -126,9 +126,9 @@ func remove_enemy(i):
 		Globals.player_lvl = curr_lvl
 		lvl_progress.value = 0
 		Globals.current_scene.get_node("GUI").get_node("lvl_up").visible = true
-		var lvlupstats = int(Globals.current_scene.get_node("GUI").get_node("stat_container").get_node("stat_screen").get_node("points").get_node("points_num").text) 
+		var lvlupstats = int(Globals.current_scene.get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text) 
 		lvlupstats += 5
-		Globals.current_scene.get_node("GUI").get_node("stat_container").get_node("stat_screen").get_node("points").get_node("points_num").text = str(lvlupstats)
+		Globals.current_scene.get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text = str(lvlupstats)
 	else:
 		lvl_progress.value += lvl_progress.step
 	self.queue_free()

@@ -62,6 +62,8 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			Globals.boss.position.x = 500
 			Globals.boss.position.y = 250
 			Globals.current_scene.call_deferred("add_child", Globals.boss)
+			if "Jungle" in Globals.current_scene.name:
+				print("jungleBOSS")
 			return
 
 	if "boss" in body.name:
@@ -77,7 +79,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 #		Globals.num_of_enemies(1)
 
 func dmg_calc():
-	var dmg = Globals.player_pwr	
+	var dmg = Globals.player_pwr
 	for j in Globals.GUI.get_node("stat_container").get_node("dmg").get_children():
 		for k in Globals.enemy_resistance:
 			if j.text == k and int(j.get_child(0).text) > 0:

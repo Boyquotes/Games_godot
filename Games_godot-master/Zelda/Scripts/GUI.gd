@@ -4,28 +4,29 @@ func _ready():
 	pass
 
 func _on_str_pressed():
-	attribute_points($stat_screen/str/stren, true, false)
+	attribute_points($stat_container/stat_screen/str/stren, true, false)
 	attribute_effects("stren", "augment", 1)
 
 func _on_int_pressed():
-	attribute_points($stat_screen/int/intel, true, false)
+	attribute_points($stat_container/stat_screen/int/intel, true, false)
 	attribute_effects("intel", "augment", 1)
 
 func _on_dex_pressed():
-	attribute_points($stat_screen/dex/dex, true, false)
+	attribute_points($stat_container/stat_screen/dex/dex, true, false)
 	attribute_effects("dex", "augment", 1)
 
 func attribute_points(stat, lvlup_stats, id):
 	var i = int(stat.text)
 	if lvlup_stats:
-		var j = int($GUI/stat_screen/points_container/points/points_num.text)
+		var j = int($points_container/points/points_num.text)
 		if j > 0:
 			i += 1
 			j -= 1
 			stat.text = str(i)
-			$points/points_num.text = str(j)
+			$points_container/points/points_num.text = str(j)
 		if j == 0:
-			$dex.get_parent().visible = false
+			$stat_container.visible = false
+			$points_container.visible = false
 	else:
 		if stat.name == "dex" or stat.name == "intel" or stat.name == "stren":
 			for y in Globals.inventory_items:
