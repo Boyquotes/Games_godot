@@ -21,7 +21,7 @@ enemies and bosses get harder the further you progress
 
 - drops
 	- finish all weapon types -> ammo types
-	- ammo-shop buy system
+	- ammo-shop buy system ==started==
 	- body armours with different resists
 
 - enemies

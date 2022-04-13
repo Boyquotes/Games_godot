@@ -140,14 +140,20 @@ func player_collision():
 			var ammo_tile_name = get_tile_name(coll, ammo_tilemap)[0]
 			var cell = get_tile_name(coll, ammo_tilemap)[1]
 
-			if ammo_tile_name:
+			if ammo_tile_name and Globals.coins >= int(Globals.current_scene.get_node("ammo_price").text):
 				Globals.current_ammo = ammo_tile_name
+				Globals.coins -= int(Globals.current_scene.get_node("ammo_price").text)
+				Globals.GUI.get_node("coins").get_node("coins_num").text = str(Globals.coins)
 				Globals.current_ammo_num = int(Globals.current_scene.get_node("ammo_capacity").text)
 				Globals.GUI.get_node("ammo").text = ammo_tile_name
 				Globals.GUI.get_node("ammo_num").text = Globals.current_scene.get_node("ammo_capacity").text
 				Globals.current_scene.get_node("Ammo_TileMap").queue_free()
 				Globals.current_scene.get_node("ammo_capacity").visible = false
 				Globals.current_scene.get_node("ammo_capacity_two").visible = false
+				Globals.current_scene.get_node("ammo_price").visible = false
+				Globals.current_scene.get_node("ammo_price_two").visible = false
+			else:
+				print("notEnoughMuns")
 
 #				weapon_achievement_anim(ammo_tile_name, coll, cell)
 #				var weapon = ItemDB.WEAPON[ammo_tile_name]
@@ -184,7 +190,8 @@ func player_collision():
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
 		if "muns" in coll.collider.name:
-			print(coll.collider.name)
+			Globals.coins += 50
+			Globals.GUI.get_node("coins").get_node("coins_num").text = str(Globals.coins)
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
 		if "all_attack" in coll.collider.name:

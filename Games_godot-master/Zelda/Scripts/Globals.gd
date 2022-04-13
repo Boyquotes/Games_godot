@@ -17,6 +17,7 @@ var damage_type
 var max_mana = 100
 var poison_stacks = 0
 var current_mana
+var coins = 0
 var dex = 0
 var intel = 0
 var stren = 0
@@ -96,7 +97,7 @@ func _deferred_goto_scene(path, spawn):
 #		wtf is dis
 			if current_scene.name == "Starting_World":
 				current_scene.get_node("Player_Spawn").position = shop_spawn_pos
-				
+
 			player_spawn_pos = current_scene.get_node("Player_Spawn").position
 			GUI.get_node("hp_num").text = str(player_hp)
 			GUI.get_node("hp_visual").value = player_hp
@@ -126,7 +127,8 @@ func _deferred_goto_scene(path, spawn):
 			player.move_speed += (0.1*dex)
 			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
-			
+			GUI.get_node("coins").get_node("coins_num").text = str(coins)
+
 #			ilvl += 10
 		else:
 			player_spawn_pos = Vector2(512, 300)
@@ -163,10 +165,12 @@ func _deferred_goto_scene(path, spawn):
 		var rand = RandomNumberGenerator.new()
 		var ammo = current_scene.get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
 		rand.randomize()
-#		current_scene.get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
-#		current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
-		current_scene.get_node("Ammo_TileMap").set_cell(14,8,4)
-		current_scene.get_node("Ammo_TileMap").set_cell(15,8,0)
+		current_scene.get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
+		current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
+		current_scene.get_node("ammo_price").text = str(50)
+		current_scene.get_node("ammo_price_two").text = str(50)
+#		current_scene.get_node("Ammo_TileMap").set_cell(14,8,4)
+#		current_scene.get_node("Ammo_TileMap").set_cell(15,8,0)
 		while current_scene.get_node("Ammo_TileMap").get_cell(14,8) == current_scene.get_node("Ammo_TileMap").get_cell(15,8):
 			current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
 		current_scene.get_node("ammo_capacity").text = str(ilvl*2)
@@ -213,7 +217,7 @@ func spawn_enemies(pos, type):
 
 		rand.randomize()
 		enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
-#	
+
 		var dir = [Vector2.DOWN, Vector2.UP, Vector2.RIGHT, Vector2.LEFT]
 		enemy.move_vec = dir[rand.randi() % dir.size()]
 		
@@ -286,7 +290,7 @@ func drop_weighting(num):
 func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
-	var weighting = drop_weighting({0:0.75, 1:0.15, 2:0.10})
+	var weighting = drop_weighting({0:0.90, 1:0.05, 2:0.05})
 #	var weighting = drop_weighting({0:0.05, 1:0.05, 2:0.90})
 	var freq = rand.randi_range(0,2)
 	
@@ -299,7 +303,7 @@ func drop(pos):
 		drop_weapon(pos, ilvl)
 	
 func drop_pwrup(pos):
-	var drop_id = drop_weighting({0:0.05, 1:0.15, 2:0.15, 3:0.15, 4:0.35, 5:0.15})
+	var drop_id = drop_weighting({0:0.02, 1:0.02, 2:0.02, 3:0.02, 4:0.90, 5:0.02})
 	var drop_texture = Items.get_tileset().tile_get_texture(drop_id)
 	var drop_name = Items.get_tileset().tile_get_name(drop_id)
 	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()
@@ -336,7 +340,6 @@ func drop_body_armour(pos, ilvl):
 	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("dex").get_node("value").text = str(stats[2])
 	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("str").get_node("value").text = str(stats[1])
 	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("int").get_node("value").text = str(stats[0])
-	
 	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("fire").get_node("value").text = str(res[0])
 	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("cold").get_node("value").text = str(res[1])
 	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("lightning").get_node("value").text = str(res[2])
