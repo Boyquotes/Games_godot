@@ -139,7 +139,7 @@ func _deferred_goto_scene(path, spawn):
 			player_weapon = "1"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 100
+			weapon["power"] = 50
 			weapon["dmg_type"] = "physical"
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
@@ -290,8 +290,8 @@ func drop_weighting(num):
 func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
-	var weighting = drop_weighting({0:0.90, 1:0.05, 2:0.05})
-#	var weighting = drop_weighting({0:0.05, 1:0.05, 2:0.90})
+#	var weighting = drop_weighting({0:0.90, 1:0.05, 2:0.05})
+	var weighting = drop_weighting({0:0.05, 1:0.05, 2:0.90})
 	var freq = rand.randi_range(0,2)
 	
 #	if freq == 1:	
@@ -373,7 +373,7 @@ func drop_weapon(pos, ilvl):
 	
 	item = ItemDB.WEAPON[str(rand.randi_range(1, ItemDB.WEAPON.size()))]
 	
-	var potency = (rand.randi_range(5, ilvl))*3
+	var potency = (rand.randi_range((ilvl*2), (ilvl*3)))*3
 	var dmg_types = ["fire", "cold", "lightning", "physical", "poison"]
 	var dmg_type = rand.randi_range(0, dmg_types.size()-1)
 	var drop = ResourceLoader.load("res://Scenes/weapon_drop.tscn").instance()

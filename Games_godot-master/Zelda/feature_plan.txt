@@ -21,6 +21,7 @@ enemies and bosses get harder the further you progress
 
 - drops
 	- finish all weapon types -> ammo types
+	- ailment grafix on enemy texture
 	- ammo-shop buy system ==started==
 	- body armours with different resists
 
@@ -39,5 +40,10 @@ enemies and bosses get harder the further you progress
 	- visible armour
 
 (- boon drop/selection on boss kill implementation)
+
+||Bugs||
+
+- enemies don't collide with drops
+
 
 
