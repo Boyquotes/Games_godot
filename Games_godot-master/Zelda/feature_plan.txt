@@ -10,6 +10,7 @@ enemies and bosses get harder the further you progress
 	- equipment/weapons with different dmg/res type
 	- temporary power ups
 	- money to buy ammo in shop
+	- more armour drops in later lvls
 
 - random spawns
 	- ammo shop with random ammo for the bow and wand weapon type

@@ -16,6 +16,7 @@ var mana_progress
 var speed_up = false
 var dmg_up = false
 var is_moving = true
+var cooldown = false
 
 var weapon = preload("res://Scenes/Weapon.tscn")
 
@@ -102,18 +103,24 @@ func player_movement():
 				axe_dir = "y"
 			weapon_attack(move_vec, axe_pos, axe_dir)
 		else:
-			weapon_attack(move_vec, axe_pos, axe_dir)
+			if cooldown == false and Globals.current_ammo != "magic arrow":
+				weapon_attack(move_vec, axe_pos, axe_dir)
+				$attack_cooldown.start()
+				cooldown = true
+			elif Globals.current_ammo == "magic arrow":
+				weapon_attack(move_vec, axe_pos, axe_dir)
 
 	move_vec = move_vec.normalized()
 	
-	move_and_collide(move_vec * move_speed)	
+	move_and_collide(move_vec * move_speed)
+	
+func _on_attack_cooldown_timeout():
+	cooldown = false
 	
 func get_tile_name(coll, tilemap):
 	var cell = tilemap.world_to_map(coll.position - coll.normal)
 	var tile_id = tilemap.get_cellv(cell)
 	var tile_name = coll.collider.tile_set.tile_get_name(tile_id)
-	
-#	print("cell ", cell, " tile_id ", tile_id, " tile_name ", tile_name)
 
 	return [tile_name, tile_id]
 
@@ -140,20 +147,20 @@ func player_collision():
 			var ammo_tile_name = get_tile_name(coll, ammo_tilemap)[0]
 			var cell = get_tile_name(coll, ammo_tilemap)[1]
 
-			if ammo_tile_name and Globals.coins >= int(Globals.current_scene.get_node("ammo_price").text):
-				Globals.current_ammo = ammo_tile_name
-				Globals.coins -= int(Globals.current_scene.get_node("ammo_price").text)
-				Globals.GUI.get_node("coins").get_node("coins_num").text = str(Globals.coins)
-				Globals.current_ammo_num = int(Globals.current_scene.get_node("ammo_capacity").text)
-				Globals.GUI.get_node("ammo").text = ammo_tile_name
-				Globals.GUI.get_node("ammo_num").text = Globals.current_scene.get_node("ammo_capacity").text
-				Globals.current_scene.get_node("Ammo_TileMap").queue_free()
-				Globals.current_scene.get_node("ammo_capacity").visible = false
-				Globals.current_scene.get_node("ammo_capacity_two").visible = false
-				Globals.current_scene.get_node("ammo_price").visible = false
-				Globals.current_scene.get_node("ammo_price_two").visible = false
-			else:
-				print("notEnoughMuns")
+#			if ammo_tile_name and Globals.coins >= int(Globals.current_scene.get_node("ammo_price").text):
+			Globals.current_ammo = ammo_tile_name
+			Globals.coins -= int(Globals.current_scene.get_node("ammo_price").text)
+			Globals.GUI.get_node("coins").get_node("coins_num").text = str(Globals.coins)
+			Globals.current_ammo_num = int(Globals.current_scene.get_node("ammo_capacity").text)
+			Globals.GUI.get_node("ammo").text = ammo_tile_name
+			Globals.GUI.get_node("ammo_num").text = Globals.current_scene.get_node("ammo_capacity").text
+			Globals.current_scene.get_node("Ammo_TileMap").queue_free()
+			Globals.current_scene.get_node("ammo_capacity").visible = false
+			Globals.current_scene.get_node("ammo_capacity_two").visible = false
+			Globals.current_scene.get_node("ammo_price").visible = false
+			Globals.current_scene.get_node("ammo_price_two").visible = false
+#			else:
+#				print("notEnoughMuns")
 
 #				weapon_achievement_anim(ammo_tile_name, coll, cell)
 #				var weapon = ItemDB.WEAPON[ammo_tile_name]
@@ -433,3 +440,4 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				Globals.mana = mana_progress.value
 			else:
 				print("OOM")
+

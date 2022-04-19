@@ -242,9 +242,12 @@ one_shot = true
 wait_time = 10.0
 one_shot = true
 
+[node name="attack_cooldown" type="Timer" parent="."]
+
 [connection signal="timeout" from="invuln_timer" to="." method="_on_invuln_timer_timeout"]
 [connection signal="timeout" from="mana_fill_timer" to="." method="_on_mana_fill_timer_timeout"]
 [connection signal="timeout" from="pwr_up_timer" to="." method="_on_pwr_up_timer_timeout"]
 [connection signal="timeout" from="poison_timer" to="." method="_on_poison_timer_timeout"]
 [connection signal="timeout" from="bleed_timer" to="." method="_on_bleed_timer_timeout"]
 [connection signal="timeout" from="freeze_timer" to="." method="_on_freeze_timer_timeout"]
+[connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]
