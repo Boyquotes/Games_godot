@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var move_speed = 1
+var move_speed
 var anim_enemy
 var move_vec
 var proj_life_time
@@ -51,13 +51,21 @@ func enemy_movement():
 				move_vec = Vector2.RIGHT
 			elif move_vec == Vector2.RIGHT:
 				move_vec = Vector2.LEFT
+				
+func _on_Area2D_area_entered(area):
+	if "web" in area.name:
+		move_speed = 0.5
+
+func _on_Area2D_area_exited(area):
+	if "web" in area.name:
+		move_speed = 1
 
 func enemy_attack_move():
 	var dir = self.position.direction_to(Globals.player.position)
 	var attack_coll = move_and_collide(Vector2.move_toward(dir, move_speed))
 	
 	anim_enemy.play("attack")
-	move_speed = 3
+#	move_speed += 3
 	if dir.x > 0:
 		$Body.set_flip_h(true)
 	else:
@@ -132,5 +140,8 @@ func remove_enemy(i):
 	else:
 		lvl_progress.value += lvl_progress.step
 	self.queue_free()
+
+
+
 
 

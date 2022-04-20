@@ -40,6 +40,12 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 						body.shock_timer(i, dmg_taken)
 					elif Globals.current_ammo == "poison arrow":
 						body.poison_timer(i, dmg_taken)
+					elif Globals.current_ammo == "web arrow":
+						var spider_web = ResourceLoader.load("res://Scenes/spider_web.tscn").instance()
+						Globals.current_scene.call_deferred("add_child", spider_web)
+						spider_web.position = body.position
+						Globals.enemy_hp[i] -= dmg_taken
+						enemy_hp_bar.value -= dmg_taken
 					else:
 						Globals.enemy_hp[i] -= dmg_taken
 						enemy_hp_bar.value -= dmg_taken
