@@ -69,6 +69,21 @@ const ARMOR = {
 		"lightning": 5,
 		"physical": 5,
 		"poison": 5
+	},
+	"3": {
+		"id": "2",
+		"name": "frog_chest",
+		"icon": ITEM_PATH + "frog_chest.png",
+		"type": "int",
+		"slot": "CHARACTER",
+		"str": 10,
+		"int": 10,
+		"dex": 30,
+		"fire": 5,
+		"cold": 5,
+		"lightning": 5,
+		"physical": 5,
+		"poison": 20
 	}
 }
 

@@ -21,14 +21,14 @@ enemies and bosses get harder the further you progress
 ||plan||
 
 - drops
-	- finish all weapon types -> ammo types
-	- ailment grafix on enemy texture
+	- finish all weapon types -> ammo types 
+	- ailment grafix on enemy texture 
 	- ammo-shop buy system ==started==
-	- body armours with different resists
+	- body armours with different resists 
 
 - enemies
-	- different dmg types depending on lvl
-	- implement possibility to spawn more enemies before boss spawn
+	- different dmg types depending on lvl 
+	- implement possibility to spawn more enemies before boss spawn 
 
 - bosses
 	- different dmg types depending on lvl

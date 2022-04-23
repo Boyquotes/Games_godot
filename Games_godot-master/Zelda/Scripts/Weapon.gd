@@ -77,7 +77,8 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		Globals.boss.queue_free()
 		Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 		Globals.goto_scene("res://Scenes/Levels/" + Globals.next_scene + ".tscn", Globals.current_scene.name)
-		Globals.num_of_enemies(2)
+		Globals.num_of_enemies(5)
+		Globals.ilvl += 10
 		
 #		goto powerup screen?
 #		next lvl

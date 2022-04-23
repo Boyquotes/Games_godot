@@ -61,6 +61,7 @@ func _on_Area2D_area_exited(area):
 		move_speed = 1
 
 func enemy_attack_move():
+	move_speed = 1
 	var dir = self.position.direction_to(Globals.player.position)
 	var attack_coll = move_and_collide(Vector2.move_toward(dir, move_speed))
 	

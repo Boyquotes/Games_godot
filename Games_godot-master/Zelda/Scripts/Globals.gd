@@ -165,13 +165,11 @@ func _deferred_goto_scene(path, spawn):
 		var rand = RandomNumberGenerator.new()
 		var ammo = current_scene.get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
 		rand.randomize()
-#		current_scene.get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
-		current_scene.get_node("Ammo_TileMap").set_cell(14,8,5)
+		current_scene.get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
+#		current_scene.get_node("Ammo_TileMap").set_cell(14,8,5)
 		current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
 		current_scene.get_node("ammo_price").text = str(50)
 		current_scene.get_node("ammo_price_two").text = str(50)
-#		current_scene.get_node("Ammo_TileMap").set_cell(14,8,4)
-#		current_scene.get_node("Ammo_TileMap").set_cell(15,8,0)
 		while current_scene.get_node("Ammo_TileMap").get_cell(14,8) == current_scene.get_node("Ammo_TileMap").get_cell(15,8):
 			current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
 		current_scene.get_node("ammo_capacity").text = str(ilvl*2)
@@ -287,12 +285,12 @@ func drop_weighting(num):
 		sum += num[i]
 		if n <= sum: 
 			return i
-			
+
 func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 #	var weighting = drop_weighting({0:0.90, 1:0.05, 2:0.05})
-	var weighting = drop_weighting({0:0.05, 1:0.05, 2:0.90})
+	var weighting = drop_weighting({0:0.05, 1:0.90, 2:0.05})
 	var freq = rand.randi_range(0,2)
 	
 #	if freq == 1:	
@@ -319,7 +317,10 @@ func drop_body_armour(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 	
-	item = ItemDB.ARMOR[str(rand.randi_range(1, ItemDB.ARMOR.size()))]
+	if ilvl == 10:
+		item = ItemDB.ARMOR[str(rand.randi_range(1, ItemDB.WEAPON.size()-1))]
+	elif ilvl == 20:
+		item = ItemDB.ARMOR[str(rand.randi_range(1, ItemDB.ARMOR.size()))]
 
 	var stats = [(item["int"] + rand.randi_range(0, ilvl)), (item["str"] + rand.randi_range(0, ilvl)), (item["dex"] + rand.randi_range(0, ilvl))]
 	rand.randomize()
@@ -335,7 +336,7 @@ func drop_body_armour(pos, ilvl):
 	drop.position = pos
 	drop.name = "item"
 	
-	drop.get_node("id").text = str(item_id)	
+	drop.get_node("id").text = str(item_id)
 		
 	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
 	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("dex").get_node("value").text = str(stats[2])
@@ -373,6 +374,7 @@ func drop_weapon(pos, ilvl):
 	rand.randomize()
 	
 	item = ItemDB.WEAPON[str(rand.randi_range(1, ItemDB.WEAPON.size()))]
+		
 	
 	var potency = (rand.randi_range((ilvl*2), (ilvl*3)))*3
 	var dmg_types = ["fire", "cold", "lightning", "physical", "poison"]
