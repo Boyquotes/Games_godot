@@ -84,7 +84,19 @@ func pickup_item(item_id):
 	var item = item_base.instance()
 	item.set_meta("id", item_id["id"])
 	item.texture = load(item_id["icon"])
-	add_child(item)	
+	item.get_node("type").text = item_id["slot"]
+	add_child(item)
+#	print("itemSLOT ",item_id["slot"])
+	if item_id["slot"] == "CHARACTER":
+		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/str/value").text = str(item_id["stren"])
+		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/dex/value").text = str(item_id["dex"])
+		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/int/value").text = str(item_id["intel"])
+		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/res/fire/value").text = str(item_id["fire"])
+		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/res/cold/value").text = str(item_id["cold"])
+		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/res/lightning/value").text = str(item_id["lightning"])
+		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/res/physical/value").text = str(item_id["physical"])
+		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/res/poison/value").text = str(item_id["poison"])
+		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
 	if item_id["slot"] == "WEAPON":
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container/power/value").text = str(item_id["power"])
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container/dmg_type/value").text = str(item_id["dmg_type"])
