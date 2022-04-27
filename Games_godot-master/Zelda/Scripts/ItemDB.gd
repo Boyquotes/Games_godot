@@ -87,11 +87,22 @@ const ARMOR = {
 	}
 }
 
+const PWRUP = {
+	"1": {
+		"id": "1",
+		"icon": ITEM_PATH + "pwrup_fire_proj_wand.png",
+		"name": "fire_proj",
+		"slot": "POWERUP"
+	}
+}
+
 func get_item(item_id):
 	if item_id in WEAPON:
 		return WEAPON[item_id]
 	elif item_id in ARMOR:
 		return ARMOR[item_id]
+	elif item_id in PWRUP:
+		return PWRUP[item_id]
 	else:
 		print("fuckingtrash")
 #		return WEAPON["error"]

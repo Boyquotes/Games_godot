@@ -1,3 +1,7 @@
+NOTES 27/04/22
+	- dropped pwrups are not taken from the DB -> cannot be put in inv with current system -> make (wand) pwrups drop as items from a DB (?)
+
+
 ||Game loop||
 
 kill enemies -> gather equipment and weapons -> lvl up stats -> kill lvl boss -> proceed to next lvl -> start from the beginning

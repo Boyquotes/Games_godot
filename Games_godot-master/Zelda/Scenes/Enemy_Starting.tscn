@@ -14,16 +14,15 @@
 [ext_resource path="res://Assets/enemy_goober_attack_two.png" type="Texture" id=12]
 [ext_resource path="res://Assets/enemy_goober_attack.png" type="Texture" id=13]
 
-[sub_resource type="CapsuleShape2D" id=7]
+[sub_resource type="CapsuleShape2D" id=1]
 radius = 11.079
 height = 7.46487
 
-[sub_resource type="CapsuleShape2D" id=1]
+[sub_resource type="CapsuleShape2D" id=2]
 radius = 12.1408
 height = 3.5816
 
-[sub_resource type="Animation" id=2]
-resource_name = "attack"
+[sub_resource type="Animation" id=3]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -39,7 +38,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 12 ), ExtResource( 13 ) ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=4]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -55,7 +54,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 6 ), ExtResource( 10 ) ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body:texture")
@@ -70,7 +69,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 7 ), ExtResource( 2 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body:texture")
@@ -85,7 +84,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 1 ), ExtResource( 3 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body:texture")
@@ -107,20 +106,20 @@ script = ExtResource( 11 )
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 7 )
+shape = SubResource( 1 )
 
 [node name="Body" type="Sprite" parent="."]
 texture = ExtResource( 12 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack = SubResource( 2 )
-anims/enemy_goober_walk = SubResource( 3 )
-anims/walk_down = SubResource( 4 )
-anims/walk_side = SubResource( 5 )
-anims/walk_up = SubResource( 6 )
+anims/attack = SubResource( 3 )
+anims/enemy_goober_walk = SubResource( 4 )
+anims/walk_down = SubResource( 5 )
+anims/walk_side = SubResource( 6 )
+anims/walk_up = SubResource( 7 )
 
 [node name="enemy_hp_bar" type="TextureProgress" parent="."]
 visible = false

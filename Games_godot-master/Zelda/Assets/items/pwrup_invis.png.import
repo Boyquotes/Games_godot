@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/dmg_up.png-477a3a0a0376df109386cbe4a3bbc0f3.stex"
+path="res://.import/pwrup_invis.png-638bdcd63d76c968c3297b5c1efb6903.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Drops/dmg_up.png"
-dest_files=[ "res://.import/dmg_up.png-477a3a0a0376df109386cbe4a3bbc0f3.stex" ]
+source_file="res://Assets/items/pwrup_invis.png"
+dest_files=[ "res://.import/pwrup_invis.png-638bdcd63d76c968c3297b5c1efb6903.stex" ]
 
 [params]
 

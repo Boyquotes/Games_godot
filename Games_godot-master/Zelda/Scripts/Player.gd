@@ -225,10 +225,17 @@ func player_collision():
 			Globals.player_pwr += 25
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
-		if "item" in coll.collider.name:
+#		if "fire_proj" in coll.collider.name:
+#			print("pickupFIREPROJ")
+#			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			
+		if "item" in coll.collider.name or "fire_proj" in coll.collider.name:
+#			print("droppedITEMS ", Globals.dropped_items)
 			var pos = 0
 			for i in Globals.dropped_items:
+#				print("droppedITEMS ", Globals.dropped_items)
 				if i["id"] == int(coll.collider.get_node("id").text):
+					print("pickupPWRUP")
 					Globals.inventory_items.push_front(i)
 					Globals.dropped_items.remove(pos)
 					Globals.inventory.get_child(0).pickup_item(i)

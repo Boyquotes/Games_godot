@@ -6,7 +6,6 @@ onready var inv_base = $InventoryBase
 onready var grid_bkpk = $InventoryBase/GridBackPack
 onready var eq_slots = $InventoryBase/EquipmentSlots
 
-
 var item_held = null
 var item_offset = Vector2()
 var last_container = null

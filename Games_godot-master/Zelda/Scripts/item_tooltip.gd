@@ -13,8 +13,12 @@ func _on_drop_mouse_entered():
 #			$stats_tt.show()
 #		else:
 #			$stats_tt.hide()
-	$stats_tt.rect_position = self.position
-	$stats_tt.show()
+#	print(self.name)
+	if "pwrup" in self.name:
+		return
+	else:
+		$stats_tt.rect_position = self.position
+		$stats_tt.show()
 
 func _on_drop_mouse_exited():
 	$stats_tt.hide()

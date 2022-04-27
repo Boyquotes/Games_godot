@@ -139,7 +139,7 @@ func _deferred_goto_scene(path, spawn):
 			player_weapon = "1"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 50
+			weapon["power"] = 500
 			weapon["dmg_type"] = "physical"
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
@@ -290,7 +290,7 @@ func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 #	var weighting = drop_weighting({0:0.90, 1:0.05, 2:0.05})
-	var weighting = drop_weighting({0:0.05, 1:0.90, 2:0.05})
+	var weighting = drop_weighting({0:0.90, 1:0.05, 2:0.05})
 	var freq = rand.randi_range(0,2)
 	
 #	if freq == 1:	
@@ -302,7 +302,7 @@ func drop(pos):
 		drop_weapon(pos, ilvl)
 	
 func drop_pwrup(pos):
-	var drop_id = drop_weighting({0:0.02, 1:0.02, 2:0.02, 3:0.02, 4:0.90, 5:0.02})
+	var drop_id = drop_weighting({0:0.01, 1:0.01, 2:0.01, 3:0.01, 4:0.01, 5:0.01, 6:0.94})
 	var drop_texture = Items.get_tileset().tile_get_texture(drop_id)
 	var drop_name = Items.get_tileset().tile_get_name(drop_id)
 	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()
@@ -312,6 +312,9 @@ func drop_pwrup(pos):
 	drop.name = drop_name
 
 	drop.position = pos
+	
+	dropped_items.push_front(drop)
+	item_id += 1
 
 func drop_body_armour(pos, ilvl):
 	var rand = RandomNumberGenerator.new()

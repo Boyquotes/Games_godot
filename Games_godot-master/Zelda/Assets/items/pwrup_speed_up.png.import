@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/health_up.png-6dddbc1ebf3577d0b957e4f7bded1c70.stex"
+path="res://.import/pwrup_speed_up.png-85bac16663e728a54f684948bd7f12de.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Drops/health_up.png"
-dest_files=[ "res://.import/health_up.png-6dddbc1ebf3577d0b957e4f7bded1c70.stex" ]
+source_file="res://Assets/items/pwrup_speed_up.png"
+dest_files=[ "res://.import/pwrup_speed_up.png-85bac16663e728a54f684948bd7f12de.stex" ]
 
 [params]
 

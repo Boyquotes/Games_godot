@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/muns.png-338eaf23b7d636c80a435769ecc70eb9.stex"
+path="res://.import/pwrup_health_up.png-28611ccccebe92787c21293d5a4259b6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Drops/muns.png"
-dest_files=[ "res://.import/muns.png-338eaf23b7d636c80a435769ecc70eb9.stex" ]
+source_file="res://Assets/items/pwrup_health_up.png"
+dest_files=[ "res://.import/pwrup_health_up.png-28611ccccebe92787c21293d5a4259b6.stex" ]
 
 [params]
 
