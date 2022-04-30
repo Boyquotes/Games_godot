@@ -12,6 +12,7 @@ var last_container = null
 var last_pos = Vector2()
 var weap_slot_taken = false
 var char_slot_taken = false
+var pwr_slot_taken = false
 
 func _ready():
 	if Globals.inventory_items.size() > 0:
@@ -100,12 +101,17 @@ func pickup_item(item_id):
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container/power/value").text = str(item_id["power"])
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container/dmg_type/value").text = str(item_id["dmg_type"])
 		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
+	if item_id["slot"] == "POWERUP":
+		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
 	if !weap_slot_taken and item_id["slot"] == "WEAPON":
 		eq_slots.insert_item(item)
 		weap_slot_taken = true
 	elif !char_slot_taken and item_id["slot"] == "CHARACTER":
 		eq_slots.insert_item(item)
 		char_slot_taken = true
+	elif !char_slot_taken and item_id["slot"] == "POWERUP":
+		eq_slots.insert_item(item)
+		pwr_slot_taken = true
 	elif !grid_bkpk.insert_item_at_first_available_spot(item):
 		item.queue_free()
 		return false

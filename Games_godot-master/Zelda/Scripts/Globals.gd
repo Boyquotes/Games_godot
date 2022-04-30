@@ -6,6 +6,7 @@ var next_scene
 var player_spawn_pos = null
 var player_weapon = false
 var starter_weapon = true
+var wand_proj = null
 var player_hp = 300
 var player_xp = 0
 var player_lvl = 0
@@ -59,7 +60,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("exit"):
 		get_tree().quit()
 	
-func goto_scene(path, spawn):	
+func goto_scene(path, spawn):
 	
 	call_deferred("_deferred_goto_scene", path, spawn)
 
@@ -136,7 +137,7 @@ func _deferred_goto_scene(path, spawn):
 #			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
-			player_weapon = "1"
+			player_weapon = "3"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
 			weapon["power"] = 500
@@ -302,18 +303,29 @@ func drop(pos):
 		drop_weapon(pos, ilvl)
 	
 func drop_pwrup(pos):
-	var drop_id = drop_weighting({0:0.01, 1:0.01, 2:0.01, 3:0.01, 4:0.01, 5:0.01, 6:0.94})
-	var drop_texture = Items.get_tileset().tile_get_texture(drop_id)
-	var drop_name = Items.get_tileset().tile_get_name(drop_id)
+	var drop_id = str(drop_weighting({1:0.94, 2:0.01, 3:0.01, 4:0.01, 5:0.01, 6:0.01, 7:0.01}))
+	var drop_texture = ItemDB.PWRUP[drop_id]
+	var drop_name = ItemDB.PWRUP[drop_id].name
 	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()
+	
+	item = ItemDB.PWRUP[drop_id]
 
 	current_scene.call_deferred("add_child", drop)
-	drop.get_node("drop_sprite").set_texture(drop_texture)
+	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
 	drop.name = drop_name
-
 	drop.position = pos
 	
-	dropped_items.push_front(drop)
+	var icon = item.icon
+	
+	item = {
+		"id": item_id,
+		"name": item.name,
+		"icon": icon,
+		"type": item.type,
+		"slot": item.slot
+	}
+	
+	dropped_items.push_front(item)
 	item_id += 1
 
 func drop_body_armour(pos, ilvl):

@@ -96,4 +96,13 @@ func attribute_effects(stat, effect, value):
 			Globals.player.move_speed += (0.1 * value)
 		else: 
 			Globals.player.move_speed -= (0.1 * value)
+			
+func buff_effects(buff, effect):
+	if effect == "activate":
+		if "fire_proj" in buff:
+			Globals.wand_proj = "fire_one"
+		else:
+			return
+	else:
+		Globals.wand_proj = null
 

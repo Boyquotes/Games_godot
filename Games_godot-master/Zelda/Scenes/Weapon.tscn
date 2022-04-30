@@ -86,7 +86,7 @@ __meta__ = {
 }
 
 [node name="weapon" type="Sprite" parent="."]
-texture = ExtResource( 4 )
+texture = ExtResource( 12 )
 
 [node name="weapon_coll" type="CollisionShape2D" parent="."]
 rotation = 0.785398

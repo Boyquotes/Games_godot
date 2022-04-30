@@ -71,7 +71,7 @@ const ARMOR = {
 		"poison": 5
 	},
 	"3": {
-		"id": "2",
+		"id": "3",
 		"name": "frog_chest",
 		"icon": ITEM_PATH + "frog_chest.png",
 		"type": "int",
@@ -91,9 +91,52 @@ const PWRUP = {
 	"1": {
 		"id": "1",
 		"icon": ITEM_PATH + "pwrup_fire_proj_wand.png",
-		"name": "fire_proj",
+		"type": "wand_proj",
+		"name": "pwrup_fire_proj",
+		"slot": "POWERUP"
+	},
+	"2": {
+		"id": "2",
+		"icon": ITEM_PATH + "pwrup_all_attack.png",
+		"type": "buff",
+		"name": "pwrup_all_attack",
+		"slot": "POWERUP"
+	},
+	"3": {
+		"id": "3",
+		"icon": ITEM_PATH + "pwrup_dmg_up.png",
+		"type": "buff",
+		"name": "pwrup_dmg_up",
+		"slot": "POWERUP"
+	},
+	"4": {
+		"id": "4",
+		"icon": ITEM_PATH + "pwrup_health_up.png",
+		"type": "buff",
+		"name": "pwrup_health_up",
+		"slot": "POWERUP"
+	},
+	"5": {
+		"id": "5",
+		"icon": ITEM_PATH + "pwrup_invis.png",
+		"type": "buff",
+		"name": "pwrup_invis",
+		"slot": "POWERUP"
+	},
+	"6": {
+		"id": "6",
+		"icon": ITEM_PATH + "pwrup_muns.png",
+		"name": "pwrup_muns",
+		"slot": "POWERUP"
+	},
+	"7": {
+		"id": "7",
+		"icon": ITEM_PATH + "pwrup_speed_up.png",
+		"type": "buff",
+		"name": "pwrup_speed_up",
 		"slot": "POWERUP"
 	}
+	
 }
 
 func get_item(item_id):

@@ -46,6 +46,9 @@ func insert_item(pos):
 		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical"), false, item["id"])
 		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), false, item["id"])
 	
+	if slot == $POWERUP:
+		Globals.GUI.buff_effects(item.name, "activate")
+	
 	return true
 
 func grab_item(pos):
@@ -73,6 +76,8 @@ func grab_item(pos):
 		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning"), item_id)
 		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical"), item_id)
 		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), item_id)
+	elif item_slot == "POWERUP":
+		Globals.GUI.buff_effects(item, "deactivate")
 		
 
 	return item

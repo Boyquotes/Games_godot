@@ -229,17 +229,25 @@ func player_collision():
 #			print("pickupFIREPROJ")
 #			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
-		if "item" in coll.collider.name or "fire_proj" in coll.collider.name:
-#			print("droppedITEMS ", Globals.dropped_items)
+		if "item" in coll.collider.name:
 			var pos = 0
 			for i in Globals.dropped_items:
-#				print("droppedITEMS ", Globals.dropped_items)
 				if i["id"] == int(coll.collider.get_node("id").text):
-					print("pickupPWRUP")
 					Globals.inventory_items.push_front(i)
 					Globals.dropped_items.remove(pos)
 					Globals.inventory.get_child(0).pickup_item(i)
 					pos+=1
+
+			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			
+		if "fire_proj" in coll.collider.name:
+			var pos = 0
+			for i in Globals.dropped_items:
+				if i.name == coll.collider.name:
+					Globals.inventory_items.push_front(i)
+					Globals.dropped_items.remove(pos)
+					Globals.inventory.get_child(0).pickup_item(i)
+					pos += 1
 
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
@@ -391,11 +399,16 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				weapon.velocity = Vector2.LEFT
 		
 		if Globals.player_weapon == "wand":
+			var wand
 			var mana_cost = 10
 			if mana_progress.value > mana_cost:
 				Globals.current_scene.add_child(weapon)
 				weapon.position = self.position
-				var wand = load("res://Assets/wand_attack.png")
+				if Globals.wand_proj != null:
+					wand = load("res://Assets/" + Globals.wand_proj + ".png")
+					weapon.get_node("AnimationPlayer").play("fireball")
+				else:
+					wand = load("res://Assets/wand_attack.png")
 				mana_progress.value -= mana_cost
 				mana_progress.get_node("mana_value").text = str(mana_progress.value)
 				weapon.get_node("weapon").set_texture(wand)

@@ -6,7 +6,7 @@ func _ready():
 func _process(delta):
 	pass
 
-func _on_ItemBase_mouse_entered():	
+func _on_ItemBase_mouse_entered():
 	if $type.text == "WEAPON":
 		$stats_tt/stats_tt_popup/stats/stats_container.visible = true
 	if $type.text == "CHARACTER":
