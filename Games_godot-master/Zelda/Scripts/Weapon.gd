@@ -28,9 +28,9 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 #		
 		for i in Globals.enemy_pos.size():
 			if str(body) == Globals.enemy_id[i]:
-#				if "axe" in self.get_node("weapon").texture.get_path():
-#					Globals.enemy_hp[i] -= (Globals.player_pwr*2)
-				if "arrow" in Globals.current_ammo:
+				enemy_hp_bar.visible = true
+				
+				if Globals.current_ammo:
 					if Globals.current_ammo == "frost arrow":
 						body.move_speed = 0.5
 						body.unfreeze_timer()
@@ -49,16 +49,20 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 					else:
 						Globals.enemy_hp[i] -= dmg_taken
 						enemy_hp_bar.value -= dmg_taken
-					enemy_hp_bar.visible = true
-					Globals.player_pwr = original_player_pwr
-					if Globals.enemy_hp[i] <= 0:
-						body.remove_enemy(i)
-						body.queue_free()
-						break
+				else:
+					Globals.enemy_hp[i] -= dmg_taken
+					enemy_hp_bar.value -= dmg_taken
+					
+				if Globals.enemy_hp[i] <= 0:
+					body.remove_enemy(i)
+					body.queue_free()
+					break
+						
+				Globals.player_pwr = original_player_pwr
 
-				Globals.player_xp = lvl_progress.value
+			Globals.player_xp = lvl_progress.value
 
-		if Globals.enemy_tracker == Globals.enemy_num - 2 and !Globals.shop_spawned:
+		if Globals.enemy_tracker == 2 and !Globals.shop_spawned:
 			Globals.spawn_weapon_shop()
 			Globals.shop_spawned = true
 			

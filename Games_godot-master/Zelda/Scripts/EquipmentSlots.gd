@@ -34,6 +34,13 @@ func insert_item(pos):
 #		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_screen").get_node("dmg_type").get_node("power"), false, item["id"])
 		Globals.current_weapon_id = item["id"]
 		
+		if Globals.player_weapon == "bow":
+			print("equipBOW")
+			if Globals.current_ammo == null:
+				Globals.current_ammo = "standard arrow"
+				Globals.GUI.get_node("ammo").text = "standard arrow"
+				Globals.GUI.get_node("ammo_num").text = "unl."
+		
 	if slot == $CHARACTER:
 		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
 		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])

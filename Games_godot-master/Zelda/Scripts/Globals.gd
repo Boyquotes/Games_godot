@@ -33,7 +33,7 @@ var dropped = false
 var inventory_items = []
 var current_armor_id
 var current_weapon_id
-var current_ammo = "standard arrow"
+var current_ammo
 var current_ammo_num = 0
 var stats
 var prev_scene
@@ -137,7 +137,7 @@ func _deferred_goto_scene(path, spawn):
 #			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
-			player_weapon = "3"
+			player_weapon = "1"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
 			weapon["power"] = 500
@@ -146,8 +146,6 @@ func _deferred_goto_scene(path, spawn):
 			inventory_items.push_front(weapon)
 			inventory.get_child(0).pickup_item(inventory_items[0])
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
-			GUI.get_node("ammo").text = current_ammo
-			GUI.get_node("ammo_num").text = str(current_ammo_num)
 
 		player.position = player_spawn_pos
 
@@ -291,7 +289,7 @@ func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 #	var weighting = drop_weighting({0:0.90, 1:0.05, 2:0.05})
-	var weighting = drop_weighting({0:0.90, 1:0.05, 2:0.05})
+	var weighting = drop_weighting({0:0.01, 1:0.01, 2:0.99})
 	var freq = rand.randi_range(0,2)
 	
 #	if freq == 1:	
