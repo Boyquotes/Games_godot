@@ -1,4 +1,4 @@
-extends "res://Scripts/Enemy_mov.gd"
+extends "res://Scripts/Enemy_behaviour.gd"
 
 var body = self
 var burning = false
@@ -30,16 +30,18 @@ func shock_timer(curr_enemy, dmg_value):
 	shocked = false
 	
 func burn_timer(curr_enemy, dmg_value):
-	print("dmgVAL ", dmg_value)
+#	print("dmgVAL ", dmg_value)
 	if burning == false:
 		for i in 5:
 			burning = true
-			yield(get_tree().create_timer(2), "timeout")
-			Globals.enemy_hp[curr_enemy] -= dmg_value
-			$enemy_hp_bar.value -= dmg_value
-			if Globals.enemy_hp[curr_enemy] <= 0:
+			if Globals.enemy_hp[curr_enemy] > 0:
+				yield(get_tree().create_timer(2), "timeout")
+				Globals.enemy_hp[curr_enemy] -= dmg_value
+				$enemy_hp_bar.value -= dmg_value
+			else:
 				remove_enemy(curr_enemy)
-		burning = false
+				return
+			burning = false
 		
 #func remove_enemy(i):
 #	var lvl_progress = Globals.GUI.get_node("lvl_progress")

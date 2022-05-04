@@ -140,7 +140,7 @@ func remove_enemy(i):
 		Globals.current_scene.get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text = str(lvlupstats)
 	else:
 		lvl_progress.value += lvl_progress.step
-	self.queue_free()
+	self.call_deferred("queue_free")
 
 
 

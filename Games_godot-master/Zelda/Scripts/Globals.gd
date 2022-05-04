@@ -42,7 +42,7 @@ var enemies
 var enemy_pos
 var enemy_dir
 var enemy_id
-var enemy_num = 5
+var enemy_num
 var enemy_tracker = null
 var enemy_removed = false
 var enemy_hp
@@ -137,10 +137,10 @@ func _deferred_goto_scene(path, spawn):
 #			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
-			player_weapon = "1"
+			player_weapon = "3"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 500
+			weapon["power"] = 50
 			weapon["dmg_type"] = "physical"
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
@@ -289,7 +289,7 @@ func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 #	var weighting = drop_weighting({0:0.90, 1:0.05, 2:0.05})
-	var weighting = drop_weighting({0:0.01, 1:0.01, 2:0.99})
+	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
 	var freq = rand.randi_range(0,2)
 	
 #	if freq == 1:	

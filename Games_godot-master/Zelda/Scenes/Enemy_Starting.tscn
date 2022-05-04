@@ -10,7 +10,7 @@
 [ext_resource path="res://Assets/enemy_goober_anim_walk_back_2.png" type="Texture" id=8]
 [ext_resource path="res://Assets/enemy_goober_anim_walk_back_1.png" type="Texture" id=9]
 [ext_resource path="res://Assets/enemy_goober_anim_walk_2.png" type="Texture" id=10]
-[ext_resource path="res://Scripts/Enemy_mov.gd" type="Script" id=11]
+[ext_resource path="res://Scripts/arrow_ailments.gd" type="Script" id=11]
 [ext_resource path="res://Assets/enemy_goober_attack_two.png" type="Texture" id=12]
 [ext_resource path="res://Assets/enemy_goober_attack.png" type="Texture" id=13]
 

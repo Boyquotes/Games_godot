@@ -33,7 +33,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 				if Globals.current_ammo:
 					if Globals.current_ammo == "frost arrow":
 						body.move_speed = 0.5
-						body.unfreeze_timer()
+						body.unfreeze_timer(i)
 					elif Globals.current_ammo == "fire arrow": 
 						body.burn_timer(i, dmg_taken)
 					elif Globals.current_ammo == "lightning arrow":
@@ -46,12 +46,18 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 						spider_web.position = body.position
 						Globals.enemy_hp[i] -= dmg_taken
 						enemy_hp_bar.value -= dmg_taken
-					else:
+				elif Globals.player_weapon == "wand":
+					if Globals.wand_proj == null:
 						Globals.enemy_hp[i] -= dmg_taken
 						enemy_hp_bar.value -= dmg_taken
+					elif Globals.wand_proj == "fire_one":
+						body.burn_timer(i, (dmg_taken*1.5))
 				else:
 					Globals.enemy_hp[i] -= dmg_taken
 					enemy_hp_bar.value -= dmg_taken
+#				else:
+#					Globals.enemy_hp[i] -= dmg_taken
+#					enemy_hp_bar.value -= dmg_taken
 					
 				if Globals.enemy_hp[i] <= 0:
 					body.remove_enemy(i)
