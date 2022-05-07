@@ -1,13 +1,3 @@
-NOTES 27/04/22
-	- dropped pwrups are not taken from the DB -> cannot be put in inv with current system -> make (wand) pwrups drop as items from a DB (?)
-
-NOTES 04/05/22
-	- implement rest of wand proj's
-	- next step should be enemy resistances to test the diff weapons on (what happens when weap is dmg type but uses ailments -> mode dam?)
-	- implement some kind of monster spawner that can be triggered in every lvl
-	- start implementing better architecture -> decoupling
-
-
 ||Game loop||
 
 kill enemies -> gather equipment and weapons -> lvl up stats -> kill lvl boss -> proceed to next lvl -> start from the beginning

@@ -140,7 +140,7 @@ func _deferred_goto_scene(path, spawn):
 			player_weapon = "3"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 50
+			weapon["power"] = 90
 			weapon["dmg_type"] = "physical"
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
@@ -301,7 +301,7 @@ func drop(pos):
 		drop_weapon(pos, ilvl)
 	
 func drop_pwrup(pos):
-	var drop_id = str(drop_weighting({1:0.94, 2:0.01, 3:0.01, 4:0.01, 5:0.01, 6:0.01, 7:0.01}))
+	var drop_id = str(drop_weighting({1:0.01, 2:0.01, 3:0.01, 4:0.01, 5:0.01, 6:0.01, 7:0.01, 8:0.93}))
 	var drop_texture = ItemDB.PWRUP[drop_id]
 	var drop_name = ItemDB.PWRUP[drop_id].name
 	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()

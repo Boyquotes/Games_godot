@@ -225,10 +225,6 @@ func player_collision():
 			Globals.player_pwr += 25
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
-#		if "fire_proj" in coll.collider.name:
-#			print("pickupFIREPROJ")
-#			Globals.current_scene.get_node(coll.collider.name).queue_free()
-			
 		if "item" in coll.collider.name:
 			var pos = 0
 			for i in Globals.dropped_items:
@@ -240,7 +236,7 @@ func player_collision():
 
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
-		if "fire_proj" in coll.collider.name:
+		if "proj" in coll.collider.name:
 			var pos = 0
 			for i in Globals.dropped_items:
 				if i.name == coll.collider.name:
@@ -348,13 +344,9 @@ func weapon_achievement_anim(weapons_tile_name, coll, cell):
 	
 func weapon_attack(move_vec, axe_pos, axe_dir):
 	attacking = true
+	
 	if Globals.player_weapon:
 		var weapon = load("res://Scenes/Weapon.tscn").instance()
-
-		if mana_progress.value != mana_progress.max_value:
-			$mana_fill_timer.start()
-		else:
-			$mana_fill_timer.stop()
 
 		if Globals.player_weapon == "axe":
 			Globals.current_scene.get_node("Player").add_child(weapon)
@@ -406,7 +398,22 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				weapon.position = self.position
 				if Globals.wand_proj != null:
 					wand = load("res://Assets/" + Globals.wand_proj + ".png")
-					weapon.get_node("AnimationPlayer").play("fireball")
+					if "fire" in Globals.wand_proj: 
+						weapon.get_node("AnimationPlayer").play("fireball")
+					elif "beam" in Globals.wand_proj:
+#						weapon.get_node("AnimationPlayer").play("beam")
+						if weapon_dir == "RIGHT":
+							weapon.position.x += 840
+							weapon.rotation_degrees = 45
+						elif weapon_dir == "LEFT":
+							weapon.position.x -= 840
+							weapon.rotation_degrees = 45
+						elif weapon_dir == "UP":
+							weapon.position.y -= 840
+							weapon.rotation_degrees = -45
+						elif weapon_dir == "DOWN":
+							weapon.position.y += 840
+							weapon.rotation_degrees = -45
 				else:
 					wand = load("res://Assets/wand_attack.png")
 				mana_progress.value -= mana_cost
@@ -432,32 +439,11 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			weapon.get_node("weapon").set_texture(staff)
 			weapon.get_node("weapon_coll").scale.y = 3
 			weapon.get_node("AnimationPlayer").play("staff_attack")
-			
-		if Globals.player_weapon == "fire":
-			if mana_progress.value > 0: 
-				Globals.current_scene.add_child(weapon)
-				var fire = load("res://Assets/fire_one.png")
-				weapon.get_node("weapon").set_texture(fire)
-				weapon.position = self.position
-				weapon.get_node("AnimationPlayer").play("fireball")
-				weapon.speed = 2
-			
-				if weapon_dir == "DOWN":
-					weapon.rotation_degrees = -90
-					weapon.velocity = Vector2.DOWN
-				elif weapon_dir == "UP":
-					weapon.rotation_degrees = 90
-					weapon.velocity = Vector2.UP
-				elif weapon_dir == "RIGHT":
-					weapon.rotation_degrees = 180
-					weapon.velocity = Vector2.RIGHT
-				elif weapon_dir == "LEFT":
-					weapon.rotation_degrees = 0
-					weapon.velocity = Vector2.LEFT
+	
+	if mana_progress.value != mana_progress.max_value:
+		$mana_fill_timer.start()
+	else:
+		$mana_fill_timer.stop()
 				
-				mana_progress.value -= mana_progress.step
-				mana_progress.get_node("mana_value").text = str(mana_progress.value)
-				Globals.mana = mana_progress.value
-			else:
-				print("OOM")
+				
 

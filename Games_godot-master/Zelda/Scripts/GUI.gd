@@ -101,7 +101,8 @@ func buff_effects(buff, effect):
 	if effect == "activate":
 		if "fire_proj" in buff:
 			Globals.wand_proj = "fire_one"
-		else:
+		elif "lazor" in buff:
+			Globals.wand_proj = "wand_beam_proj"
 			return
 	else:
 		Globals.wand_proj = null

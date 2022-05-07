@@ -227,6 +227,7 @@ position = Vector2( -5.83478, 0.0595398 )
 [node name="invuln_timer" type="Timer" parent="."]
 
 [node name="mana_fill_timer" type="Timer" parent="."]
+wait_time = 0.5
 
 [node name="pwr_up_timer" type="Timer" parent="."]
 

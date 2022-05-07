@@ -5,17 +5,19 @@ var velocity = Vector2.ZERO
 var life_time = 3
 
 func _ready():
-	if Globals.player_weapon == "axe":
-		life_time = 1
+	if Globals.wand_proj == "wand_beam_proj":
+		life_time = 3
 		
 	$Weapon_Timeout.set_wait_time(life_time)
 	$Weapon_Timeout.start()
 	
 func _physics_process(delta):
-	position += velocity * speed
+	if Globals.wand_proj != "wand_beam_proj":
+		position += velocity * speed
 
 func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 	if Globals.player_weapon == "bow" and "Enemy" in body.name or "Level_TileMap" in body.name or Globals.player_weapon == "wand" and "Enemy" in body.name or "Level_TileMap" in body.name:
+		print("weaponCOLL")
 		self.queue_free()
 	
 	if "Enemy" in body.name:

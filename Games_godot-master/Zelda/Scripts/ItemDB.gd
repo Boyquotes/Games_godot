@@ -126,6 +126,7 @@ const PWRUP = {
 	"6": {
 		"id": "6",
 		"icon": ITEM_PATH + "pwrup_muns.png",
+		"type": "muns",
 		"name": "pwrup_muns",
 		"slot": "POWERUP"
 	},
@@ -134,6 +135,13 @@ const PWRUP = {
 		"icon": ITEM_PATH + "pwrup_speed_up.png",
 		"type": "buff",
 		"name": "pwrup_speed_up",
+		"slot": "POWERUP"
+	},
+	"8": {
+		"id": "8",
+		"icon": ITEM_PATH + "pwrup_lazor.png",
+		"type": "wand_proj",
+		"name": "pwrup_lazor_proj",
 		"slot": "POWERUP"
 	}
 	
