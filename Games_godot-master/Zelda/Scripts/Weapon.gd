@@ -3,6 +3,11 @@ extends Area2D
 var speed = 3.5
 var velocity = Vector2.ZERO
 var life_time = 3
+var beam_timer
+var beam_dmg = false
+var enemy_hp_bar
+var dmg_taken
+var curr_enemy
 
 func _ready():
 	if Globals.wand_proj == "wand_beam_proj":
@@ -16,17 +21,19 @@ func _physics_process(delta):
 		position += velocity * speed
 
 func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
-	if Globals.player_weapon == "bow" and "Enemy" in body.name or "Level_TileMap" in body.name or Globals.player_weapon == "wand" and "Enemy" in body.name or "Level_TileMap" in body.name:
-		print("weaponCOLL")
-		self.queue_free()
+	if Globals.wand_proj == "wand_beam_proj" and "Level_TileMap" in body.name:
+		self.show_behind_parent == true
+		
+	elif Globals.player_weapon == "bow" and "Enemy" in body.name or "Level_TileMap" in body.name or Globals.player_weapon == "wand" and Globals.wand_proj != "wand_beam_proj" and "Enemy" in body.name or "Level_TileMap" in body.name:
+		self.queue_free()	
 	
 	if "Enemy" in body.name:
 		if "Starting" in body.name:
 			body.enemy_attack = true
 		var lvl_progress = Globals.GUI.get_node("lvl_progress")
-		var enemy_hp_bar = body.get_node("enemy_hp_bar")
+		enemy_hp_bar = body.get_node("enemy_hp_bar")
 		var original_player_pwr = Globals.player_pwr
-		var dmg_taken = dmg_calc()
+		dmg_taken = dmg_calc()
 #		
 		for i in Globals.enemy_pos.size():
 			if str(body) == Globals.enemy_id[i]:
@@ -54,12 +61,14 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 						enemy_hp_bar.value -= dmg_taken
 					elif Globals.wand_proj == "fire_one":
 						body.burn_timer(i, (dmg_taken*1.5))
+					elif Globals.wand_proj == "wand_beam_proj":
+						$Beam_Timer.start()
+						$Beam_Timer.one_shot = false
+						beam_dmg = true
+						curr_enemy = i
 				else:
 					Globals.enemy_hp[i] -= dmg_taken
 					enemy_hp_bar.value -= dmg_taken
-#				else:
-#					Globals.enemy_hp[i] -= dmg_taken
-#					enemy_hp_bar.value -= dmg_taken
 					
 				if Globals.enemy_hp[i] <= 0:
 					body.remove_enemy(i)
@@ -105,6 +114,16 @@ func dmg_calc():
 				dmg -= Globals.enemy_resistance.get(k)
 	return dmg
 
+func _on_Beam_Timer_timeout():
+	Globals.enemy_hp[curr_enemy] -= dmg_taken
+	enemy_hp_bar.value -= dmg_taken
+
 func _on_Weapon_Timeout_timeout():
 	self.queue_free()
 
+func _on_weapon_body_shape_exited(body_id, body, body_shape, local_shape):
+	if beam_dmg:
+		$Beam_Timer.stop()
+		beam_dmg = false
+	else:
+		return

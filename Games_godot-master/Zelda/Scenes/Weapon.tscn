@@ -35,7 +35,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 3 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 resource_name = "beam"
 length = 0.4
 loop = true
@@ -52,8 +52,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 13 ), ExtResource( 14 ) ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "fireball"
+[sub_resource type="Animation" id=4]
 length = 0.2
 loop = true
 step = 0.05
@@ -70,7 +69,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 12 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ) ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -106,6 +105,7 @@ __meta__ = {
 }
 
 [node name="weapon" type="Sprite" parent="."]
+show_behind_parent = true
 texture = ExtResource( 13 )
 
 [node name="weapon_coll" type="CollisionShape2D" parent="."]
@@ -114,11 +114,15 @@ shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/axe_swirl = SubResource( 2 )
-anims/beam = SubResource( 5 )
-anims/fireball = SubResource( 3 )
-anims/staff_attack = SubResource( 4 )
+anims/beam = SubResource( 3 )
+anims/fireball = SubResource( 4 )
+anims/staff_attack = SubResource( 5 )
 
 [node name="Weapon_Timeout" type="Timer" parent="."]
 
+[node name="Beam_Timer" type="Timer" parent="."]
+
 [connection signal="body_shape_entered" from="." to="." method="_on_Area2D_body_shape_entered"]
+[connection signal="body_shape_exited" from="." to="." method="_on_weapon_body_shape_exited"]
 [connection signal="timeout" from="Weapon_Timeout" to="." method="_on_Weapon_Timeout_timeout"]
+[connection signal="timeout" from="Beam_Timer" to="." method="_on_Beam_Timer_timeout"]

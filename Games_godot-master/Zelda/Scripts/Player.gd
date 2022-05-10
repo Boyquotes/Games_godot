@@ -401,7 +401,9 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 					if "fire" in Globals.wand_proj: 
 						weapon.get_node("AnimationPlayer").play("fireball")
 					elif "beam" in Globals.wand_proj:
-#						weapon.get_node("AnimationPlayer").play("beam")
+						weapon.get_node("weapon_coll").shape = RectangleShape2D.new()
+						weapon.get_node("weapon_coll").shape.extents.y = 822
+						weapon.get_node("AnimationPlayer").play("beam")
 						if weapon_dir == "RIGHT":
 							weapon.position.x += 840
 							weapon.rotation_degrees = 45
