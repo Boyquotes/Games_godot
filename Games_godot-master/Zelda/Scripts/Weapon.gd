@@ -25,7 +25,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		self.show_behind_parent == true
 		
 	elif Globals.player_weapon == "bow" and "Enemy" in body.name or "Level_TileMap" in body.name or Globals.player_weapon == "wand" and Globals.wand_proj != "wand_beam_proj" and "Enemy" in body.name or "Level_TileMap" in body.name:
-		self.queue_free()	
+		self.queue_free()
 	
 	if "Enemy" in body.name:
 		if "Starting" in body.name:
@@ -53,6 +53,9 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 						var spider_web = ResourceLoader.load("res://Scenes/spider_web.tscn").instance()
 						Globals.current_scene.call_deferred("add_child", spider_web)
 						spider_web.position = body.position
+						Globals.enemy_hp[i] -= dmg_taken
+						enemy_hp_bar.value -= dmg_taken
+					else:
 						Globals.enemy_hp[i] -= dmg_taken
 						enemy_hp_bar.value -= dmg_taken
 				elif Globals.player_weapon == "wand":
@@ -84,21 +87,39 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			Globals.shop_spawned = true
 			
 		if Globals.enemy_tracker == 0:
-			print("spawn boss")
-			Globals.boss = ResourceLoader.load("res://Scenes/boss.tscn").instance()
-			Globals.boss.position.x = 500
-			Globals.boss.position.y = 250
-			Globals.current_scene.call_deferred("add_child", Globals.boss)
-			if "Jungle" in Globals.current_scene.name:
-				print("jungleBOSS")
+			print("spawn boss portal")
+			Globals.spawn_boss_portal()
+#			portal to boss encounter? shot it to continue in lvl otherwise kill boss -> go to next lvl
+#			Globals.boss = ResourceLoader.load("res://Scenes/boss.tscn").instance()
+#			Globals.boss.position.x = 500
+#			Globals.boss.position.y = 250
+#			Globals.current_scene.call_deferred("add_child", Globals.boss)
+#			if "Jungle" in Globals.current_scene.name:
+#				print("jungleBOSS")
 			return
+
+	if "Boss_Portal" in body.name:
+		var boss_portal_health = 150
+		var boss_health_bar = body.get_node("Boss_Portal_HP")
+		boss_health_bar.visible = true
+		self.queue_free()
+		boss_portal_health -= 50
+		boss_health_bar.value -= 50
+		
+		if boss_health_bar.value <= 0:
+			body.queue_free()
+			Globals.num_of_enemies(5)
+			Globals.spawn_enemy_type()
+			print("enemies ", Globals.enemy_tracker)
+#			Globals.enemy_tracker = Globals.enemy_pos.size()
+			Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
 
 	if "boss" in body.name:
 		Globals.all_attack = false
 		Globals.boss.queue_free()
 		Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
-		Globals.goto_scene("res://Scenes/Levels/" + Globals.next_scene + ".tscn", Globals.current_scene.name)
 		Globals.num_of_enemies(5)
+		Globals.goto_scene("res://Scenes/Levels/" + Globals.next_scene + ".tscn", Globals.current_scene.name)
 		Globals.ilvl += 10
 		
 #		goto powerup screen?

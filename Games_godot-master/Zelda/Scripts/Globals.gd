@@ -99,6 +99,7 @@ func _deferred_goto_scene(path, spawn):
 			if current_scene.name == "Starting_World":
 				current_scene.get_node("Player_Spawn").position = shop_spawn_pos
 
+#			load change scene
 			player_spawn_pos = current_scene.get_node("Player_Spawn").position
 			GUI.get_node("hp_num").text = str(player_hp)
 			GUI.get_node("hp_visual").value = player_hp
@@ -131,16 +132,18 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
 
 #			ilvl += 10
+
+#		load start scene
 		else:
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
 #			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
-			player_weapon = "3"
+			player_weapon = "1"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 50
+			weapon["power"] = 100
 			weapon["dmg_type"] = "physical"
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
@@ -153,7 +156,7 @@ func _deferred_goto_scene(path, spawn):
 		
 		GUI.get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(next_scene).get_string()
 			
-		enemy_tracker = enemy_pos.size()
+#		enemy_tracker = enemy_pos.size()
 		GUI.get_node("number").text = str(enemy_tracker)
 	
 #	if current_scene.name == "Shop" and player_weapon and !starter_weapon:
@@ -202,6 +205,7 @@ func num_of_enemies(n):
 	enemy_id = range(0, n)
 	enemy_hp = range(0, n)
 	enemies = range(0, n)
+	enemy_tracker = n
 	
 func spawn_enemies(pos, type):
 	var rand = RandomNumberGenerator.new()
@@ -274,6 +278,15 @@ func spawn_weapon_shop():
 	
 	print("shop spawned")
 	
+func spawn_boss_portal():
+	var portal_entrance = ResourceLoader.load("res://Scenes/Boss_Portal_Entrance.tscn").instance()
+	var portal_spawn_area = current_scene.get_node("weaponshop_spawn_area").rect_size
+	current_scene.get_node("weaponshop_spawn_area").call_deferred("add_child", portal_entrance)
+	
+	portal_entrance.get_node("Boss_Portal_Anim").play()
+	portal_entrance.position.x = 500
+	portal_entrance.position.y = 250
+	
 func drop_weighting(num):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
@@ -288,8 +301,7 @@ func drop_weighting(num):
 func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
-#	var weighting = drop_weighting({0:0.90, 1:0.05, 2:0.05})
-	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
+	var weighting = drop_weighting({0:0.80, 1:0.10, 2:0.10})
 	var freq = rand.randi_range(0,2)
 	
 #	if freq == 1:	
@@ -301,7 +313,7 @@ func drop(pos):
 		drop_weapon(pos, ilvl)
 	
 func drop_pwrup(pos):
-	var drop_id = str(drop_weighting({1:0.01, 2:0.01, 3:0.01, 4:0.01, 5:0.01, 6:0.01, 7:0.01, 8:0.93}))
+	var drop_id = str(drop_weighting({1:0.10, 2:0.10, 3:0.10, 4:0.10, 5:0.10, 6:0.30, 7:0.10, 8:0.10}))
 	var drop_texture = ItemDB.PWRUP[drop_id]
 	var drop_name = ItemDB.PWRUP[drop_id].name
 	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()

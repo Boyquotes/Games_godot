@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Assets/boss_portal_entrance.png" type="Texture" id=1]
+[ext_resource path="res://Assets/boss_portal_entrance_anim_two.png" type="Texture" id=2]
+[ext_resource path="res://Assets/boss_portal_entrance_anim_one.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Boss_Portal_Health_Under.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Boss_Portal_Health_Progress.png" type="Texture" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 3 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 16.9417, 15.9173 )
+
+[node name="Boss_Portal" type="StaticBody2D"]
+
+[node name="Boss_Portal_Anim" type="AnimatedSprite" parent="."]
+scale = Vector2( 2, 2 )
+frames = SubResource( 1 )
+frame = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( 2, 2 )
+shape = SubResource( 2 )
+
+[node name="Boss_Portal_HP" type="TextureProgress" parent="."]
+visible = false
+margin_left = -32.0
+margin_top = -42.0
+margin_right = 32.0
+margin_bottom = -37.0
+step = 10.0
+value = 100.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
