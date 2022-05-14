@@ -190,6 +190,8 @@ func random_scene():
 	return scenes[rand.randf_range(0, scenes.size())]
 	
 func spawn_enemy_type():
+	print("spawnENEMIES")
+	print(enemy_pos.size())
 	regex = RegEx.new()
 	regex.compile("^[^_]+")
 	var scene = current_scene.name

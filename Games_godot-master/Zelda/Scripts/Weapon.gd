@@ -89,24 +89,17 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		if Globals.enemy_tracker == 0:
 			print("spawn boss portal")
 			Globals.spawn_boss_portal()
-#			portal to boss encounter? shot it to continue in lvl otherwise kill boss -> go to next lvl
-#			Globals.boss = ResourceLoader.load("res://Scenes/boss.tscn").instance()
-#			Globals.boss.position.x = 500
-#			Globals.boss.position.y = 250
-#			Globals.current_scene.call_deferred("add_child", Globals.boss)
-#			if "Jungle" in Globals.current_scene.name:
-#				print("jungleBOSS")
 			return
 
 	if "Boss_Portal" in body.name:
 		var boss_portal_health = 150
-		var boss_health_bar = body.get_node("Boss_Portal_HP")
-		boss_health_bar.visible = true
+		var boss_portal_health_bar = body.get_node("Boss_Portal_HP")
+		boss_portal_health_bar.visible = true
 		self.queue_free()
 		boss_portal_health -= 50
-		boss_health_bar.value -= 50
+		boss_portal_health_bar.value -= 50
 		
-		if boss_health_bar.value <= 0:
+		if boss_portal_health_bar.value <= 0:
 			body.queue_free()
 			Globals.num_of_enemies(5)
 			Globals.spawn_enemy_type()

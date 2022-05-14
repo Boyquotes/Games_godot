@@ -246,6 +246,10 @@ func player_collision():
 					pos += 1
 
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
+		
+		if "Boss_Portal" in coll.collider.name:
+			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
+			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", "null")
 			
 func snow_attack():
 	loose_hp(25)
