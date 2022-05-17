@@ -30,6 +30,7 @@ func shock_timer(curr_enemy, dmg_value):
 	shocked = false
 	
 func burn_timer(curr_enemy, dmg_value):
+	print("burn")
 #	print("dmgVAL ", dmg_value)
 	if burning == false:
 		for i in 5:

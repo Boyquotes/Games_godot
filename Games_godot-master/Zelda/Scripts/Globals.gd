@@ -13,6 +13,7 @@ var player_lvl = 0
 var player_pwr = 0
 var player_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
 var player_dmg_types = {"fire": 0, "cold": 0, "lightning": 0, "physical": 0, "poison": 0}
+var portal_spawned = false
 var enemy_resistance
 var damage_type
 var max_mana = 100
@@ -98,6 +99,8 @@ func _deferred_goto_scene(path, spawn):
 #		wtf is dis
 			if current_scene.name == "Starting_World":
 				current_scene.get_node("Player_Spawn").position = shop_spawn_pos
+				if portal_spawned:
+					spawn_boss_portal()
 
 #			load change scene
 			player_spawn_pos = current_scene.get_node("Player_Spawn").position
@@ -130,6 +133,7 @@ func _deferred_goto_scene(path, spawn):
 			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
+			
 
 #			ilvl += 10
 
@@ -190,8 +194,6 @@ func random_scene():
 	return scenes[rand.randf_range(0, scenes.size())]
 	
 func spawn_enemy_type():
-	print("spawnENEMIES")
-	print(enemy_pos.size())
 	regex = RegEx.new()
 	regex.compile("^[^_]+")
 	var scene = current_scene.name
@@ -217,6 +219,7 @@ func spawn_enemies(pos, type):
 		var spawn_area = current_scene.get_node("spawn_area").rect_size
 		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance()
 
+#		current_scene.call_deferred("add_child", enemy)
 		current_scene.add_child(enemy) 
 
 		rand.randomize()
@@ -231,17 +234,17 @@ func spawn_enemies(pos, type):
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 			
 		if "Fire" in current_scene.name:
-			enemy_resistance = {"fire": 20, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
+			enemy_resistance = {"fire": 50, "cold": 10, "lightning": 50, "physical": 50, "poison": 50}
 		if "Starting" in current_scene.name:
-			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 20, "poison": 10}
+			enemy_resistance = {"fire": 30, "cold": 30, "lightning": 30, "physical": 70, "poison": 10}
 		if "lightning" in current_scene.name:
-			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 20, "physical": 10, "poison": 10}
+			enemy_resistance = {"fire": 50, "cold": 50, "lightning": 50, "physical": 10, "poison": 50}
 		if "Snow" in current_scene.name:
-			enemy_resistance = {"fire": 10, "cold": 20, "lightning": 10, "physical": 10, "poison": 10}
+			enemy_resistance = {"fire": 10, "cold": 50, "lightning": 50, "physical": 50, "poison": 50}
 		if "Desert" in current_scene.name:
-			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 20}
+			enemy_resistance = {"fire": 10, "cold": 50, "lightning": 50, "physical": 50, "poison": 50}
 		if "Jungle" in current_scene.name:
-			enemy_resistance = {"fire": 10, "cold": 10, "lightning": 20, "physical": 10, "poison": 10}
+			enemy_resistance = {"fire": 50, "cold": 50, "lightning": 50, "physical": 50, "poison": 10}
 		
 #		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
 #			print(tilemap.get_cellv(tilemap.world_to_map(enemy.position)))
@@ -281,6 +284,7 @@ func spawn_weapon_shop():
 	print("shop spawned")
 	
 func spawn_boss_portal():
+	portal_spawned = true
 	var portal_entrance = ResourceLoader.load("res://Scenes/Boss_Portal_Entrance.tscn").instance()
 	var portal_spawn_area = current_scene.get_node("weaponshop_spawn_area").rect_size
 	current_scene.get_node("weaponshop_spawn_area").call_deferred("add_child", portal_entrance)
@@ -315,7 +319,7 @@ func drop(pos):
 		drop_weapon(pos, ilvl)
 	
 func drop_pwrup(pos):
-	var drop_id = str(drop_weighting({1:0.10, 2:0.10, 3:0.10, 4:0.10, 5:0.10, 6:0.30, 7:0.10, 8:0.10}))
+	var drop_id = str(drop_weighting({1:0.09, 2:0.06, 3:0.09, 4:0.09, 5:0.09, 6:0.40, 7:0.09, 8:0.09}))
 	var drop_texture = ItemDB.PWRUP[drop_id]
 	var drop_name = ItemDB.PWRUP[drop_id].name
 	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()
@@ -339,6 +343,10 @@ func drop_pwrup(pos):
 	
 	dropped_items.push_front(item)
 	item_id += 1
+	
+	yield(get_tree().create_timer(40), "timeout")
+	dropped_items.pop_front()
+	current_scene.get_node(drop.name).queue_free()
 
 func drop_body_armour(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
@@ -395,6 +403,11 @@ func drop_body_armour(pos, ilvl):
 	
 	dropped_items.push_front(item)
 	item_id += 1
+	
+	yield(get_tree().create_timer(40), "timeout")
+	
+	dropped_items.pop_front()
+	current_scene.get_node(drop.name).queue_free()
 
 func drop_weapon(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
@@ -402,7 +415,6 @@ func drop_weapon(pos, ilvl):
 	
 	item = ItemDB.WEAPON[str(rand.randi_range(1, ItemDB.WEAPON.size()))]
 		
-	
 	var potency = (rand.randi_range((ilvl*2), (ilvl*3)))*3
 	var dmg_types = ["fire", "cold", "lightning", "physical", "poison"]
 	var dmg_type = rand.randi_range(0, dmg_types.size()-1)
@@ -430,5 +442,9 @@ func drop_weapon(pos, ilvl):
 	
 	dropped_items.push_front(item)
 	item_id += 1
+	
+	yield(get_tree().create_timer(40), "timeout")
+	dropped_items.pop_front()
+	current_scene.get_node(drop.name).queue_free()
 
 

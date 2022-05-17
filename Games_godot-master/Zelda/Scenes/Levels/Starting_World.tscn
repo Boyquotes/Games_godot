@@ -200,3 +200,6 @@ mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Loot_timer" type="Timer" parent="."]
+wait_time = 40.0

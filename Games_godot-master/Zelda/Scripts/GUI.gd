@@ -93,9 +93,9 @@ func attribute_effects(stat, effect, value):
 			Globals.GUI.get_node("mana_progress").get_node("mana_value").text = str(Globals.max_mana)
 	elif stat == "dex":
 		if effect == "augment":
-			Globals.player.move_speed += (0.1 * value)
+			Globals.player.move_speed += (0.02 * value)
 		else: 
-			Globals.player.move_speed -= (0.1 * value)
+			Globals.player.move_speed -= (0.02 * value)
 			
 func buff_effects(buff, effect):
 	if effect == "activate":

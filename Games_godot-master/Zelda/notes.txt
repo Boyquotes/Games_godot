@@ -11,3 +11,7 @@ NOTES 07/05.22
 	- make lazor animations
 	- lazor coll
 	- lazor behaviour -> slowly dissapearing starting from player pos (anim?)
+
+NOTES 17/05/22
+	- burn does not work on wand_proj
+	- dropped items get removed even if they've been picked up

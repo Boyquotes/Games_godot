@@ -109,7 +109,7 @@ func pickup_item(item_id):
 	elif !char_slot_taken and item_id["slot"] == "CHARACTER":
 		eq_slots.insert_item(item)
 		char_slot_taken = true
-	elif !char_slot_taken and item_id["slot"] == "POWERUP":
+	elif !char_slot_taken and item_id["slot"] == "POWERUP" and Globals.player_weapon == "wand":
 		eq_slots.insert_item(item)
 		pwr_slot_taken = true
 	elif !grid_bkpk.insert_item_at_first_available_spot(item):

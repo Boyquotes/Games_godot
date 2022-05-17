@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Assets/enemy_lava_anim.png" type="Texture" id=1]
 [ext_resource path="res://Assets/enemy_lava_anim_two.png" type="Texture" id=2]
-[ext_resource path="res://Scripts/Enemy_behaviour.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/ailments.gd" type="Script" id=3]
 [ext_resource path="res://Assets/enemy_lava.png" type="Texture" id=4]
 [ext_resource path="res://Assets/enemy_lava_idle_anim.png" type="Texture" id=5]
 [ext_resource path="res://Assets/enemy_hp_back.png" type="Texture" id=10]

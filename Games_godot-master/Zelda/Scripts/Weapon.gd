@@ -103,7 +103,6 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			body.queue_free()
 			Globals.num_of_enemies(5)
 			Globals.spawn_enemy_type()
-			print("enemies ", Globals.enemy_tracker)
 #			Globals.enemy_tracker = Globals.enemy_pos.size()
 			Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
 
@@ -126,6 +125,7 @@ func dmg_calc():
 		for k in Globals.enemy_resistance:
 			if j.text == k and int(j.get_child(0).text) > 0:
 				dmg -= Globals.enemy_resistance.get(k)
+	print("dmg ",dmg)
 	return dmg
 
 func _on_Beam_Timer_timeout():

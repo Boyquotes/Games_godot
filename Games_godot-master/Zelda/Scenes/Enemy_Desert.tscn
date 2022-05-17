@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/enemy_snake_anim.png" type="Texture" id=1]
-[ext_resource path="res://Scripts/Enemy_behaviour.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/ailments.gd" type="Script" id=2]
 [ext_resource path="res://Assets/enemy_hp_back.png" type="Texture" id=10]
 [ext_resource path="res://Assets/enemy_hp_prog.png" type="Texture" id=11]
 [ext_resource path="res://Assets/enemy_snake.png" type="Texture" id=12]
@@ -77,7 +77,7 @@ tracks/0/keys = {
 
 [node name="Enemy_Desert" type="KinematicBody2D"]
 input_pickable = true
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 
 [node name="Body" type="Sprite" parent="."]
 texture = ExtResource( 12 )
