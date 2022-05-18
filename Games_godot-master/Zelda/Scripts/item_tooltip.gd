@@ -1,7 +1,7 @@
 extends StaticBody2D
 
 func _ready():
-	pass
+	print("startTimer")
 	
 func _process(delta):
 	pass
@@ -22,3 +22,11 @@ func _on_drop_mouse_entered():
 
 func _on_drop_mouse_exited():
 	$stats_tt.hide()
+
+func _on_Despawn_Timer_timeout():
+	
+	for i in Globals.dropped_items:
+		if i["id"] == int($id.text):
+			Globals.dropped_items.remove(Globals.dropped_items.find(i))
+	
+	self.queue_free()

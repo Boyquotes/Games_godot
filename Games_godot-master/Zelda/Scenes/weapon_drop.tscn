@@ -92,5 +92,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Despawn_Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
 [connection signal="mouse_entered" from="." to="." method="_on_drop_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_drop_mouse_exited"]
+[connection signal="timeout" from="Despawn_Timer" to="." method="_on_Despawn_Timer_timeout"]

@@ -147,7 +147,7 @@ func _deferred_goto_scene(path, spawn):
 			player_weapon = "1"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 100
+			weapon["power"] = 300
 			weapon["dmg_type"] = "physical"
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
@@ -330,6 +330,7 @@ func drop_pwrup(pos):
 	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
 	drop.name = drop_name
 	drop.position = pos
+	drop.get_node("id").text = str(item_id)
 	
 	var icon = item.icon
 	
@@ -344,9 +345,19 @@ func drop_pwrup(pos):
 	dropped_items.push_front(item)
 	item_id += 1
 	
-	yield(get_tree().create_timer(40), "timeout")
-	dropped_items.pop_front()
-	current_scene.get_node(drop.name).queue_free()
+#	yield(get_tree().create_timer(10), "timeout")
+#
+#	print(dropped_items)
+#
+#	if dropped_items.size() > 0:
+#		for i in dropped_items.size():
+#			print(dropped_items[i].name)
+#			print(drop.name)
+#			if dropped_items[i].name == drop.name:
+#				current_scene.get_node(drop.name).queue_free()
+#				dropped_items.pop_front()
+#			else:
+#				return
 
 func drop_body_armour(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
@@ -404,10 +415,17 @@ func drop_body_armour(pos, ilvl):
 	dropped_items.push_front(item)
 	item_id += 1
 	
-	yield(get_tree().create_timer(40), "timeout")
+#	yield(get_tree().create_timer(10), "timeout")
 	
-	dropped_items.pop_front()
-	current_scene.get_node(drop.name).queue_free()
+#	print(dropped_items)
+	
+#	if dropped_items.size() > 0:
+#		for i in dropped_items.size():
+#			if dropped_items[i].name == drop.name:
+#				current_scene.get_node(drop.name).queue_free()
+#				dropped_items.pop_front()
+#			else:
+#				return
 
 func drop_weapon(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
@@ -443,8 +461,16 @@ func drop_weapon(pos, ilvl):
 	dropped_items.push_front(item)
 	item_id += 1
 	
-	yield(get_tree().create_timer(40), "timeout")
-	dropped_items.pop_front()
-	current_scene.get_node(drop.name).queue_free()
+#	yield(get_tree().create_timer(10), "timeout")
+#
+#	print(dropped_items)
+#
+#	if dropped_items.size() > 0:
+#		for i in dropped_items.size():
+#			if dropped_items[i].name == drop.name:
+#				current_scene.get_node(drop.name).queue_free()
+#				dropped_items.pop_front()
+#			else:
+#				return
 
 

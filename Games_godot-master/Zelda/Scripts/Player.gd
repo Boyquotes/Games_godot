@@ -186,7 +186,7 @@ func player_collision():
 			loose_hp(25)
 		elif "Fire" in coll.collider.name and player_invuln == false:
 			loose_hp(25)
-		elif "Starting" in coll.collider.name and player_invuln == false:		
+		elif "Starting" in coll.collider.name and player_invuln == false:
 			loose_hp(25)
 				
 		if "speed_up" in coll.collider.name:
@@ -194,56 +194,91 @@ func player_collision():
 			$pwr_up_timer.start()
 			self.move_speed += 1
 			speed_up = true
+
+			for i in Globals.dropped_items:
+				if i["id"] == int(coll.collider.get_node("id").text):
+					Globals.dropped_items.remove(Globals.dropped_items.find(i))
+			
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			print("droppedItems ",Globals.dropped_items)
 			
 		if "muns" in coll.collider.name:
 			Globals.coins += 50
 			Globals.GUI.get_node("coins").get_node("coins_num").text = str(Globals.coins)
+			
+			for i in Globals.dropped_items:
+				if i["id"] == int(coll.collider.get_node("id").text):
+					Globals.dropped_items.remove(Globals.dropped_items.find(i))
+			
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			print("droppedItems ",Globals.dropped_items)
 			
 		if "all_attack" in coll.collider.name:
 			$pwr_up_timer.wait_time = 15
 			$pwr_up_timer.start()
 			Globals.all_attack = true
+
+			for i in Globals.dropped_items:
+				if i["id"] == int(coll.collider.get_node("id").text):
+					Globals.dropped_items.remove(Globals.dropped_items.find(i))
+			
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
 		if "invis" in coll.collider.name:
 			player_invuln = true
 			$invuln_timer.wait_time = 15
 			$invuln_timer.start()
+			
+			for i in Globals.dropped_items:
+				if i["id"] == int(coll.collider.get_node("id").text):
+					Globals.dropped_items.remove(Globals.dropped_items.find(i))
+			
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			print("droppedItems ",Globals.dropped_items)
+			
 			
 		if "health_up" in coll.collider.name:
 			hp += 25
 			Globals.GUI.get_node("hp_num").text = str(hp)
 			Globals.player_hp = hp
+			
+			for i in Globals.dropped_items:
+				if i["id"] == int(coll.collider.get_node("id").text):
+					Globals.dropped_items.remove(Globals.dropped_items.find(i))
+			
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			print("droppedItems ",Globals.dropped_items)
+			
 			
 		if "dmg_up" in coll.collider.name:
 			$pwr_up_timer.wait_time = 15
 			$pwr_up_timer.start()
 			Globals.player_pwr += 25
+			
+			for i in Globals.dropped_items:
+				if i["id"] == int(coll.collider.get_node("id").text):
+					Globals.dropped_items.remove(Globals.dropped_items.find(i))
+			
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			print("droppedItems ",Globals.dropped_items)
 			
 		if "item" in coll.collider.name:
-			var pos = 0
 			for i in Globals.dropped_items:
 				if i["id"] == int(coll.collider.get_node("id").text):
 					Globals.inventory_items.push_front(i)
-					Globals.dropped_items.remove(pos)
+					Globals.dropped_items.remove(Globals.dropped_items.find(i))
 					Globals.inventory.get_child(0).pickup_item(i)
-					pos+=1
 
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			print("droppedItems ",Globals.dropped_items)
+			
 			
 		if "proj" in coll.collider.name:
-			var pos = 0
 			for i in Globals.dropped_items:
 				if i.name == coll.collider.name:
 					Globals.inventory_items.push_front(i)
-					Globals.dropped_items.remove(pos)
+					Globals.dropped_items.remove(Globals.dropped_items.find(i))
 					Globals.inventory.get_child(0).pickup_item(i)
-					pos += 1
 
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 		
