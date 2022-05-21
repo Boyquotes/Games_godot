@@ -13,9 +13,15 @@ NOTES 07/05.22
 	- lazor behaviour -> slowly dissapearing starting from player pos (anim?)
 
 NOTES 17/05/22
-	- burn does not work on wand_proj
+	- burn does not work on wand_proj ||-||
 	- dropped items get removed even if they've been picked up
 
 NOTES 18/05/22
 	- dropped item remove timer cannot start multiple times which is why not all items are removed from the dropped_items array -> fixed
 	- reformat coll/drop stuff
+
+NOTES 21/05/22
+	- encountered weird movement bug when pushed against the wall from snow enemies ||-||
+	- enemy scaling seems weak
+	- poison enemies are stronge
+	- player modifiers after boss kill would enable char builds

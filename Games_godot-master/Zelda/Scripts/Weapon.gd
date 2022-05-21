@@ -113,6 +113,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		Globals.num_of_enemies(5)
 		Globals.goto_scene("res://Scenes/Levels/" + Globals.next_scene + ".tscn", Globals.current_scene.name)
 		Globals.ilvl += 10
+		Globals.enemy_hp_value += 50
 		
 #		goto powerup screen?
 #		next lvl

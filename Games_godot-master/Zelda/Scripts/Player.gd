@@ -179,7 +179,7 @@ func player_collision():
 			
 #			BUG: only triggers once. Maybe leave it this way bc it could be intentional this way (triggering the camera transition is a bit tedious) also enemies getting stuck in coll
 			
-		if "Snow" in coll.collider.name and player_invuln == false:	
+		if "Snow" in coll.collider.name and player_invuln == false:
 			Globals.damage_type = "cold"
 			snow_attack()
 		elif "lightning" in coll.collider.name and player_invuln == false:
@@ -194,73 +194,42 @@ func player_collision():
 			$pwr_up_timer.start()
 			self.move_speed += 1
 			speed_up = true
-
-			for i in Globals.dropped_items:
-				if i["id"] == int(coll.collider.get_node("id").text):
-					Globals.dropped_items.remove(Globals.dropped_items.find(i))
 			
-			Globals.current_scene.get_node(coll.collider.name).queue_free()
-			print("droppedItems ",Globals.dropped_items)
+			despawn_drop(coll)
 			
-		if "muns" in coll.collider.name:
+		elif "muns" in coll.collider.name:
 			Globals.coins += 50
 			Globals.GUI.get_node("coins").get_node("coins_num").text = str(Globals.coins)
 			
-			for i in Globals.dropped_items:
-				if i["id"] == int(coll.collider.get_node("id").text):
-					Globals.dropped_items.remove(Globals.dropped_items.find(i))
+			despawn_drop(coll)
 			
-			Globals.current_scene.get_node(coll.collider.name).queue_free()
-			print("droppedItems ",Globals.dropped_items)
-			
-		if "all_attack" in coll.collider.name:
+		elif "all_attack" in coll.collider.name:
 			$pwr_up_timer.wait_time = 15
 			$pwr_up_timer.start()
 			Globals.all_attack = true
-
-			for i in Globals.dropped_items:
-				if i["id"] == int(coll.collider.get_node("id").text):
-					Globals.dropped_items.remove(Globals.dropped_items.find(i))
 			
-			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			despawn_drop(coll)
 			
-		if "invis" in coll.collider.name:
+		elif "invis" in coll.collider.name:
 			player_invuln = true
 			$invuln_timer.wait_time = 15
 			$invuln_timer.start()
 			
-			for i in Globals.dropped_items:
-				if i["id"] == int(coll.collider.get_node("id").text):
-					Globals.dropped_items.remove(Globals.dropped_items.find(i))
+			despawn_drop(coll)
 			
-			Globals.current_scene.get_node(coll.collider.name).queue_free()
-			print("droppedItems ",Globals.dropped_items)
-			
-			
-		if "health_up" in coll.collider.name:
+		elif "health_up" in coll.collider.name:
 			hp += 25
 			Globals.GUI.get_node("hp_num").text = str(hp)
 			Globals.player_hp = hp
 			
-			for i in Globals.dropped_items:
-				if i["id"] == int(coll.collider.get_node("id").text):
-					Globals.dropped_items.remove(Globals.dropped_items.find(i))
-			
-			Globals.current_scene.get_node(coll.collider.name).queue_free()
-			print("droppedItems ",Globals.dropped_items)
-			
-			
-		if "dmg_up" in coll.collider.name:
+			despawn_drop(coll)
+
+		elif "dmg_up" in coll.collider.name:
 			$pwr_up_timer.wait_time = 15
 			$pwr_up_timer.start()
 			Globals.player_pwr += 25
 			
-			for i in Globals.dropped_items:
-				if i["id"] == int(coll.collider.get_node("id").text):
-					Globals.dropped_items.remove(Globals.dropped_items.find(i))
-			
-			Globals.current_scene.get_node(coll.collider.name).queue_free()
-			print("droppedItems ",Globals.dropped_items)
+			despawn_drop(coll)
 			
 		if "item" in coll.collider.name:
 			for i in Globals.dropped_items:
@@ -270,8 +239,6 @@ func player_collision():
 					Globals.inventory.get_child(0).pickup_item(i)
 
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
-			print("droppedItems ",Globals.dropped_items)
-			
 			
 		if "proj" in coll.collider.name:
 			for i in Globals.dropped_items:
@@ -285,6 +252,13 @@ func player_collision():
 		if "Boss_Portal" in coll.collider.name:
 			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", "null")
+			
+func despawn_drop(coll):
+	for i in Globals.dropped_items:
+		if i["id"] == int(coll.collider.get_node("id").text):
+			Globals.dropped_items.remove(Globals.dropped_items.find(i))
+
+	Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
 func snow_attack():
 	loose_hp(25)
@@ -340,7 +314,7 @@ func loose_hp(value):
 	player_invuln = true
 	$invuln_timer.wait_time = 1
 	$invuln_timer.start()
-	if Globals.GUI.get_node("hp_num").text == str(0):
+	if Globals.GUI.get_node("hp_num").text <= str(0):
 		Globals.goto_scene("res://Scenes/game_over_screen.tscn", "null")
 	
 func _on_pwr_up_timer_timeout():

@@ -47,6 +47,7 @@ var enemy_num
 var enemy_tracker = null
 var enemy_removed = false
 var enemy_hp
+var enemy_hp_value
 var all_attack = false
 var boss = null
 var shop_spawn_pos
@@ -70,10 +71,12 @@ func _deferred_goto_scene(path, spawn):
 	prev_scene = spawn
 	current_scene.free()
 	
-	next_scene = random_scene()
-	
 	current_scene = ResourceLoader.load(path).instance()
 	get_tree().get_root().add_child(current_scene)
+	
+	if current_scene.name != "Boss_World":
+		next_scene = random_scene()
+	
 	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
 		player = ResourceLoader.load("res://Scenes/Player.tscn").instance()
 		inventory = ResourceLoader.load("res://Scenes/Inventory.tscn").instance()
@@ -141,13 +144,14 @@ func _deferred_goto_scene(path, spawn):
 		else:
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
+			enemy_hp_value = 150
 #			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
 			player_weapon = "1"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 300
+			weapon["power"] = 100
 			weapon["dmg_type"] = "physical"
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
@@ -158,6 +162,9 @@ func _deferred_goto_scene(path, spawn):
 
 		spawn_enemy_type()
 		
+#		if current_scene.name == "Boss_World":
+#			GUI.get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(next_scene).get_string()
+#		else:
 		GUI.get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(next_scene).get_string()
 			
 #		enemy_tracker = enemy_pos.size()
@@ -259,7 +266,7 @@ func spawn_enemies(pos, type):
 		enemy_pos.push_front(Vector2(enemy.position.x, enemy.position.y))
 		enemy_dir.push_front(enemy.move_vec)
 		enemy_id.push_front(str(enemy))
-		enemy_hp.push_front(150)
+		enemy_hp.push_front(enemy_hp_value)
 		enemies.push_front(enemy)
 
 # coming back from shop
@@ -344,29 +351,15 @@ func drop_pwrup(pos):
 	
 	dropped_items.push_front(item)
 	item_id += 1
-	
-#	yield(get_tree().create_timer(10), "timeout")
-#
-#	print(dropped_items)
-#
-#	if dropped_items.size() > 0:
-#		for i in dropped_items.size():
-#			print(dropped_items[i].name)
-#			print(drop.name)
-#			if dropped_items[i].name == drop.name:
-#				current_scene.get_node(drop.name).queue_free()
-#				dropped_items.pop_front()
-#			else:
-#				return
 
 func drop_body_armour(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 	
-	if ilvl == 10:
-		item = ItemDB.ARMOR[str(rand.randi_range(1, ItemDB.WEAPON.size()-1))]
-	elif ilvl == 20:
-		item = ItemDB.ARMOR[str(rand.randi_range(1, ItemDB.ARMOR.size()))]
+#	if ilvl == 10:
+#		item = ItemDB.ARMOR[str(rand.randi_range(1, ItemDB.ARMOR.size()-1))]
+#	elif ilvl == 20:
+	item = ItemDB.ARMOR[str(rand.randi_range(1, ItemDB.ARMOR.size()))]
 
 	var stats = [(item["int"] + rand.randi_range(0, ilvl)), (item["str"] + rand.randi_range(0, ilvl)), (item["dex"] + rand.randi_range(0, ilvl))]
 	rand.randomize()
@@ -414,18 +407,6 @@ func drop_body_armour(pos, ilvl):
 	
 	dropped_items.push_front(item)
 	item_id += 1
-	
-#	yield(get_tree().create_timer(10), "timeout")
-	
-#	print(dropped_items)
-	
-#	if dropped_items.size() > 0:
-#		for i in dropped_items.size():
-#			if dropped_items[i].name == drop.name:
-#				current_scene.get_node(drop.name).queue_free()
-#				dropped_items.pop_front()
-#			else:
-#				return
 
 func drop_weapon(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
@@ -460,17 +441,5 @@ func drop_weapon(pos, ilvl):
 	
 	dropped_items.push_front(item)
 	item_id += 1
-	
-#	yield(get_tree().create_timer(10), "timeout")
-#
-#	print(dropped_items)
-#
-#	if dropped_items.size() > 0:
-#		for i in dropped_items.size():
-#			if dropped_items[i].name == drop.name:
-#				current_scene.get_node(drop.name).queue_free()
-#				dropped_items.pop_front()
-#			else:
-#				return
 
 
