@@ -130,13 +130,13 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
 			GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
 			GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
-			GUI.get_node("ammo").text = current_ammo
+			if player_weapon == "bow":
+				GUI.get_node("ammo").text = current_ammo
 			GUI.get_node("ammo_num").text = str(current_ammo_num)
 			player.move_speed += (0.1*dex)
 			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
-			
 
 #			ilvl += 10
 
@@ -148,7 +148,7 @@ func _deferred_goto_scene(path, spawn):
 #			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
-			player_weapon = "1"
+			player_weapon = "3"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
 			weapon["power"] = 100
@@ -314,7 +314,7 @@ func drop_weighting(num):
 func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
-	var weighting = drop_weighting({0:0.80, 1:0.10, 2:0.10})
+	var weighting = drop_weighting({0:0.90, 1:0.05, 2:0.05})
 	var freq = rand.randi_range(0,2)
 	
 #	if freq == 1:	
@@ -326,7 +326,8 @@ func drop(pos):
 		drop_weapon(pos, ilvl)
 	
 func drop_pwrup(pos):
-	var drop_id = str(drop_weighting({1:0.09, 2:0.06, 3:0.09, 4:0.09, 5:0.09, 6:0.40, 7:0.09, 8:0.09}))
+#	var drop_id = str(drop_weighting({1:0.40, 2:0.06, 3:0.09, 4:0.09, 5:0.09, 6:0.09, 7:0.09, 8:0.09}))
+	var drop_id = str(drop_weighting({1:0.93, 2:0.01, 3:0.01, 4:0.01, 5:0.01, 6:0.01, 7:0.01, 8:0.01}))
 	var drop_texture = ItemDB.PWRUP[drop_id]
 	var drop_name = ItemDB.PWRUP[drop_id].name
 	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()

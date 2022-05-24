@@ -122,8 +122,8 @@ func _on_jungle_attack_timeout_timeout():
 func remove_enemy(i):
 	var lvl_progress = Globals.GUI.get_node("lvl_progress")
 	Globals.enemy_id.remove(i)
-	Globals.enemy_pos.remove(i)
 	Globals.enemy_hp.remove(i)
+	Globals.enemy_pos.remove(i)
 	Globals.enemies.remove(i)
 	Globals.enemy_tracker -= 1
 	Globals.drop(self.position)
@@ -140,7 +140,13 @@ func remove_enemy(i):
 		Globals.current_scene.get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text = str(lvlupstats)
 	else:
 		lvl_progress.value += lvl_progress.step
+#	self.queue_free()
 	self.call_deferred("queue_free")
+	
+	if Globals.enemy_tracker == 0:
+			print("spawn boss portal")
+			Globals.spawn_boss_portal()
+			return
 
 
 

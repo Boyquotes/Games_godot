@@ -25,3 +25,6 @@ NOTES 21/05/22
 	- enemy scaling seems weak
 	- poison enemies are stronge
 	- player modifiers after boss kill would enable char builds
+
+NOTES 24/05/22
+	- multiple enemies dying has issues bc timers expire after array pos has already been freed
