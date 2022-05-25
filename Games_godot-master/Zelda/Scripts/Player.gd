@@ -436,6 +436,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				weapon.get_node("weapon").set_texture(wand)
 				var shortest_distance_enemy = Globals.current_scene.get_node("Level_TileMap")
 				if Globals.current_scene.name != "Shop":
+#					print("enemies ", Globals.enemies)
 					for i in Globals.enemies:
 						var distance_to_player = i.get_global_position().distance_to(self.get_global_position())
 						if distance_to_player < shortest_distance_enemy.get_global_position().distance_to(self.get_global_position()):

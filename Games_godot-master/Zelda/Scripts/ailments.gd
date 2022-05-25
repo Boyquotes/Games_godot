@@ -1,7 +1,7 @@
 extends "res://Scripts/Enemy_behaviour.gd"
 
 var body = self
-var burning = false
+var burningx
 var shocked = false
 
 func _ready():
@@ -29,17 +29,26 @@ func shock_timer(curr_enemy, dmg_value):
 #	Globals.player_pwr -= 20
 	shocked = false
 	
-func burn_timer(curr_enemy, dmg_value):
-	print("burn")
-#	print("dmgVAL ", dmg_value)
-	if burning == false:
-		for i in 5:
-			burning = true
-			if Globals.enemy_hp[curr_enemy] > 0:
-				yield(get_tree().create_timer(2), "timeout")
-				Globals.enemy_hp[curr_enemy] -= dmg_value
-				$enemy_hp_bar.value -= dmg_value
-			else:
-				remove_enemy(curr_enemy)
-				return
+func burn_timer(curr_enemy, dmg_value, ticks):
+	print("currEnemy ", curr_enemy)
+	for i in Globals.enemy_hp.size():
+		if Globals.enemy_hp[i] < Globals.enemy_hp_value and curr_enemy == Globals.enemy_hp.size()-1 and Globals.enemy_hp.size() > 1:
+			print("burning ", Globals.enemies[i].burning)
+#			var enemy_to_remove = i
+			if Globals.enemy_hp[i] < (dmg_value*ticks) and Globals.enemies[i].burning == true:
+				curr_enemy -= 1 
+				print("adjustPos")
+	for i in ticks:
+		yield(get_tree().create_timer(2), "timeout")
+		print("currentEnemies ",Globals.enemy_hp)
+		Globals.enemy_hp[curr_enemy] -= dmg_value
+		$enemy_hp_bar.value -= dmg_value
+		if i == ticks-1:
 			burning = false
+		if Globals.enemy_hp[curr_enemy] <= 0:
+			remove_enemy(curr_enemy)
+			burning = false
+			break
+			return
+
+

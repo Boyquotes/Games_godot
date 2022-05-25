@@ -6,6 +6,7 @@ var move_vec
 var proj_life_time
 var snow_attack = false
 var enemy_attack = false
+var burning
 
 func _ready():
 	anim_enemy = $AnimationPlayer
@@ -140,8 +141,8 @@ func remove_enemy(i):
 		Globals.current_scene.get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text = str(lvlupstats)
 	else:
 		lvl_progress.value += lvl_progress.step
-#	self.queue_free()
-	self.call_deferred("queue_free")
+	self.queue_free()
+#	self.call_deferred("queue_free")
 	
 	if Globals.enemy_tracker == 0:
 			print("spawn boss portal")

@@ -44,7 +44,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 						body.move_speed = 0.5
 						body.unfreeze_timer(i)
 					elif Globals.current_ammo == "fire arrow": 
-						body.burn_timer(i, dmg_taken)
+						body.burn_timer(i, dmg_taken, 2)
 					elif Globals.current_ammo == "lightning arrow":
 						body.shock_timer(i, dmg_taken)
 					elif Globals.current_ammo == "poison arrow":
@@ -63,8 +63,9 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 						Globals.enemy_hp[i] -= dmg_taken
 						enemy_hp_bar.value -= dmg_taken
 					elif Globals.wand_proj == "fire_one":
-						print("enemey ",i)
-						body.burn_timer(i, (dmg_taken*1.5))
+						if body.burning != true:
+							body.burn_timer(i, (dmg_taken*1.5), 2)
+							body.burning = true
 					elif Globals.wand_proj == "wand_beam_proj":
 						$Beam_Timer.start()
 						$Beam_Timer.one_shot = false
@@ -116,7 +117,8 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		Globals.boss.queue_free()
 		Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 		Globals.num_of_enemies(5)
-		Globals.goto_scene("res://Scenes/Levels/" + Globals.next_scene + ".tscn", Globals.current_scene.name)
+#		Globals.goto_scene("res://Scenes/Levels/" + Globals.next_scene + ".tscn", Globals.current_scene.name)
+		Globals.goto_scene("res://Scenes/Levels/Fire_World.tscn", Globals.current_scene.name)
 		Globals.ilvl += 10
 		Globals.enemy_hp_value += 50
 		
@@ -131,7 +133,6 @@ func dmg_calc():
 		for k in Globals.enemy_resistance:
 			if j.text == k and int(j.get_child(0).text) > 0:
 				dmg -= Globals.enemy_resistance.get(k)
-	print("dmg ",dmg)
 #	print("weapon ",Globals.player_weapon)
 #	print("proj ",Globals.wand_proj)
 	return dmg

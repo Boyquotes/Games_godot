@@ -16,7 +16,7 @@ var player_dmg_types = {"fire": 0, "cold": 0, "lightning": 0, "physical": 0, "po
 var portal_spawned = false
 var enemy_resistance
 var damage_type
-var max_mana = 100
+var max_mana = 500
 var poison_stacks = 0
 var current_mana
 var coins = 0
@@ -314,7 +314,7 @@ func drop_weighting(num):
 func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
-	var weighting = drop_weighting({0:0.90, 1:0.05, 2:0.05})
+	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
 	var freq = rand.randi_range(0,2)
 	
 #	if freq == 1:	
