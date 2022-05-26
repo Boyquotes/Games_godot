@@ -30,25 +30,29 @@ func shock_timer(curr_enemy, dmg_value):
 	shocked = false
 	
 func burn_timer(curr_enemy, dmg_value, ticks):
-	print("currEnemy ", curr_enemy)
-	for i in Globals.enemy_hp.size():
-		if Globals.enemy_hp[i] < Globals.enemy_hp_value and curr_enemy == Globals.enemy_hp.size()-1 and Globals.enemy_hp.size() > 1:
-			print("burning ", Globals.enemies[i].burning)
-#			var enemy_to_remove = i
-			if Globals.enemy_hp[i] < (dmg_value*ticks) and Globals.enemies[i].burning == true:
-				curr_enemy -= 1 
-				print("adjustPos")
+#	print("currEnemy ", curr_enemy)
+#	for i in Globals.enemy_hp.size():
+#		if Globals.enemy_hp[i] < Globals.enemy_hp_value and curr_enemy == Globals.enemy_hp.size()-1 and Globals.enemy_hp.size() > 1:
+#			print("checkEnemies")
+#			if Globals.enemy_hp[i] < (dmg_value*ticks) and Globals.enemies[i].burning == true:
+#				curr_enemy -= 1 
+#				print("adjustPos")
 	for i in ticks:
 		yield(get_tree().create_timer(2), "timeout")
-		print("currentEnemies ",Globals.enemy_hp)
+		if curr_enemy == Globals.enemy_hp.size():
+			print("adjustPos")
+			curr_enemy-=1
 		Globals.enemy_hp[curr_enemy] -= dmg_value
 		$enemy_hp_bar.value -= dmg_value
 		if i == ticks-1:
 			burning = false
 		if Globals.enemy_hp[curr_enemy] <= 0:
+			print("removeEnemy")
 			remove_enemy(curr_enemy)
+			print("enemyRemoveBurnTimer ", Globals.enemies)
 			burning = false
 			break
 			return
+				
 
 

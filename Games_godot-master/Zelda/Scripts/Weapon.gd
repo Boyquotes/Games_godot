@@ -76,6 +76,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 					enemy_hp_bar.value -= dmg_taken
 					
 				if Globals.enemy_hp[i] <= 0:
+					print("removeEnemyWeaponFunc")
 					body.remove_enemy(i)
 					body.queue_free()
 					if Globals.enemy_tracker == 0:
