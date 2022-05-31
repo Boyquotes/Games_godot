@@ -39,6 +39,8 @@ func _ready():
 
 func _physics_process(delta):
 	
+#	print("EnemyProcess ", Globals.enemies)
+	
 	player_movement()
 	
 	player_collision()
@@ -437,6 +439,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				var shortest_distance_enemy = Globals.current_scene.get_node("Level_TileMap")
 				if Globals.current_scene.name != "Shop":
 					print("enemies ", Globals.enemies)
+					print("enemyHP ", Globals.enemy_hp)
 #					var new_array = Globals.enemies.erase(["Deleted Object"])
 #					print("new_array ", new_array)
 					for i in Globals.enemies:
