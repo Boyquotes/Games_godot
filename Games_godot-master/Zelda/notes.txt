@@ -28,3 +28,16 @@ NOTES 21/05/22
 
 NOTES 24/05/22
 	- multiple enemies dying has issues bc timers expire after array pos has already been freed
+
+NOTES 01/06/22
+	- (kinda) fixed enemies beeing freed at the same time bug
+	- could no recreate bug again, which does not correct enemy to be freed at ailments.gd 32 (while loop does not trigger in some age cases for some reason)
+	- counter at the end(?) of the game -> enemies killed, time passed, something to save to HD
+	- wand proj calc is completely fucked after new enemies spawn in same lvl (boss portal)
+
+body_set_shape_disabled: Can't change this state while flushing queries. Use call_deferred() or set_deferred() to change monitoring state instead.
+  <C++ Error>   Condition "body->get_space() && flushing_queries" is true.
+  <C++ Source>  servers/physics_2d/physics_2d_server_sw.cpp:724 @ body_set_shape_disabled()
+  <Stack Trace> Globals.gd:231 @ spawn_enemies()
+                Globals.gd:212 @ spawn_enemy_type()
+                Weapon.gd:113 @ _on_Area2D_body_shape_entered()

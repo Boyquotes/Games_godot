@@ -108,6 +108,8 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		if boss_portal_health_bar.value <= 0:
 			body.queue_free()
 			Globals.num_of_enemies(5)
+			Globals.enemy_hp_value += 20
+			Globals.enemy_res_modifier += 2
 			Globals.spawn_enemy_type()
 #			Globals.enemy_tracker = Globals.enemy_pos.size()
 			Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
@@ -121,6 +123,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		Globals.goto_scene("res://Scenes/Levels/Fire_World.tscn", Globals.current_scene.name)
 		Globals.ilvl += 10
 		Globals.enemy_hp_value += 50
+		Globals.enemy_res_modifier += 5
 		
 #		goto powerup screen?
 #		next lvl
@@ -132,9 +135,10 @@ func dmg_calc():
 	for j in Globals.GUI.get_node("stat_container").get_node("dmg").get_children():
 		for k in Globals.enemy_resistance:
 			if j.text == k and int(j.get_child(0).text) > 0:
-				dmg -= Globals.enemy_resistance.get(k)
-#	print("weapon ",Globals.player_weapon)
-#	print("proj ",Globals.wand_proj)
+				dmg = float(dmg)/Globals.enemy_resistance.get(k)
+				dmg*=15
+				dmg = stepify(dmg, 0.01)
+	print("dmg ", dmg)
 	return dmg
 
 func _on_Beam_Timer_timeout():
