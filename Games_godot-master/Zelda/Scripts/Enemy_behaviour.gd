@@ -141,7 +141,7 @@ func remove_enemy(i):
 		lvlupstats += 5
 		Globals.current_scene.get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text = str(lvlupstats)
 	else:
-		lvl_progress.value += lvl_progress.step	
+		lvl_progress.value += lvl_progress.step
 	if Globals.enemy_tracker == 0:
 			print("spawn boss portal")
 			Globals.spawn_boss_portal()

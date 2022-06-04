@@ -41,3 +41,7 @@ body_set_shape_disabled: Can't change this state while flushing queries. Use cal
   <Stack Trace> Globals.gd:231 @ spawn_enemies()
                 Globals.gd:212 @ spawn_enemy_type()
                 Weapon.gd:113 @ _on_Area2D_body_shape_entered()
+
+NOTES 04/06/22
+	- frog armor dex/speed bug
+	- difference in enemy shown in game and actual enemy hp

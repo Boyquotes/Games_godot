@@ -8,8 +8,9 @@ func _ready():
 	pass
 
 func unfreeze_timer(curr_enemy):
+	print("frozenEnemy ", curr_enemy)
 	yield(get_tree().create_timer(2), "timeout")
-	curr_enemy.move_speed = 3
+	self.move_speed = 3
 
 func poison_timer(curr_enemy, dmg_value):
 #	print("dmgVAL ", dmg_value)

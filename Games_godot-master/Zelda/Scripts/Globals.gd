@@ -54,6 +54,7 @@ var boss = null
 var shop_spawn_pos
 var shop_spawned = false
 var regex
+var respawn
 
 func _ready():
 	var root = get_tree().get_root()
@@ -134,7 +135,7 @@ func _deferred_goto_scene(path, spawn):
 			if player_weapon == "bow":
 				GUI.get_node("ammo").text = current_ammo
 			GUI.get_node("ammo_num").text = str(current_ammo_num)
-			player.move_speed += (0.1*dex)
+#			player.move_speed += (0.1*dex)
 			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
@@ -152,7 +153,7 @@ func _deferred_goto_scene(path, spawn):
 			player_weapon = "1"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 100
+			weapon["power"] = 200
 			weapon["dmg_type"] = "physical"
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
@@ -209,7 +210,8 @@ func spawn_enemy_type():
 	var enemy_type = "Enemy_" + type
 	
 	for i in enemy_pos.size():
-		spawn_enemies(i, enemy_type)
+		call_deferred("spawn_enemies", i, enemy_type)
+#		spawn_enemies(i, enemy_type)
 
 func num_of_enemies(n):
 	enemy_pos = range(0, n)
@@ -220,10 +222,11 @@ func num_of_enemies(n):
 	enemy_tracker = n
 	
 func spawn_enemies(pos, type):
+	print("respawn ", respawn)
 	var rand = RandomNumberGenerator.new()
 	var tilemap = current_scene.get_node("Level_TileMap")
 
-	if "World" in current_scene.name and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or "World" in prev_scene:
+	if "World" in current_scene.name and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or "World" in prev_scene or respawn:
 		var spawn_area = current_scene.get_node("spawn_area").rect_size
 		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance()
 
@@ -273,11 +276,15 @@ func spawn_enemies(pos, type):
 # coming back from shop
 	elif current_scene.name == "Starting_World":
 		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 
+#		current_scene.call_deferred("add_child", enemy)
 		current_scene.add_child(enemy)
+		print("enemyPos ", enemy_pos)
 		enemy.position = enemy_pos[pos]
 		enemy.move_vec = enemy_dir[pos]
 		enemy_id[pos] = (str(enemy))
 		enemies[pos] = enemy
+		
+#	respawn = false
 	
 func spawn_weapon_shop():
 	var rand = RandomNumberGenerator.new()
