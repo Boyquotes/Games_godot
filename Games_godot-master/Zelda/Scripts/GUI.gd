@@ -94,12 +94,15 @@ func attribute_effects(stat, effect, value):
 	elif stat == "dex":
 		if effect == "augment":
 			Globals.player.move_speed += (0.02 * value)
+			print("augmentSpeed ", Globals.player.move_speed)
 		else: 
 			Globals.player.move_speed -= (0.02 * value)
+			print("decSpeed ", Globals.player.move_speed)
 			
 func buff_effects(buff, effect):
 	if effect == "activate":
 		if "fire_proj" in buff:
+			print("burnActivate")
 			Globals.wand_proj = "fire_one"
 		elif "lazor" in buff:
 			Globals.wand_proj = "wand_beam_proj"

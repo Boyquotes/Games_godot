@@ -40,6 +40,11 @@ func insert_item(pos):
 				Globals.GUI.get_node("ammo").text = "standard arrow"
 				Globals.GUI.get_node("ammo_num").text = "unl."
 		
+		if Globals.player_weapon != "bow":
+			Globals.current_ammo = null
+			Globals.GUI.get_node("ammo").text = ""
+			Globals.GUI.get_node("ammo_num").text = ""
+		
 	if slot == $CHARACTER:
 		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
 		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])

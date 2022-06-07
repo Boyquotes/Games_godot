@@ -222,7 +222,6 @@ func num_of_enemies(n):
 	enemy_tracker = n
 	
 func spawn_enemies(pos, type):
-	print("respawn ", respawn)
 	var rand = RandomNumberGenerator.new()
 	var tilemap = current_scene.get_node("Level_TileMap")
 
@@ -238,6 +237,8 @@ func spawn_enemies(pos, type):
 
 		var dir = [Vector2.DOWN, Vector2.UP, Vector2.RIGHT, Vector2.LEFT]
 		enemy.move_vec = dir[rand.randi() % dir.size()]
+		enemy.get_node("enemy_hp_bar").max_value = enemy_hp_value
+		enemy.get_node("enemy_hp_bar").value = enemy_hp_value
 		
 		var distance_to_player = enemy.get_global_position().distance_to(player.get_global_position())
 
@@ -272,19 +273,19 @@ func spawn_enemies(pos, type):
 		enemy_id.push_front(str(enemy))
 		enemy_hp.push_front(enemy_hp_value)
 		enemies.push_front(enemy)
+		
+		respawn = false
 
 # coming back from shop
 	elif current_scene.name == "Starting_World":
 		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 
 #		current_scene.call_deferred("add_child", enemy)
 		current_scene.add_child(enemy)
-		print("enemyPos ", enemy_pos)
 		enemy.position = enemy_pos[pos]
 		enemy.move_vec = enemy_dir[pos]
 		enemy_id[pos] = (str(enemy))
 		enemies[pos] = enemy
 		
-#	respawn = false
 	
 func spawn_weapon_shop():
 	var rand = RandomNumberGenerator.new()
@@ -323,14 +324,15 @@ func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 	var weighting = drop_weighting({0:0.50, 1:0.20, 2:0.30})
-	var freq = rand.randi_range(0,2)
+#	var weighting = drop_weighting({0:0.50, 1:0.50})
+#	var freq = rand.randi_range(0,1)
 	
 #	if freq == 1:	
 	if weighting == 0:
 		drop_pwrup(pos)
 	elif weighting == 1:
 		drop_body_armour(pos, ilvl)
-	elif weighting == 2:
+	elif weighting == 1:
 		drop_weapon(pos, ilvl)
 	
 func drop_pwrup(pos):
@@ -421,7 +423,8 @@ func drop_weapon(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 	
-	item = ItemDB.WEAPON[str(rand.randi_range(1, ItemDB.WEAPON.size()))]
+#	item = ItemDB.WEAPON[str(rand.randi_range(1, ItemDB.WEAPON.size()))]
+	item = ItemDB.WEAPON["3"]
 		
 	var potency = (rand.randi_range((ilvl*2), (ilvl*3)))*3
 	var dmg_types = ["fire", "cold", "lightning", "physical", "poison"]

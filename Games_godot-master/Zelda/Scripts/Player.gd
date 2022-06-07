@@ -309,7 +309,6 @@ func loose_hp(value):
 	var res_value = resistance_damage_calc(value)
 	Globals.GUI.get_node("hp_visual").value -= res_value
 	Globals.player_hp -= res_value
-	Globals.player.hp -= res_value
 	Globals.GUI.get_node("hp_num").text = str(self.hp)
 	
 #	self.visible = false

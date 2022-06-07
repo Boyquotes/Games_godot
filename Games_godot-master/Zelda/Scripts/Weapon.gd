@@ -105,25 +105,24 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		
 		if boss_portal_health_bar.value <= 0:
 			body.queue_free()
-			Globals.num_of_enemies(5)
 			Globals.enemy_hp_value += 20
+			Globals.num_of_enemies(5)
 			Globals.enemy_res_modifier += 2
 			Globals.respawn = true
-#			Globals.call_deferred("spawn_enemy_type")
 			Globals.spawn_enemy_type()
-#			Globals.enemy_tracker = Globals.enemy_pos.size()
 			Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
+			Globals.portal_spawned = false
 
 	if "boss" in body.name:
 		Globals.all_attack = false
 		Globals.boss.queue_free()
 		Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 #		Globals.respawn = false
-		Globals.num_of_enemies(5)
 #		Globals.goto_scene("res://Scenes/Levels/" + Globals.next_scene + ".tscn", Globals.current_scene.name)
 		Globals.goto_scene("res://Scenes/Levels/Fire_World.tscn", Globals.current_scene.name)
 		Globals.ilvl += 10
 		Globals.enemy_hp_value += 50
+		Globals.num_of_enemies(5)
 		Globals.enemy_res_modifier += 5
 		Globals.respawn = false
 		
