@@ -39,8 +39,7 @@ func insert_item(pos):
 				Globals.current_ammo = "standard arrow"
 				Globals.GUI.get_node("ammo").text = "standard arrow"
 				Globals.GUI.get_node("ammo_num").text = "unl."
-		
-		if Globals.player_weapon != "bow":
+		else:
 			Globals.current_ammo = null
 			Globals.GUI.get_node("ammo").text = ""
 			Globals.GUI.get_node("ammo_num").text = ""

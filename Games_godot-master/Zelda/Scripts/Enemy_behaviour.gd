@@ -127,6 +127,7 @@ func remove_enemy(i):
 	Globals.enemy_hp.remove(i)
 	Globals.enemy_pos.remove(i)
 	Globals.enemies.remove(i)
+	Globals.entities.remove(i)
 	Globals.enemy_tracker -= 1
 	Globals.drop(self.position)
 	Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)

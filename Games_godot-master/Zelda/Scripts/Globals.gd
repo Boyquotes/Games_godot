@@ -40,6 +40,7 @@ var current_ammo_num = 0
 var stats
 var prev_scene
 var GUI = null
+var entities = []
 var enemies
 var enemy_pos
 var enemy_dir
@@ -150,7 +151,7 @@ func _deferred_goto_scene(path, spawn):
 #			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
-			player_weapon = "1"
+			player_weapon = "3"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
 			weapon["power"] = 200
@@ -274,6 +275,9 @@ func spawn_enemies(pos, type):
 		enemy_hp.push_front(enemy_hp_value)
 		enemies.push_front(enemy)
 		
+		entities.push_front(enemy)
+		print(Globals.entities)
+		
 		respawn = false
 
 # coming back from shop
@@ -301,13 +305,15 @@ func spawn_weapon_shop():
 	
 func spawn_boss_portal():
 	portal_spawned = true
-	var portal_entrance = ResourceLoader.load("res://Scenes/Boss_Portal_Entrance.tscn").instance()
+	var Boss_Portal = ResourceLoader.load("res://Scenes/Boss_Portal_Entrance.tscn").instance()
 	var portal_spawn_area = current_scene.get_node("weaponshop_spawn_area").rect_size
-	current_scene.get_node("weaponshop_spawn_area").call_deferred("add_child", portal_entrance)
+	current_scene.get_node("weaponshop_spawn_area").call_deferred("add_child", Boss_Portal)
+	entities.clear()
+	entities.push_front(Boss_Portal)
 	
-	portal_entrance.get_node("Boss_Portal_Anim").play()
-	portal_entrance.position.x = 500
-	portal_entrance.position.y = 250
+	Boss_Portal.get_node("Boss_Portal_Anim").play()
+	Boss_Portal.position.x = 500
+	Boss_Portal.position.y = 250
 	
 func drop_weighting(num):
 	var rand = RandomNumberGenerator.new()
@@ -332,7 +338,7 @@ func drop(pos):
 		drop_pwrup(pos)
 	elif weighting == 1:
 		drop_body_armour(pos, ilvl)
-	elif weighting == 1:
+	elif weighting == 2:
 		drop_weapon(pos, ilvl)
 	
 func drop_pwrup(pos):
