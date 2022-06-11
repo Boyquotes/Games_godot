@@ -45,6 +45,7 @@ body_set_shape_disabled: Can't change this state while flushing queries. Use cal
 NOTES 04/06/22
 	- frog armor dex/speed bug
 	- difference in enemy shown in game and actual enemy hp
+
 NOTES 07/06/22
 	- fire proj not working
 	- hp bar not showing correctly

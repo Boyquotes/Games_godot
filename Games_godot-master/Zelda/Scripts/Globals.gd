@@ -14,6 +14,7 @@ var player_pwr = 0
 var player_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
 var player_dmg_types = {"fire": 0, "cold": 0, "lightning": 0, "physical": 0, "poison": 0}
 var enemy_res_modifier = 10
+var enemy_dmg_modifier = 25
 var portal_spawned = false
 var enemy_resistance
 var damage_type
@@ -255,7 +256,7 @@ func spawn_enemies(pos, type):
 		if "Snow" in current_scene.name:
 			enemy_resistance = {"fire": 1*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
 		if "Desert" in current_scene.name:
-			enemy_resistance = {"fire": 1*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
+			enemy_resistance = {"fire": 1*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 3*enemy_res_modifier, "poison": 7*enemy_res_modifier}
 		if "Jungle" in current_scene.name:
 			enemy_resistance = {"fire": 5*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 1*enemy_res_modifier}
 		
@@ -276,7 +277,6 @@ func spawn_enemies(pos, type):
 		enemies.push_front(enemy)
 		
 		entities.push_front(enemy)
-		print(Globals.entities)
 		
 		respawn = false
 
@@ -289,6 +289,8 @@ func spawn_enemies(pos, type):
 		enemy.move_vec = enemy_dir[pos]
 		enemy_id[pos] = (str(enemy))
 		enemies[pos] = enemy
+		entities.remove(pos)
+		entities.push_front(enemy)
 		
 	
 func spawn_weapon_shop():
@@ -329,7 +331,7 @@ func drop_weighting(num):
 func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
-	var weighting = drop_weighting({0:0.50, 1:0.20, 2:0.30})
+	var weighting = drop_weighting({0:0.01, 1:0.98, 2:0.01})
 #	var weighting = drop_weighting({0:0.50, 1:0.50})
 #	var freq = rand.randi_range(0,1)
 	

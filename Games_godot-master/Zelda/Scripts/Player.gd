@@ -88,20 +88,20 @@ func player_movement():
 	if Input.is_action_just_pressed("attack"):
 		if Globals.player_weapon == "axe":
 			if !attacking:
-				axe_pos = - 18
+				axe_pos = - 28
 				axe_dir = "y"
-			elif attacking and axe_pos == - 18:
-				axe_pos = + 15
+			elif attacking and axe_pos == - 28:
+				axe_pos = + 25
 				axe_dir = "x"
-			elif attacking and axe_pos == + 15:
-				axe_pos = + 30
+			elif attacking and axe_pos == + 25:
+				axe_pos = + 40
 				axe_dir = "y"
-			elif attacking and axe_pos == + 30:
-				axe_pos = -15
+			elif attacking and axe_pos == + 40:
+				axe_pos = -25
 				axe_dir = "x"
 				attacking = false
 			else:
-				axe_pos = - 18
+				axe_pos = - 28
 				axe_dir = "y"
 			weapon_attack(move_vec, axe_pos, axe_dir)
 		else:
@@ -143,6 +143,7 @@ func player_collision():
 			if level_tile_name == "shop_stairs_exit":
 				Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 				Globals.goto_scene("res://Scenes/Levels/Starting_World.tscn", "null")
+				
 
 		if coll.collider.name == "Ammo_TileMap":
 #			var test = get_tile_name(coll, ammo_tilemap)
@@ -185,11 +186,12 @@ func player_collision():
 			Globals.damage_type = "cold"
 			snow_attack()
 		elif "lightning" in coll.collider.name and player_invuln == false:
-			loose_hp(25)
+			loose_hp(Globals.enemy_dmg_modifier)
 		elif "Fire" in coll.collider.name and player_invuln == false:
-			loose_hp(25)
+			loose_hp(Globals.enemy_dmg_modifier)
 		elif "Starting" in coll.collider.name and player_invuln == false:
-			loose_hp(25)
+			Globals.damage_type = "physical"
+			loose_hp(Globals.enemy_dmg_modifier)
 				
 		if "speed_up" in coll.collider.name:
 			$pwr_up_timer.wait_time = 15
@@ -266,7 +268,7 @@ func despawn_drop(coll):
 	Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
 func snow_attack():
-	loose_hp(25)
+	loose_hp(Globals.enemy_dmg_modifier)
 	$freeze_timer.start()
 	move_speed -= 1
 	
@@ -280,7 +282,7 @@ func _on_poison_timer_timeout():
 	
 func _on_poison_dmg_timer_timeout(tick):
 	if $poison_timer.time_left != 0:
-		loose_hp(10)
+		loose_hp(Globals.enemy_dmg_modifier/2)
 
 func _on_bleed_timer_timeout():
 	for i in self.get_children():
@@ -289,30 +291,31 @@ func _on_bleed_timer_timeout():
 	
 func _on_bleed_dmg_timer_timeout():
 	if is_moving:
-		loose_hp(20)
+		loose_hp(Globals.enemy_dmg_modifier)
 	else: 
-		loose_hp(10)
+		loose_hp(Globals.enemy_dmg_modifier/2)
 		
 func resistance_damage_calc(value):
 	if Globals.damage_type == "fire":
-		value -= (Globals.player_resistance["fire"]/5)
+		value -= (Globals.player_resistance["fire"]/3)
 	elif Globals.damage_type == "cold":
-		value -= (Globals.player_resistance["cold"]/5)
+		value -= (Globals.player_resistance["cold"]/3)
 	elif Globals.damage_type == "lightning":
-		value -= (Globals.player_resistance["lightning"]/5)
+		value -= (Globals.player_resistance["lightning"]/3)
 	elif Globals.damage_type == "poison":
-		value -= (Globals.player_resistance["poison"]/5)
+		value -= (Globals.player_resistance["poison"]/3)
 	elif Globals.damage_type == "physical":
-		value -= (Globals.player_resistance["physical"]/5)
+		value -= (Globals.player_resistance["physical"]/3)
 	else:
 		return value
 	return value
 
 func loose_hp(value):
 	var res_value = resistance_damage_calc(value)
+	print("dmgTaken ", res_value)
 	Globals.GUI.get_node("hp_visual").value -= res_value
 	Globals.player_hp -= res_value
-	Globals.GUI.get_node("hp_num").text = str(self.hp)
+	Globals.GUI.get_node("hp_num").text = str(Globals.player_hp)
 	
 #	self.visible = false
 	player_invuln = true
