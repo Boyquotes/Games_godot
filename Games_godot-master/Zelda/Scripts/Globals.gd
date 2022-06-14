@@ -15,6 +15,8 @@ var player_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10
 var player_dmg_types = {"fire": 0, "cold": 0, "lightning": 0, "physical": 0, "poison": 0}
 var enemy_res_modifier = 10
 var enemy_dmg_modifier = 25
+var boss_hp_modifier = 500
+var boss_pwr_modifier = 50
 var portal_spawned = false
 var enemy_resistance
 var damage_type

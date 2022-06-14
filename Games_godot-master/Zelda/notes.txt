@@ -51,3 +51,9 @@ NOTES 07/06/22
 	- hp bar not showing correctly
 	- special arrows fire when wand proj is active
 	- wand proj only fire at nearest enemy (bosses and portal not included) -> make arr with all entities
+
+NOTES 14/06/22
+	- boss loot?
+	- scythe proj
+	- boss dmg/bleed scaling
+	- boss ability -> speed up and scythe attack
