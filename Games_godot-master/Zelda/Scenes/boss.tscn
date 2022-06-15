@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Assets/Enemies/Undead executioner puppet/attack_anim/idle_2.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Enemies/Undead executioner puppet/attack_anim/idle_1.png" type="Texture" id=2]
@@ -13,17 +13,19 @@
 [ext_resource path="res://Assets/Enemies/ud_boss_health_front.png" type="Texture" id=11]
 [ext_resource path="res://Assets/Enemies/ud_boss_health_back.png" type="Texture" id=12]
 
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=1]
 radius = 156.766
 
-[sub_resource type="CircleShape2D" id=5]
-radius = 39.4171
+[sub_resource type="CircleShape2D" id=2]
+radius = 71.3658
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 505.825, 10 )
+
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 23.5038, 34.7035 )
 
-[sub_resource type="Animation" id=2]
-resource_name = "attack_scythe"
+[sub_resource type="Animation" id=4]
 length = 2.1
 loop = true
 tracks/0/type = "value"
@@ -39,7 +41,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ) ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=5]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -61,22 +63,29 @@ script = ExtResource( 3 )
 [node name="attack_zone" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack_zone"]
-shape = SubResource( 4 )
+shape = SubResource( 1 )
 
 [node name="attack_dmg_zone" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack_dmg_zone"]
-shape = SubResource( 5 )
+shape = SubResource( 2 )
+
+[node name="scythe_attack_zone" type="Area2D" parent="."]
+visible = false
+
+[node name="scythe_attack_coll" type="CollisionShape2D" parent="scythe_attack_zone"]
+position = Vector2( 506.442, 2.37842 )
+shape = SubResource( 6 )
 
 [node name="boss_sprite" type="Sprite" parent="."]
-texture = ExtResource( 6 )
+texture = ExtResource( 4 )
 
 [node name="boss_collision" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/attack_scythe = SubResource( 2 )
-anims/idle = SubResource( 3 )
+anims/attack_scythe = SubResource( 4 )
+anims/idle = SubResource( 5 )
 
 [node name="boss_hp_bar" type="TextureProgress" parent="."]
 visible = false
@@ -91,6 +100,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="scythe_throw_timer" type="Timer" parent="."]
+wait_time = 5.0
+
 [connection signal="body_shape_entered" from="attack_zone" to="." method="_on_attack_zone_body_shape_entered"]
 [connection signal="body_shape_exited" from="attack_zone" to="." method="_on_attack_zone_body_shape_exited"]
 [connection signal="body_shape_entered" from="attack_dmg_zone" to="." method="_on_attack_dmg_zone_body_shape_entered"]
+[connection signal="timeout" from="scythe_throw_timer" to="." method="_on_scythe_throw_timer_timeout"]

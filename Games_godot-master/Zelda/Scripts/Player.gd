@@ -17,6 +17,7 @@ var speed_up = false
 var dmg_up = false
 var is_moving = true
 var cooldown = false
+var bleed_dmg_modifier
 
 var weapon = preload("res://Scenes/Weapon.tscn")
 
@@ -288,12 +289,22 @@ func _on_bleed_timer_timeout():
 	for i in self.get_children():
 		if "bleed_dmg_timer" in i.name:
 			i.queue_free()
+
+func bleed_damage(modifier):
+	bleed_dmg_modifier = modifier
+	print("playertakesBleedDmg")
+	self.get_node("bleed_timer").start()
+	var bleed_dmg_timer = Timer.new()
+	bleed_dmg_timer.name = "bleed_dmg_timer"
+	bleed_dmg_timer.connect("timeout", Globals.player, "_on_bleed_dmg_timer_timeout")
+	self.add_child(bleed_dmg_timer)
+	self.get_node(bleed_dmg_timer.name).start()
 	
 func _on_bleed_dmg_timer_timeout():
 	if is_moving:
-		loose_hp(Globals.enemy_dmg_modifier)
+		loose_hp(Globals.enemy_dmg_modifier/bleed_dmg_modifier)
 	else: 
-		loose_hp(Globals.enemy_dmg_modifier/2)
+		loose_hp((Globals.enemy_dmg_modifier/2)/bleed_dmg_modifier)
 		
 func resistance_damage_calc(value):
 	if Globals.damage_type == "fire":
