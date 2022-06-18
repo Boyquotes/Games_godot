@@ -12,7 +12,6 @@ func _ready():
 	$boss_hp_bar.max_value = Globals.boss_hp_modifier
 	$boss_hp_bar.value = Globals.boss_hp_modifier
 	$scythe_throw_timer.start()
-	
 
 func _physics_process(delta):
 	boss_movement()
@@ -24,7 +23,7 @@ func boss_movement():
 	if dir.x > 0:
 		self.get_node("boss_sprite").set_flip_h(false)
 	else:
-		self.get_node("boss_sprite").set_flip_h(true)	
+		self.get_node("boss_sprite").set_flip_h(true)
 		
 	if attack_anim == false:
 		anim_boss.play("idle")
@@ -43,7 +42,7 @@ func _on_attack_dmg_zone_body_shape_entered(body_id, body, body_shape, local_sha
 		body.bleed_damage(2)
 
 func _on_scythe_throw_timer_timeout():
-	var scythe = load("res://Scenes/Scythe_boss.tscn").instance()
+	var scythe = load("res://Scenes/Scythe_boss_weapon.tscn").instance()
 	Globals.current_scene.get_node("boss").add_child(scythe)
 	scythe.position = dir
 	scythe.get_node("AnimationPlayer").play("scythe_throw")

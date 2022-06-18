@@ -111,6 +111,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			Globals.spawn_enemy_type()
 			Globals.enemy_res_modifier += 2
 			Globals.enemy_dmg_modifier += 5
+			Globals.boss_res_modifier += 5
 			Globals.respawn = true
 			Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
 			Globals.portal_spawned = false
@@ -141,11 +142,17 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 #		Globals.num_of_enemies(1)
 
 func dmg_calc():
+	var enemy_res
+	if "Boss" in Globals.current_scene.name:
+		enemy_res = Globals.boss_res
+	else:
+		enemy_res = Globals.enemy_resistance
+	
 	var dmg = Globals.player_pwr
 	for j in Globals.GUI.get_node("stat_container").get_node("dmg").get_children():
 		for k in Globals.enemy_resistance:
 			if j.text == k and int(j.get_child(0).text) > 0:
-				dmg = float(dmg)/Globals.enemy_resistance.get(k)
+				dmg = float(dmg)/enemy_res.get(k)
 				dmg*=15
 				dmg = stepify(dmg, 0.01)
 	print("dmg ", dmg)

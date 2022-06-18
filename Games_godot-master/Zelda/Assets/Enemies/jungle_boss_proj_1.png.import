@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/jungle_boss_eight.png-1cb73d864f9fd4055859b991451f4c1d.stex"
+path="res://.import/jungle_boss_proj_1.png-344fe9c963d4c4a8261e1876e1cab19c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Enemies/jungle_boss_eight.png"
-dest_files=[ "res://.import/jungle_boss_eight.png-1cb73d864f9fd4055859b991451f4c1d.stex" ]
+source_file="res://Assets/Enemies/jungle_boss_proj_1.png"
+dest_files=[ "res://.import/jungle_boss_proj_1.png-344fe9c963d4c4a8261e1876e1cab19c.stex" ]
 
 [params]
 

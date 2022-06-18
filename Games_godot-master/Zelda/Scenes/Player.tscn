@@ -27,6 +27,7 @@ height = 13.1901
 [sub_resource type="Animation" id=2]
 resource_name = "Idle"
 length = 0.6
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body:texture")
 tracks/0/interp = 1
@@ -184,7 +185,7 @@ collision_layer = 3
 script = ExtResource( 2 )
 
 [node name="Body" type="Sprite" parent="."]
-texture = ExtResource( 17 )
+texture = ExtResource( 12 )
 region_rect = Rect2( 10.9912, 8.49315, 18.127, 19.4797 )
 __meta__ = {
 "_editor_description_": "	

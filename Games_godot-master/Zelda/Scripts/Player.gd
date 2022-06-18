@@ -256,6 +256,12 @@ func player_collision():
 		
 		if "Boss_Portal" in coll.collider.name:
 			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
+			if "Starting" in Globals.current_scene.name:
+				Globals.load_boss = "scythe_boss"
+			elif "jungle" in Globals.current_scene.name:
+				Globals.load_boss = "scythe_boss"
+			else:
+				Globals.load_boss = "jungle_boss"
 			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", "null")
 			Globals.entities.clear()
 			Globals.entities.push_front(Globals.enemies)

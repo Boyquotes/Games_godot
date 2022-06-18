@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Assets/Enemies/jungle_boss_proj_3.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Enemies/jungle_boss_proj_4.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Enemies/jungle_boss_proj_2.png" type="Texture" id=4]
+[ext_resource path="res://Scripts/Scythe_boss.gd" type="Script" id=5]
+[ext_resource path="res://Assets/Enemies/jungle_boss_proj_1.png" type="Texture" id=6]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 13.5452, 13.4335 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "scythe_flying"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 1 ), ExtResource( 2 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 6 ), ExtResource( 4 ), ExtResource( 1 ), ExtResource( 2 ) ]
+}
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 13.7121, 13.6004 )
+
+[node name="fireproj" type="KinematicBody2D"]
+script = ExtResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/scythe_flying = SubResource( 2 )
+anims/scythe_throw = SubResource( 3 )
+next/scythe_throw = "scythe_flying"
+
+[node name="coll" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="coll"]
+shape = SubResource( 4 )
+
+[connection signal="body_shape_entered" from="coll" to="." method="_on_coll_body_shape_entered"]

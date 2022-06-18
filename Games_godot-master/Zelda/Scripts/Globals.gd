@@ -13,6 +13,9 @@ var player_lvl = 0
 var player_pwr = 0
 var player_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
 var player_dmg_types = {"fire": 0, "cold": 0, "lightning": 0, "physical": 0, "poison": 0}
+var boss_res = {"fire": 50, "cold": 80, "lightning": 50, "physical": 80, "poison": 20}
+var boss_res_modifier = 10
+var load_boss
 var enemy_res_modifier = 10
 var enemy_dmg_modifier = 25
 var boss_hp_modifier = 500
