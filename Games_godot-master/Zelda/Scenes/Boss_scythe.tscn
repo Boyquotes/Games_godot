@@ -11,7 +11,7 @@
 [ext_resource path="res://Assets/Enemies/ud_boss_skill_5.png" type="Texture" id=9]
 [ext_resource path="res://Assets/Enemies/ud_boss_health_front.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Enemies/Undead executioner puppet/attack_anim/idle_2.png" type="Texture" id=11]
-[ext_resource path="res://Scripts/boss.gd" type="Script" id=12]
+[ext_resource path="res://Scripts/Boss_scythe.gd" type="Script" id=12]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 156.766

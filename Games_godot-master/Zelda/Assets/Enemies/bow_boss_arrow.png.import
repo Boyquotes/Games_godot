@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bow_boss_atk_3.png-1a74d09a76bded26d549c61fe08449c3.stex"
+path="res://.import/bow_boss_arrow.png-323282dfc2f78a45e4cbf4d296d12ee5.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Enemies/bow_boss_atk_3.png"
-dest_files=[ "res://.import/bow_boss_atk_3.png-1a74d09a76bded26d549c61fe08449c3.stex" ]
+source_file="res://Assets/Enemies/bow_boss_arrow.png"
+dest_files=[ "res://.import/bow_boss_arrow.png-323282dfc2f78a45e4cbf4d296d12ee5.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

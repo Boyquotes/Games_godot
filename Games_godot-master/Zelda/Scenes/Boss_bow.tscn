@@ -1,0 +1,136 @@
+[gd_scene load_steps=24 format=2]
+
+[ext_resource path="res://Assets/Enemies/bow_boss_run_4.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Enemies/bow_boss_run_5.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Enemies/bow_boss_run_6.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Enemies/bow_boss_run_7.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Enemies/bow_boss_run_3.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Enemies/bow_boss_atk_3.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Enemies/bow_boss_atk_4.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Enemies/bow_boss_atk_5.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Enemies/bow_boss_idle_1.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Enemies/bow_boss_atk_1.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Enemies/bow_boss_atk_2.png" type="Texture" id=11]
+[ext_resource path="res://Assets/Enemies/bow_boss_run_2.png" type="Texture" id=12]
+[ext_resource path="res://Assets/Enemies/bow_boss_run_1.png" type="Texture" id=13]
+[ext_resource path="res://Assets/Enemies/bow_boss_idle_2.png" type="Texture" id=14]
+[ext_resource path="res://Scripts/boss_bow.gd" type="Script" id=15]
+[ext_resource path="res://Assets/Enemies/ud_boss_health_front.png" type="Texture" id=16]
+[ext_resource path="res://Assets/Enemies/ud_boss_health_back.png" type="Texture" id=17]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 24.25, 38.25 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "bow_atk"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("boss_sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("boss_sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ), Vector2( 10, 0 ), Vector2( 0, 0 ), Vector2( 10, 0 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "bow_idle"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("boss_sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 9 ), ExtResource( 14 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 1.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("boss_sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 13 ), ExtResource( 12 ), ExtResource( 5 ), ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ]
+}
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 23.75, 37.25 )
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 297.608
+
+[node name="boss_bow" type="KinematicBody2D"]
+script = ExtResource( 15 )
+
+[node name="boss_sprite" type="Sprite" parent="."]
+texture = ExtResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 1.75, 0.75 )
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/bow_atk = SubResource( 2 )
+anims/bow_idle = SubResource( 3 )
+anims/bow_run = SubResource( 4 )
+
+[node name="boss_hp_bar" type="TextureProgress" parent="."]
+visible = false
+margin_left = -21.0
+margin_top = -45.0
+margin_right = 25.0
+margin_bottom = -40.0
+max_value = 0.0
+texture_under = ExtResource( 17 )
+texture_progress = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="coll" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="coll"]
+shape = SubResource( 5 )
+
+[node name="aggro_range" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="aggro_range"]
+shape = SubResource( 6 )
+
+[node name="run_cd" type="Timer" parent="."]
+
+[node name="run_duration" type="Timer" parent="."]
+
+[connection signal="body_shape_entered" from="aggro_range" to="." method="_on_aggro_range_body_shape_entered"]
+[connection signal="body_shape_exited" from="aggro_range" to="." method="_on_aggro_range_body_shape_exited"]
+[connection signal="timeout" from="run_cd" to="." method="_on_run_cd_timeout"]
+[connection signal="timeout" from="run_duration" to="." method="_on_run_duration_timeout"]

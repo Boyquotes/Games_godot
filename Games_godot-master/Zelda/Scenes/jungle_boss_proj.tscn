@@ -3,7 +3,7 @@
 [ext_resource path="res://Assets/Enemies/jungle_boss_proj_3.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Enemies/jungle_boss_proj_4.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Enemies/jungle_boss_proj_2.png" type="Texture" id=4]
-[ext_resource path="res://Scripts/Scythe_boss.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/Boss_weapon_Scythe.gd" type="Script" id=5]
 [ext_resource path="res://Assets/Enemies/jungle_boss_proj_1.png" type="Texture" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
