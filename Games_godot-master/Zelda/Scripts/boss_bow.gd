@@ -66,7 +66,7 @@ func _on_aggro_range_body_shape_exited(body_id, body, body_shape, local_shape):
 
 func rnd_run_cd():
 	var rand = RandomNumberGenerator.new()
-	rand.randomize()	
+	rand.randomize()
 	return rand.randf_range(0, 10)
 
 func _on_run_cd_timeout():
