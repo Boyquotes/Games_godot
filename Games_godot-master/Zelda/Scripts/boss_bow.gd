@@ -52,15 +52,33 @@ func rnd_boss_dir():
 	else:
 		return
 
+func bow_attack_cd(cd, n):
+	for i in n:
+		yield(get_tree().create_timer(cd), "timeout")
+		if attack_anim == false:
+			print("stopAtkLoop")
+			break
+		else:
+			bow_attack()
+
+func bow_attack():
+	var bow = load("res://Scenes/arrow_boss_weapon.tscn").instance()
+	Globals.current_scene.add_child(bow)
+	bow.position = self.position
+
 func _on_aggro_range_body_shape_entered(body_id, body, body_shape, local_shape):
 	if "Player" in body.name:
 		attack_anim = true
+		bow_attack_cd(1, 99)
 	else:
 		return
 
 func _on_aggro_range_body_shape_exited(body_id, body, body_shape, local_shape):
-	if "Player" in body.name:
-		attack_anim = false
+	if body != null:
+		if "Player" in body.name:
+			attack_anim = false
+		else:
+			return
 	else:
 		return
 
@@ -76,4 +94,5 @@ func _on_run_cd_timeout():
 	$run_duration.start()
 
 func _on_run_duration_timeout():
+	rnd_boss_dir()
 	run_anim = false

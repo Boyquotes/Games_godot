@@ -49,10 +49,17 @@ func jump_attack():
 	anim.queue("slime_stop_jump")
 
 func _on_Aggro_range_body_shape_entered(body_id, body, body_shape, local_shape):
+	var jumps = rnd_jumps()
 	if "Player" in body.name:
 		anim.stop(true)
 		attack = true
-		jump_sequence(2)
+		jump_sequence(jumps)
+		
+func rnd_jumps():
+	var rand = RandomNumberGenerator.new()	
+	rand.randomize()
+	
+	return rand.randf_range(1, 5)
 
 func jump_sequence(n):
 	$Aggro_range/aggro_coll.set_deferred("disabled", true)
@@ -86,6 +93,7 @@ func _on_Aggro_range_body_shape_exited(body_id, body, body_shape, local_shape):
 	pass
 
 func _on_coll_area_body_entered(body):
+	var jumps = rnd_jumps()
 	if "Level_TileMap" in body.name:
 		wall_coll = true
 		anim.stop(true)
@@ -93,7 +101,7 @@ func _on_coll_area_body_entered(body):
 			dir = Vector2.LEFT
 		else:
 			dir = Vector2.RIGHT
-		jump_sequence(2)
+		jump_sequence(jumps)
 
 func _on_slime_dir_area_body_shape_entered(body_id, body, body_shape, local_shape):
 	pass

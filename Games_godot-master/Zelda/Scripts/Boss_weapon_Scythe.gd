@@ -8,8 +8,6 @@ func _ready():
 	dir = self.get_parent().position.direction_to(Globals.player.position)
 	
 func _physics_process(delta):
-#	dir = self.get_parent().position.direction_to(Globals.player.position)
-#	move_and_collide(Vector2.move_toward(test_dir, move_speed))
 	
 	position += dir * move_speed
 

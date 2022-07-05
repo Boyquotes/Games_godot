@@ -36,18 +36,6 @@ tracks/0/keys = {
 "update": 1,
 "values": [ ExtResource( 10 ), ExtResource( 11 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("boss_sprite:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ Vector2( 0, 0 ), Vector2( 10, 0 ), Vector2( 0, 0 ), Vector2( 10, 0 ), Vector2( 0, 0 ) ]
-}
 
 [sub_resource type="Animation" id=3]
 resource_name = "bow_idle"
@@ -92,6 +80,7 @@ radius = 297.608
 script = ExtResource( 15 )
 
 [node name="boss_sprite" type="Sprite" parent="."]
+position = Vector2( 10, 0 )
 texture = ExtResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -124,6 +113,7 @@ shape = SubResource( 5 )
 [node name="aggro_range" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="aggro_range"]
+position = Vector2( 0.667419, -0.0408783 )
 shape = SubResource( 6 )
 
 [node name="run_cd" type="Timer" parent="."]
