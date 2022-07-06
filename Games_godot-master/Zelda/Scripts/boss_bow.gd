@@ -8,6 +8,7 @@ var power
 var attack_anim = false
 var run_anim = false
 var move_vec = Vector2()
+var dir_to_player
 
 func _ready():
 	anim_boss = $AnimationPlayer
@@ -23,6 +24,7 @@ func _physics_process(delta):
 	boss_movement()
 
 func boss_movement():
+	dir_to_player = self.position.direction_to(Globals.player.position)
 	
 	if run_anim == false and attack_anim == false:
 		anim_boss.play("bow_idle")
@@ -34,7 +36,6 @@ func boss_movement():
 		var coll = move_and_collide(move_vec * move_speed)
 		if coll:
 			if "Level_TileMap" in coll.collider.name:
-				print("lvl limit coll")
 				rnd_boss_dir()
 		
 func rnd_boss_dir():
@@ -52,24 +53,51 @@ func rnd_boss_dir():
 	else:
 		return
 
-func bow_attack_cd(cd, n):
-	for i in n:
-		yield(get_tree().create_timer(cd), "timeout")
-		if attack_anim == false:
-			print("stopAtkLoop")
-			break
-		else:
-			bow_attack()
+func bow_attack_cd(cd, n, mode):
+	if mode == "single":
+		for i in n:
+			yield(get_tree().create_timer(cd), "timeout")
+			if attack_anim == false:
+				break
+			else:
+				single_arrow_attack()
+	elif mode == "multi":
+		for i in n:
+			yield(get_tree().create_timer(cd), "timeout")
+			if attack_anim == false:
+				break
+			else:
+				multi_arrow_attack()
 
-func bow_attack():
-	var bow = load("res://Scenes/arrow_boss_weapon.tscn").instance()
-	Globals.current_scene.add_child(bow)
-	bow.position = self.position
+func single_arrow_attack():
+	var arrow = load("res://Scenes/arrow_boss_weapon.tscn").instance()
+	arrow.attack_mode = "single"
+	Globals.current_scene.add_child(arrow)
+	arrow.position = self.position
+	
+	
+func multi_arrow_attack():
+	var rotation = -70
+	for arrow in 5:
+		arrow = load("res://Scenes/arrow_boss_weapon.tscn").instance()
+		arrow.position = self.position
+		arrow.rotation_degrees = rotation
+		arrow.attack_mode = "multi"
+		Globals.current_scene.call_deferred("add_child", arrow)
+		if self.get_node("boss_sprite").is_flipped_h() == false:
+			arrow.get_node("arrow_sprite").set_flip_h(true)
+		rotation += 35
 
 func _on_aggro_range_body_shape_entered(body_id, body, body_shape, local_shape):
 	if "Player" in body.name:
 		attack_anim = true
-		bow_attack_cd(1, 99)
+		if run_anim == true:
+				anim_boss.stop(false)
+		if dir_to_player.x > 0:
+			self.get_node("boss_sprite").set_flip_h(false)
+		else:
+			self.get_node("boss_sprite").set_flip_h(true)
+		bow_attack_cd(1, 99, "multi")
 	else:
 		return
 
@@ -77,6 +105,8 @@ func _on_aggro_range_body_shape_exited(body_id, body, body_shape, local_shape):
 	if body != null:
 		if "Player" in body.name:
 			attack_anim = false
+			if run_anim == true:
+				anim_boss.play("bow_run")
 		else:
 			return
 	else:

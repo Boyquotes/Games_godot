@@ -1,3 +1,7 @@
+NOTES 06/07/22
+	- bow boss attack animation does not stop when the boss is walking again
+	- multishot does not flip sprite when boss attacks when flipped_h
+
 NOTES 05/07/22
 	- boss_bow proj are behaving weird bc of for in 99 loop -> need solution for the attack to start/stop depending on player coll with aggro range
 	- different bow pattern depending on boss HP
