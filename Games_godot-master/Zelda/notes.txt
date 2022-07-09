@@ -1,3 +1,7 @@
+NOTES 09/07/22
+	- slime boss jumps OOB when colliding twice with level tiles
+	- wand proj cannot target deleted object (enemy) BUG still exists
+
 NOTES 06/07/22
 	- bow boss attack animation does not stop when the boss is walking again
 	- multishot does not flip sprite when boss attacks when flipped_h

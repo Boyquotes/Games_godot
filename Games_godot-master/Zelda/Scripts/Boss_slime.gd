@@ -1,16 +1,16 @@
 extends KinematicBody2D
 
 onready var anim = $AnimationPlayer
-var attack = false
+onready var attack = false
 var move_vec = Vector2()
 var move_speed = 3
-var wall_coll = false
 onready var dir = Vector2.RIGHT
 
 
 func _ready():
-	pass
-	
+	$boss_hp_bar.max_value = Globals.boss_hp_modifier
+	$boss_hp_bar.value = Globals.boss_hp_modifier
+
 func _physics_process(delta):
 	if attack == false:
 		anim.play("slime_idle")
@@ -26,7 +26,7 @@ func jump_attack():
 
 	var pos = self.position
 	var set_landing = rnd_height(pos)
-	
+
 	if dir == Vector2.RIGHT:
 		anim.get_animation("slime_attack").track_set_key_value(1, 0, Vector2(pos.x+30, pos.y-10))
 		anim.get_animation("slime_attack").track_set_key_value(1, 1, Vector2(pos.x+60, pos.y-20))
@@ -50,16 +50,20 @@ func jump_attack():
 
 func _on_Aggro_range_body_shape_entered(body_id, body, body_shape, local_shape):
 	var jumps = rnd_jumps()
-	if "Player" in body.name:
-		anim.stop(true)
-		attack = true
-		jump_sequence(jumps)
-		
-func rnd_jumps():
-	var rand = RandomNumberGenerator.new()	
-	rand.randomize()
 	
-	return rand.randf_range(1, 5)
+	if $Aggro_range/aggro_coll.disabled == false:
+		if "Player" in body.name:
+			anim.stop(true)
+			attack = true
+			jump_sequence(jumps)
+	else:
+		return
+
+func rnd_jumps():
+	var rand = RandomNumberGenerator.new()
+	rand.randomize()
+
+	return rand.randf_range(2, 5)
 
 func jump_sequence(n):
 	$Aggro_range/aggro_coll.set_deferred("disabled", true)
@@ -67,42 +71,34 @@ func jump_sequence(n):
 	for i in n:
 		yield(get_tree().create_timer(3), "timeout")
 		jump_attack()
-	
+
 	yield(get_tree().create_timer(3), "timeout")
-	if wall_coll == false:
-		$Aggro_range/aggro_coll.disabled = false
-		attack = false
-	else:
-		wall_coll = false
-		return
+	$Aggro_range/aggro_coll.disabled = false
+	attack = false
 
 func rnd_height(pos):
 	var rand = RandomNumberGenerator.new()
 	var landing_height
-	
+
 	if dir == Vector2.RIGHT:
 		landing_height = [Vector2(pos.x+210, pos.y), Vector2(pos.x+210, pos.y-10), Vector2(pos.x+210, pos.y+10), Vector2(pos.x+210, pos.y+20), Vector2(pos.x+210, pos.y-20)]
 	else:
 		landing_height = [Vector2(pos.x-210, pos.y), Vector2(pos.x-210, pos.y-10), Vector2(pos.x-210, pos.y+10), Vector2(pos.x-210, pos.y+20), Vector2(pos.x-210, pos.y-20)]
 
 	rand.randomize()
-	
-	return landing_height[rand.randf_range(0, landing_height.size())]
 
-func _on_Aggro_range_body_shape_exited(body_id, body, body_shape, local_shape):
-	pass
+	return landing_height[rand.randf_range(0, landing_height.size())]
 
 func _on_coll_area_body_entered(body):
 	var jumps = rnd_jumps()
 	if "Level_TileMap" in body.name:
-		wall_coll = true
+		print("slimeCOLL")
 		anim.stop(true)
 		if dir == Vector2.RIGHT:
 			dir = Vector2.LEFT
 		else:
 			dir = Vector2.RIGHT
-		jump_sequence(jumps)
-
-func _on_slime_dir_area_body_shape_entered(body_id, body, body_shape, local_shape):
-	pass
-
+		call_deferred("jump_sequence", jumps)
+	if "Player" in body.name:
+		body.loose_hp(Globals.enemy_dmg_modifier*2)
+		

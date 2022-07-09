@@ -93,9 +93,8 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		if Globals.enemy_tracker == 2 and !Globals.shop_spawned:
 			Globals.spawn_weapon_shop()
 			Globals.shop_spawned = true
-			
 
-	if "Boss_Portal" in body.name:
+	if "Portal" in body.name:
 		var boss_portal_health = 150
 		var boss_portal_health_bar = body.get_node("Boss_Portal_HP")
 		boss_portal_health_bar.visible = true
@@ -116,7 +115,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
 			Globals.portal_spawned = false
 
-	if "boss" in body.name:
+	if "Boss" in body.name:
 		body.get_node("boss_hp_bar").visible = true
 		dmg_taken = dmg_calc()
 		body.get_node("boss_hp_bar").value -= dmg_taken

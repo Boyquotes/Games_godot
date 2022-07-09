@@ -57,7 +57,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 11 ), ExtResource( 5 ) ]
 }
 
-[node name="boss" type="KinematicBody2D"]
+[node name="Boss_scythe" type="KinematicBody2D"]
 script = ExtResource( 12 )
 
 [node name="attack_zone" type="Area2D" parent="."]

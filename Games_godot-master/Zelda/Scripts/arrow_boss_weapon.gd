@@ -28,6 +28,6 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, local_shape):
 	if "Level_TileMap" in body.name:
 		self.queue_free()
 	elif "Player" in body.name:
-		print("bow_hit")
+		body.loose_hp(Globals.enemy_dmg_modifier*2)
 		self.queue_free()
 #		body.bleed_damage(2)
