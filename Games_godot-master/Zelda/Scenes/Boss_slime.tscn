@@ -35,7 +35,7 @@
 [ext_resource path="res://Assets/Enemies/slime_boss_jump_end_2.png" type="Texture" id=33]
 [ext_resource path="res://Assets/Enemies/slime_boss_jump_end_1.png" type="Texture" id=34]
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 30.3654, 31.7283 )
 
 [sub_resource type="Animation" id=2]
@@ -125,7 +125,7 @@ texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.410797, -0.0148621 )
-shape = SubResource( 8 )
+shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/slime_attack = SubResource( 2 )
@@ -156,5 +156,5 @@ shape = SubResource( 6 )
 [node name="aggro_coll" type="CollisionShape2D" parent="Aggro_range"]
 shape = SubResource( 7 )
 
-[connection signal="body_entered" from="coll_area" to="." method="_on_coll_area_body_entered"]
+[connection signal="body_shape_entered" from="coll_area" to="." method="_on_coll_area_body_shape_entered"]
 [connection signal="body_shape_entered" from="Aggro_range" to="." method="_on_Aggro_range_body_shape_entered"]

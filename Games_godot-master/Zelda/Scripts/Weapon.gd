@@ -35,7 +35,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		var original_player_pwr = Globals.player_pwr
 		dmg_taken = dmg_calc()
 #		
-		for i in Globals.enemy_pos.size():
+		for i in Globals.entities.size():
 			if str(body) == Globals.enemy_id[i]:
 				enemy_hp_bar.visible = true
 				
@@ -75,10 +75,10 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 					Globals.enemy_hp[i] -= dmg_taken
 					enemy_hp_bar.value -= dmg_taken
 					
-				if Globals.enemy_hp[i] <= 0:
-					body.remove_enemy(i)
-					body.queue_free()
-					break
+			if Globals.enemy_hp[i] <= 0:
+				body.remove_enemy(i)
+				body.queue_free()
+				break
 				
 #				if Globals.enemy_tracker == 0:
 #					print("spawn boss portal")
@@ -90,7 +90,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 
 			Globals.player_xp = lvl_progress.value
 
-		if Globals.enemy_tracker == 2 and !Globals.shop_spawned:
+		if Globals.enemy_tracker == 4 and !Globals.shop_spawned:
 			Globals.spawn_weapon_shop()
 			Globals.shop_spawned = true
 

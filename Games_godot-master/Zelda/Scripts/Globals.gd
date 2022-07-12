@@ -294,8 +294,7 @@ func spawn_enemies(pos, type):
 		enemy.move_vec = enemy_dir[pos]
 		enemy_id[pos] = (str(enemy))
 		enemies[pos] = enemy
-		entities.remove(pos)
-		entities.push_front(enemy)
+		entities[pos] = enemy
 		
 	
 func spawn_weapon_shop():

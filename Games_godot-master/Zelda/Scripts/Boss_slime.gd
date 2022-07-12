@@ -22,26 +22,27 @@ func _physics_process(delta):
 	else:
 		return
 
-func jump_attack():
+func jump_attack(jump_height):
 
 	var pos = self.position
-	var set_landing = rnd_height(pos)
+	var set_landing = rnd_landing_height(pos)
+	var mod = jump_height
 
 	if dir == Vector2.RIGHT:
-		anim.get_animation("slime_attack").track_set_key_value(1, 0, Vector2(pos.x+30, pos.y-10))
-		anim.get_animation("slime_attack").track_set_key_value(1, 1, Vector2(pos.x+60, pos.y-20))
-		anim.get_animation("slime_attack").track_set_key_value(1, 2, Vector2(pos.x+90, pos.y-30))
-		anim.get_animation("slime_attack").track_set_key_value(1, 3, Vector2(pos.x+120, pos.y-40))
-		anim.get_animation("slime_attack").track_set_key_value(1, 4, Vector2(pos.x+150, pos.y-30))
-		anim.get_animation("slime_attack").track_set_key_value(1, 5, Vector2(pos.x+180, pos.y-20))
+		anim.get_animation("slime_attack").track_set_key_value(1, 0, Vector2(pos.x+30, pos.y-mod))
+		anim.get_animation("slime_attack").track_set_key_value(1, 1, Vector2(pos.x+60, pos.y-(mod*2)))
+		anim.get_animation("slime_attack").track_set_key_value(1, 2, Vector2(pos.x+90, pos.y-(mod*3)))
+		anim.get_animation("slime_attack").track_set_key_value(1, 3, Vector2(pos.x+120, pos.y-(mod*4)))
+		anim.get_animation("slime_attack").track_set_key_value(1, 4, Vector2(pos.x+150, pos.y-(mod*3)))
+		anim.get_animation("slime_attack").track_set_key_value(1, 5, Vector2(pos.x+180, pos.y-(mod*2)))
 		anim.get_animation("slime_attack").track_set_key_value(1, 6, set_landing)
 	else:
-		anim.get_animation("slime_attack").track_set_key_value(1, 0, Vector2(pos.x-30, pos.y-10))
-		anim.get_animation("slime_attack").track_set_key_value(1, 1, Vector2(pos.x-60, pos.y-20))
-		anim.get_animation("slime_attack").track_set_key_value(1, 2, Vector2(pos.x-90, pos.y-30))
-		anim.get_animation("slime_attack").track_set_key_value(1, 3, Vector2(pos.x-120, pos.y-40))
-		anim.get_animation("slime_attack").track_set_key_value(1, 4, Vector2(pos.x-150, pos.y-30))
-		anim.get_animation("slime_attack").track_set_key_value(1, 5, Vector2(pos.x-180, pos.y-20))
+		anim.get_animation("slime_attack").track_set_key_value(1, 0, Vector2(pos.x-30, pos.y-mod))
+		anim.get_animation("slime_attack").track_set_key_value(1, 1, Vector2(pos.x-60, pos.y-(mod*2)))
+		anim.get_animation("slime_attack").track_set_key_value(1, 2, Vector2(pos.x-90, pos.y-(mod*3)))
+		anim.get_animation("slime_attack").track_set_key_value(1, 3, Vector2(pos.x-120, pos.y-(mod*4)))
+		anim.get_animation("slime_attack").track_set_key_value(1, 4, Vector2(pos.x-150, pos.y-(mod*3)))
+		anim.get_animation("slime_attack").track_set_key_value(1, 5, Vector2(pos.x-180, pos.y-(mod*2)))
 		anim.get_animation("slime_attack").track_set_key_value(1, 6, set_landing)
 
 	anim.queue("slime_start_jump")
@@ -67,16 +68,16 @@ func rnd_jumps():
 
 func jump_sequence(n):
 	$Aggro_range/aggro_coll.set_deferred("disabled", true)
-	jump_attack()
+	jump_attack(10)
 	for i in n:
 		yield(get_tree().create_timer(3), "timeout")
-		jump_attack()
+		jump_attack(10)
 
 	yield(get_tree().create_timer(3), "timeout")
 	$Aggro_range/aggro_coll.disabled = false
 	attack = false
 
-func rnd_height(pos):
+func rnd_landing_height(pos):
 	var rand = RandomNumberGenerator.new()
 	var landing_height
 
@@ -89,8 +90,9 @@ func rnd_height(pos):
 
 	return landing_height[rand.randf_range(0, landing_height.size())]
 
-func _on_coll_area_body_entered(body):
+func _on_coll_area_body_shape_entered(body_id, body, body_shape, local_shape):
 	var jumps = rnd_jumps()
+	
 	if "Level_TileMap" in body.name:
 		print("slimeCOLL")
 		anim.stop(true)
@@ -98,7 +100,6 @@ func _on_coll_area_body_entered(body):
 			dir = Vector2.LEFT
 		else:
 			dir = Vector2.RIGHT
-		call_deferred("jump_sequence", jumps)
+		call_deferred("jump_attack", 3)
 	if "Player" in body.name:
 		body.loose_hp(Globals.enemy_dmg_modifier*2)
-		
