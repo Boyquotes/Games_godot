@@ -23,6 +23,7 @@ config/icon="res://icon.png"
 Globals="*res://Scripts/Globals.gd"
 ItemDB="*res://Scenes/ItemDB.tscn"
 ItemDatabase="*res://Scripts/ItemDATABASE.gd"
+PwrUpDB="*res://Scripts/pwr_upDB.gd"
 
 [global]
 

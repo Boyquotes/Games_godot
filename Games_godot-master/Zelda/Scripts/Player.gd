@@ -57,7 +57,7 @@ func _physics_process(delta):
 			Globals.GUI.get_node("stat_container").visible = true
 		else:
 			Globals.GUI.get_node("stat_container").visible = false
-#
+
 func player_movement():
 	var move_vec = Vector2()
 	if Input.is_action_pressed("move_down"):
@@ -257,12 +257,12 @@ func player_collision():
 		if "Boss_Portal" in coll.collider.name:
 			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 			if "Starting" in Globals.current_scene.name:
-				Globals.load_boss = "Boss_slime"
+				Globals.load_boss = "Boss_scythe"
 			elif "jungle" in Globals.current_scene.name:
 				Globals.load_boss = "scythe_boss"
 			else:
 				Globals.load_boss = "jungle_boss"
-			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", "null")
+			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", Globals.current_scene.name)
 			Globals.entities.clear()
 			Globals.entities.push_front(Globals.enemies)
 			Globals.portal_spawned = false

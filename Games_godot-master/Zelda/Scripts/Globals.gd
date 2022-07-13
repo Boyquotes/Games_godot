@@ -86,7 +86,7 @@ func _deferred_goto_scene(path, spawn):
 	if current_scene.name != "Boss_World":
 		next_scene = random_scene()
 	
-	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
+	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn" and path != "res://Scenes/pwr_up_screen.tscn":
 		player = ResourceLoader.load("res://Scenes/Player.tscn").instance()
 		inventory = ResourceLoader.load("res://Scenes/Inventory.tscn").instance()
 		GUI = ResourceLoader.load("res://Scenes/GUI.tscn").instance()
@@ -106,7 +106,7 @@ func _deferred_goto_scene(path, spawn):
 		
 		inventory.get_child(0).rect_position = player.position
 		
-		if prev_scene != "start_screen" and prev_scene != "game_over_screen" and prev_scene != "game_won_screen" and path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn":
+		if prev_scene != "start_screen" and prev_scene != "game_over_screen" and prev_scene != "game_won_screen" and path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn" and path != "res://Scenes/pwr_up_screen.tscn":
 #		if prev_scene == "shop":
 #		wtf is dis
 			if current_scene.name == "Starting_World":
@@ -160,7 +160,7 @@ func _deferred_goto_scene(path, spawn):
 			player_weapon = "3"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 200
+			weapon["power"] = 2000
 			weapon["dmg_type"] = "physical"
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
@@ -232,7 +232,7 @@ func spawn_enemies(pos, type):
 	var rand = RandomNumberGenerator.new()
 	var tilemap = current_scene.get_node("Level_TileMap")
 
-	if "World" in current_scene.name and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or "World" in prev_scene or respawn:
+	if "World" in current_scene.name and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or prev_scene == "pwr_up_screen" or "World" in prev_scene or respawn:
 		var spawn_area = current_scene.get_node("spawn_area").rect_size
 		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance()
 

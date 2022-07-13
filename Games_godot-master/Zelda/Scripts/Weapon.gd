@@ -78,6 +78,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			if Globals.enemy_hp[i] <= 0:
 				body.remove_enemy(i)
 				body.queue_free()
+				Globals.player_xp = lvl_progress.value
 				break
 				
 #				if Globals.enemy_tracker == 0:
@@ -89,6 +90,8 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 				Globals.player_pwr = original_player_pwr
 
 			Globals.player_xp = lvl_progress.value
+			
+			print("XPafterKill ", Globals.player_xp)
 
 		if Globals.enemy_tracker == 4 and !Globals.shop_spawned:
 			Globals.spawn_weapon_shop()
@@ -124,16 +127,18 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			Globals.all_attack = false
 			Globals.boss.queue_free()
 			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
+			Globals.goto_scene("res://Scenes/pwr_up_screen.tscn", Globals.current_scene.name)
+			
 	#		Globals.respawn = false
-			Globals.goto_scene("res://Scenes/Levels/" + Globals.next_scene + ".tscn", Globals.current_scene.name)
+#			Globals.goto_scene("res://Scenes/Levels/" + Globals.next_scene + ".tscn", Globals.current_scene.name)
 	#		Globals.goto_scene("res://Scenes/Levels/Fire_World.tscn", Globals.current_scene.name)
-			Globals.entities.clear()
-			Globals.ilvl += 10
-			Globals.enemy_hp_value += 50
-			Globals.num_of_enemies(5)
-			Globals.enemy_res_modifier += 5
-			Globals.enemy_dmg_modifier += 20
-			Globals.respawn = false
+#			Globals.entities.clear()
+#			Globals.ilvl += 10
+#			Globals.enemy_hp_value += 50
+#			Globals.num_of_enemies(5)
+#			Globals.enemy_res_modifier += 5
+#			Globals.enemy_dmg_modifier += 20
+#			Globals.respawn = false
 		
 #		goto powerup screen?
 #		next lvl

@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/pwr_up_screen.gd" type="Script" id=1]
+
+[node name="pwr_up_screen" type="Container"]
+margin_right = 1024.0
+margin_bottom = 512.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="option_one_btn" type="Button" parent="."]
+margin_left = 256.0
+margin_top = 100.0
+margin_right = 756.0
+margin_bottom = 150.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="option_one_txt" type="Label" parent="option_one_btn"]
+margin_left = 0.890869
+margin_top = 0.8909
+margin_right = 514.891
+margin_bottom = 50.8909
+text = "option 1"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="option_two_btn" type="Button" parent="."]
+margin_left = 256.0
+margin_top = 200.0
+margin_right = 756.0
+margin_bottom = 250.0
+
+[node name="option_two_txt" type="Label" parent="option_two_btn"]
+margin_right = 512.0
+margin_bottom = 50.0
+text = "option 2"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="option_three_btn" type="Button" parent="."]
+margin_left = 256.0
+margin_top = 300.0
+margin_right = 756.0
+margin_bottom = 350.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="option_three_txt" type="Label" parent="option_three_btn"]
+margin_right = 513.0
+margin_bottom = 49.0
+text = "option 3"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="option_one_btn" to="." method="_on_option_one_btn_pressed"]
+[connection signal="pressed" from="option_two_btn" to="." method="_on_option_two_btn_pressed"]
+[connection signal="pressed" from="option_three_btn" to="." method="_on_option_three_btn_pressed"]

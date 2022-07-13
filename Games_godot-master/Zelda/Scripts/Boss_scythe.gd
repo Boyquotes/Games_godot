@@ -43,7 +43,7 @@ func _on_attack_dmg_zone_body_shape_entered(body_id, body, body_shape, local_sha
 
 func _on_scythe_throw_timer_timeout():
 	var scythe = load("res://Scenes/Scythe_boss_weapon.tscn").instance()
-	Globals.current_scene.get_node("boss").add_child(scythe)
+	Globals.current_scene.get_node("Boss_scythe").add_child(scythe)
 	scythe.position = dir
 	scythe.get_node("AnimationPlayer").play("scythe_throw")
 	
