@@ -90,8 +90,6 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 				Globals.player_pwr = original_player_pwr
 
 			Globals.player_xp = lvl_progress.value
-			
-			print("XPafterKill ", Globals.player_xp)
 
 		if Globals.enemy_tracker == 4 and !Globals.shop_spawned:
 			Globals.spawn_weapon_shop()

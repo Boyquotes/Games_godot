@@ -1,29 +1,40 @@
 extends Container
 
-var pwr_up
+onready var pwr_ups = PwrUpDB.PWR_UP
+var pwr_up_one
+var pwr_up_two
+var pwr_up_three
 
 func _ready():
+	
 	populate_options()
 
 func populate_options():
 	var rand = RandomNumberGenerator.new()
+	var pwr_up_arr = []
 	rand.randomize()
 	
-	pwr_up = PwrUpDB.PWR_UP[str(rand.randi_range(1, PwrUpDB.PWR_UP.size()))]
+	for i in pwr_ups:
+		pwr_up_arr.push_back(i)
 	
-	print(pwr_up)	
-#	speed_up
-#	pwr_up
-#	weapon_pwr_up
-#	random item
-#	change nxt lvl
-#	muns
-#	mana reg
-#	more_hp
+	pwr_up_one = pwr_ups[str(rand.randi_range(0, pwr_up_arr.size()-1))]
+	pwr_up_two = pwr_ups[str(rand.randi_range(0, pwr_up_arr.size()-1))]
+	while pwr_up_one.name == pwr_up_two.name:
+		pwr_up_two = pwr_ups[str(rand.randi_range(0, pwr_up_arr.size()-1))]
+		if pwr_up_one.name != pwr_up_two.name:
+			break
+	pwr_up_three = pwr_ups[str(rand.randi_range(0, pwr_up_arr.size()-1))]
+	while pwr_up_two.name == pwr_up_three.name or pwr_up_one.name == pwr_up_three.name:
+		pwr_up_three = pwr_ups[str(rand.randi_range(0, pwr_up_arr.size()-1))]
+		if pwr_up_two.name != pwr_up_three.name and pwr_up_one.name == pwr_up_three.name:
+			break
+	
+	$option_one_btn/option_one_txt.text = pwr_up_one.name
+	$option_two_btn/option_two_txt.text = pwr_up_two.name
+	$option_three_btn/option_three_txt.text = pwr_up_three.name
 	
 func rnd_options():
 	pass
-
 
 func _on_option_one_btn_pressed():
 	Globals.entities.clear()
@@ -35,8 +46,6 @@ func _on_option_one_btn_pressed():
 	Globals.respawn = false
 	
 	Globals.goto_scene("res://Scenes/Levels/" + Globals.next_scene + ".tscn", Globals.current_scene.name)
-	
-
 
 func _on_option_two_btn_pressed():
 	pass # Replace with function body.

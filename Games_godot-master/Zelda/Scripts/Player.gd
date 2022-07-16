@@ -40,8 +40,6 @@ func _ready():
 
 func _physics_process(delta):
 	
-#	print("EnemyProcess ", Globals.enemies)
-	
 	player_movement()
 	
 	player_collision()
