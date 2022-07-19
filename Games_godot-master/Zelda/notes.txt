@@ -1,3 +1,6 @@
+NOTES 19/07/22
+	- bleed damage timer does not work on jungle enemies, bleed damage does not get assigned a value
+
 NOTES 13/07/22
 	- exp does not transfer between scenes from scenes to boss scene
 	- enemies do not populate from boss to next scene

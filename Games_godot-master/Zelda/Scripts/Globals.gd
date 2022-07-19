@@ -11,6 +11,7 @@ var player_hp = 300
 var player_xp = 0
 var player_lvl = 0
 var player_pwr = 0
+var player_move_speed = 3
 var player_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
 var player_dmg_types = {"fire": 0, "cold": 0, "lightning": 0, "physical": 0, "poison": 0}
 var boss_res = {"fire": 50, "cold": 80, "lightning": 50, "physical": 80, "poison": 20}
@@ -62,6 +63,7 @@ var shop_spawn_pos
 var shop_spawned = false
 var regex
 var respawn
+var pwr_upDB
 
 func _ready():
 	var root = get_tree().get_root()
@@ -76,6 +78,10 @@ func goto_scene(path, spawn):
 	call_deferred("_deferred_goto_scene", path, spawn)
 
 func _deferred_goto_scene(path, spawn):
+	
+	print("coins ", coins)
+	print("speed ", player_move_speed)
+	print("hp ", player_hp)
 	
 	prev_scene = spawn
 	current_scene.free()
@@ -154,6 +160,7 @@ func _deferred_goto_scene(path, spawn):
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
 			enemy_hp_value = 150
+#			player_move_speed = 3
 #			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
@@ -166,7 +173,7 @@ func _deferred_goto_scene(path, spawn):
 			inventory_items.push_front(weapon)
 			inventory.get_child(0).pickup_item(inventory_items[0])
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
-
+		
 		player.position = player_spawn_pos
 
 		spawn_enemy_type()
@@ -199,6 +206,8 @@ func _deferred_goto_scene(path, spawn):
 
 #		Weapons in inventory are still shown in Shop bc only player wep is removed when entering the shop	
 	print_stray_nodes()
+	
+#	pwr_upDB = ResourceLoader.load("res://Scripts/pwr_upDB.gd").instance() 
 
 func random_scene():
 	var scenes = ["Snow_World", "Desert_World", "Jungle_World", "Fire_World", "lightning_World"]

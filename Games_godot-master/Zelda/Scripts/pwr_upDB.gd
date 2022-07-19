@@ -1,44 +1,52 @@
 extends Node
 
-const PWR_UP = {
+const pwr_upDB = {
 	"0": {
-		"name": "speed_up",
-		"base": 1,
-		"effect": "Globals.player.move_speed"
+		"name": "speed up",
+		"amount": 1,
+		"id": 0,
+		"type": "move_speed"
 	},
 	"1": {
-		"name": "hp_up",
-		"base": 10,
-		"effect": "Globals.player_hp"
+		"name": "hp up",
+		"id": 1,
+		"amount": 10,
+		"type": "hp"
 		},
 	"2": {
-		"name": "pwr_up",
-		"base": 15,
-		"effect": "Globals.player_pwr"
+		"name": "power up",
+		"id": 2,
+		"amount": 15,
+		"type": "power"
 	},
 	"3": {
 		"name": "gold",
-		"base": 20,
-		"effect": null
+		"id": 3,
+		"amount": 20,
+		"type": "coins",
 	},
 	"4": {
-		"name": "mana_reg",
-		"base": 0.5, #Player mana_fill_timer
-		"effect": null
+		"name": "mana up",
+		"id": 4,
+		"amount": 20,
+		"type": "mana",
 	},
 	"5": {
-		"name": "rnd_weapon",
+		"name": "random weapon",
+		"id": 5,
 		"base": null, #Globals drop_weapon()
-		"effect": null
+		"effect": "somethingWeap"
 	},
 	"6": {
-		"name": "rnd_armor",
+		"name": "random armor",
+		"id": 6,
 		"base": null, #Globals.drop_armor
-		"effect": null
+		"effect": "somethingArmor"
 	},
 	"7": {
-		"name": "change_lvl",
-		"base": null #Globals.random_scene
+		"name": "change next lvl",
+		"id": 7,
+		"base": "Globals.random_scene()"
 	}
 }
 

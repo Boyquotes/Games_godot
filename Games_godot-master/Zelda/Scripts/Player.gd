@@ -5,7 +5,7 @@ var objects_tilemap
 var weapons_tilemap
 var ammo_tilemap
 var anim_player
-var move_speed = 3
+var move_speed
 var player_invuln
 var axe_pos
 var axe_dir
@@ -22,6 +22,7 @@ var bleed_dmg_modifier
 var weapon = preload("res://Scenes/Weapon.tscn")
 
 func _ready():
+	
 	anim_player = $AnimationPlayer
 	
 	player_invuln = false
@@ -57,6 +58,7 @@ func _physics_process(delta):
 			Globals.GUI.get_node("stat_container").visible = false
 
 func player_movement():
+	move_speed = Globals.player_move_speed	
 	var move_vec = Vector2()
 	if Input.is_action_pressed("move_down"):
 		move_vec += Vector2.DOWN
