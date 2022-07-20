@@ -1,12 +1,13 @@
 NOTES 19/07/22
-	- bleed damage timer does not work on jungle enemies, bleed damage does not get assigned a value
+	- bleed damage timer does not work on jungle enemies, bleed damage does not get assigned a value ||BUG||
+	- portal direction does not work -> fix proj default dir ||BUG||
 
 NOTES 13/07/22
 	- exp does not transfer between scenes from scenes to boss scene
 	- enemies do not populate from boss to next scene
 
 NOTES 09/07/22
-	- slime boss jumps OOB when colliding twice with level tiles
+	- slime boss jumps OOB when colliding twice with level tiles ||BUG||
 	- wand proj cannot target deleted object (enemy) BUG still exists
 
 NOTES 06/07/22
@@ -14,11 +15,11 @@ NOTES 06/07/22
 	- multishot does not flip sprite when boss attacks when flipped_h
 
 NOTES 05/07/22
-	- boss_bow proj are behaving weird bc of for in 99 loop -> need solution for the attack to start/stop depending on player coll with aggro range
+	- boss_bow proj are behaving weird bc of for in 99 loop -> need solution for the attack to start/stop depending on player coll with aggro range ||BUG||
 	- different bow pattern depending on boss HP
 
 NOTES 14/06/22
-	- boss loot?
+	- boss loot? ||FEATURE||
 	- scythe proj
 	- boss dmg/bleed scaling
 	- boss ability -> speed up and scythe attack
@@ -53,9 +54,8 @@ NOTES 24/05/22
 	- multiple enemies dying has issues bc timers expire after array pos has already been freed
 
 
-
 NOTES 21/05/22
-	- encountered weird movement bug when pushed against the wall from snow enemies ||-||
+	- encountered weird movement bug when pushed against the wall from snow enemies ||BUG||
 	- enemy scaling seems weak
 	- poison enemies are stronge
 	- player modifiers after boss kill would enable char builds

@@ -3,50 +3,43 @@ extends Node
 const pwr_upDB = {
 	"0": {
 		"name": "speed up",
-		"amount": 1,
-		"id": 0,
-		"type": "move_speed"
+		"amount": 0.2,
+		"id": 0
 	},
 	"1": {
 		"name": "hp up",
 		"id": 1,
-		"amount": 10,
-		"type": "hp"
+		"amount": 10
 		},
 	"2": {
 		"name": "power up",
 		"id": 2,
-		"amount": 15,
-		"type": "power"
+		"amount": 15
 	},
 	"3": {
-		"name": "gold",
+		"name": "coins",
 		"id": 3,
-		"amount": 20,
-		"type": "coins",
+		"amount": 20
 	},
 	"4": {
 		"name": "mana up",
 		"id": 4,
-		"amount": 20,
-		"type": "mana",
+		"amount": 20
 	},
 	"5": {
 		"name": "random weapon",
 		"id": 5,
-		"base": null, #Globals drop_weapon()
-		"effect": "somethingWeap"
+		"amount": 1
 	},
 	"6": {
 		"name": "random armor",
 		"id": 6,
-		"base": null, #Globals.drop_armor
-		"effect": "somethingArmor"
+		"amount": 1
 	},
 	"7": {
 		"name": "change next lvl",
 		"id": 7,
-		"base": "Globals.random_scene()"
+		"amount": 1
 	}
 }
 

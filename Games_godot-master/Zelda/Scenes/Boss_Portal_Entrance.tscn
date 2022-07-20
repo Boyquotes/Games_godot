@@ -17,7 +17,7 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 16.9417, 15.9173 )
 
-[node name="Boss_Portal" type="StaticBody2D"]
+[node name="Portal" type="StaticBody2D"]
 
 [node name="Boss_Portal_Anim" type="AnimatedSprite" parent="."]
 scale = Vector2( 2, 2 )

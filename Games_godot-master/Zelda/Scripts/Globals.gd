@@ -79,17 +79,13 @@ func goto_scene(path, spawn):
 
 func _deferred_goto_scene(path, spawn):
 	
-	print("coins ", coins)
-	print("speed ", player_move_speed)
-	print("hp ", player_hp)
-	
 	prev_scene = spawn
 	current_scene.free()
 	
 	current_scene = ResourceLoader.load(path).instance()
 	get_tree().get_root().add_child(current_scene)
-	
-	if current_scene.name != "Boss_World":
+
+	if current_scene.name != "Boss_World" and current_scene.name != "pwr_up_screen":
 		next_scene = random_scene()
 	
 	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn" and path != "res://Scenes/pwr_up_screen.tscn":
@@ -320,15 +316,15 @@ func spawn_weapon_shop():
 	
 func spawn_boss_portal():
 	portal_spawned = true
-	var Boss_Portal = ResourceLoader.load("res://Scenes/Boss_Portal_Entrance.tscn").instance()
+	var Portal = ResourceLoader.load("res://Scenes/Boss_Portal_Entrance.tscn").instance()
 	var portal_spawn_area = current_scene.get_node("weaponshop_spawn_area").rect_size
-	current_scene.get_node("weaponshop_spawn_area").call_deferred("add_child", Boss_Portal)
+	current_scene.get_node("weaponshop_spawn_area").call_deferred("add_child", Portal)
 	entities.clear()
-	entities.push_front(Boss_Portal)
+	entities.push_front(Portal)
 	
-	Boss_Portal.get_node("Boss_Portal_Anim").play()
-	Boss_Portal.position.x = 500
-	Boss_Portal.position.y = 250
+	Portal.get_node("Boss_Portal_Anim").play()
+	Portal.position.x = 500
+	Portal.position.y = 250
 	
 func drop_weighting(num):
 	var rand = RandomNumberGenerator.new()
@@ -388,9 +384,6 @@ func drop_body_armour(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 	
-#	if ilvl == 10:
-#		item = ItemDB.ARMOR[str(rand.randi_range(1, ItemDB.ARMOR.size()-1))]
-#	elif ilvl == 20:
 	item = ItemDB.ARMOR[str(rand.randi_range(1, ItemDB.ARMOR.size()))]
 
 	var stats = [(item["int"] + rand.randi_range(0, ilvl)), (item["str"] + rand.randi_range(0, ilvl)), (item["dex"] + rand.randi_range(0, ilvl))]
