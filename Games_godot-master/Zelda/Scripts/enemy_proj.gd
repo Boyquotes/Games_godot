@@ -34,12 +34,8 @@ func _on_thorn_proj_body_entered(body):
 		self.queue_free()
 	elif "Player" in body.name:
 		Globals.damage_type = "physical"
-		Globals.player.get_node("bleed_timer").start()
-		var bleed_dmg_timer = Timer.new()
-		bleed_dmg_timer.name = "bleed_dmg_timer"
-		bleed_dmg_timer.connect("timeout", Globals.player, "_on_bleed_dmg_timer_timeout")
-		Globals.player.add_child(bleed_dmg_timer)
-		Globals.player.get_node(bleed_dmg_timer.name).start()
+		body.bleed_damage(2)
 		
 		self.queue_free()
 		
+

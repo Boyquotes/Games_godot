@@ -207,7 +207,7 @@ func _deferred_goto_scene(path, spawn):
 
 func random_scene():
 	var scenes = ["Snow_World", "Desert_World", "Jungle_World", "Fire_World", "lightning_World"]
-#	var scenes = ["lightning_World"]
+#	var scenes = ["Jungle_World"]
 	var rand = RandomNumberGenerator.new()
 	
 	rand.randomize()
@@ -317,14 +317,13 @@ func spawn_weapon_shop():
 func spawn_boss_portal():
 	portal_spawned = true
 	var Portal = ResourceLoader.load("res://Scenes/Boss_Portal_Entrance.tscn").instance()
-	var portal_spawn_area = current_scene.get_node("weaponshop_spawn_area").rect_size
-	current_scene.get_node("weaponshop_spawn_area").call_deferred("add_child", Portal)
+	current_scene.call_deferred("add_child", Portal)
 	entities.clear()
 	entities.push_front(Portal)
 	
 	Portal.get_node("Boss_Portal_Anim").play()
 	Portal.position.x = 500
-	Portal.position.y = 250
+	Portal.position.y = 300
 	
 func drop_weighting(num):
 	var rand = RandomNumberGenerator.new()

@@ -1,6 +1,9 @@
+NOTES 23/07/22
+	- procedural levels ? -- assignment 5 
+
 NOTES 19/07/22
-	- bleed damage timer does not work on jungle enemies, bleed damage does not get assigned a value ||BUG||
-	- portal direction does not work -> fix proj default dir ||BUG||
+	- bleed damage timer does not work on jungle enemies, bleed damage does not get assigned a value ||-||
+	- portal direction does not work -> fix proj default dir ||-||
 
 NOTES 13/07/22
 	- exp does not transfer between scenes from scenes to boss scene
