@@ -73,6 +73,7 @@ func pwr_up_effect(name, amount):
 		Globals.dropped_items.remove(0)
 				
 func goto_next_scene():
+	print("gotoNext")
 	Globals.entities.clear()
 	Globals.ilvl += 10
 	Globals.enemy_hp_value += 50

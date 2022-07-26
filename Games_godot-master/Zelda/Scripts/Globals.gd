@@ -18,7 +18,7 @@ var boss_res = {"fire": 50, "cold": 80, "lightning": 50, "physical": 80, "poison
 var boss_res_modifier = 10
 var load_boss
 var enemy_res_modifier = 10
-var enemy_dmg_modifier = 25
+var enemy_dmg_modifier = 80
 var boss_hp_modifier = 500
 var boss_pwr_modifier = 50
 var portal_spawned = false
@@ -287,13 +287,10 @@ func spawn_enemies(pos, type):
 		enemies.push_front(enemy)
 		
 		entities.push_front(enemy)
-		
-		respawn = false
 
 # coming back from shop
 	elif current_scene.name == "Starting_World":
 		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 
-#		current_scene.call_deferred("add_child", enemy)
 		current_scene.add_child(enemy)
 		enemy.position = enemy_pos[pos]
 		enemy.move_vec = enemy_dir[pos]

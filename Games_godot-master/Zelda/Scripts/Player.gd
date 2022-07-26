@@ -58,7 +58,7 @@ func _physics_process(delta):
 			Globals.GUI.get_node("stat_container").visible = false
 
 func player_movement():
-	move_speed = Globals.player_move_speed	
+	move_speed = Globals.player_move_speed
 	var move_vec = Vector2()
 	if Input.is_action_pressed("move_down"):
 		move_vec += Vector2.DOWN
@@ -259,9 +259,9 @@ func player_collision():
 			if "Starting" in Globals.current_scene.name:
 				Globals.load_boss = "Boss_scythe"
 			elif "jungle" in Globals.current_scene.name:
-				Globals.load_boss = "scythe_boss"
+				Globals.load_boss = "Boss_bow"
 			else:
-				Globals.load_boss = "jungle_boss"
+				Globals.load_boss = "Boss_slime"
 			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", Globals.current_scene.name)
 			Globals.entities.clear()
 			Globals.entities.push_front(Globals.enemies)
@@ -314,15 +314,15 @@ func _on_bleed_dmg_timer_timeout():
 		
 func resistance_damage_calc(value):
 	if Globals.damage_type == "fire":
-		value -= (Globals.player_resistance["fire"]/3)
+		value -= (Globals.player_resistance["fire"]/2)
 	elif Globals.damage_type == "cold":
-		value -= (Globals.player_resistance["cold"]/3)
+		value -= (Globals.player_resistance["cold"]/2)
 	elif Globals.damage_type == "lightning":
-		value -= (Globals.player_resistance["lightning"]/3)
+		value -= (Globals.player_resistance["lightning"]/2)
 	elif Globals.damage_type == "poison":
-		value -= (Globals.player_resistance["poison"]/3)
+		value -= (Globals.player_resistance["poison"]/2)
 	elif Globals.damage_type == "physical":
-		value -= (Globals.player_resistance["physical"]/3)
+		value -= (Globals.player_resistance["physical"]/2)
 	else:
 		return value
 	return value

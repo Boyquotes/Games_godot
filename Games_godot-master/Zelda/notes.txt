@@ -1,3 +1,20 @@
+--IDEAS--
+	- procedural levels ? -- assignment 5 
+	- special items drop from boss (higher ilvl?)
+	- different fire modes, more enemies spwaned (testing)
+	- visible armor
+	- find a solution to cleanly transfer variables from scene to scene
+
+NOTES 26/07/22
+	- damage types
+		- physical -> starting, bleed (jungle)
+		- fire	-> fire world
+		- cold	-> snow world
+		- lightning -> lightning world
+		- poison -> desert world
+
+	- attribute values are not transferred when coming back from store ||BUG||
+
 NOTES 23/07/22
 	- procedural levels ? -- assignment 5 
 

@@ -91,7 +91,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 
 			Globals.player_xp = lvl_progress.value
 
-		if Globals.enemy_tracker == 4 and !Globals.shop_spawned:
+		if Globals.enemy_tracker == 1 and !Globals.shop_spawned:
 			Globals.spawn_weapon_shop()
 			Globals.shop_spawned = true
 
@@ -105,13 +105,14 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		
 		if boss_portal_health_bar.value <= 0:
 			body.queue_free()
-			Globals.enemy_hp_value += 20
+			Globals.enemy_hp_value += 10
 			Globals.num_of_enemies(5)
 			Globals.entities.clear()
 			Globals.spawn_enemy_type()
 			Globals.enemy_res_modifier += 2
-			Globals.enemy_dmg_modifier += 5
-			Globals.boss_res_modifier += 5
+			Globals.enemy_dmg_modifier += 2
+			Globals.boss_res_modifier += 2
+			Globals.ilvl += 5
 			Globals.respawn = true
 			Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
 			Globals.portal_spawned = false
