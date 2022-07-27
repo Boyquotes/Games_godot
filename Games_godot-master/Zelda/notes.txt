@@ -1,9 +1,13 @@
 --IDEAS--
 	- procedural levels ? -- assignment 5 
 	- special items drop from boss (higher ilvl?)
-	- different fire modes, more enemies spwaned (testing)
+	- different fire modes (pwrups), more enemies spawned (testing)
 	- visible armor
-	- find a solution to cleanly transfer variables from scene to scene
+	- find a solution to cleanly transfer variables from scene to scene (load inventory+items and entities into singleton)
+	- change boss reroll (rarity) depending on something (kills?)
+
+NOTES 27/07/22
+	- wand laser proj fucks up the enemy deletion (trying to free deleted objects) ||BUG||
 
 NOTES 26/07/22
 	- damage types

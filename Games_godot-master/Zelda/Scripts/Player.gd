@@ -245,6 +245,9 @@ func player_collision():
 
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
+			if "Boss" in Globals.current_scene.name:
+				Globals.goto_scene("res://Scenes/pwr_up_screen.tscn", Globals.current_scene.name)
+			
 		if "proj" in coll.collider.name:
 			for i in Globals.dropped_items:
 				if i.name == coll.collider.name:
@@ -262,7 +265,7 @@ func player_collision():
 				Globals.load_boss = "Boss_bow"
 			else:
 				Globals.load_boss = "Boss_slime"
-			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", Globals.current_scene.name)
+			Globals.goto_scene("res://Scenes/Levels/Boss_Room.tscn", Globals.current_scene.name)
 			Globals.entities.clear()
 			Globals.entities.push_front(Globals.enemies)
 			Globals.portal_spawned = false

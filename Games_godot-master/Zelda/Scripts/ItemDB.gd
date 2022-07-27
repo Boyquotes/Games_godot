@@ -44,8 +44,9 @@ const ARMOR = {
 		"id" : "1",
 		"name": "gold_chest",
 		"icon": ITEM_PATH + "gold_chest.png",
-		"type": "str",
+		"type": "normal",
 		"slot": "CHARACTER",
+		"weighting": 0.44,
 		"str": 20,
 		"int": 10,
 		"dex": 10,
@@ -59,8 +60,9 @@ const ARMOR = {
 		"id": "2",
 		"name": "caster_chest",
 		"icon": ITEM_PATH + "caster_chest.png",
-		"type": "int",
+		"type": "normal",
 		"slot": "CHARACTER",
+		"weighting": 0.44,
 		"str": 10,
 		"int": 20,
 		"dex": 10,
@@ -74,8 +76,9 @@ const ARMOR = {
 		"id": "3",
 		"name": "frog_chest",
 		"icon": ITEM_PATH + "frog_chest.png",
-		"type": "int",
+		"type": "normal",
 		"slot": "CHARACTER",
+		"weighting": 0.1,
 		"str": 10,
 		"int": 10,
 		"dex": 30,
@@ -84,6 +87,40 @@ const ARMOR = {
 		"lightning": 5,
 		"physical": 5,
 		"poison": 20
+	},
+	"4": {
+		"id": "4",
+		"name": "dragon_chest",
+		"icon": ITEM_PATH + "dragon_plate_chest.png",
+		"type": "boss",
+		"slot": "CHARACTER",
+		"weighting": 0.02,
+		"str": 30,
+		"int": 15,
+		"dex": 25,
+		"fire": 60,
+		"cold": 35,
+		"lightning": 25,
+		"physical": 25,
+		"poison": 10
+	}
+}
+
+const BOSS_ARMOR = {
+	"1": {
+		"id": "1",
+		"name": "dragon_chest",
+		"icon": ITEM_PATH + "dragon_plate_chest.png",
+		"type": "boss",
+		"slot": "CHARACTER",
+		"str": 30,
+		"int": 15,
+		"dex": 25,
+		"fire": 60,
+		"cold": 35,
+		"lightning": 25,
+		"physical": 25,
+		"poison": 10
 	}
 }
 

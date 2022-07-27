@@ -85,7 +85,7 @@ func _deferred_goto_scene(path, spawn):
 	current_scene = ResourceLoader.load(path).instance()
 	get_tree().get_root().add_child(current_scene)
 
-	if current_scene.name != "Boss_World" and current_scene.name != "pwr_up_screen":
+	if current_scene.name != "Boss_Room" and current_scene.name != "pwr_up_screen":
 		next_scene = random_scene()
 	
 	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn" and path != "res://Scenes/pwr_up_screen.tscn":
@@ -297,7 +297,6 @@ func spawn_enemies(pos, type):
 		enemy_id[pos] = (str(enemy))
 		enemies[pos] = enemy
 		entities[pos] = enemy
-		
 	
 func spawn_weapon_shop():
 	var rand = RandomNumberGenerator.new()
@@ -330,7 +329,7 @@ func drop_weighting(num):
 	
 	for i in num:
 		sum += num[i]
-		if n <= sum: 
+		if n <= sum:
 			return i
 
 func drop(pos):
@@ -378,16 +377,26 @@ func drop_pwrup(pos):
 
 func drop_body_armour(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
-	rand.randomize()
-	
-	item = ItemDB.ARMOR[str(rand.randi_range(1, ItemDB.ARMOR.size()))]
+	var weighting = {}
+	var num = 1
+	for i in ItemDB.ARMOR:
+		weighting[num] = ItemDB.ARMOR[i].weighting
+		num+=1
+	var drop_id = str(drop_weighting(weighting))
 
+	item = ItemDB.ARMOR[drop_id]
+	
+	for i in 5:
+		if "Boss" in current_scene.name and item.type != "boss":
+			print("bossreroll")
+			item = ItemDB.ARMOR[drop_id]
+			
+	rand.randomize()
 	var stats = [(item["int"] + rand.randi_range(0, ilvl)), (item["str"] + rand.randi_range(0, ilvl)), (item["dex"] + rand.randi_range(0, ilvl))]
 	rand.randomize()
-	
 	var res = [(item["fire"] + rand.randi_range(0, ilvl)), (item["cold"] + rand.randi_range(0, ilvl)), (item["lightning"] + rand.randi_range(0, ilvl)),
 	(item["physical"]+rand.randi_range(0, ilvl)), (item["poison"]+rand.randi_range(0, ilvl))]
-
+	
 	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()
 	current_scene.call_deferred("add_child", drop)
 	

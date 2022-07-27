@@ -124,25 +124,10 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		self.queue_free()
 		if body.get_node("boss_hp_bar").value <= 0:
 			Globals.all_attack = false
+			Globals.drop(body.position)
 			Globals.boss.queue_free()
 			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
-			Globals.goto_scene("res://Scenes/pwr_up_screen.tscn", Globals.current_scene.name)
-			
-	#		Globals.respawn = false
-#			Globals.goto_scene("res://Scenes/Levels/" + Globals.next_scene + ".tscn", Globals.current_scene.name)
-	#		Globals.goto_scene("res://Scenes/Levels/Fire_World.tscn", Globals.current_scene.name)
-#			Globals.entities.clear()
-#			Globals.ilvl += 10
-#			Globals.enemy_hp_value += 50
-#			Globals.num_of_enemies(5)
-#			Globals.enemy_res_modifier += 5
-#			Globals.enemy_dmg_modifier += 20
-#			Globals.respawn = false
-		
-#		goto powerup screen?
-#		next lvl
-#		Globals.goto_scene("res://Scenes/game_won_screen.tscn", "null")
-#		Globals.num_of_enemies(1)
+#			Globals.goto_scene("res://Scenes/pwr_up_screen.tscn", Globals.current_scene.name)
 
 func dmg_calc():
 	var enemy_res
