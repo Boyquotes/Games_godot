@@ -99,7 +99,7 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 } ]
 4/z_index = 0
 
-[node name="Boss_World" type="Node2D"]
+[node name="Boss_Room" type="Node2D"]
 script = ExtResource( 6 )
 
 [node name="Level_TileMap" type="TileMap" parent="."]

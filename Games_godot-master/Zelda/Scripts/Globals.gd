@@ -386,11 +386,11 @@ func drop_body_armour(pos, ilvl):
 
 	item = ItemDB.ARMOR[drop_id]
 	
-	for i in 5:
-		if "Boss" in current_scene.name and item.type != "boss":
-			print("bossreroll")
-			item = ItemDB.ARMOR[drop_id]
-			
+	if "Boss" in current_scene.name:
+		for i in 50:
+			if item.type != "boss":
+				item = ItemDB.ARMOR[str(drop_weighting(weighting))]
+
 	rand.randomize()
 	var stats = [(item["int"] + rand.randi_range(0, ilvl)), (item["str"] + rand.randi_range(0, ilvl)), (item["dex"] + rand.randi_range(0, ilvl))]
 	rand.randomize()
@@ -442,8 +442,8 @@ func drop_weapon(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 	
-#	item = ItemDB.WEAPON[str(rand.randi_range(1, ItemDB.WEAPON.size()))]
-	item = ItemDB.WEAPON["3"]
+	item = ItemDB.WEAPON[str(rand.randi_range(1, ItemDB.WEAPON.size()))]
+#	item = ItemDB.WEAPON["3"]
 		
 	var potency = (rand.randi_range((ilvl*2), (ilvl*3)))*3
 	var dmg_types = ["fire", "cold", "lightning", "physical", "poison"]

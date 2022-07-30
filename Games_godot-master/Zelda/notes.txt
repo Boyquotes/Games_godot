@@ -17,7 +17,7 @@ NOTES 26/07/22
 		- lightning -> lightning world
 		- poison -> desert world
 
-	- attribute values are not transferred when coming back from store ||BUG||
+	- attribute values are not transferred when coming back from store ||-||
 
 NOTES 23/07/22
 	- procedural levels ? -- assignment 5 
