@@ -7,6 +7,7 @@ var proj_life_time
 var snow_attack = false
 var enemy_attack = false
 var burning
+var beam_dmg
 
 func _ready():
 	anim_enemy = $AnimationPlayer
@@ -119,6 +120,13 @@ func _on_jungle_attack_timeout_timeout():
 	for i in 4:
 		fire_thorn_proj(dir)
 		dir += 90
+		
+func _on_beam_dmg_timer_timeout(enemy, dmg_taken):
+#	print("enemy ", enemy, " takes ", dmg_taken)
+	Globals.enemy_hp[Globals.entities.find(enemy)] -= dmg_taken
+	self.get_node("enemy_hp_bar").value -= dmg_taken
+	if Globals.enemy_hp[Globals.entities.find(enemy)] <= 0:
+		self.remove_enemy(Globals.entities.find(enemy))
 
 func remove_enemy(i):
 	var lvl_progress = Globals.GUI.get_node("lvl_progress")

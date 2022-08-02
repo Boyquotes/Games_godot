@@ -7,7 +7,7 @@
 	- change boss reroll (rarity) depending on something (kills?)
 
 NOTES 27/07/22
-	- wand laser proj fucks up the enemy deletion (trying to free deleted objects) ||BUG||
+	- wand laser proj fucks up the enemy deletion (trying to free deleted objects) ||-||
 
 NOTES 26/07/22
 	- damage types

@@ -7,7 +7,6 @@ var beam_timer
 var beam_dmg = false
 var enemy_hp_bar
 var dmg_taken
-var curr_enemy
 
 func _ready():
 	if Globals.wand_proj == "wand_beam_proj":
@@ -67,10 +66,12 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 							body.burn_timer(i, (dmg_taken*1.5), 2)
 							body.burning = true
 					elif Globals.wand_proj == "wand_beam_proj":
-						$Beam_Timer.start()
-						$Beam_Timer.one_shot = false
-						beam_dmg = true
-						curr_enemy = i
+						var beam_dmg_timer = Timer.new()
+						beam_dmg_timer.name = "beam_dmg_timer"
+						beam_dmg_timer.connect("timeout", Globals.entities[i], "_on_beam_dmg_timer_timeout", [Globals.entities[i], dmg_taken])
+						Globals.entities[i].add_child(beam_dmg_timer)
+						Globals.entities[i].get_node(beam_dmg_timer.name).start()
+						body.beam_dmg = true
 				else:
 					Globals.enemy_hp[i] -= dmg_taken
 					enemy_hp_bar.value -= dmg_taken
@@ -80,13 +81,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 				body.queue_free()
 				Globals.player_xp = lvl_progress.value
 				break
-				
-#				if Globals.enemy_tracker == 0:
-#					print("spawn boss portal")
-#					Globals.spawn_boss_portal()
-#					break
-#					return
-						
+
 				Globals.player_pwr = original_player_pwr
 
 			Globals.player_xp = lvl_progress.value
@@ -112,7 +107,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			Globals.enemy_res_modifier += 2
 			Globals.enemy_dmg_modifier += 2
 			Globals.boss_res_modifier += 2
-			Globals.ilvl += 5
+#			Globals.ilvl += 5
 			Globals.respawn = true
 			Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
 			Globals.portal_spawned = false
@@ -145,17 +140,19 @@ func dmg_calc():
 				dmg = stepify(dmg, 0.01)
 	print("dmg ", dmg)
 	return dmg
-
-func _on_Beam_Timer_timeout():
-	Globals.enemy_hp[curr_enemy] -= dmg_taken
-	enemy_hp_bar.value -= dmg_taken
+#
+#func _on_Beam_Timer_timeout():
+#	Globals.enemy_hp[curr_enemy] -= dmg_taken
+#	enemy_hp_bar.value -= dmg_taken
 
 func _on_Weapon_Timeout_timeout():
 	self.queue_free()
 
 func _on_weapon_body_shape_exited(body_id, body, body_shape, local_shape):
-	if beam_dmg:
-		$Beam_Timer.stop()
-		beam_dmg = false
+#	pass
+	if body != null and "Enemy" in body.name and body.beam_dmg:
+		body.get_node("beam_dmg_timer").stop()
+		body.get_node("beam_dmg_timer").queue_free()
+		body.beam_dmg = false
 	else:
 		return
