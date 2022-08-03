@@ -92,7 +92,7 @@ anims/bow_atk = SubResource( 2 )
 anims/bow_idle = SubResource( 3 )
 anims/bow_run = SubResource( 4 )
 
-[node name="boss_hp_bar" type="TextureProgress" parent="."]
+[node name="hp_bar" type="TextureProgress" parent="."]
 visible = false
 margin_left = -21.0
 margin_top = -45.0

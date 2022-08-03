@@ -8,8 +8,8 @@ onready var dir = Vector2.RIGHT
 
 
 func _ready():
-	$boss_hp_bar.max_value = Globals.boss_hp_modifier
-	$boss_hp_bar.value = Globals.boss_hp_modifier
+	$hp_bar.max_value = Globals.boss_hp_modifier
+	$hp_bar.value = Globals.boss_hp_modifier
 
 func _physics_process(delta):
 	if attack == false:

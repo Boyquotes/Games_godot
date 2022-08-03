@@ -30,7 +30,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		if "Starting" in body.name:
 			body.enemy_attack = true
 		var lvl_progress = Globals.GUI.get_node("lvl_progress")
-		enemy_hp_bar = body.get_node("enemy_hp_bar")
+		enemy_hp_bar = body.get_node("hp_bar")
 		var original_player_pwr = Globals.player_pwr
 		dmg_taken = dmg_calc()
 #		
@@ -113,11 +113,11 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			Globals.portal_spawned = false
 
 	if "Boss" in body.name:
-		body.get_node("boss_hp_bar").visible = true
+		body.get_node("hp_bar").visible = true
 		dmg_taken = dmg_calc()
-		body.get_node("boss_hp_bar").value -= dmg_taken
+		body.get_node("hp_bar").value -= dmg_taken
 		self.queue_free()
-		if body.get_node("boss_hp_bar").value <= 0:
+		if body.get_node("hp_bar").value <= 0:
 			Globals.all_attack = false
 			Globals.drop(body.position)
 			Globals.boss.queue_free()

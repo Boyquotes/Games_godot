@@ -5,6 +5,12 @@
 	- visible armor
 	- find a solution to cleanly transfer variables from scene to scene (load inventory+items and entities into singleton)
 	- change boss reroll (rarity) depending on something (kills?)
+	- make shop scene for ammo and/or other stuff
+
+NOTES 03/08/22
+	- bosses are not burning ||BUG||
+		- include boss into enemy arrays?
+	- pwrups do not get equipped automatically, if something has already been picked up ||BUG||
 
 NOTES 27/07/22
 	- wand laser proj fucks up the enemy deletion (trying to free deleted objects) ||-||

@@ -94,7 +94,7 @@ anims/walk_down = SubResource( 3 )
 anims/walk_side = SubResource( 4 )
 anims/walk_up = SubResource( 5 )
 
-[node name="enemy_hp_bar" type="TextureProgress" parent="."]
+[node name="hp_bar" type="TextureProgress" parent="."]
 visible = false
 margin_left = -7.0
 margin_top = -16.0

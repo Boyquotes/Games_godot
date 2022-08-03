@@ -124,7 +124,7 @@ func _on_jungle_attack_timeout_timeout():
 func _on_beam_dmg_timer_timeout(enemy, dmg_taken):
 #	print("enemy ", enemy, " takes ", dmg_taken)
 	Globals.enemy_hp[Globals.entities.find(enemy)] -= dmg_taken
-	self.get_node("enemy_hp_bar").value -= dmg_taken
+	self.get_node("hp_bar").value -= dmg_taken
 	if Globals.enemy_hp[Globals.entities.find(enemy)] <= 0:
 		self.remove_enemy(Globals.entities.find(enemy))
 

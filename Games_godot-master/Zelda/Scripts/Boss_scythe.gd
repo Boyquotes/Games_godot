@@ -9,8 +9,8 @@ var attack_anim = false
 
 func _ready():
 	anim_boss = $AnimationPlayer
-	$boss_hp_bar.max_value = Globals.boss_hp_modifier
-	$boss_hp_bar.value = Globals.boss_hp_modifier
+	$hp_bar.max_value = Globals.boss_hp_modifier
+	$hp_bar.value = Globals.boss_hp_modifier
 	$scythe_throw_timer.start()
 
 func _physics_process(delta):

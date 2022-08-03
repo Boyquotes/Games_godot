@@ -133,7 +133,7 @@ anims/slime_idle = SubResource( 3 )
 anims/slime_start_jump = SubResource( 4 )
 anims/slime_stop_jump = SubResource( 5 )
 
-[node name="boss_hp_bar" type="TextureProgress" parent="."]
+[node name="hp_bar" type="TextureProgress" parent="."]
 visible = false
 margin_left = -23.0
 margin_top = -45.0

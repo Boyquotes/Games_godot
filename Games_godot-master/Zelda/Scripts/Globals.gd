@@ -249,8 +249,8 @@ func spawn_enemies(pos, type):
 
 		var dir = [Vector2.DOWN, Vector2.UP, Vector2.RIGHT, Vector2.LEFT]
 		enemy.move_vec = dir[rand.randi() % dir.size()]
-		enemy.get_node("enemy_hp_bar").max_value = enemy_hp_value
-		enemy.get_node("enemy_hp_bar").value = enemy_hp_value
+		enemy.get_node("hp_bar").max_value = enemy_hp_value
+		enemy.get_node("hp_bar").value = enemy_hp_value
 		
 		var distance_to_player = enemy.get_global_position().distance_to(player.get_global_position())
 
@@ -335,22 +335,22 @@ func drop_weighting(num):
 func drop(pos):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
-	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
-#	var weighting = drop_weighting({0:0.70, 1:0.15, 2:0.15})
+#	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
+	var weighting = drop_weighting({0:0.70, 1:0.15, 2:0.15})
 	
-#	var freq = rand.randi_range(0,1)
+	var freq = rand.randi_range(0,1)
 	
-#	if freq == 1:	
-	if weighting == 0:
-		drop_pwrup(pos)
-	elif weighting == 1:
-		drop_body_armour(pos, ilvl)
-	elif weighting == 2:
-		drop_weapon(pos, ilvl)
+	if freq == 1:
+		if weighting == 0:
+			drop_pwrup(pos)
+		elif weighting == 1:
+			drop_body_armour(pos, ilvl)
+		elif weighting == 2:
+			drop_weapon(pos, ilvl)
 	
 func drop_pwrup(pos):
-#	var drop_id = str(drop_weighting({1:0.13, 2:0.09, 3:0.13, 4:0.13, 5:0.13, 6:0.13, 7:0.13, 8:0.13}))
-	var drop_id = str(drop_weighting({1:0.01, 2:0.01, 3:0.01, 4:0.01, 5:0.01, 6:0.01, 7:0.01, 8:0.93}))
+	var drop_id = str(drop_weighting({1:0.13, 2:0.09, 3:0.13, 4:0.13, 5:0.13, 6:0.13, 7:0.13, 8:0.13}))
+#	var drop_id = str(drop_weighting({1:0.01, 2:0.01, 3:0.01, 4:0.01, 5:0.01, 6:0.01, 7:0.01, 8:0.93}))
 	var drop_texture = ItemDB.PWRUP[drop_id]
 	var drop_name = ItemDB.PWRUP[drop_id].name
 	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()

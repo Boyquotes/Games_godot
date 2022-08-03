@@ -12,8 +12,8 @@ var dir_to_player
 
 func _ready():
 	anim_boss = $AnimationPlayer
-	$boss_hp_bar.max_value = Globals.boss_hp_modifier
-	$boss_hp_bar.value = Globals.boss_hp_modifier
+	$hp_bar.max_value = Globals.boss_hp_modifier
+	$hp_bar.value = Globals.boss_hp_modifier
 	$run_cd.wait_time = rnd_run_cd()
 	$run_cd.start()
 	

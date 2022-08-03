@@ -87,7 +87,7 @@ shape = SubResource( 4 )
 anims/attack_scythe = SubResource( 5 )
 anims/idle = SubResource( 6 )
 
-[node name="boss_hp_bar" type="TextureProgress" parent="."]
+[node name="hp_bar" type="TextureProgress" parent="."]
 visible = false
 margin_left = -23.0
 margin_top = -45.0
