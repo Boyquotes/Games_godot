@@ -163,7 +163,7 @@ func _deferred_goto_scene(path, spawn):
 			player_weapon = "3"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 200
+			weapon["power"] = 2000
 			weapon["dmg_type"] = "physical"
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
@@ -237,7 +237,7 @@ func spawn_enemies(pos, type):
 	var rand = RandomNumberGenerator.new()
 	var tilemap = current_scene.get_node("Level_TileMap")
 
-	if "World" in current_scene.name and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or prev_scene == "pwr_up_screen" or "World" in prev_scene or respawn:
+	if "World" in current_scene.name or respawn: #and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or prev_scene == "pwr_up_screen" or "World" in prev_scene or respawn:
 		var spawn_area = current_scene.get_node("spawn_area").rect_size
 		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance()
 
@@ -332,13 +332,16 @@ func drop_weighting(num):
 		if n <= sum:
 			return i
 
-func drop(pos):
+func drop(pos, freq, weighting):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 #	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
-	var weighting = drop_weighting({0:0.70, 1:0.15, 2:0.15})
 	
-	var freq = rand.randi_range(0,1)
+	if weighting == null:
+		weighting = drop_weighting({0:0.70, 1:0.15, 2:0.15})
+	
+	if freq == null:
+		freq = rand.randi_range(0,1)
 	
 	if freq == 1:
 		if weighting == 0:

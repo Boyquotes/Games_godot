@@ -465,17 +465,18 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				weapon.get_node("weapon").set_texture(wand)
 				var shortest_distance_enemy = Globals.current_scene.get_node("Level_TileMap")
 				if Globals.current_scene.name != "Shop":
-					for i in Globals.entities:
-						var distance_to_player = i.get_global_position().distance_to(self.get_global_position())
-						if distance_to_player < shortest_distance_enemy.get_global_position().distance_to(self.get_global_position()):
-							shortest_distance_enemy = i
-						var dir = weapon.position.direction_to(Globals.current_scene.get_node(shortest_distance_enemy.name).position)
-						weapon.velocity = Vector2.move_toward(dir, weapon.speed)
+					if Globals.entities.size() > 0:
+						print("entities ",Globals.entities)
+						for i in Globals.entities:
+							var distance_to_player = i.get_global_position().distance_to(self.get_global_position())
+							if distance_to_player < shortest_distance_enemy.get_global_position().distance_to(self.get_global_position()):
+								shortest_distance_enemy = i
+							var dir = weapon.position.direction_to(Globals.current_scene.get_node(shortest_distance_enemy.name).position)
+							weapon.velocity = Vector2.move_toward(dir, weapon.speed)
+					else:
+						print("cannot fire in shop")
 				else:
-					print("cannot fire in shop")
-			else:
-				print("oom")
-			
+					print("oom")
 		if Globals.player_weapon == "staff":
 			Globals.current_scene.get_node("Player").add_child(weapon)
 			var staff = load("res://Assets/staff_attack.png")

@@ -7,10 +7,10 @@ func _ready():
 	Globals.entities.clear()
 	Globals.entities.push_front(Globals.boss)
 #
-#	Globals.enemy_pos.push_front(Vector2(Globals.boss.position.x, Globals.boss.position.y))
-#	Globals.enemy_dir.push_front(Vector2.RIGHT)
-#	Globals.enemy_id.push_front(str(Globals.boss))
-#	Globals.enemy_hp.push_front(Globals.boss_hp_modifier)
-#	Globals.enemies.push_front(Globals.boss)
-#
-#	entities.push_front(enemy)
+	Globals.enemy_pos.push_front(Vector2(Globals.boss.position.x, Globals.boss.position.y))
+	Globals.enemy_dir.push_front(Vector2.RIGHT)
+	Globals.enemy_id.push_front(str(Globals.boss))
+	Globals.enemy_hp.push_front(Globals.boss_hp_modifier)
+	Globals.enemies.push_front(Globals.boss)
+
+	print(Globals.entities)

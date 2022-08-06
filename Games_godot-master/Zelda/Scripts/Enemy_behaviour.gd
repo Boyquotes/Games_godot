@@ -137,7 +137,7 @@ func remove_enemy(i):
 	Globals.enemies.remove(i)
 	Globals.entities.remove(i)
 	Globals.enemy_tracker -= 1
-	Globals.drop(self.position)
+	Globals.drop(self.position, null, null)
 	Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
 	if lvl_progress.value == (lvl_progress.max_value-lvl_progress.step):
 		var curr_lvl = int(Globals.GUI.get_node("lvl").text)

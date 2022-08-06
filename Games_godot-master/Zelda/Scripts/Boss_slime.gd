@@ -23,7 +23,6 @@ func _physics_process(delta):
 		return
 
 func jump_attack(jump_height):
-
 	var pos = self.position
 	var set_landing = rnd_landing_height(pos)
 	var mod = jump_height

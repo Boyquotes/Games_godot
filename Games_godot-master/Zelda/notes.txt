@@ -1,4 +1,5 @@
 --IDEAS--
+	- refactor ailments.gd for bosses
 	- procedural levels ? -- assignment 5 
 	- special items drop from boss (higher ilvl?)
 	- different fire modes (pwrups), more enemies spawned (testing)
@@ -6,6 +7,10 @@
 	- find a solution to cleanly transfer variables from scene to scene (load inventory+items and entities into singleton)
 	- change boss reroll (rarity) depending on something (kills?)
 	- make shop scene for ammo and/or other stuff
+
+NOTES 06/08/22
+	- use local variables as parameters in functions instead of global variables
+	- shop does currently not work due to refactoring of spawn_enemies()
 
 NOTES 03/08/22
 	- bosses are not burning ||BUG||

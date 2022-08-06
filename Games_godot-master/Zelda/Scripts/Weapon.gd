@@ -119,8 +119,10 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		self.queue_free()
 		if body.get_node("hp_bar").value <= 0:
 			Globals.all_attack = false
-			Globals.drop(body.position)
+			Globals.drop(body.position, 1, 1)
+#			Globals.boss.remove_enemy()
 			Globals.boss.queue_free()
+			Globals.entities.clear()
 			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 #			Globals.goto_scene("res://Scenes/pwr_up_screen.tscn", Globals.current_scene.name)
 
