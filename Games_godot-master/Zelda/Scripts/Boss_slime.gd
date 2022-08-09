@@ -1,9 +1,9 @@
-extends KinematicBody2D
+extends "res://Scripts/ailments.gd"
 
 onready var anim = $AnimationPlayer
 onready var attack = false
-var move_vec = Vector2()
-var move_speed = 3
+var boss_move_vec = Vector2()
+var boss_move_speed = 3
 onready var dir = Vector2.RIGHT
 
 

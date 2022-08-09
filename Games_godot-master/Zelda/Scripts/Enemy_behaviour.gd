@@ -23,6 +23,8 @@ func _physics_process(delta):
 		enemy_attack_move()
 	elif Globals.current_scene.name == "Fire_World":
 		anim_enemy.play("idle")
+	elif "Boss" in Globals.current_scene.name:
+		pass
 	else:
 		enemy_movement()
 
@@ -130,6 +132,10 @@ func _on_beam_dmg_timer_timeout(enemy, dmg_taken):
 
 func remove_enemy(i):
 	var lvl_progress = Globals.GUI.get_node("lvl_progress")
+	if "Boss" in Globals.entities[i].name:
+		Globals.drop(self.position, 1, 1)
+	else:
+		Globals.drop(self.position, 1, 0)
 	Globals.enemies[i].queue_free()
 	Globals.enemy_id.remove(i)
 	Globals.enemy_hp.remove(i)
@@ -137,7 +143,6 @@ func remove_enemy(i):
 	Globals.enemies.remove(i)
 	Globals.entities.remove(i)
 	Globals.enemy_tracker -= 1
-	Globals.drop(self.position, null, null)
 	Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
 	if lvl_progress.value == (lvl_progress.max_value-lvl_progress.step):
 		var curr_lvl = int(Globals.GUI.get_node("lvl").text)

@@ -20,7 +20,7 @@ func poison_timer(curr_enemy, dmg_value):
 	$hp_bar.value -= poison_dmg
 	if Globals.enemy_hp[curr_enemy] <= 0:
 		remove_enemy(curr_enemy)
-	
+
 func shock_timer(curr_enemy, dmg_value):
 	shocked = true
 	dmg_value += 20
@@ -29,7 +29,7 @@ func shock_timer(curr_enemy, dmg_value):
 	yield(get_tree().create_timer(5), "timeout")
 #	Globals.player_pwr -= 20
 	shocked = false
-	
+
 func burn_timer(curr_enemy, dmg_value, ticks):
 	for i in ticks:
 		yield(get_tree().create_timer(2), "timeout")
@@ -45,6 +45,3 @@ func burn_timer(curr_enemy, dmg_value, ticks):
 			burning = false
 			break
 			return
-				
-
-

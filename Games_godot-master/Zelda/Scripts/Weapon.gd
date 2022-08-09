@@ -20,13 +20,12 @@ func _physics_process(delta):
 		position += velocity * speed
 
 func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
+	if body.name != "Player" and Globals.wand_proj != "wand_beam_proj":
+		self.queue_free()
 	if Globals.wand_proj == "wand_beam_proj" and "Level_TileMap" in body.name:
 		self.show_behind_parent == true
-		
-	elif Globals.player_weapon == "bow" and "Enemy" in body.name or "Level_TileMap" in body.name or Globals.player_weapon == "wand" and Globals.wand_proj != "wand_beam_proj" and "Enemy" in body.name or "Level_TileMap" in body.name:
-		self.queue_free()
 	
-	if "Enemy" in body.name:
+	if "Enemy" in body.name or "Boss" in body.name:
 		if "Starting" in body.name:
 			body.enemy_attack = true
 		var lvl_progress = Globals.GUI.get_node("lvl_progress")
@@ -63,7 +62,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 						enemy_hp_bar.value -= dmg_taken
 					elif Globals.wand_proj == "fire_one":
 						if body.burning != true:
-							body.burn_timer(i, (dmg_taken*1.5), 2)
+							body.burn_timer(i, (dmg_taken*1.5), 3)
 							body.burning = true
 					elif Globals.wand_proj == "wand_beam_proj":
 						var beam_dmg_timer = Timer.new()
@@ -112,20 +111,6 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
 			Globals.portal_spawned = false
 
-	if "Boss" in body.name:
-		body.get_node("hp_bar").visible = true
-		dmg_taken = dmg_calc()
-		body.get_node("hp_bar").value -= dmg_taken
-		self.queue_free()
-		if body.get_node("hp_bar").value <= 0:
-			Globals.all_attack = false
-			Globals.drop(body.position, 1, 1)
-#			Globals.boss.remove_enemy()
-			Globals.boss.queue_free()
-			Globals.entities.clear()
-			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
-#			Globals.goto_scene("res://Scenes/pwr_up_screen.tscn", Globals.current_scene.name)
-
 func dmg_calc():
 	var enemy_res
 	if "Boss" in Globals.current_scene.name:
@@ -152,7 +137,7 @@ func _on_Weapon_Timeout_timeout():
 
 func _on_weapon_body_shape_exited(body_id, body, body_shape, local_shape):
 #	pass
-	if body != null and "Enemy" in body.name and body.beam_dmg:
+	if body != null and "Enemy" in body.name and body.beam_dmg or body != null and "Boss" in body.name and body.beam_dmg:
 		body.get_node("beam_dmg_timer").stop()
 		body.get_node("beam_dmg_timer").queue_free()
 		body.beam_dmg = false

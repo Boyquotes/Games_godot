@@ -1,5 +1,5 @@
 --IDEAS--
-	- refactor ailments.gd for bosses
+	- refactor ailments.gd for bosses ||done||
 	- procedural levels ? -- assignment 5 
 	- special items drop from boss (higher ilvl?)
 	- different fire modes (pwrups), more enemies spawned (testing)
@@ -8,12 +8,18 @@
 	- change boss reroll (rarity) depending on something (kills?)
 	- make shop scene for ammo and/or other stuff
 
+NOTES 09/08/22
+	- slime boss still jumps OOB ||BUG||
+	- bow boss behaves weirdly ||BUG||
+	- lightning enemies take way too much dmg somehow ||BUG||
+	- res goes over max into -value (fire res on dragon chest) ||-||
+
 NOTES 06/08/22
 	- use local variables as parameters in functions instead of global variables
 	- shop does currently not work due to refactoring of spawn_enemies()
 
 NOTES 03/08/22
-	- bosses are not burning ||BUG||
+	- bosses are not burning ||-||
 		- include boss into enemy arrays?
 	- pwrups do not get equipped automatically, if something has already been picked up ||BUG||
 

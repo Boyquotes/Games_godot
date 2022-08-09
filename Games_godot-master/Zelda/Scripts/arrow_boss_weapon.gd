@@ -6,8 +6,8 @@ var move_speed = 4
 var attack_mode
 var velocity = Vector2()
 
-func _ready():	
-	var arrow_pos = self.get_parent().get_node("boss_bow").position
+func _ready():
+	var arrow_pos = self.get_parent().get_node("Boss_bow").position
 	
 	if attack_mode == "single":
 		var dir_to_player = (Globals.player.global_position - arrow_pos).normalized()
@@ -15,7 +15,7 @@ func _ready():
 		self.rotation_degrees = (angle*(180/PI)+180)
 		dir = dir_to_player * move_speed
 	elif attack_mode == "multi":
-		if Globals.current_scene.get_node("boss_bow").get_node("boss_sprite").is_flipped_h() == false:
+		if Globals.current_scene.get_node("Boss_bow").get_node("boss_sprite").is_flipped_h() == false:
 			dir = Vector2(1,0).rotated(rotation) * move_speed
 		else:
 			dir = Vector2(-1,0).rotated(rotation) * move_speed

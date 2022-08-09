@@ -1,8 +1,8 @@
-extends KinematicBody2D
+extends "res://Scripts/ailments.gd"
 
 var anim_boss
 var dir
-var move_speed = 1
+var boss_move_speed = 1
 var health
 var power
 var attack_anim = false
@@ -18,7 +18,7 @@ func _physics_process(delta):
 
 func boss_movement():
 	dir = self.position.direction_to(Globals.player.position)
-	move_and_collide(Vector2.move_toward(dir, move_speed))
+	move_and_collide(Vector2.move_toward(dir, boss_move_speed))
 	
 	if dir.x > 0:
 		self.get_node("boss_sprite").set_flip_h(false)

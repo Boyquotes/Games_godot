@@ -1,13 +1,13 @@
-extends KinematicBody2D
+extends "res://Scripts/ailments.gd"
 
 var anim_boss
 var dir
-var move_speed = 3
+var boss_move_speed = 3
 var health
 var power
 var attack_anim = false
 var run_anim = false
-var move_vec = Vector2()
+var boss_move_vec = Vector2()
 var dir_to_player
 
 func _ready():
@@ -28,16 +28,16 @@ func boss_movement():
 	
 	if run_anim == false and attack_anim == false:
 		anim_boss.play("bow_idle")
-		move_vec = Vector2.ZERO
+		boss_move_vec = Vector2.ZERO
 	elif attack_anim == true:
 		anim_boss.play("bow_atk")
 	else:
-		move_vec = dir.normalized()
-		var coll = move_and_collide(move_vec * move_speed)
+		boss_move_vec = dir.normalized()
+		var coll = move_and_collide(boss_move_vec * boss_move_speed)
 		if coll:
 			if "Level_TileMap" in coll.collider.name:
 				rnd_boss_dir()
-		
+
 func rnd_boss_dir():
 	var rand = RandomNumberGenerator.new()
 	var directions = [Vector2.DOWN, Vector2.UP, Vector2.RIGHT, Vector2.LEFT]
@@ -75,7 +75,6 @@ func single_arrow_attack():
 	Globals.current_scene.add_child(arrow)
 	arrow.position = self.position
 	
-	
 func multi_arrow_attack():
 	var rotation = -70
 	for arrow in 5:
@@ -97,7 +96,7 @@ func _on_aggro_range_body_shape_entered(body_id, body, body_shape, local_shape):
 			self.get_node("boss_sprite").set_flip_h(false)
 		else:
 			self.get_node("boss_sprite").set_flip_h(true)
-		bow_attack_cd(1, 99, "multi")
+		bow_attack_cd(1, 3, "multi")
 	else:
 		return
 

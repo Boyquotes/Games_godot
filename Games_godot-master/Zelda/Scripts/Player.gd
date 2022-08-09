@@ -261,15 +261,13 @@ func player_collision():
 		if "Portal" in coll.collider.name:
 			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 			if "Starting" in Globals.current_scene.name:
-				Globals.load_boss = "Boss_scythe"
+				Globals.load_boss = "Boss_bow"
 			elif "jungle" in Globals.current_scene.name:
 				Globals.load_boss = "Boss_bow"
 			else:
 				Globals.load_boss = "Boss_slime"
 			Globals.ilvl += 10
 			Globals.goto_scene("res://Scenes/Levels/Boss_Room.tscn", Globals.current_scene.name)
-			Globals.entities.clear()
-			Globals.entities.push_front(Globals.enemies)
 			Globals.portal_spawned = false
 			
 func despawn_drop(coll):
@@ -466,7 +464,6 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				var shortest_distance_enemy = Globals.current_scene.get_node("Level_TileMap")
 				if Globals.current_scene.name != "Shop":
 					if Globals.entities.size() > 0:
-						print("entities ",Globals.entities)
 						for i in Globals.entities:
 							var distance_to_player = i.get_global_position().distance_to(self.get_global_position())
 							if distance_to_player < shortest_distance_enemy.get_global_position().distance_to(self.get_global_position()):

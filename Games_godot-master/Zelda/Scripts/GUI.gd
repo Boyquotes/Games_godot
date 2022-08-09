@@ -42,12 +42,8 @@ func attribute_points(stat, lvlup_stats, id):
 			for y in Globals.inventory_items:
 				if id == y["id"]:
 					i += int(y[stat.name])
-					if i > 60:
-						i = 60
 					Globals.player_resistance[stat.name] += int(y[stat.name])
-					if Globals.player_resistance[stat.name] > 60:
-						Globals.player_resistance[stat.name] = 60
-			stat.text = str(i)
+			stat.text = str(Globals.player_resistance[stat.name])
 		if stat.name == "power":
 			for y in Globals.inventory_items:
 				if id == y["id"]:
@@ -71,7 +67,9 @@ func remove_points(stat, id):
 			if id == y["id"]:
 				i -= int(y[stat.name])
 				Globals.player_resistance[stat.name] -= int(y[stat.name])
-		stat.text = str(i)
+				if Globals.player_resistance[stat.name] >= 60:
+					Globals.player_resistance[stat.name] = 60
+		stat.text = str(Globals.player_resistance[stat.name])
 	if stat.name == "power":
 		for y in Globals.inventory_items:
 			if id == y["id"]:
@@ -109,7 +107,6 @@ func attribute_effects(stat, effect, value):
 func buff_effects(buff, effect):
 	if effect == "activate":
 		if "fire_proj" in buff:
-			print("burnActivate")
 			Globals.wand_proj = "fire_one"
 		elif "lazor" in buff:
 			Globals.wand_proj = "wand_beam_proj"

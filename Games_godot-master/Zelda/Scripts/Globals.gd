@@ -7,7 +7,7 @@ var player_spawn_pos = null
 var player_weapon = false
 var starter_weapon = true
 var wand_proj = null
-var player_hp = 300
+var player_hp = 300000
 var player_xp = 0
 var player_lvl = 0
 var player_pwr = 0
@@ -352,8 +352,8 @@ func drop(pos, freq, weighting):
 			drop_weapon(pos, ilvl)
 	
 func drop_pwrup(pos):
-	var drop_id = str(drop_weighting({1:0.13, 2:0.09, 3:0.13, 4:0.13, 5:0.13, 6:0.13, 7:0.13, 8:0.13}))
-#	var drop_id = str(drop_weighting({1:0.01, 2:0.01, 3:0.01, 4:0.01, 5:0.01, 6:0.01, 7:0.01, 8:0.93}))
+#	var drop_id = str(drop_weighting({1:0.13, 2:0.09, 3:0.13, 4:0.13, 5:0.13, 6:0.13, 7:0.13, 8:0.13}))
+	var drop_id = str(drop_weighting({1:0.93, 2:0.01, 3:0.01, 4:0.01, 5:0.01, 6:0.01, 7:0.01, 8:0.01}))
 	var drop_texture = ItemDB.PWRUP[drop_id]
 	var drop_name = ItemDB.PWRUP[drop_id].name
 	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()
