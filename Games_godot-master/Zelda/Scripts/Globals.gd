@@ -207,7 +207,7 @@ func _deferred_goto_scene(path, spawn):
 
 func random_scene():
 	var scenes = ["Snow_World", "Desert_World", "Jungle_World", "Fire_World", "lightning_World"]
-#	var scenes = ["Jungle_World"]
+#	var scenes = ["Lightning_World"]
 	var rand = RandomNumberGenerator.new()
 	
 	rand.randomize()
@@ -258,17 +258,17 @@ func spawn_enemies(pos, type):
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 
 		if "Fire" in current_scene.name:
-			enemy_resistance = {"fire": 5*enemy_res_modifier, "cold": 1*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
+			enemy_resistance = {"fire": 7*enemy_res_modifier, "cold": 2*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
 		if "Starting" in current_scene.name:
 			enemy_resistance = {"fire": 3*enemy_res_modifier, "cold": 3*enemy_res_modifier, "lightning": 3*enemy_res_modifier, "physical": 7*enemy_res_modifier, "poison": 1*enemy_res_modifier}
 		if "lightning" in current_scene.name:
-			enemy_resistance = {"fire": 5*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 1*enemy_res_modifier, "poison": 5*enemy_res_modifier}
+			enemy_resistance = {"fire": 5*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 7*enemy_res_modifier, "physical": 2*enemy_res_modifier, "poison": 5*enemy_res_modifier}
 		if "Snow" in current_scene.name:
-			enemy_resistance = {"fire": 1*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
+			enemy_resistance = {"fire": 2*enemy_res_modifier, "cold": 7*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
 		if "Desert" in current_scene.name:
-			enemy_resistance = {"fire": 1*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 3*enemy_res_modifier, "poison": 7*enemy_res_modifier}
+			enemy_resistance = {"fire": 2*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 3*enemy_res_modifier, "poison": 7*enemy_res_modifier}
 		if "Jungle" in current_scene.name:
-			enemy_resistance = {"fire": 5*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 1*enemy_res_modifier}
+			enemy_resistance = {"fire": 5*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 2*enemy_res_modifier}
 		
 #		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
 #			print(tilemap.get_cellv(tilemap.world_to_map(enemy.position)))
@@ -352,8 +352,8 @@ func drop(pos, freq, weighting):
 			drop_weapon(pos, ilvl)
 	
 func drop_pwrup(pos):
-#	var drop_id = str(drop_weighting({1:0.13, 2:0.09, 3:0.13, 4:0.13, 5:0.13, 6:0.13, 7:0.13, 8:0.13}))
-	var drop_id = str(drop_weighting({1:0.93, 2:0.01, 3:0.01, 4:0.01, 5:0.01, 6:0.01, 7:0.01, 8:0.01}))
+	var drop_id = str(drop_weighting({1:0.13, 2:0.09, 3:0.13, 4:0.13, 5:0.13, 6:0.13, 7:0.13, 8:0.13}))
+#	var drop_id = str(drop_weighting({1:0.93, 2:0.01, 3:0.01, 4:0.01, 5:0.01, 6:0.01, 7:0.01, 8:0.01}))
 	var drop_texture = ItemDB.PWRUP[drop_id]
 	var drop_name = ItemDB.PWRUP[drop_id].name
 	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()

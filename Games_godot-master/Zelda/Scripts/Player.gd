@@ -261,7 +261,7 @@ func player_collision():
 		if "Portal" in coll.collider.name:
 			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 			if "Starting" in Globals.current_scene.name:
-				Globals.load_boss = "Boss_bow"
+				Globals.load_boss = "Boss_slime"
 			elif "jungle" in Globals.current_scene.name:
 				Globals.load_boss = "Boss_bow"
 			else:

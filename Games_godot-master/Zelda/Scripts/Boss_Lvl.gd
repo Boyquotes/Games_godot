@@ -12,5 +12,3 @@ func _ready():
 	Globals.enemy_id.push_front(str(Globals.boss))
 	Globals.enemy_hp.push_front(Globals.boss_hp_modifier)
 	Globals.enemies.push_front(Globals.boss)
-
-	print("boss_entity ", Globals.entities)

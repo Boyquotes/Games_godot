@@ -135,7 +135,7 @@ func remove_enemy(i):
 	if "Boss" in Globals.entities[i].name:
 		Globals.drop(self.position, 1, 1)
 	else:
-		Globals.drop(self.position, 1, 0)
+		Globals.drop(self.position, null, null)
 	Globals.enemies[i].queue_free()
 	Globals.enemy_id.remove(i)
 	Globals.enemy_hp.remove(i)

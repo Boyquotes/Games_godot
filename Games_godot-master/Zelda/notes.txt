@@ -1,17 +1,21 @@
 --IDEAS--
-	- refactor ailments.gd for bosses ||done||
+	- refactor ailments.gd for bosses ||-||
+	- damage numbers
 	- procedural levels ? -- assignment 5 
 	- special items drop from boss (higher ilvl?)
 	- different fire modes (pwrups), more enemies spawned (testing)
 	- visible armor
-	- find a solution to cleanly transfer variables from scene to scene (load inventory+items and entities into singleton)
 	- change boss reroll (rarity) depending on something (kills?)
 	- make shop scene for ammo and/or other stuff
 
+--CODE REFAC--
+	- change scene func
+ 	- find a solution to cleanly transfer variables from scene to scene (load inventory+items and entities into singleton)
+
 NOTES 09/08/22
-	- slime boss still jumps OOB ||BUG||
-	- bow boss behaves weirdly ||BUG||
-	- lightning enemies take way too much dmg somehow ||BUG||
+	- slime boss still jumps OOB ||BUG|| (put animation in one anim -> queuing fucks it somehow maybe)
+	- bow boss behaves weirdly ||-||
+	- lightning enemies take way too much dmg somehow ||-|| (balancing issue)
 	- res goes over max into -value (fire res on dragon chest) ||-||
 
 NOTES 06/08/22

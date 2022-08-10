@@ -5,6 +5,7 @@ onready var attack = false
 var boss_move_vec = Vector2()
 var boss_move_speed = 3
 onready var dir = Vector2.RIGHT
+var coll
 
 
 func _ready():
@@ -69,9 +70,17 @@ func jump_sequence(n):
 	$Aggro_range/aggro_coll.set_deferred("disabled", true)
 	jump_attack(10)
 	for i in n:
-		yield(get_tree().create_timer(3), "timeout")
-		jump_attack(10)
-
+		if coll:
+			if dir == Vector2.RIGHT:
+				dir = Vector2.LEFT
+			else:
+				dir = Vector2.RIGHT
+			yield(get_tree().create_timer(3), "timeout")
+			jump_attack(3)
+			coll = false
+		else:
+			yield(get_tree().create_timer(3), "timeout")
+			jump_attack(10)
 	yield(get_tree().create_timer(3), "timeout")
 	$Aggro_range/aggro_coll.disabled = false
 	attack = false
@@ -79,26 +88,25 @@ func jump_sequence(n):
 func rnd_landing_height(pos):
 	var rand = RandomNumberGenerator.new()
 	var landing_height
+	var y_landing_range = rand.randf_range(-50, 50)
+	var x_landing_range = rand.randf_range(100, 210)
 
 	if dir == Vector2.RIGHT:
-		landing_height = [Vector2(pos.x+210, pos.y), Vector2(pos.x+210, pos.y-10), Vector2(pos.x+210, pos.y+10), Vector2(pos.x+210, pos.y+20), Vector2(pos.x+210, pos.y-20)]
+		landing_height = Vector2(pos.x+x_landing_range, pos.y+y_landing_range)
 	else:
-		landing_height = [Vector2(pos.x-210, pos.y), Vector2(pos.x-210, pos.y-10), Vector2(pos.x-210, pos.y+10), Vector2(pos.x-210, pos.y+20), Vector2(pos.x-210, pos.y-20)]
+		landing_height = Vector2(pos.x-x_landing_range, pos.y+y_landing_range)
 
 	rand.randomize()
 
-	return landing_height[rand.randf_range(0, landing_height.size())]
+	return landing_height
 
 func _on_coll_area_body_shape_entered(body_id, body, body_shape, local_shape):
 	var jumps = rnd_jumps()
-	
+
 	if "Level_TileMap" in body.name:
-		print("slimeCOLL")
 		anim.stop(true)
-		if dir == Vector2.RIGHT:
-			dir = Vector2.LEFT
-		else:
-			dir = Vector2.RIGHT
-		call_deferred("jump_attack", 3)
+		attack = false
+		print("coll")
+		coll = true
 	if "Player" in body.name:
 		body.loose_hp(Globals.enemy_dmg_modifier*2)

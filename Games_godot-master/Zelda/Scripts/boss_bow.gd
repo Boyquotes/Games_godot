@@ -53,28 +53,26 @@ func rnd_boss_dir():
 	else:
 		return
 
-func bow_attack_cd(cd, n, mode):
-	if mode == "single":
-		for i in n:
-			yield(get_tree().create_timer(cd), "timeout")
-			if attack_anim == false:
-				break
-			else:
-				single_arrow_attack()
-	elif mode == "multi":
-		for i in n:
-			yield(get_tree().create_timer(cd), "timeout")
-			if attack_anim == false:
-				break
-			else:
-				multi_arrow_attack()
+func bow_attack_cd(cd, n):
+	for i in n:
+		yield(get_tree().create_timer(cd), "timeout")
+		if dir_to_player.x > 0:
+			self.get_node("boss_sprite").set_flip_h(false)
+		else:
+			self.get_node("boss_sprite").set_flip_h(true)
+		if attack_anim == false:
+			break
+		elif $hp_bar.value <= $hp_bar.max_value/2:
+			multi_arrow_attack()
+		else:
+			single_arrow_attack()
 
 func single_arrow_attack():
 	var arrow = load("res://Scenes/arrow_boss_weapon.tscn").instance()
 	arrow.attack_mode = "single"
 	Globals.current_scene.add_child(arrow)
 	arrow.position = self.position
-	
+
 func multi_arrow_attack():
 	var rotation = -70
 	for arrow in 5:
@@ -92,11 +90,7 @@ func _on_aggro_range_body_shape_entered(body_id, body, body_shape, local_shape):
 		attack_anim = true
 		if run_anim == true:
 				anim_boss.stop(false)
-		if dir_to_player.x > 0:
-			self.get_node("boss_sprite").set_flip_h(false)
-		else:
-			self.get_node("boss_sprite").set_flip_h(true)
-		bow_attack_cd(1, 3, "multi")
+		bow_attack_cd(1,99)
 	else:
 		return
 
