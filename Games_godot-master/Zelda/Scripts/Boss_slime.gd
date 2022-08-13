@@ -24,6 +24,7 @@ func _physics_process(delta):
 		return
 
 func jump_attack(jump_height):
+	print(dir)
 	var pos = self.position
 	var set_landing = rnd_landing_height(pos)
 	var mod = jump_height
@@ -75,9 +76,11 @@ func jump_sequence(n):
 				dir = Vector2.LEFT
 			else:
 				dir = Vector2.RIGHT
+			break
 			yield(get_tree().create_timer(3), "timeout")
 			jump_attack(3)
 			coll = false
+#			$coll_area.monitoring = true
 		else:
 			yield(get_tree().create_timer(3), "timeout")
 			jump_attack(10)
@@ -104,9 +107,12 @@ func _on_coll_area_body_shape_entered(body_id, body, body_shape, local_shape):
 	var jumps = rnd_jumps()
 
 	if "Level_TileMap" in body.name:
+		coll = true
 		anim.stop(true)
 		attack = false
 		print("coll")
-		coll = true
+#		$coll_area.set_deferred("monitoring", false)
+		
+		
 	if "Player" in body.name:
 		body.loose_hp(Globals.enemy_dmg_modifier*2)
