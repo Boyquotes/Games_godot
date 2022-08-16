@@ -83,7 +83,7 @@ func player_movement():
 		weapon_dir = "LEFT"
 	if move_vec == Vector2.ZERO:
 		is_moving = false
-		anim_player.play("idle_caster_chest")
+		anim_player.play("Idle")
 	else:
 		is_moving = true
 	if Input.is_action_just_pressed("attack"):

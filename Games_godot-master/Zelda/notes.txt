@@ -13,7 +13,7 @@
  	- find a solution to cleanly transfer variables from scene to scene (load inventory+items and entities into singleton)
 
 NOTES 09/08/22
-	- slime boss still jumps OOB ||BUG|| (put animation in one anim -> queuing fucks it somehow maybe)
+	- slime boss still jumps OOB ||BUG|| (put animation in one anim -> anim queuing fucks it somehow maybe)
 	- bow boss behaves weirdly ||-||
 	- lightning enemies take way too much dmg somehow ||-|| (balancing issue)
 	- res goes over max into -value (fire res on dragon chest) ||-||

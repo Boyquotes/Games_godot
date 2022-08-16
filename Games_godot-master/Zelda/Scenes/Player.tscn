@@ -8,10 +8,9 @@
 [ext_resource path="res://Assets/starter_player_anim_walk_1.png" type="Texture" id=6]
 [ext_resource path="res://Assets/starter_player_anim_walk_back_2.png" type="Texture" id=7]
 [ext_resource path="res://Assets/starter_player_anim_walk_2.png" type="Texture" id=8]
-[ext_resource path="res://Assets/starter_player_anim_one.png" type="Texture" id=9]
 [ext_resource path="res://Assets/Player_weapon_anim/bow_player_back_anim_1.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Player_weapon_anim/bow_player_back_anim_2.png" type="Texture" id=11]
-[ext_resource path="res://Assets/starter_player_tiles.png" type="Texture" id=12]
+[ext_resource path="res://Assets/starter_player_idle_one.png" type="Texture" id=12]
 [ext_resource path="res://Assets/Player_weapon_anim/axe_player_back_anim_2.png" type="Texture" id=13]
 [ext_resource path="res://Assets/Player_weapon_anim/axe_player_back_anim_1.png" type="Texture" id=14]
 [ext_resource path="res://Scripts/Camera.gd" type="Script" id=15]
@@ -21,6 +20,7 @@
 [ext_resource path="res://Assets/Player_weapon_anim/staff_player_anim_walk_back_2.png" type="Texture" id=19]
 [ext_resource path="res://Assets/starter_player_tiles_caster_chest.png" type="Texture" id=20]
 [ext_resource path="res://Assets/starter_player_anim_one_caster_chest.png" type="Texture" id=21]
+[ext_resource path="res://Assets/starter_player_idle_two.png" type="Texture" id=22]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 9.44788
@@ -40,7 +40,19 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 2.37841, 3.03144 ),
 "update": 1,
-"values": [ ExtResource( 12 ), ExtResource( 9 ) ]
+"values": [ ExtResource( 12 ), ExtResource( 22 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Body:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -0.5 ) ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -204,7 +216,8 @@ collision_layer = 3
 script = ExtResource( 2 )
 
 [node name="Body" type="Sprite" parent="."]
-texture = ExtResource( 20 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 12 )
 region_rect = Rect2( 10.9912, 8.49315, 18.127, 19.4797 )
 __meta__ = {
 "_editor_description_": "	
