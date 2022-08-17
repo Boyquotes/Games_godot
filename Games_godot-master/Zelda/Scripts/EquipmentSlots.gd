@@ -55,6 +55,8 @@ func insert_item(pos):
 		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning"), false, item["id"])
 		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical"), false, item["id"])
 		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), false, item["id"])
+		
+		Globals.player.get_node("Body_Armor").texture = ResourceLoader.load("res://Assets/items/starter_chest.png")
 	
 	if slot == $POWERUP:
 		Globals.GUI.buff_effects(item.name, "activate")

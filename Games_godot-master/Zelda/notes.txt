@@ -12,6 +12,9 @@
 	- change scene func
  	- find a solution to cleanly transfer variables from scene to scene (load inventory+items and entities into singleton)
 
+NOTES 17/08/22
+	- stat attribution is a mess (str -> stren)
+
 NOTES 09/08/22
 	- slime boss still jumps OOB ||BUG|| (put animation in one anim -> anim queuing fucks it somehow maybe)
 	- bow boss behaves weirdly ||-||

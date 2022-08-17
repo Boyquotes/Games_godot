@@ -168,6 +168,11 @@ func _deferred_goto_scene(path, spawn):
 			Globals.item_id += 1
 			inventory_items.push_front(weapon)
 			inventory.get_child(0).pickup_item(inventory_items[0])
+			var body_armor = ItemDB.STARTER_ITEMS["1"]
+			body_armor["id"] = Globals.item_id
+			Globals.item_id += 1
+			inventory_items.push_front(body_armor)
+			inventory.get_child(0).pickup_item(inventory_items[0])
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 		
 		player.position = player_spawn_pos

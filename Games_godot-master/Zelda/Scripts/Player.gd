@@ -61,6 +61,7 @@ func player_movement():
 	move_speed = Globals.player_move_speed
 	var move_vec = Vector2()
 	if Input.is_action_pressed("move_down"):
+		self.get_node("Weapon").visible = false
 		move_vec += Vector2.DOWN
 		anim_player.play("walking_front")
 		weapon_dir = "DOWN"
@@ -69,19 +70,24 @@ func player_movement():
 		if !Globals.player_weapon:
 			anim_player.play("walking_back")
 		else:
-			anim_player.play(Globals.player_weapon + "_back")
+			self.get_node("Weapon").visible = true
+			self.get_node("Weapon").texture = ResourceLoader.load("res://Assets/items/" + Globals.player_weapon + ".png")
+			anim_player.play("walking_back")
 		weapon_dir = "UP"
 	if Input.is_action_pressed("move_right"):
+		self.get_node("Weapon").visible = false
 		move_vec = Vector2.RIGHT
 		$Body.set_flip_h(true)
 		anim_player.play("walking_side")
 		weapon_dir = "RIGHT"
 	if Input.is_action_pressed("move_left"):
+		self.get_node("Weapon").visible = false
 		move_vec = Vector2.LEFT
 		$Body.set_flip_h(false)
 		anim_player.play("walking_side")
 		weapon_dir = "LEFT"
 	if move_vec == Vector2.ZERO:
+		self.get_node("Weapon").visible = false
 		is_moving = false
 		anim_player.play("Idle")
 	else:

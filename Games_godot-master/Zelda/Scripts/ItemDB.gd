@@ -39,6 +39,24 @@ const WEAPON = {
 #	}
 }
 
+const STARTER_ITEMS = {
+		"1": {
+		"id": "1",
+		"name": "starter_chest",
+		"icon": ITEM_PATH + "starter_chest.png",
+		"type": "normal",
+		"slot": "CHARACTER",
+		"stren": 10,
+		"intel": 10,
+		"dex": 10,
+		"fire": 10,
+		"cold": 10,
+		"lightning": 10,
+		"physical": 10,
+		"poison": 10
+	}	
+}
+
 const ARMOR = {
 	"1": {
 		"id" : "1",
@@ -103,7 +121,7 @@ const ARMOR = {
 		"lightning": 25,
 		"physical": 25,
 		"poison": 10
-	}
+	},
 }
 
 const BOSS_ARMOR = {
