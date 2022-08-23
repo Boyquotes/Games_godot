@@ -1,4 +1,8 @@
 --IDEAS--
+	- make the game loop make sense/fun to farm (lol) 
+		- balance dmg against resist values
+		- make farming items make sense
+		- upgrades need to feel good (special mods depending on lvl -> torchlight)
 	- refactor ailments.gd for bosses ||-||
 	- damage numbers
 	- procedural levels ? -- assignment 5 

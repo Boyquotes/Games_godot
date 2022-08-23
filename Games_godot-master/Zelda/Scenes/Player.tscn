@@ -23,8 +23,8 @@
 [ext_resource path="res://Assets/starter_player_idle_two.png" type="Texture" id=22]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 9.44788
-height = 13.1901
+radius = 9.58188
+height = 9.99999
 
 [sub_resource type="Animation" id=2]
 resource_name = "Idle"
@@ -218,6 +218,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=11]
 length = 0.6
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body:texture")
 tracks/0/interp = 1
@@ -253,7 +254,7 @@ script = ExtResource( 2 )
 
 [node name="Body" type="Sprite" parent="."]
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 12 )
+texture = ExtResource( 6 )
 region_rect = Rect2( 10.9912, 8.49315, 18.127, 19.4797 )
 __meta__ = {
 "_editor_description_": "	
@@ -262,13 +263,14 @@ __meta__ = {
 
 [node name="Weapon" type="Sprite" parent="."]
 visible = false
+position = Vector2( 0, -2 )
 scale = Vector2( 0.5, 0.5 )
 
 [node name="Body_Armor" type="Sprite" parent="."]
+position = Vector2( 0, -1 )
 scale = Vector2( 0.5, 0.5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 4 )
 shape = SubResource( 1 )
 one_way_collision_margin = 5.0
 

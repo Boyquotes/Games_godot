@@ -343,7 +343,7 @@ func drop(pos, freq, weighting):
 #	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
 	
 	if weighting == null:
-		weighting = drop_weighting({0:0.70, 1:0.15, 2:0.15})
+		weighting = drop_weighting({0:0.15, 1:0.70, 2:0.15})
 	
 	if freq == null:
 		freq = rand.randi_range(0,1)
