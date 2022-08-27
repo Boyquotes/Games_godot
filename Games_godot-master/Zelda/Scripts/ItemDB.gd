@@ -124,6 +124,26 @@ const ARMOR = {
 	},
 }
 
+const GLOVES = {
+	"1": {
+		"id": "1",
+		"name": "leather_gloves",
+		"icon": ITEM_PATH + "gloves_leather.png",
+		"type": "normal",
+		"slot": "GLOVES",
+		"weighting": 1.00,
+		"str": 10,
+		"int": 2,
+		"dex": 10,
+		"fire": 5,
+		"cold": 5,
+		"lightning": 5,
+		"physical": 10,
+		"poison": 2,
+		"special_mod": "attack_speed_up" 
+	}
+}
+
 const BOSS_ARMOR = {
 	"1": {
 		"id": "1",

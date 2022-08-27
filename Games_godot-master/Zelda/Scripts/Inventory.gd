@@ -13,6 +13,7 @@ var last_pos = Vector2()
 var weap_slot_taken = false
 var char_slot_taken = false
 var pwr_slot_taken = false
+var glove_slot_taken = false
 
 func _ready():
 	if Globals.inventory_items.size() > 0:
@@ -87,7 +88,7 @@ func pickup_item(item_id):
 	item.get_node("type").text = item_id["slot"]
 	add_child(item)
 #	print("itemSLOT ",item_id["slot"])
-	if item_id["slot"] == "CHARACTER":
+	if item_id["slot"] == "CHARACTER" or item_id["slot"] == "GLOVES":
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/str/value").text = str(item_id["stren"])
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/dex/value").text = str(item_id["dex"])
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/int/value").text = str(item_id["intel"])
@@ -112,6 +113,9 @@ func pickup_item(item_id):
 	elif !char_slot_taken and item_id["slot"] == "POWERUP" and Globals.player_weapon == "wand":
 		eq_slots.insert_item(item)
 		pwr_slot_taken = true
+	elif !glove_slot_taken and item_id["slot"] == "GLOVES":
+		eq_slots.insert_item(item)
+		glove_slot_taken = true
 	elif !grid_bkpk.insert_item_at_first_available_spot(item):
 		item.queue_free()
 		return false

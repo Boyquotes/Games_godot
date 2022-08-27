@@ -58,6 +58,19 @@ func insert_item(pos):
 		
 		Globals.player.get_node("Body_Armor").texture = ResourceLoader.load("res://Assets/items/" + item.name + ".png")
 #		Globals.player.get_node("Body_Armor").visible = true
+
+	if slot == $GLOVES:
+		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
+		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])
+		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren"), false, item["id"])
+		Globals.current_armor_id = item["id"]
+		
+		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire"), false, item["id"])
+		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold"), false, item["id"])
+		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning"), false, item["id"])
+		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical"), false, item["id"])
+		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), false, item["id"])
+		
 	
 	if slot == $POWERUP:
 		Globals.GUI.buff_effects(item.name, "activate")
@@ -91,6 +104,17 @@ func grab_item(pos):
 		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), item_id)
 		
 		Globals.player.get_node("Body_Armor").texture = null
+		
+	elif item_slot == "GLOVES":
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren"), item_id)
+		
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), item_id)
 		
 	elif item_slot == "POWERUP":
 		Globals.GUI.buff_effects(item, "deactivate")
