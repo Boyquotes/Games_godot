@@ -19,6 +19,7 @@ func _on_dex_pressed():
 	Globals.dex += 1
 
 func attribute_points(stat, lvlup_stats, id):
+#	print("addPoints ", Globals.inventory_items[id].name, " ", stat.name)
 	var i = int(stat.text)
 	if lvlup_stats:
 		var j = int($points_container/points/points_num.text)
@@ -54,6 +55,7 @@ func attribute_points(stat, lvlup_stats, id):
 			stat.text = str(i)
 		
 func remove_points(stat, id):
+#	print("removePoints ", Globals.inventory_items[id].name, " ", stat.name)
 	var i = int(stat.text)
 	if stat.name == "dex" or stat.name == "intel" or stat.name == "stren":
 		for y in Globals.inventory_items:

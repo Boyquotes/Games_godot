@@ -274,6 +274,7 @@ func player_collision():
 				Globals.load_boss = "Boss_slime"
 			Globals.ilvl += 10
 			Globals.goto_scene("res://Scenes/Levels/Boss_Room.tscn", Globals.current_scene.name)
+			Globals.block_attribute_changes = true
 			Globals.portal_spawned = false
 			
 func despawn_drop(coll):

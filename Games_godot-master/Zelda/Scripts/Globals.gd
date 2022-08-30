@@ -64,6 +64,7 @@ var shop_spawned = false
 var regex
 var respawn
 var pwr_upDB
+var block_attribute_changes = false
 
 func _ready():
 	var root = get_tree().get_root()
@@ -100,11 +101,11 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.add_child(Items)
 		player.add_child(inventory)
 		
-		GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
-		GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
-		GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
-		GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
-		GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
+#		GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
+#		GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
+#		GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
+#		GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
+#		GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
 		
 		inventory.get_child(0).rect_position = player.position
 		
@@ -115,7 +116,6 @@ func _deferred_goto_scene(path, spawn):
 				current_scene.get_node("Player_Spawn").position = shop_spawn_pos
 				if portal_spawned:
 					spawn_boss_portal()
-
 #			load change scene
 			player_spawn_pos = current_scene.get_node("Player_Spawn").position
 			GUI.get_node("hp_num").text = str(player_hp)
@@ -125,22 +125,15 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("mana_progress").max_value = max_mana
 			GUI.get_node("mana_progress").value = int(current_mana)
 			GUI.get_node("mana_progress").get_node("mana_value").text = current_mana
-			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), current_armor_id)
-			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), current_armor_id)
-			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren"), current_armor_id)
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
-			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire"), current_armor_id)
-			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold"), current_armor_id)
-			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning"), current_armor_id)
-			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical"), current_armor_id)
-			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), current_armor_id)
 			GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
 			GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
 			GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
 			GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
 			GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
+			
 			if player_weapon == "bow":
 				GUI.get_node("ammo").text = current_ammo
 			GUI.get_node("ammo_num").text = str(current_ammo_num)
@@ -156,8 +149,6 @@ func _deferred_goto_scene(path, spawn):
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
 			enemy_hp_value = 150
-#			player_move_speed = 3
-#			player_pwr = 50
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
 			player_weapon = "3"
@@ -204,6 +195,8 @@ func _deferred_goto_scene(path, spawn):
 			current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
 		current_scene.get_node("ammo_capacity").text = str(ilvl*2)
 		current_scene.get_node("ammo_capacity_two").text = str(ilvl*2)
+		
+	Globals.block_attribute_changes = false
 
 #		Weapons in inventory are still shown in Shop bc only player wep is removed when entering the shop	
 	print_stray_nodes()
@@ -345,18 +338,18 @@ func drop(pos, freq, weighting):
 	if weighting == null:
 		weighting = drop_weighting({0:0.10, 1:0.10, 2:0.10, 3:70})
 	
-	if freq == null:
-		freq = rand.randi_range(0,1)
+#	if freq == null:
+#		freq = rand.randi_range(0,1)
 	
-	if freq == 1:
-		if weighting == 0:
-			drop_pwrup(pos)
-		elif weighting == 1:
-			drop_body_armour(pos, ilvl)
-		elif weighting == 2:
-			drop_weapon(pos, ilvl)
-		elif weighting == 3:
-			drop_gloves(pos, ilvl)
+#	if freq == 1:
+	if weighting == 0:
+		drop_pwrup(pos)
+	elif weighting == 1:
+		drop_body_armour(pos, ilvl)
+	elif weighting == 2:
+		drop_weapon(pos, ilvl)
+	elif weighting == 3:
+		drop_gloves(pos, ilvl)
 	
 func drop_pwrup(pos):
 	var drop_id = str(drop_weighting({1:0.13, 2:0.09, 3:0.13, 4:0.13, 5:0.13, 6:0.13, 7:0.13, 8:0.13}))

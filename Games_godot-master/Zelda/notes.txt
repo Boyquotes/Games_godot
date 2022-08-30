@@ -1,4 +1,6 @@
 --IDEAS--
+	- refactor the base functions -> create templates
+
 	- interesting loot that changes gameplay -> special attacks
 	- more item types -> boots, gloves, rings, helmets (to make it possible to stack resistances)
 	- procedural levels to enable more interesting layouts -> gameplay implications?
@@ -23,6 +25,8 @@
 --CODE REFAC--
 	- change scene func
  	- find a solution to cleanly transfer variables from scene to scene (load inventory+items and entities into singleton)
+NOTES 30/08/22
+	- inventory_items behaves weirdly (error message if trying to print id in some cases) but somehow still works ||BUG||
 
 NOTES 17/08/22
 	- stat attribution is a mess (str -> stren)
