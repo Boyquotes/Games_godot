@@ -40,8 +40,10 @@ var ilvl = 10
 var dropped_items = []
 var dropped = false
 var inventory_items = []
-var current_armor_id
+var current_body_armor_id
 var current_weapon_id
+var current_gloves_id
+var current_boots_id
 var current_ammo
 var current_ammo_num = 0
 var stats
@@ -141,7 +143,6 @@ func _deferred_goto_scene(path, spawn):
 			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
-
 #			ilvl += 10
 
 #		load start scene
@@ -156,12 +157,12 @@ func _deferred_goto_scene(path, spawn):
 			weapon["id"] = Globals.item_id
 			weapon["power"] = 2000
 			weapon["dmg_type"] = "physical"
-			Globals.item_id += 1
+			item_id += 1
 			inventory_items.push_front(weapon)
 			inventory.get_child(0).pickup_item(inventory_items[0])
 			var body_armor = ItemDB.STARTER_ITEMS["1"]
 			body_armor["id"] = Globals.item_id
-			Globals.item_id += 1
+			item_id += 1
 			inventory_items.push_front(body_armor)
 			inventory.get_child(0).pickup_item(inventory_items[0])
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
@@ -295,6 +296,8 @@ func spawn_enemies(pos, type):
 		enemy_id[pos] = (str(enemy))
 		enemies[pos] = enemy
 		entities[pos] = enemy
+		
+		respawn = false
 	
 func spawn_weapon_shop():
 	var rand = RandomNumberGenerator.new()
@@ -336,7 +339,7 @@ func drop(pos, freq, weighting):
 #	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
 	
 	if weighting == null:
-		weighting = drop_weighting({0:0.10, 1:0.10, 2:0.10, 3:70})
+		weighting = drop_weighting({0:0.10, 1:0.70, 2:0.20})
 	
 #	if freq == null:
 #		freq = rand.randi_range(0,1)
@@ -345,11 +348,9 @@ func drop(pos, freq, weighting):
 	if weighting == 0:
 		drop_pwrup(pos)
 	elif weighting == 1:
-		drop_body_armour(pos, ilvl)
+		drop_item(pos, ilvl)
 	elif weighting == 2:
 		drop_weapon(pos, ilvl)
-	elif weighting == 3:
-		drop_gloves(pos, ilvl)
 	
 func drop_pwrup(pos):
 	var drop_id = str(drop_weighting({1:0.13, 2:0.09, 3:0.13, 4:0.13, 5:0.13, 6:0.13, 7:0.13, 8:0.13}))
@@ -379,82 +380,20 @@ func drop_pwrup(pos):
 	dropped_items.push_front(item)
 	item_id += 1
 
-
-func drop_gloves(pos, ilvl):
+func drop_item(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
 	var weighting = {}
 	var num = 1
-	for i in ItemDB.GLOVES:
-		weighting[num] = ItemDB.GLOVES[i].weighting
+	var items = [ItemDB.ARMOR, ItemDB.GLOVES, ItemDB.BOOTS]
+	rand.randomize()
+	var item = items[rand.randi_range(0, items.size()-1)]
+	
+	for i in item:
+		weighting[num] = item[i].weighting
 		num+=1
-
-	item = ItemDB.GLOVES[str(drop_weighting(weighting))]
-	
-	rand.randomize()
-	var stats = [(item["int"] + rand.randi_range(0, ilvl)), (item["str"] + rand.randi_range(0, ilvl)), (item["dex"] + rand.randi_range(0, ilvl))]
-	rand.randomize()
-	var res = [(item["fire"] + rand.randi_range(0, ilvl)), (item["cold"] + rand.randi_range(0, ilvl)), (item["lightning"] + rand.randi_range(0, ilvl)),
-	(item["physical"]+rand.randi_range(0, ilvl)), (item["poison"]+rand.randi_range(0, ilvl))]
-	
-	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()
-	current_scene.call_deferred("add_child", drop)
-	
-	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
-	drop.get_node("drop_sprite").scale.x = 0.5
-	drop.get_node("drop_sprite").scale.y = 0.5
-	
-	drop.position = pos
-	drop.name = "item"
-	
-	drop.get_node("id").text = str(item_id)
 		
-	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("dex").get_node("value").text = str(stats[2])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("str").get_node("value").text = str(stats[1])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("int").get_node("value").text = str(stats[0])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("fire").get_node("value").text = str(res[0])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("cold").get_node("value").text = str(res[1])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("lightning").get_node("value").text = str(res[2])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("physical").get_node("value").text = str(res[3])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("poison").get_node("value").text = str(res[4])
+	item = item[str(drop_weighting(weighting))]
 	
-	var icon = item.icon
-	
-	item = {
-		"id": item_id,
-		"name": item.name,
-		"icon": icon,
-		"type": item.type,
-		"slot": item.slot,
-		"stren": str(stats[1]),
-		"intel": str(stats[0]),
-		"dex": str(stats[2]),
-		"fire": str(res[0]),
-		"cold": str(res[1]),
-		"lightning": str(res[2]),
-		"physical": str(res[3]),
-		"poison": str(res[4]),
-	}
-	
-	dropped_items.push_front(item)
-	item_id += 1
-	
-
-func drop_body_armour(pos, ilvl):
-	var rand = RandomNumberGenerator.new()
-	var weighting = {}
-	var num = 1
-	for i in ItemDB.ARMOR:
-		weighting[num] = ItemDB.ARMOR[i].weighting
-		num+=1
-
-	item = ItemDB.ARMOR[str(drop_weighting(weighting))]
-	
-	if "Boss" in current_scene.name:
-		for i in 50:
-			if item.type != "boss":
-				item = ItemDB.ARMOR[str(drop_weighting(weighting))]
-
 	rand.randomize()
 	var stats = [(item["int"] + rand.randi_range(0, ilvl)), (item["str"] + rand.randi_range(0, ilvl)), (item["dex"] + rand.randi_range(0, ilvl))]
 	rand.randomize()
@@ -465,6 +404,8 @@ func drop_body_armour(pos, ilvl):
 	current_scene.call_deferred("add_child", drop)
 	
 	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
+#	drop.get_node("drop_sprite").scale.x = 0.5
+#	drop.get_node("drop_sprite").scale.y = 0.5
 	
 	drop.position = pos
 	drop.name = "item"

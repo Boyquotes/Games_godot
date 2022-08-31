@@ -9,7 +9,7 @@ func _process(delta):
 func _on_ItemBase_mouse_entered():
 	if $type.text == "WEAPON":
 		$stats_tt/stats_tt_popup/stats/stats_container.visible = true
-	if $type.text == "CHARACTER" or $type.text == "GLOVES":
+	if $type.text == "CHARACTER" or $type.text == "GLOVES" or $type.text == "BOOTS":
 		$stats_tt/stats_tt_popup/stats/stats_container_armor.visible = true
 
 	$stats_tt/stats_tt_popup.rect_position = Vector2(800, 300)

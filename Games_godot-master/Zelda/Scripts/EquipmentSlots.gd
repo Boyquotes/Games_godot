@@ -44,34 +44,27 @@ func insert_item(pos):
 			Globals.GUI.get_node("ammo").text = ""
 			Globals.GUI.get_node("ammo_num").text = ""
 		
-	if slot == $CHARACTER:
-		Globals.player.get_node("Body_Armor").texture = ResourceLoader.load("res://Assets/items/" + item.name + ".png")	
+	if slot == $GLOVES or slot == $BOOTS or slot == $CHARACTER:
+		if slot == $CHARACTER:
+			Globals.player.get_node("Body_Armor").texture = ResourceLoader.load("res://Assets/items/" + item.name + ".png")
+			
 		if !Globals.block_attribute_changes:
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren"), false, item["id"])
-			Globals.current_armor_id = item["id"]
-			
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire"), false, item["id"])
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold"), false, item["id"])
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning"), false, item["id"])
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical"), false, item["id"])
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), false, item["id"])
-		else:
-			return
 
-	if slot == $GLOVES:
-		if !Globals.block_attribute_changes:
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren"), false, item["id"])
-			Globals.current_armor_id = item["id"]
-			
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire"), false, item["id"])
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold"), false, item["id"])
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning"), false, item["id"])
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical"), false, item["id"])
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), false, item["id"])
+			
+			if slot == $CHARACTER:
+				Globals.current_body_armor_id = item["id"]
+			if slot == $BOOTS:
+				Globals.current_boots_id = item["id"]
+			if slot == $GLOVES:
+				Globals.current_gloves_id = item["id"]
 		else:
 			return
 	
@@ -92,10 +85,14 @@ func grab_item(pos):
 			item_slot = i["slot"]
 			item_id = i["id"]
 	items[item_slot] = null
+	
 	if item_slot == "WEAPON":
 		Globals.player_weapon = null
 		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), item_id)
-	elif item_slot == "CHARACTER":
+	elif item_slot == "CHARACTER" or item_slot == "GLOVES" or item_slot == "BOOTS":
+		if item_slot == "CHARACTER":
+			Globals.player.get_node("Body_Armor").texture = null
+			
 		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), item_id)
 		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), item_id)
 		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren"), item_id)
@@ -105,23 +102,10 @@ func grab_item(pos):
 		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning"), item_id)
 		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical"), item_id)
 		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), item_id)
-		
-		Globals.player.get_node("Body_Armor").texture = null
-		
-	elif item_slot == "GLOVES":
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), item_id)
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), item_id)
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren"), item_id)
-		
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire"), item_id)
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold"), item_id)
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning"), item_id)
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical"), item_id)
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), item_id)
+
 		
 	elif item_slot == "POWERUP":
 		Globals.GUI.buff_effects(item, "deactivate")
-		
 
 	return item
 

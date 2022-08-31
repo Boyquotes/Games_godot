@@ -102,12 +102,13 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			Globals.enemy_hp_value += 10
 			Globals.num_of_enemies(5)
 			Globals.entities.clear()
+			Globals.respawn = true
 			Globals.spawn_enemy_type()
 			Globals.enemy_res_modifier += 2
 			Globals.enemy_dmg_modifier += 2
 			Globals.boss_res_modifier += 2
 #			Globals.ilvl += 5
-			Globals.respawn = true
+#			Globals.respawn = true
 			Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
 			Globals.portal_spawned = false
 
