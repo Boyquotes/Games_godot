@@ -103,12 +103,6 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.add_child(Items)
 		player.add_child(inventory)
 		
-#		GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
-#		GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
-#		GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
-#		GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
-#		GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
-		
 		inventory.get_child(0).rect_position = player.position
 		
 		if prev_scene != "start_screen" and prev_scene != "game_over_screen" and prev_scene != "game_won_screen" and path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn" and path != "res://Scenes/pwr_up_screen.tscn":

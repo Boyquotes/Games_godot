@@ -1,4 +1,5 @@
 --IDEAS--
+	- make special mods appear on items
 	- refactor the base functions -> create templates
 
 	- interesting loot that changes gameplay -> special attacks
@@ -25,6 +26,7 @@
 --CODE REFAC--
 	- change scene func
  	- find a solution to cleanly transfer variables from scene to scene (load inventory+items and entities into singleton)
+
 
 NOTES 31/08/22
 	- respawn var fucks up scene change func (gloves/boots id is the prob) ||-||
