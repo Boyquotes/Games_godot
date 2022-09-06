@@ -151,6 +151,7 @@ func _deferred_goto_scene(path, spawn):
 			weapon["id"] = Globals.item_id
 			weapon["power"] = 2000
 			weapon["dmg_type"] = "physical"
+			weapon["special"] = ""
 			item_id += 1
 			inventory_items.push_front(weapon)
 			inventory.get_child(0).pickup_item(inventory_items[0])
@@ -333,7 +334,7 @@ func drop(pos, freq, weighting):
 #	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
 	
 	if weighting == null:
-		weighting = drop_weighting({0:0.10, 1:0.70, 2:0.20})
+		weighting = drop_weighting({0:0.10, 1:0.10, 2:0.80})
 	
 #	if freq == null:
 #		freq = rand.randi_range(0,1)
@@ -442,7 +443,6 @@ func drop_weapon(pos, ilvl):
 	rand.randomize()
 	
 	item = ItemDB.WEAPON[str(rand.randi_range(1, ItemDB.WEAPON.size()))]
-#	item = ItemDB.WEAPON["3"]
 		
 	var potency = (rand.randi_range((ilvl*2), (ilvl*3)))*3
 	var dmg_types = ["fire", "cold", "lightning", "physical", "poison"]
@@ -460,14 +460,38 @@ func drop_weapon(pos, ilvl):
 	var item_name = item.name
 	var icon = item.icon
 	
+	rand.randomize()
+	
+	var special_chance = rand.randi_range(0, 1)
+	var special 
+	
+	if special_chance == 1:
+		var temp_type_arr = []
+		for i in ItemDB.WEP_SPECIAL:
+			if ItemDB.WEP_SPECIAL[i]["type"] == item["type"]:
+				temp_type_arr.push_front(ItemDB.WEP_SPECIAL[i])
+		if temp_type_arr.size() == 0:
+			temp_type_arr.push_front({"power": "ERROR: no Power available"})
+
+		special = temp_type_arr[rand.randi_range(0, temp_type_arr.size()-1)]["power"]
+		drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("special_wep").visible = true
+		drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("special_wep").text = special
+	else:
+		special = false
+		drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("special_wep").visible = false
+		
 	item = {
 		"id": item_id,
 		"icon": icon,
 		"name": item_name,
 		"slot": item.slot,
 		"power": potency,
-		"dmg_type": dmg_types[dmg_type]
+		"dmg_type": dmg_types[dmg_type],
+#		"special": special
 	}
+	
+	if special:
+		item["special"] = special
 	
 	dropped_items.push_front(item)
 	item_id += 1

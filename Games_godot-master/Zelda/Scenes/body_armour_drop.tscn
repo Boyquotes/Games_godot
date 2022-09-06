@@ -36,10 +36,11 @@ __meta__ = {
 
 [node name="stats" type="TextureRect" parent="stats_tt"]
 margin_right = 124.0
-margin_bottom = 200.0
+margin_bottom = 213.0
 rect_scale = Vector2( 0.5, 0.5 )
 mouse_filter = 2
 texture = ExtResource( 2 )
+expand = true
 
 [node name="item_name" type="Label" parent="stats_tt/stats"]
 margin_top = 5.0
@@ -102,21 +103,21 @@ margin_left = 40.0
 margin_right = 80.0
 margin_bottom = 14.0
 
-[node name="res" type="Label" parent="stats_tt/stats/stats_container"]
+[node name="res" type="VBoxContainer" parent="stats_tt/stats/stats_container"]
 margin_top = 54.0
 margin_right = 124.0
-margin_bottom = 68.0
-text = "Res"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_bottom = 158.0
+
+[node name="Label" type="Label" parent="stats_tt/stats/stats_container/res"]
+margin_right = 124.0
+margin_bottom = 14.0
+text = "RESISTANCES"
 
 [node name="fire" type="Label" parent="stats_tt/stats/stats_container/res"]
-margin_top = 15.0
-margin_right = 25.0
-margin_bottom = 29.0
-text = "fire
-:"
+margin_top = 18.0
+margin_right = 124.0
+margin_bottom = 32.0
+text = "fire:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -125,11 +126,14 @@ __meta__ = {
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="cold" type="Label" parent="stats_tt/stats/stats_container/res"]
-margin_top = 30.0
-margin_right = 25.0
-margin_bottom = 44.0
+margin_top = 36.0
+margin_right = 124.0
+margin_bottom = 50.0
 text = "cold:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -141,9 +145,9 @@ margin_right = 120.0
 margin_bottom = 14.0
 
 [node name="lightning" type="Label" parent="stats_tt/stats/stats_container/res"]
-margin_top = 45.0
-margin_right = 25.0
-margin_bottom = 59.0
+margin_top = 54.0
+margin_right = 124.0
+margin_bottom = 68.0
 text = "lightning:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -155,9 +159,9 @@ margin_right = 120.0
 margin_bottom = 14.0
 
 [node name="physical" type="Label" parent="stats_tt/stats/stats_container/res"]
-margin_top = 60.0
-margin_right = 40.0
-margin_bottom = 74.0
+margin_top = 72.0
+margin_right = 124.0
+margin_bottom = 86.0
 text = "physical:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -169,9 +173,9 @@ margin_right = 120.0
 margin_bottom = 14.0
 
 [node name="poison" type="Label" parent="stats_tt/stats/stats_container/res"]
-margin_top = 75.0
-margin_right = 40.0
-margin_bottom = 89.0
+margin_top = 90.0
+margin_right = 124.0
+margin_bottom = 104.0
 text = "poison:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -184,6 +188,11 @@ margin_bottom = 14.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="special_arm" type="Label" parent="stats_tt/stats/stats_container"]
+margin_top = 162.0
+margin_right = 124.0
+margin_bottom = 176.0
 
 [node name="Despawn_Timer" type="Timer" parent="."]
 wait_time = 5.0

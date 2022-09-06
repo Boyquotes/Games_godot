@@ -7,14 +7,17 @@ const WEAPON = {
 		"icon": ITEM_PATH + "bow.png",
 		"name": "bow",
 		"slot": "WEAPON",
-		"power": 15
+		"power": 15,
+		"type": "bow"
 	},
 	"2": {
 		"id": "2",
 		"icon": ITEM_PATH + "axe.png",
 		"name": "axe",
 		"slot": "WEAPON",
-		"power": 20
+		"power": 20,
+		"special": null,
+		"type": "axe"
 	},
 #	"staff": {
 #		"icon": ITEM_PATH + "staff.png",
@@ -28,7 +31,9 @@ const WEAPON = {
 		"icon": ITEM_PATH + "wand.png",
 		"name": "wand",
 		"slot": "WEAPON",
-		"power": 5
+		"power": 5,
+		"special": null,
+		"type": "wand"
 	},
 #	"fire": {
 #		"icon": ITEM_PATH + "wand.png",
@@ -37,6 +42,29 @@ const WEAPON = {
 #		"dmg": "cold",
 #		"pot": 20
 #	}
+}
+
+const WEP_SPECIAL = {
+	"1": {
+		"id": "1",
+		"type": "wand",
+		"power": "multi_proj"
+		},
+	"2": {
+		"id": "2",
+		"type": "wand",
+		"power": "speed_proj"
+		},
+	"3": {
+		"id": "3",
+		"type": "bow",
+		"power": "velo_proj"
+		},
+	"4": {
+		"id": "4",
+		"type": "axe",
+		"power": "bleed_chance"
+		},
 }
 
 const STARTER_ITEMS = {
@@ -72,7 +100,7 @@ const ARMOR = {
 		"cold": 5,
 		"lightning": 5,
 		"physical": 5,
-		"poison": 5
+		"poison": 5,
 	},
 	"2": {
 		"id": "2",

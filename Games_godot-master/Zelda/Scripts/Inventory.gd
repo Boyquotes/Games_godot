@@ -109,15 +109,17 @@ func pickup_item(item_id):
 		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
 	if item_id["slot"] == "WEAPON":
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container/power/value").text = str(item_id["power"])
+		if item_id.has("special"):
+			item.get_node("stats_tt/stats_tt_popup/stats/stats_container/special_wep").text = str(item_id["special"])
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container/dmg_type/value").text = str(item_id["dmg_type"])
 		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
 	if item_id["slot"] == "POWERUP":
 		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
+
 	if !weap_slot_taken and item_id["slot"] == "WEAPON":
 		eq_slots.insert_item(item)
 		weap_slot_taken = true
 	elif !char_slot_taken and item_id["slot"] == "CHARACTER":
-		print("equipArmor")
 		eq_slots.insert_item(item)
 		char_slot_taken = true
 	elif !char_slot_taken and item_id["slot"] == "POWERUP" and Globals.player_weapon == "wand":

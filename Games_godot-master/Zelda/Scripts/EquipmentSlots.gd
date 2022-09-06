@@ -31,6 +31,8 @@ func insert_item(pos):
 	if slot == $WEAPON:
 		Globals.player_weapon = item["name"]
 		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), false, item["id"])
+		if item.has("special"):
+			Globals.player.special = item["special"]
 #		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_screen").get_node("dmg_type").get_node("power"), false, item["id"])
 		Globals.current_weapon_id = item["id"]
 		

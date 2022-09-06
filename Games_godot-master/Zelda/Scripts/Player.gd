@@ -18,6 +18,7 @@ var dmg_up = false
 var is_moving = true
 var cooldown = false
 var bleed_dmg_modifier
+var special = false
 
 var weapon = preload("res://Scenes/Weapon.tscn")
 
@@ -438,6 +439,8 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				weapon.velocity = Vector2.LEFT
 		
 		if Globals.player_weapon == "wand":
+			if special:
+				print("special attack ", special)
 			var wand
 			var mana_cost = 10
 			if mana_progress.value > mana_cost:

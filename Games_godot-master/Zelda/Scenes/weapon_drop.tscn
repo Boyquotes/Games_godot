@@ -27,7 +27,6 @@ __meta__ = {
 shape = SubResource( 1 )
 
 [node name="stats_tt" type="Popup" parent="."]
-visible = true
 margin_right = 124.0
 margin_bottom = 124.0
 mouse_filter = 1
@@ -91,6 +90,11 @@ margin_bottom = 14.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="special_wep" type="Label" parent="stats_tt/stats/stats_container"]
+margin_top = 36.0
+margin_right = 124.0
+margin_bottom = 50.0
 
 [node name="Despawn_Timer" type="Timer" parent="."]
 wait_time = 10.0
