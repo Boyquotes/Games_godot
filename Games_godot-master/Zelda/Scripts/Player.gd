@@ -439,13 +439,14 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				weapon.velocity = Vector2.LEFT
 		
 		if Globals.player_weapon == "wand":
-			if special:
-				print("special attack ", special)
 			var wand
 			var mana_cost = 10
 			if mana_progress.value > mana_cost:
 				Globals.current_scene.add_child(weapon)
 				weapon.position = self.position
+				if special:
+					if special == "multi_proj":
+						wand_multi_proj(wand)
 				if Globals.wand_proj != null:
 					wand = load("res://Assets/" + Globals.wand_proj + ".png")
 					if "fire" in Globals.wand_proj: 
@@ -495,6 +496,25 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 		$mana_fill_timer.start()
 	else:
 		$mana_fill_timer.stop()
-				
-				
+		
+func wand_multi_proj(wand):
+	wand = load("res://Assets/wand_attack.png")
+	
+	var multi_proj_one = load("res://Scenes/Weapon.tscn").instance()
+	var multi_proj_two = load("res://Scenes/Weapon.tscn").instance()
+	
+	var multi_projs = [multi_proj_one, multi_proj_two]
+	
+	for i in multi_projs:
+		Globals.current_scene.add_child(i)
+		i.get_node("weapon").set_texture(wand)
+		i.position = self.position
+	
+	if $Body.is_flipped_h():
+		multi_proj_one.velocity = Vector2(1,0).rotated(-75)
+		multi_proj_two.velocity = Vector2(1,0).rotated(75)
+	else:
+		multi_proj_one.velocity = Vector2(-1,0).rotated(-75)
+		multi_proj_two.velocity = Vector2(-1,0).rotated(75)
+
 
