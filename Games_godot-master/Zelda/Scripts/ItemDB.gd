@@ -44,29 +44,6 @@ const WEAPON = {
 #	}
 }
 
-const WEP_SPECIAL = {
-	"1": {
-		"id": "1",
-		"type": "wand",
-		"power": "multi_proj"
-		},
-	"2": {
-		"id": "2",
-		"type": "wand",
-		"power": "speed_proj"
-		},
-	"3": {
-		"id": "3",
-		"type": "bow",
-		"power": "velo_proj"
-		},
-	"4": {
-		"id": "4",
-		"type": "axe",
-		"power": "bleed_chance"
-		},
-}
-
 const STARTER_ITEMS = {
 		"1": {
 		"id": "1",
@@ -82,7 +59,7 @@ const STARTER_ITEMS = {
 		"lightning": 10,
 		"physical": 10,
 		"poison": 10
-	}	
+	},	
 }
 
 const ARMOR = {
@@ -344,6 +321,42 @@ const BOSS_ARMOR = {
 		"physical": 25,
 		"poison": 10
 	}
+}
+
+const WEP_SPECIAL = {
+	"1": {
+		"id": "1",
+		"type": "wand",
+		"power": "multi_proj"
+		},
+	"2": {
+		"id": "2",
+		"type": "wand",
+		"power": "speed_proj"
+		},
+	"3": {
+		"id": "3",
+		"type": "bow",
+		"power": "velo_proj"
+		},
+	"4": {
+		"id": "4",
+		"type": "axe",
+		"power": "bleed_chance"
+		},
+}
+
+const ARMOR_SPECIAL = {
+	"1": {
+		"id": "1",
+		"type": "normal",
+		"power": "mana_reg"
+		},
+	"2": {
+		"id": "2",
+		"type": "normal",
+		"power": "life_reg"
+		},
 }
 
 const PWRUP = {

@@ -107,10 +107,12 @@ func pickup_item(item_id):
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/res/physical/value").text = str(item_id["physical"])
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/res/poison/value").text = str(item_id["poison"])
 		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
+		if item_id.has("special"):
+			item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/special_armor_mod").text = str(item_id["special"])
 	if item_id["slot"] == "WEAPON":
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container/power/value").text = str(item_id["power"])
 		if item_id.has("special"):
-			item.get_node("stats_tt/stats_tt_popup/stats/stats_container/special_wep").text = str(item_id["special"])
+			item.get_node("stats_tt/stats_tt_popup/stats/stats_container/special_weapon_mod").text = str(item_id["special"])
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container/dmg_type/value").text = str(item_id["dmg_type"])
 		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
 	if item_id["slot"] == "POWERUP":

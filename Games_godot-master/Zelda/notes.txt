@@ -1,7 +1,6 @@
 --IDEAS--
 	- make special mods appear on items
 	- refactor the base functions -> create templates
-
 	- interesting loot that changes gameplay -> special attacks
 	- more item types -> boots, gloves, rings, helmets (to make it possible to stack resistances)
 	- procedural levels to enable more interesting layouts -> gameplay implications?
@@ -23,10 +22,16 @@
 	- change boss reroll (rarity) depending on something (kills?)
 	- make shop scene for ammo and/or other stuff
 
---CODE REFAC--
+--CODE REFAC--	
+	- KILL ALL GLOBAL FUNCTIONS
 	- change scene func
  	- find a solution to cleanly transfer variables from scene to scene (load inventory+items and entities into singleton)
 
+NOTES 10/09/22
+	- item armor drops gets not assigned to item for some reason -> smth (which makes item = null) happens between func call of drop_armor and func call for adding mods
+		- don't use variables with the same name (item is globally available as well as in the drop_armor func which is why the globals fund does not get updated)
+		- better yet -> don't use global functions
+	- drop tooltips get clipped by wall tiles ||BUG||
 
 NOTES 31/08/22
 	- respawn var fucks up scene change func (gloves/boots id is the prob) ||-||

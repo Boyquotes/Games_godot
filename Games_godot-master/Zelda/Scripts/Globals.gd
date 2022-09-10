@@ -334,7 +334,7 @@ func drop(pos, freq, weighting):
 #	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
 	
 	if weighting == null:
-		weighting = drop_weighting({0:0.10, 1:0.10, 2:0.80})
+		weighting = drop_weighting({0:0.10, 1:0.80, 2:0.10})
 	
 #	if freq == null:
 #		freq = rand.randi_range(0,1)
@@ -378,16 +378,15 @@ func drop_pwrup(pos):
 func drop_item(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
 	var weighting = {}
-	var num = 1
-	var items = [ItemDB.ARMOR, ItemDB.GLOVES, ItemDB.BOOTS]
+	var item_types = [ItemDB.ARMOR, ItemDB.GLOVES, ItemDB.BOOTS]
 	rand.randomize()
-	var item = items[rand.randi_range(0, items.size()-1)]
+	var item_type = item_types[rand.randi_range(0, item_types.size()-1)]
 	
-	for i in item:
-		weighting[num] = item[i].weighting
-		num+=1
+	for i in item_type:
+		weighting[i] = item_type[i].weighting
+#		num+=1
 		
-	item = item[str(drop_weighting(weighting))]
+	item = item_type[str(drop_weighting(weighting))]
 	
 	rand.randomize()
 	var stats = [(item["int"] + rand.randi_range(0, ilvl)), (item["str"] + rand.randi_range(0, ilvl)), (item["dex"] + rand.randi_range(0, ilvl))]
@@ -433,10 +432,12 @@ func drop_item(pos, ilvl):
 		"lightning": str(res[2]),
 		"physical": str(res[3]),
 		"poison": str(res[4]),
+		"special": special_mod(rand, drop, ItemDB.ARMOR_SPECIAL, "armor_special")
 	}
 	
 	dropped_items.push_front(item)
 	item_id += 1
+
 
 func drop_weapon(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
@@ -460,40 +461,42 @@ func drop_weapon(pos, ilvl):
 	var item_name = item.name
 	var icon = item.icon
 	
-	rand.randomize()
-	
-	var special_chance = rand.randi_range(0, 1)
-	var special 
-	
-	if special_chance == 1:
-		var temp_type_arr = []
-		for i in ItemDB.WEP_SPECIAL:
-			if ItemDB.WEP_SPECIAL[i]["type"] == item["type"]:
-				temp_type_arr.push_front(ItemDB.WEP_SPECIAL[i])
-		if temp_type_arr.size() == 0:
-			temp_type_arr.push_front({"power": "ERROR: no Power available"})
-
-		special = temp_type_arr[rand.randi_range(0, temp_type_arr.size()-1)]["power"]
-		drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("special_wep").visible = true
-		drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("special_wep").text = special
-	else:
-		special = false
-		drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("special_wep").visible = false
-		
 	item = {
 		"id": item_id,
 		"icon": icon,
 		"name": item_name,
+		"type": item.type,
 		"slot": item.slot,
 		"power": potency,
 		"dmg_type": dmg_types[dmg_type],
-#		"special": special
+		"special": special_mod(rand, drop, ItemDB.WEP_SPECIAL, "special_wep")
 	}
-	
-	if special:
-		item["special"] = special
 	
 	dropped_items.push_front(item)
 	item_id += 1
+
+func special_mod(rand, drop, armor_type, node):
+	var special
+	rand.randomize()
+
+	var special_chance = rand.randi_range(0, 1)
+
+	if special_chance == 1:
+		var temp_type_arr = []
+		for i in armor_type:
+			if armor_type[i]["type"] == item["type"]:
+				temp_type_arr.push_front(armor_type[i])
+		if temp_type_arr.size() == 0:
+			temp_type_arr.push_front({"power": "ERROR: no Power available"})
+
+		special = temp_type_arr[rand.randi_range(0, temp_type_arr.size()-1)]["power"]
+		drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node(node).visible = true
+		drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node(node).text = special
+		item["special"] = special
+	else:
+		special = ""
+		drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node(node).visible = false
+
+	return special
 
 

@@ -201,7 +201,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="special_arm" type="Label" parent="stats_tt/stats_tt_popup/stats/stats_container_armor"]
+[node name="special_armor_mod" type="Label" parent="stats_tt/stats_tt_popup/stats/stats_container_armor"]
 margin_top = 162.0
 margin_right = 82.0
 margin_bottom = 176.0
@@ -250,7 +250,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="special_wep" type="Label" parent="stats_tt/stats_tt_popup/stats/stats_container"]
+[node name="special_weapon_mod" type="Label" parent="stats_tt/stats_tt_popup/stats/stats_container"]
 margin_top = 36.0
 margin_right = 124.0
 margin_bottom = 50.0
