@@ -307,6 +307,9 @@ position = Vector2( -5.83478, 0.0595398 )
 [node name="mana_fill_timer" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="life_fill_timer" type="Timer" parent="."]
+wait_time = 0.5
+
 [node name="pwr_up_timer" type="Timer" parent="."]
 
 [node name="poison_timer" type="Timer" parent="."]
@@ -325,6 +328,7 @@ one_shot = true
 
 [connection signal="timeout" from="invuln_timer" to="." method="_on_invuln_timer_timeout"]
 [connection signal="timeout" from="mana_fill_timer" to="." method="_on_mana_fill_timer_timeout"]
+[connection signal="timeout" from="life_fill_timer" to="." method="_on_life_fill_timer_timeout"]
 [connection signal="timeout" from="pwr_up_timer" to="." method="_on_pwr_up_timer_timeout"]
 [connection signal="timeout" from="poison_timer" to="." method="_on_poison_timer_timeout"]
 [connection signal="timeout" from="bleed_timer" to="." method="_on_bleed_timer_timeout"]

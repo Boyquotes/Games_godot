@@ -27,6 +27,9 @@
 	- change scene func
  	- find a solution to cleanly transfer variables from scene to scene (load inventory+items and entities into singleton)
 
+NOTES 13/09/22
+	- make life reg function the same as mana reg (or the other way around maybe)
+
 NOTES 10/09/22
 	- item armor drops gets not assigned to item for some reason -> smth (which makes item = null) happens between func call of drop_armor and func call for adding mods
 		- don't use variables with the same name (item is globally available as well as in the drop_armor func which is why the globals fund does not get updated)

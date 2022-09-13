@@ -7,7 +7,7 @@ var player_spawn_pos = null
 var player_weapon = false
 var starter_weapon = true
 var wand_proj = null
-var player_hp = 300000
+var player_hp = 300
 var player_xp = 0
 var player_lvl = 0
 var player_pwr = 0
@@ -334,7 +334,7 @@ func drop(pos, freq, weighting):
 #	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
 	
 	if weighting == null:
-		weighting = drop_weighting({0:0.10, 1:0.80, 2:0.10})
+		weighting = drop_weighting({0:0.10, 1:0.45, 2:0.45})
 	
 #	if freq == null:
 #		freq = rand.randi_range(0,1)

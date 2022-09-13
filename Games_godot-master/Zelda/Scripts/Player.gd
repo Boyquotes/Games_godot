@@ -372,6 +372,14 @@ func _on_mana_fill_timer_timeout():
 		mana_progress.get_node("mana_value").text = str(mana_progress.value)
 	else:
 		$mana_fill_timer.stop()
+		
+func _on_life_fill_timer_timeout():
+	if Globals.GUI.get_node("hp_visual").value != Globals.GUI.get_node("hp_visual").max_value: 
+		Globals.GUI.get_node("hp_visual").value += Globals.GUI.get_node("hp_visual").step
+		Globals.GUI.get_node("hp_num").text = str(Globals.GUI.get_node("hp_visual").value)
+		print("lifeReg")
+#	else:
+#		$life_fill_timer.stop()
 
 #currently not in use
 func weapon_achievement_anim(weapons_tile_name, coll, cell):
