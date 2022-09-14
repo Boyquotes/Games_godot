@@ -20,9 +20,13 @@ var cooldown = false
 var bleed_dmg_modifier
 var special = false
 
+var num
+
 var weapon = preload("res://Scenes/Weapon.tscn")
 
 func _ready():
+	
+	num = 0
 	
 	anim_player = $AnimationPlayer
 	
@@ -376,8 +380,9 @@ func _on_mana_fill_timer_timeout():
 func _on_life_fill_timer_timeout():
 	if Globals.GUI.get_node("hp_visual").value != Globals.GUI.get_node("hp_visual").max_value: 
 		Globals.GUI.get_node("hp_visual").value += Globals.GUI.get_node("hp_visual").step
+		Globals.player_hp += Globals.GUI.get_node("hp_visual").step
 		Globals.GUI.get_node("hp_num").text = str(Globals.GUI.get_node("hp_visual").value)
-		print("lifeReg")
+		num +=1
 #	else:
 #		$life_fill_timer.stop()
 
@@ -418,6 +423,8 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			weapon.get_node("AnimationPlayer").play("axe_swirl")
 
 		if Globals.player_weapon == "bow": 
+			if special:
+					weapon.special = special
 			Globals.current_scene.add_child(weapon)
 			weapon.position = self.position
 			var arrow = load("res://Assets/arrow.png")
@@ -454,7 +461,9 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				weapon.position = self.position
 				if special:
 					if special == "multi_proj":
-						wand_multi_proj(wand)
+						spec_mod_wand_multi_proj(wand)
+					if special == "speed_proj":
+						spec_mod_wand_speed(weapon)
 				if Globals.wand_proj != null:
 					wand = load("res://Assets/" + Globals.wand_proj + ".png")
 					if "fire" in Globals.wand_proj: 
@@ -505,7 +514,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 	else:
 		$mana_fill_timer.stop()
 		
-func wand_multi_proj(wand):
+func spec_mod_wand_multi_proj(wand):
 	wand = load("res://Assets/wand_attack.png")
 	
 	var multi_proj_one = load("res://Scenes/Weapon.tscn").instance()
@@ -524,5 +533,8 @@ func wand_multi_proj(wand):
 	else:
 		multi_proj_one.velocity = Vector2(-1,0).rotated(-75)
 		multi_proj_two.velocity = Vector2(-1,0).rotated(75)
+		
+func spec_mod_wand_speed(weapon):
+	weapon.speed += weapon.speed
 
 

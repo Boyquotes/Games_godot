@@ -337,7 +337,7 @@ const WEP_SPECIAL = {
 	"3": {
 		"id": "3",
 		"type": "bow",
-		"power": "velo_proj"
+		"power": "splinter_proj"
 		},
 	"4": {
 		"id": "4",

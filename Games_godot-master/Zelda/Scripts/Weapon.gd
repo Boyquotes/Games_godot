@@ -7,6 +7,7 @@ var beam_timer
 var beam_dmg = false
 var enemy_hp_bar
 var dmg_taken
+var special
 
 func _ready():
 	if Globals.wand_proj == "wand_beam_proj":
@@ -36,8 +37,10 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		for i in Globals.entities.size():
 			if str(body) == Globals.enemy_id[i]:
 				enemy_hp_bar.visible = true
-				
 				if Globals.current_ammo:
+					if special:
+						print("special ", special)
+					
 					if Globals.current_ammo == "frost arrow":
 						body.move_speed = 0.5
 						body.unfreeze_timer(i)
@@ -74,7 +77,6 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 				else:
 					Globals.enemy_hp[i] -= dmg_taken
 					enemy_hp_bar.value -= dmg_taken
-					
 			if Globals.enemy_hp[i] <= 0:
 				body.remove_enemy(i)
 				body.queue_free()

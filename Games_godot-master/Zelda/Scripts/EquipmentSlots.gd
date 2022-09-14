@@ -56,7 +56,7 @@ func insert_item(pos):
 				Globals.GUI.get_node("mana_progress").step += 1
 			if item["special"] == "life_reg":
 				Globals.player.get_node("life_fill_timer").start()
-			
+		
 		if !Globals.block_attribute_changes:
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])
