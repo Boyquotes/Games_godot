@@ -1,0 +1,7 @@
+- drop tooltips get clipped by wall tiles ||BUG||
+- inventory_items behaves weirdly (error message if trying to print id in some cases) but somehow still works ||BUG||
+- slime boss still jumps OOB ||BUG|| (put animation in one anim -> anim queuing fucks it somehow maybe)
+	- slime boss jumps OOB when colliding twice with level tiles ||BUG||
+- pwrups do not get equipped automatically, if something has already been picked up ||BUG||
+- encountered weird movement bug when pushed against the wall from snow enemies ||BUG||
+- boss_bow proj are behaving weird bc of for in 99 loop -> need solution for the attack to start/stop depending on player coll with aggro range ||BUG||

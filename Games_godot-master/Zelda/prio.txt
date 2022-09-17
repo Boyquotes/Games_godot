@@ -1,0 +1,5 @@
+1. code refactoring -> modular templates for future projects (?)
+2. game loop decisions 
+	2.1 	- resistance system that allows to stack resistances to be able to proceed to next level and be able to defeat the boss
+		- mobs do the damage type of the biome so you have to prepare before proceeding to next level
+		- make something else that makes it important to get specific gear

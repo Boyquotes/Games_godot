@@ -1,14 +1,13 @@
 --IDEAS--
-	- make special mods appear on items
-	- refactor the base functions -> create templates
+	- make special mods appear on items	
 	- interesting loot that changes gameplay -> special attacks
+		- ideas: titanforged items, items with special modifiers
 	- more item types -> boots, gloves, rings, helmets (to make it possible to stack resistances)
 	- procedural levels to enable more interesting layouts -> gameplay implications?
 	- class archetypes in form of items -> wizard robe, knight armor-> check sprite sheet
 	- enable strategies to survive next level, boss fights -> stack res -> archetype -> weapon with damage type
 	- code refactoring -> make a modular template for other games with the basics (scene changer, loot system, movement system)
 	- balance lol
-
 	- make the game loop make sense/fun to farm (lol) 
 		- balance dmg against resist values
 		- make farming items make sense
@@ -21,11 +20,18 @@
 	- visible armor
 	- change boss reroll (rarity) depending on something (kills?)
 	- make shop scene for ammo and/or other stuff
+	- save game -> persistancy
 
 --CODE REFAC--	
 	- KILL ALL GLOBAL FUNCTIONS
 	- change scene func
  	- find a solution to cleanly transfer variables from scene to scene (load inventory+items and entities into singleton)
+	- refactor the base functions -> create template
+
+NOTES 17/09/22
+	- resistance system that allows to stack resistances to be able to proceed to next level and be able to defeat the boss
+	- mobs do the damage type of the biome so you have to prepare
+		- make something else that makes it important to get specific gear
 
 NOTES 13/09/22
 	- make life reg function the same as mana reg (or the other way around maybe)
