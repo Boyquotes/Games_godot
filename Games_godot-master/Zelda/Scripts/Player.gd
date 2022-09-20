@@ -34,6 +34,9 @@ func _ready():
 
 	level_tilemap = Globals.current_scene.get_node("Level_TileMap")
 	
+	if level_tilemap == null:
+		level_tilemap = $"/root/Main/Starting_World/Level_TileMap"
+	
 	hp = int(Globals.GUI.get_node("hp_num").text)
 	
 	mana_progress = Globals.GUI.get_node("mana_progress")
@@ -41,8 +44,6 @@ func _ready():
 	if Globals.current_scene.has_node("Ammo_TileMap"):
 		ammo_tilemap = Globals.current_scene.get_node("Ammo_TileMap")
 
-	if level_tilemap == null:
-			level_tilemap = $"/root/Main/Starting_World/Level_TileMap"
 
 func _physics_process(delta):
 	
@@ -278,7 +279,7 @@ func player_collision():
 			else:
 				Globals.load_boss = "Boss_slime"
 			Globals.ilvl += 10
-			Globals.goto_scene("res://Scenes/Levels/Boss_Room.tscn", Globals.current_scene.name)
+			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", Globals.current_scene.name)
 			Globals.block_attribute_changes = true
 			Globals.portal_spawned = false
 			

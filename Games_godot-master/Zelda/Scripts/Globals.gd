@@ -67,6 +67,7 @@ var regex
 var respawn
 var pwr_upDB
 var block_attribute_changes = false
+var game_started = false
 
 func _ready():
 	var root = get_tree().get_root()
@@ -104,14 +105,36 @@ func _deferred_goto_scene(path, spawn):
 		player.add_child(inventory)
 		
 		inventory.get_child(0).rect_position = player.position
-		
-		if prev_scene != "start_screen" and prev_scene != "game_over_screen" and prev_scene != "game_won_screen" and path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn" and path != "res://Scenes/pwr_up_screen.tscn":
-#		if prev_scene == "shop":
-#		wtf is dis
-			if current_scene.name == "Starting_World":
-				current_scene.get_node("Player_Spawn").position = shop_spawn_pos
-				if portal_spawned:
-					spawn_boss_portal()
+
+#		load start scene
+		if path == "res://Scenes/Levels/Starting_World.tscn" and game_started == false:
+			player_spawn_pos = Vector2(512, 300)
+			player_lvl = 0
+			enemy_hp_value = 150
+			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
+			current_mana = max_mana
+			player_weapon = "3"
+			var weapon = ItemDB.WEAPON[player_weapon]
+			weapon["id"] = Globals.item_id
+			weapon["power"] = 2000
+			weapon["dmg_type"] = "physical"
+			weapon["special"] = ""
+			item_id += 1
+			inventory_items.push_front(weapon)
+			inventory.get_child(0).pickup_item(inventory_items[0])
+			var body_armor = ItemDB.STARTER_ITEMS["1"]
+			body_armor["id"] = Globals.item_id
+			item_id += 1
+			inventory_items.push_front(body_armor)
+			inventory.get_child(0).pickup_item(inventory_items[0])
+			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
+			game_started = true
+		else:
+			
+#			if current_scene.name == "Starting_World":
+#				current_scene.get_node("Player_Spawn").position = shop_spawn_pos
+#			if portal_spawned:
+#				spawn_boss_portal()
 #			load change scene
 			player_spawn_pos = current_scene.get_node("Player_Spawn").position
 			GUI.get_node("hp_num").text = str(player_hp)
@@ -137,30 +160,6 @@ func _deferred_goto_scene(path, spawn):
 			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
-#			ilvl += 10
-
-#		load start scene
-		else:
-			player_spawn_pos = Vector2(512, 300)
-			player_lvl = 0
-			enemy_hp_value = 150
-			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
-			current_mana = max_mana
-			player_weapon = "3"
-			var weapon = ItemDB.WEAPON[player_weapon]
-			weapon["id"] = Globals.item_id
-			weapon["power"] = 2000
-			weapon["dmg_type"] = "physical"
-			weapon["special"] = ""
-			item_id += 1
-			inventory_items.push_front(weapon)
-			inventory.get_child(0).pickup_item(inventory_items[0])
-			var body_armor = ItemDB.STARTER_ITEMS["1"]
-			body_armor["id"] = Globals.item_id
-			item_id += 1
-			inventory_items.push_front(body_armor)
-			inventory.get_child(0).pickup_item(inventory_items[0])
-			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 		
 		player.position = player_spawn_pos
 

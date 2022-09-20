@@ -64,7 +64,7 @@ func pwr_up_effect(name, amount):
 	elif "lvl" in name:
 		change_next_scene = true
 	elif "armor" in name:
-		Globals.drop_body_armour(self.rect_position, Globals.ilvl)
+		Globals.drop_item(self.rect_position, Globals.ilvl)
 		Globals.inventory_items.push_front(Globals.dropped_items[0])
 		Globals.dropped_items.remove(0)
 	elif "weapon" in name:
