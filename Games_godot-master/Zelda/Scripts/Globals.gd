@@ -128,6 +128,7 @@ func _deferred_goto_scene(path, spawn):
 			inventory_items.push_front(body_armor)
 			inventory.get_child(0).pickup_item(inventory_items[0])
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
+			spawn_enemy_type()
 			game_started = true
 		else:
 			
@@ -160,10 +161,11 @@ func _deferred_goto_scene(path, spawn):
 			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
+			spawn_enemy_type()
 		
 		player.position = player_spawn_pos
 
-		spawn_enemy_type()
+#		spawn_enemy_type()
 		
 #		if current_scene.name == "Boss_World":
 #			GUI.get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(next_scene).get_string()
@@ -172,6 +174,7 @@ func _deferred_goto_scene(path, spawn):
 			
 #		enemy_tracker = enemy_pos.size()
 		GUI.get_node("number").text = str(enemy_tracker)
+		
 	
 #	if current_scene.name == "Shop" and player_weapon and !starter_weapon:
 #		current_scene.get_node("Weapons_TileMap").tile_set.remove_tile(current_scene.get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
@@ -215,8 +218,8 @@ func spawn_enemy_type():
 	var enemy_type = "Enemy_" + type
 	
 	for i in enemy_pos.size():
-		call_deferred("spawn_enemies", i, enemy_type)
-#		spawn_enemies(i, enemy_type)
+#		call_deferred("spawn_enemies", i, enemy_type)
+		spawn_enemies(i, enemy_type)
 
 func num_of_enemies(n):
 	enemy_pos = range(0, n)
@@ -236,61 +239,72 @@ func spawn_enemies(pos, type):
 
 #		current_scene.call_deferred("add_child", enemy)
 		current_scene.add_child(enemy) 
-
-		rand.randomize()
-		enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
-
-		var dir = [Vector2.DOWN, Vector2.UP, Vector2.RIGHT, Vector2.LEFT]
-		enemy.move_vec = dir[rand.randi() % dir.size()]
-		enemy.get_node("hp_bar").max_value = enemy_hp_value
-		enemy.get_node("hp_bar").value = enemy_hp_value
 		
-		var distance_to_player = enemy.get_global_position().distance_to(player.get_global_position())
-
-		if distance_to_player < 150:
+#		respawn enemies when coming back from shop
+		if current_scene.name == "Starting_World" and game_started and respawn == false:
+			enemy.position = enemy_pos[pos]
+			enemy.move_vec = enemy_dir[pos]
+			enemy_id[pos] = (str(enemy))
+			enemies[pos] = enemy
+			entities[pos] = enemy 
+#			respawn = false
+#			spawn enemies
+		else:
+			rand.randomize()
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 
-		if "Fire" in current_scene.name:
-			enemy_resistance = {"fire": 7*enemy_res_modifier, "cold": 2*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
-		if "Starting" in current_scene.name:
-			enemy_resistance = {"fire": 3*enemy_res_modifier, "cold": 3*enemy_res_modifier, "lightning": 3*enemy_res_modifier, "physical": 7*enemy_res_modifier, "poison": 1*enemy_res_modifier}
-		if "lightning" in current_scene.name:
-			enemy_resistance = {"fire": 5*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 7*enemy_res_modifier, "physical": 2*enemy_res_modifier, "poison": 5*enemy_res_modifier}
-		if "Snow" in current_scene.name:
-			enemy_resistance = {"fire": 2*enemy_res_modifier, "cold": 7*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
-		if "Desert" in current_scene.name:
-			enemy_resistance = {"fire": 2*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 3*enemy_res_modifier, "poison": 7*enemy_res_modifier}
-		if "Jungle" in current_scene.name:
-			enemy_resistance = {"fire": 5*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 2*enemy_res_modifier}
-		
-#		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
-#			print(tilemap.get_cellv(tilemap.world_to_map(enemy.position)))
-#			enemy.queue_free()
-#			spawn_enemies(pos)
-#			return		
-		enemy_pos.remove(pos)
-		enemy_dir.remove(pos)
-		enemy_id.remove(pos)
-		enemy_hp.remove(pos)
-		enemies.remove(pos)
-		enemy_pos.push_front(Vector2(enemy.position.x, enemy.position.y))
-		enemy_dir.push_front(enemy.move_vec)
-		enemy_id.push_front(str(enemy))
-		enemy_hp.push_front(enemy_hp_value)
-		enemies.push_front(enemy)
-		
-		entities.push_front(enemy)
+			var dir = [Vector2.DOWN, Vector2.UP, Vector2.RIGHT, Vector2.LEFT]
+			enemy.move_vec = dir[rand.randi() % dir.size()]
+			enemy.get_node("hp_bar").max_value = enemy_hp_value
+			enemy.get_node("hp_bar").value = enemy_hp_value
+			
+			var distance_to_player = enemy.get_global_position().distance_to(player.get_global_position())
+
+			if distance_to_player < 150:
+				enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
+
+			if "Fire" in current_scene.name:
+				enemy_resistance = {"fire": 7*enemy_res_modifier, "cold": 2*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
+			if "Starting" in current_scene.name:
+				enemy_resistance = {"fire": 3*enemy_res_modifier, "cold": 3*enemy_res_modifier, "lightning": 3*enemy_res_modifier, "physical": 7*enemy_res_modifier, "poison": 1*enemy_res_modifier}
+			if "lightning" in current_scene.name:
+				enemy_resistance = {"fire": 5*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 7*enemy_res_modifier, "physical": 2*enemy_res_modifier, "poison": 5*enemy_res_modifier}
+			if "Snow" in current_scene.name:
+				enemy_resistance = {"fire": 2*enemy_res_modifier, "cold": 7*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
+			if "Desert" in current_scene.name:
+				enemy_resistance = {"fire": 2*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 3*enemy_res_modifier, "poison": 7*enemy_res_modifier}
+			if "Jungle" in current_scene.name:
+				enemy_resistance = {"fire": 5*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 2*enemy_res_modifier}
+			
+	#		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
+	#			print(tilemap.get_cellv(tilemap.world_to_map(enemy.position)))
+	#			enemy.queue_free()
+	#			spawn_enemies(pos)
+	#			return		
+			enemy_pos.remove(pos)
+			enemy_dir.remove(pos)
+			enemy_id.remove(pos)
+			enemy_hp.remove(pos)
+			enemies.remove(pos)
+			enemy_pos.push_front(Vector2(enemy.position.x, enemy.position.y))
+			enemy_dir.push_front(enemy.move_vec)
+			enemy_id.push_front(str(enemy))
+			enemy_hp.push_front(enemy_hp_value)
+			enemies.push_front(enemy)
+			
+			entities.push_front(enemy)
 
 # coming back from shop
-	elif current_scene.name == "Starting_World":
-		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 
-		current_scene.add_child(enemy)
-		enemy.position = enemy_pos[pos]
-		enemy.move_vec = enemy_dir[pos]
-		enemy_id[pos] = (str(enemy))
-		enemies[pos] = enemy
-		entities[pos] = enemy
-		
+#	elif current_scene.name == "Starting_World":
+#		print("reloadEnemies")
+#		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 
+#		current_scene.add_child(enemy)
+#		enemy.position = enemy_pos[pos]
+#		enemy.move_vec = enemy_dir[pos]
+#		enemy_id[pos] = (str(enemy))
+#		enemies[pos] = enemy
+#		entities[pos] = enemy
+#
 		respawn = false
 	
 func spawn_weapon_shop():

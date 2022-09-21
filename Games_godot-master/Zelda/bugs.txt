@@ -1,3 +1,4 @@
+- attributes are fucked again when changing scene ||BUG||
 - drop tooltips get clipped by wall tiles ||BUG||
 - inventory_items behaves weirdly (error message if trying to print id in some cases) but somehow still works ||BUG||
 - slime boss still jumps OOB ||BUG|| (put animation in one anim -> anim queuing fucks it somehow maybe)

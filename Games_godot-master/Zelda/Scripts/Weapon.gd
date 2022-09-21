@@ -110,7 +110,6 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			Globals.enemy_dmg_modifier += 2
 			Globals.boss_res_modifier += 2
 #			Globals.ilvl += 5
-#			Globals.respawn = true
 			Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
 			Globals.portal_spawned = false
 
