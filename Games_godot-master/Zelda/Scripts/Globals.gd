@@ -64,7 +64,7 @@ var boss = null
 var shop_spawn_pos
 var shop_spawned = false
 var regex
-var respawn
+var respawn = false
 var pwr_upDB
 var block_attribute_changes = false
 var game_started = false
@@ -131,7 +131,6 @@ func _deferred_goto_scene(path, spawn):
 			spawn_enemy_type()
 			game_started = true
 		else:
-			
 #			if current_scene.name == "Starting_World":
 #				current_scene.get_node("Player_Spawn").position = shop_spawn_pos
 #			if portal_spawned:
@@ -162,6 +161,7 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
 			spawn_enemy_type()
+			
 		
 		player.position = player_spawn_pos
 
@@ -194,7 +194,7 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.get_node("ammo_capacity").text = str(ilvl*2)
 		current_scene.get_node("ammo_capacity_two").text = str(ilvl*2)
 		
-	Globals.block_attribute_changes = false
+	block_attribute_changes = false
 
 #		Weapons in inventory are still shown in Shop bc only player wep is removed when entering the shop	
 	print_stray_nodes()
@@ -220,6 +220,7 @@ func spawn_enemy_type():
 	for i in enemy_pos.size():
 #		call_deferred("spawn_enemies", i, enemy_type)
 		spawn_enemies(i, enemy_type)
+	respawn = false
 
 func num_of_enemies(n):
 	enemy_pos = range(0, n)
@@ -233,7 +234,7 @@ func spawn_enemies(pos, type):
 	var rand = RandomNumberGenerator.new()
 	var tilemap = current_scene.get_node("Level_TileMap")
 
-	if "World" in current_scene.name or respawn: #and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or prev_scene == "pwr_up_screen" or "World" in prev_scene or respawn:
+	if "World" in current_scene.name: #and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or prev_scene == "pwr_up_screen" or "World" in prev_scene or respawn:
 		var spawn_area = current_scene.get_node("spawn_area").rect_size
 		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance()
 
@@ -305,7 +306,7 @@ func spawn_enemies(pos, type):
 #		enemies[pos] = enemy
 #		entities[pos] = enemy
 #
-		respawn = false
+#		respawn = false
 	
 func spawn_weapon_shop():
 	var rand = RandomNumberGenerator.new()

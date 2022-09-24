@@ -80,7 +80,7 @@ func goto_next_scene():
 	Globals.num_of_enemies(5)
 	Globals.enemy_res_modifier += 5
 	Globals.enemy_dmg_modifier += 20
-	Globals.respawn = false
+#	Globals.respawn = false
 	if change_next_scene:
 		print("randomScene")
 		Globals.goto_scene("res://Scenes/Levels/" + Globals.random_scene() + ".tscn", Globals.current_scene.name)

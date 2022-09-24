@@ -149,6 +149,8 @@ func player_collision():
 		if coll.collider.name == "Shop_Entrance_Entry":
 			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 			Globals.goto_scene("res://Scenes/Levels/Shop.tscn", "null")
+			Globals.block_attribute_changes = true
+			
 		
 		if coll.collider.name == "Level_TileMap":
 			var level_tile_name = get_tile_name(coll, level_tilemap)[0]
@@ -156,6 +158,8 @@ func player_collision():
 			if level_tile_name == "shop_stairs_exit":
 				Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 				Globals.goto_scene("res://Scenes/Levels/Starting_World.tscn", "null")
+				Globals.block_attribute_changes = true
+#				
 				
 
 		if coll.collider.name == "Ammo_TileMap":
@@ -260,6 +264,8 @@ func player_collision():
 			if "Boss" in Globals.current_scene.name:
 				Globals.ilvl -= 5
 				Globals.goto_scene("res://Scenes/pwr_up_screen.tscn", Globals.current_scene.name)
+				Globals.block_attribute_changes = true
+				
 			
 		if "proj" in coll.collider.name:
 			for i in Globals.dropped_items:

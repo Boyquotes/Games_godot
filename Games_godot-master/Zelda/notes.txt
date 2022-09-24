@@ -28,6 +28,10 @@
  	- find a solution to cleanly transfer variables from scene to scene (load inventory+items and entities into singleton)
 	- refactor the base functions -> create template
 
+NOTES 24/09/22
+	- better solution for transitioning items between scenes  -> current solution causes a lot of problems
+		- attribute allocation after transition is fucked -> block_attribute_changes
+
 NOTES 17/09/22
 	- resistance system that allows to stack resistances to be able to proceed to next level and be able to defeat the boss
 	- mobs do the damage type of the biome so you have to prepare
