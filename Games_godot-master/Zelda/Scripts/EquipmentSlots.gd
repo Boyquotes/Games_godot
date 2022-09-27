@@ -51,13 +51,20 @@ func insert_item(pos):
 			Globals.player.get_node("Body_Armor").texture = ResourceLoader.load("res://Assets/items/" + item.name + ".png")
 		
 		if item.has("special"):
-			print("addMod")
 			if item["special"] == "mana_reg":
 				Globals.GUI.get_node("mana_progress").step += 1
 			if item["special"] == "life_reg":
 				Globals.player.get_node("life_fill_timer").start()
+				
+		if slot == $CHARACTER:
+			Globals.current_body_armor_id = item["id"]
+		if slot == $BOOTS:
+			Globals.current_boots_id = item["id"]
+		if slot == $GLOVES:
+			Globals.current_gloves_id = item["id"]
 		
-		if !Globals.block_attribute_changes:
+		if Globals.add_stats:
+			print("addStats")
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren"), false, item["id"])
@@ -67,13 +74,8 @@ func insert_item(pos):
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning"), false, item["id"])
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical"), false, item["id"])
 			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), false, item["id"])
-			
-			if slot == $CHARACTER:
-				Globals.current_body_armor_id = item["id"]
-			if slot == $BOOTS:
-				Globals.current_boots_id = item["id"]
-			if slot == $GLOVES:
-				Globals.current_gloves_id = item["id"]
+
+			Globals.add_stats = false
 		else:
 			return
 	

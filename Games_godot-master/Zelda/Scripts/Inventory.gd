@@ -19,7 +19,6 @@ var boot_slot_taken = false
 func _ready():
 	if Globals.inventory_items.size() > 0:
 #		weap_slot_taken = false
-		
 		for i in Globals.inventory_items:
 			if i["id"] == Globals.current_weapon_id:
 				pickup_item(i)
@@ -61,12 +60,14 @@ func grab(cursor_pos):
 			move_child(item_held, get_child_count())
 
 func release(cursor_pos):
+	Globals.add_stats = true
 	if item_held == null:
 		return
 	var c = get_container_under_cursor(cursor_pos)
 	if c == null:
 		drop_item()
 	elif c.has_method("insert_item"):
+		Globals.add_stats = true
 		if c.insert_item(item_held):
 			item_held = null
 		else:
@@ -82,6 +83,9 @@ func get_container_under_cursor(cursor_pos):
 	return null
 
 func drop_item():
+	for i in Globals.inventory_items:
+		if item_held.get_meta("id") == i["id"]:
+			Globals.inventory_items.remove(Globals.inventory_items.find(i))
 	item_held.queue_free()
 	item_held = null
 
@@ -96,7 +100,6 @@ func pickup_item(item_id):
 	item.texture = load(item_id["icon"])
 	item.get_node("type").text = item_id["slot"]
 	add_child(item)
-#	print("itemSLOT ",item_id["slot"])
 	if item_id["slot"] == "CHARACTER" or item_id["slot"] == "GLOVES" or item_id["slot"] == "BOOTS":
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/str/value").text = str(item_id["stren"])
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/dex/value").text = str(item_id["dex"])
@@ -117,7 +120,6 @@ func pickup_item(item_id):
 		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
 	if item_id["slot"] == "POWERUP":
 		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
-
 	if !weap_slot_taken and item_id["slot"] == "WEAPON":
 		eq_slots.insert_item(item)
 		weap_slot_taken = true

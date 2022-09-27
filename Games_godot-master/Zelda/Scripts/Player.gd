@@ -149,7 +149,7 @@ func player_collision():
 		if coll.collider.name == "Shop_Entrance_Entry":
 			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 			Globals.goto_scene("res://Scenes/Levels/Shop.tscn", "null")
-			Globals.block_attribute_changes = true
+#			Globals.block_attribute_changes = true
 			
 		
 		if coll.collider.name == "Level_TileMap":
@@ -158,7 +158,7 @@ func player_collision():
 			if level_tile_name == "shop_stairs_exit":
 				Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 				Globals.goto_scene("res://Scenes/Levels/Starting_World.tscn", "null")
-				Globals.block_attribute_changes = true
+#				Globals.block_attribute_changes = true
 #				
 				
 
@@ -255,16 +255,17 @@ func player_collision():
 		if "item" in coll.collider.name:
 			for i in Globals.dropped_items:
 				if i["id"] == int(coll.collider.get_node("id").text):
+					Globals.add_stats = true
 					Globals.inventory_items.push_front(i)
 					Globals.dropped_items.remove(Globals.dropped_items.find(i))
 					Globals.inventory.get_child(0).pickup_item(i)
+					Globals.add_stats = false
 
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 			
 			if "Boss" in Globals.current_scene.name:
 				Globals.ilvl -= 5
 				Globals.goto_scene("res://Scenes/pwr_up_screen.tscn", Globals.current_scene.name)
-				Globals.block_attribute_changes = true
 				
 			
 		if "proj" in coll.collider.name:
@@ -286,7 +287,7 @@ func player_collision():
 				Globals.load_boss = "Boss_slime"
 			Globals.ilvl += 10
 			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", Globals.current_scene.name)
-			Globals.block_attribute_changes = true
+#			Globals.block_attribute_changes = true
 			Globals.portal_spawned = false
 			
 func despawn_drop(coll):

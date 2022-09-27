@@ -66,7 +66,7 @@ var shop_spawned = false
 var regex
 var respawn = false
 var pwr_upDB
-var block_attribute_changes = false
+var add_stats = false
 var game_started = false
 
 func _ready():
@@ -108,6 +108,7 @@ func _deferred_goto_scene(path, spawn):
 
 #		load start scene
 		if path == "res://Scenes/Levels/Starting_World.tscn" and game_started == false:
+			add_stats = true
 			player_spawn_pos = Vector2(512, 300)
 			player_lvl = 0
 			enemy_hp_value = 150
@@ -194,7 +195,7 @@ func _deferred_goto_scene(path, spawn):
 		current_scene.get_node("ammo_capacity").text = str(ilvl*2)
 		current_scene.get_node("ammo_capacity_two").text = str(ilvl*2)
 		
-	block_attribute_changes = false
+#	block_attribute_changes = false
 
 #		Weapons in inventory are still shown in Shop bc only player wep is removed when entering the shop	
 	print_stray_nodes()
@@ -348,7 +349,7 @@ func drop(pos, freq, weighting):
 #	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
 	
 	if weighting == null:
-		weighting = drop_weighting({0:0.10, 1:0.45, 2:0.45})
+		weighting = drop_weighting({0:0.05, 1:0.90, 2:0.05})
 	
 #	if freq == null:
 #		freq = rand.randi_range(0,1)
