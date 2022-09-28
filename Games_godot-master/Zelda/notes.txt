@@ -1,4 +1,13 @@
+if you don't know what to do for the day -> just play the game and write down ideas + fix the bugs that you encounter
+
+
 --IDEAS--
+
+	!! main game loop idea -> balance build with the damage types (resistances) of the biomes to be successful !!
+	
+	- archetypes have a drop chance from bosses -> drop chance goes higher when level reset -> archetypes are biome specific
+	- level reset drops as item that can be used (like a key that can be used to farm in the biome you need for the build)
+		- make items wildly different depending on the item
 	- make special mods appear on items	
 	- interesting loot that changes gameplay -> special attacks
 		- ideas: titanforged items, items with special modifiers
@@ -21,6 +30,7 @@
 	- change boss reroll (rarity) depending on something (kills?)
 	- make shop scene for ammo and/or other stuff
 	- save game -> persistancy
+	- item tooltip comparison
 
 --CODE REFAC--	
 	- KILL ALL GLOBAL FUNCTIONS

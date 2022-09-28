@@ -44,6 +44,8 @@ func attribute_points(stat, lvlup_stats, id):
 				if id == y["id"]:
 					i += int(y[stat.name])
 					Globals.player_resistance[stat.name] += int(y[stat.name])
+					if Globals.player_resistance[stat.name] >= 60:
+						Globals.player_resistance[stat.name] = 60
 			stat.text = str(Globals.player_resistance[stat.name])
 		if stat.name == "power":
 			for y in Globals.inventory_items:

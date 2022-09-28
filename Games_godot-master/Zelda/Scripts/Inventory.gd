@@ -60,7 +60,6 @@ func grab(cursor_pos):
 			move_child(item_held, get_child_count())
 
 func release(cursor_pos):
-	Globals.add_stats = true
 	if item_held == null:
 		return
 	var c = get_container_under_cursor(cursor_pos)
@@ -74,6 +73,8 @@ func release(cursor_pos):
 			return_item()
 	else:
 		return_item()
+	Globals.add_stats = false
+		
 
 func get_container_under_cursor(cursor_pos):
 	var containers = [grid_bkpk, eq_slots, inv_base]
