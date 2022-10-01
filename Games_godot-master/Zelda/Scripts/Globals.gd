@@ -114,10 +114,10 @@ func _deferred_goto_scene(path, spawn):
 			enemy_hp_value = 150
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
-			player_weapon = "3"
+			player_weapon = "1"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 2000
+			weapon["power"] = 150
 			weapon["dmg_type"] = "physical"
 			weapon["special"] = ""
 			item_id += 1
@@ -460,7 +460,7 @@ func drop_weapon(pos, ilvl):
 	
 	item = ItemDB.WEAPON[str(rand.randi_range(1, ItemDB.WEAPON.size()))]
 		
-	var potency = (rand.randi_range((ilvl*2), (ilvl*3)))*3
+	var potency = (rand.randi_range((ilvl*2), (ilvl*3)))*5
 	var dmg_types = ["fire", "cold", "lightning", "physical", "poison"]
 	var dmg_type = rand.randi_range(0, dmg_types.size()-1)
 	var drop = ResourceLoader.load("res://Scenes/weapon_drop.tscn").instance()

@@ -1,11 +1,11 @@
-if you don't know what to do for the day -> just play the game and write down ideas + fix the bugs that you encounter
+if you don't know what to do -> just play the game and write down ideas + fix the bugs that you encounter
 
 
 --IDEAS--
 
-	!! main game loop idea -> balance build with the damage types (resistances) of the biomes to be successful !!
+	!! main game problem solving idea -> balance build decisions and the damage types (resistances) of the biomes to be successful !!
 	
-	- archetypes have a drop chance from bosses -> drop chance goes higher when level reset -> archetypes are biome specific
+	- archetypes have a drop chance from bosses -> drop chance goes higher when level reset (and enemies get a lot stronger) -> archetypes are biome specific
 	- level reset drops as item that can be used (like a key that can be used to farm in the biome you need for the build)
 		- make items wildly different depending on the item
 	- make special mods appear on items	

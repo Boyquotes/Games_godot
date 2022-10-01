@@ -9,6 +9,9 @@ var enemy_hp_bar
 var dmg_taken
 var special
 
+var dmg_floating_txt = preload("res://Scenes/Floating_dmg_num.tscn")
+
+
 func _ready():
 	if Globals.wand_proj == "wand_beam_proj":
 		life_time = 3
@@ -54,11 +57,9 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 						var spider_web = ResourceLoader.load("res://Scenes/spider_web.tscn").instance()
 						Globals.current_scene.call_deferred("add_child", spider_web)
 						spider_web.position = body.position
-						Globals.enemy_hp[i] -= dmg_taken
-						enemy_hp_bar.value -= dmg_taken
+						enemy_dmg_taken(i, body)
 					else:
-						Globals.enemy_hp[i] -= dmg_taken
-						enemy_hp_bar.value -= dmg_taken
+						enemy_dmg_taken(i, body)
 				elif Globals.player_weapon == "wand":
 					if Globals.wand_proj == null:
 						Globals.enemy_hp[i] -= dmg_taken
@@ -75,8 +76,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 						Globals.entities[i].get_node(beam_dmg_timer.name).start()
 						body.beam_dmg = true
 				else:
-					Globals.enemy_hp[i] -= dmg_taken
-					enemy_hp_bar.value -= dmg_taken
+					enemy_dmg_taken(i, body)
 			if Globals.enemy_hp[i] <= 0:
 				body.remove_enemy(i)
 				body.queue_free()
@@ -129,16 +129,19 @@ func dmg_calc():
 				dmg = stepify(dmg, 0.01)
 	print("dmg ", dmg)
 	return dmg
-#
-#func _on_Beam_Timer_timeout():
-#	Globals.enemy_hp[curr_enemy] -= dmg_taken
-#	enemy_hp_bar.value -= dmg_taken
+	
+func enemy_dmg_taken(pos, enemy):
+	var dmg_txt = dmg_floating_txt.instance()
+	enemy.add_child(dmg_txt)
+	dmg_txt.get_node("dmg_num_txt").text = str(stepify(dmg_taken, 0.1))
+
+	Globals.enemy_hp[pos] -= dmg_taken
+	enemy_hp_bar.value -= dmg_taken
 
 func _on_Weapon_Timeout_timeout():
 	self.queue_free()
 
 func _on_weapon_body_shape_exited(body_id, body, body_shape, local_shape):
-#	pass
 	if body != null and "Enemy" in body.name and body.beam_dmg or body != null and "Boss" in body.name and body.beam_dmg:
 		body.get_node("beam_dmg_timer").stop()
 		body.get_node("beam_dmg_timer").queue_free()
