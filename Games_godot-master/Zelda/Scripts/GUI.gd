@@ -4,17 +4,17 @@ func _ready():
 	pass
 
 func _on_str_pressed():
-	attribute_points($stat_container/stat_screen/str/stren, true, false)
+	attribute_points($stat_container/stat_GUI/stat_screen/str/stren, true, false)
 	attribute_effects("stren", "augment", 1)
 	Globals.stren += 1
 
 func _on_int_pressed():
-	attribute_points($stat_container/stat_screen/int/intel, true, false)
+	attribute_points($stat_container/stat_GUI/stat_screen/int/intel, true, false)
 	attribute_effects("intel", "augment", 1)
 	Globals.intel += 1
 
 func _on_dex_pressed():
-	attribute_points($stat_container/stat_screen/dex/dex, true, false)
+	attribute_points($stat_container/stat_GUI/stat_screen/dex/dex, true, false)
 	attribute_effects("dex", "augment", 1)
 	Globals.dex += 1
 
@@ -53,7 +53,7 @@ func attribute_points(stat, lvlup_stats, id):
 					i += int(y[stat.name])
 					Globals.player_pwr += int(y[stat.name])
 					Globals.player_dmg_types[y["dmg_type"]] += y[stat.name]
-					Globals.GUI.get_node("stat_container").get_node("dmg").get_node(y["dmg_type"]).get_child(0).text = str(Globals.player_dmg_types[y["dmg_type"]])
+					Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("dmg").get_node(y["dmg_type"]).get_child(0).text = str(Globals.player_dmg_types[y["dmg_type"]])
 			stat.text = str(i)
 		if stat.name == "special":
 			print("activate_special")
@@ -82,17 +82,17 @@ func remove_points(stat, id):
 				i -= int(y[stat.name])
 				Globals.player_pwr -= int(y[stat.name])
 				Globals.player_dmg_types[y["dmg_type"]] -= y[stat.name]
-				Globals.GUI.get_node("stat_container").get_node("dmg").get_node(y["dmg_type"]).get_child(0).text = str(Globals.player_dmg_types[y["dmg_type"]])
+				Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("dmg").get_node(y["dmg_type"]).get_child(0).text = str(Globals.player_dmg_types[y["dmg_type"]])
 		stat.text = str(i)
 			
 func attribute_effects(stat, effect, value):
 	if stat == "stren":
 		if effect == "augment":
 			Globals.player_pwr += value
-			Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(Globals.player_pwr)
+			Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power").text = str(Globals.player_pwr)
 		else:
 			Globals.player_pwr -= value
-			Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power").text = str(Globals.player_pwr)
+			Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power").text = str(Globals.player_pwr)
 	elif stat == "intel":
 		if effect == "augment":
 			Globals.GUI.get_node("mana_progress").max_value += value

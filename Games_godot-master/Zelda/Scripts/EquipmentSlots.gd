@@ -30,7 +30,7 @@ func insert_item(pos):
 	
 	if slot == $WEAPON:
 		Globals.player_weapon = item["name"]
-		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), false, item["id"])
+		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power"), false, item["id"])
 		if item.has("special"):
 			Globals.player.special = item["special"]
 #		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_screen").get_node("dmg_type").get_node("power"), false, item["id"])
@@ -64,15 +64,15 @@ func insert_item(pos):
 			Globals.current_gloves_id = item["id"]
 		
 		if Globals.add_stats:
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren"), false, item["id"])
+			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
+			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])
+			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("str").get_node("stren"), false, item["id"])
 
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire"), false, item["id"])
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold"), false, item["id"])
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning"), false, item["id"])
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical"), false, item["id"])
-			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), false, item["id"])
+			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("fire").get_node("fire"), false, item["id"])
+			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("cold").get_node("cold"), false, item["id"])
+			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning"), false, item["id"])
+			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("physical").get_node("physical"), false, item["id"])
+			Globals.GUI.attribute_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("poison").get_node("poison"), false, item["id"])
 
 			Globals.add_stats = false
 		else:
@@ -100,7 +100,7 @@ func grab_item(pos):
 	
 	if item_slot == "WEAPON":
 		Globals.player_weapon = null
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("power").get_node("power"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power"), item_id)
 	elif item_slot == "CHARACTER" or item_slot == "GLOVES" or item_slot == "BOOTS":
 		if item_slot == "CHARACTER":
 			Globals.player.get_node("Body_Armor").texture = null
@@ -112,15 +112,15 @@ func grab_item(pos):
 			if inventory_item["special"] == "life_reg":
 				Globals.player.get_node("life_fill_timer").stop()
 			
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("dex").get_node("dex"), item_id)
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("int").get_node("intel"), item_id)
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_screen").get_node("str").get_node("stren"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("dex").get_node("dex"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("int").get_node("intel"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("str").get_node("stren"), item_id)
 		
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("fire").get_node("fire"), item_id)
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("cold").get_node("cold"), item_id)
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("lightning").get_node("lightning"), item_id)
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("physical").get_node("physical"), item_id)
-		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("res").get_node("poison").get_node("poison"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("fire").get_node("fire"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("cold").get_node("cold"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("physical").get_node("physical"), item_id)
+		Globals.GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("poison").get_node("poison"), item_id)
 
 	elif item_slot == "POWERUP":
 		Globals.GUI.buff_effects(item, "deactivate")

@@ -169,31 +169,39 @@ __meta__ = {
 }
 
 [node name="stat_container" type="MarginContainer" parent="."]
-visible = false
 margin_left = 428.0
 margin_top = 80.0
 margin_right = 621.0
 margin_bottom = 272.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="stat_screen" type="HBoxContainer" parent="stat_container"]
-margin_right = 151.0
-margin_bottom = 32.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="dex" type="TextureButton" parent="stat_container/stat_screen"]
+[node name="stat_GUI" type="VBoxContainer" parent="stat_container"]
+margin_right = 209.0
+margin_bottom = 205.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="stat_screen" type="HBoxContainer" parent="stat_container/stat_GUI"]
+margin_right = 151.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="dex" type="TextureButton" parent="stat_container/stat_GUI/stat_screen"]
 margin_right = 32.0
-margin_bottom = 32.0
+margin_bottom = 50.0
 texture_normal = ExtResource( 10 )
 texture_pressed = ExtResource( 11 )
 
-[node name="dex" type="Label" parent="stat_container/stat_screen/dex"]
+[node name="dex" type="Label" parent="stat_container/stat_GUI/stat_screen/dex"]
 margin_left = 2.0
 margin_top = 34.0
 margin_right = 32.0
@@ -203,14 +211,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="int" type="TextureButton" parent="stat_container/stat_screen"]
+[node name="int" type="TextureButton" parent="stat_container/stat_GUI/stat_screen"]
 margin_left = 36.0
 margin_right = 68.0
-margin_bottom = 32.0
+margin_bottom = 50.0
 texture_normal = ExtResource( 7 )
 texture_pressed = ExtResource( 12 )
 
-[node name="intel" type="Label" parent="stat_container/stat_screen/int"]
+[node name="intel" type="Label" parent="stat_container/stat_GUI/stat_screen/int"]
 margin_left = 2.0
 margin_top = 34.0
 margin_right = 32.0
@@ -220,14 +228,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="str" type="TextureButton" parent="stat_container/stat_screen"]
+[node name="str" type="TextureButton" parent="stat_container/stat_GUI/stat_screen"]
 margin_left = 72.0
 margin_right = 104.0
-margin_bottom = 32.0
+margin_bottom = 50.0
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 9 )
 
-[node name="stren" type="Label" parent="stat_container/stat_screen/str"]
+[node name="stren" type="Label" parent="stat_container/stat_GUI/stat_screen/str"]
 margin_left = 2.0
 margin_top = 34.0
 margin_right = 32.0
@@ -237,17 +245,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="power" type="Label" parent="stat_container/stat_screen"]
+[node name="power" type="Label" parent="stat_container/stat_GUI/stat_screen"]
 margin_left = 108.0
-margin_top = 9.0
+margin_top = 18.0
 margin_right = 151.0
-margin_bottom = 23.0
+margin_bottom = 32.0
 text = "Power:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="power" type="Label" parent="stat_container/stat_screen/power"]
+[node name="power" type="Label" parent="stat_container/stat_GUI/stat_screen/power"]
 margin_left = 50.0
 margin_right = 90.0
 margin_bottom = 14.0
@@ -255,28 +263,157 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="res" type="VBoxContainer" parent="stat_container"]
-margin_top = 88.0
-margin_right = 73.0
-margin_bottom = 192.0
+[node name="loot_modifiers" type="HBoxContainer" parent="stat_container/stat_GUI"]
+margin_top = 54.0
+margin_right = 131.0
+margin_bottom = 79.0
+rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="resistances" type="Label" parent="stat_container/res"]
-margin_right = 73.0
+[node name="quantity" type="Label" parent="stat_container/stat_GUI/loot_modifiers"]
+margin_top = 5.0
+margin_right = 56.0
+margin_bottom = 19.0
+text = "quantity:"
+
+[node name="quant_num" type="Label" parent="stat_container/stat_GUI/loot_modifiers"]
+margin_left = 60.0
+margin_top = 5.0
+margin_right = 68.0
+margin_bottom = 19.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="quality" type="Label" parent="stat_container/stat_GUI/loot_modifiers"]
+margin_left = 72.0
+margin_top = 5.0
+margin_right = 119.0
+margin_bottom = 19.0
+text = "quality:"
+
+[node name="qual_num" type="Label" parent="stat_container/stat_GUI/loot_modifiers"]
+margin_left = 123.0
+margin_top = 5.0
+margin_right = 131.0
+margin_bottom = 19.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="item_stats" type="HBoxContainer" parent="stat_container/stat_GUI"]
+margin_top = 83.0
+margin_right = 209.0
+margin_bottom = 187.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="dmg" type="VBoxContainer" parent="stat_container/stat_GUI/item_stats"]
+margin_right = 100.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 100, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="fire" type="Label" parent="stat_container/stat_GUI/item_stats/dmg"]
+margin_right = 100.0
+margin_bottom = 14.0
+text = "fire"
+
+[node name="fire" type="Label" parent="stat_container/stat_GUI/item_stats/dmg/fire"]
+margin_left = 80.0
+margin_right = 120.0
+margin_bottom = 14.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cold" type="Label" parent="stat_container/stat_GUI/item_stats/dmg"]
+margin_top = 18.0
+margin_right = 100.0
+margin_bottom = 32.0
+text = "cold"
+
+[node name="cold" type="Label" parent="stat_container/stat_GUI/item_stats/dmg/cold"]
+margin_left = 80.0
+margin_right = 120.0
+margin_bottom = 14.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lightning" type="Label" parent="stat_container/stat_GUI/item_stats/dmg"]
+margin_top = 36.0
+margin_right = 100.0
+margin_bottom = 50.0
+text = "lightning"
+
+[node name="lightning" type="Label" parent="stat_container/stat_GUI/item_stats/dmg/lightning"]
+margin_left = 80.0
+margin_right = 120.0
+margin_bottom = 14.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="physical" type="Label" parent="stat_container/stat_GUI/item_stats/dmg"]
+margin_top = 54.0
+margin_right = 100.0
+margin_bottom = 68.0
+text = "physical"
+
+[node name="physical" type="Label" parent="stat_container/stat_GUI/item_stats/dmg/physical"]
+margin_left = 80.0
+margin_right = 120.0
+margin_bottom = 14.0
+text = "0"
+
+[node name="poison" type="Label" parent="stat_container/stat_GUI/item_stats/dmg"]
+margin_top = 72.0
+margin_right = 100.0
+margin_bottom = 86.0
+text = "poison"
+
+[node name="poison" type="Label" parent="stat_container/stat_GUI/item_stats/dmg/poison"]
+margin_left = 80.0
+margin_right = 120.0
+margin_bottom = 14.0
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="res" type="VBoxContainer" parent="stat_container/stat_GUI/item_stats"]
+margin_left = 104.0
+margin_right = 209.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 105, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="resistances" type="Label" parent="stat_container/stat_GUI/item_stats/res"]
+margin_right = 105.0
 margin_bottom = 14.0
 text = "resistances"
 
-[node name="fire" type="Label" parent="stat_container/res"]
+[node name="fire" type="Label" parent="stat_container/stat_GUI/item_stats/res"]
 margin_top = 18.0
-margin_right = 73.0
+margin_right = 105.0
 margin_bottom = 32.0
 text = "fire"
 
-[node name="fire" type="Label" parent="stat_container/res/fire"]
+[node name="fire" type="Label" parent="stat_container/stat_GUI/item_stats/res/fire"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
@@ -284,46 +421,49 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="cold" type="Label" parent="stat_container/res"]
+[node name="cold" type="Label" parent="stat_container/stat_GUI/item_stats/res"]
 margin_top = 36.0
-margin_right = 73.0
+margin_right = 105.0
 margin_bottom = 50.0
 text = "cold"
 
-[node name="cold" type="Label" parent="stat_container/res/cold"]
+[node name="cold" type="Label" parent="stat_container/stat_GUI/item_stats/res/cold"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
 
-[node name="lightning" type="Label" parent="stat_container/res"]
+[node name="lightning" type="Label" parent="stat_container/stat_GUI/item_stats/res"]
 margin_top = 54.0
-margin_right = 73.0
+margin_right = 105.0
 margin_bottom = 68.0
 text = "lightning"
 
-[node name="lightning" type="Label" parent="stat_container/res/lightning"]
+[node name="lightning" type="Label" parent="stat_container/stat_GUI/item_stats/res/lightning"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
 
-[node name="physical" type="Label" parent="stat_container/res"]
+[node name="physical" type="Label" parent="stat_container/stat_GUI/item_stats/res"]
 margin_top = 72.0
-margin_right = 73.0
+margin_right = 105.0
 margin_bottom = 86.0
 text = "physical"
 
-[node name="physical" type="Label" parent="stat_container/res/physical"]
+[node name="physical" type="Label" parent="stat_container/stat_GUI/item_stats/res/physical"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="poison" type="Label" parent="stat_container/res"]
+[node name="poison" type="Label" parent="stat_container/stat_GUI/item_stats/res"]
 margin_top = 90.0
-margin_right = 73.0
+margin_right = 105.0
 margin_bottom = 104.0
 text = "poison"
 
-[node name="poison" type="Label" parent="stat_container/res/poison"]
+[node name="poison" type="Label" parent="stat_container/stat_GUI/item_stats/res/poison"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
@@ -331,89 +471,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="dmg_type" type="Label" parent="stat_container"]
-margin_left = 133.0
-margin_top = 89.0
-margin_right = 193.0
-margin_bottom = 103.0
-size_flags_horizontal = 8
+[node name="dmg_type" type="Label" parent="stat_container/stat_GUI"]
+margin_top = 191.0
+margin_right = 60.0
+margin_bottom = 205.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 text = "dmg type"
-
-[node name="dmg" type="VBoxContainer" parent="stat_container"]
-margin_left = 138.0
-margin_top = 106.0
-margin_right = 193.0
-margin_bottom = 192.0
-size_flags_horizontal = 8
-size_flags_vertical = 8
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="fire" type="Label" parent="stat_container/dmg"]
-margin_right = 55.0
-margin_bottom = 14.0
-text = "fire"
-
-[node name="fire" type="Label" parent="stat_container/dmg/fire"]
-margin_left = 80.0
-margin_right = 120.0
-margin_bottom = 14.0
-text = "0"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="cold" type="Label" parent="stat_container/dmg"]
-margin_top = 18.0
-margin_right = 55.0
-margin_bottom = 32.0
-text = "cold"
-
-[node name="cold" type="Label" parent="stat_container/dmg/cold"]
-margin_left = 80.0
-margin_right = 120.0
-margin_bottom = 14.0
-text = "0"
-
-[node name="lightning" type="Label" parent="stat_container/dmg"]
-margin_top = 36.0
-margin_right = 55.0
-margin_bottom = 50.0
-text = "lightning"
-
-[node name="lightning" type="Label" parent="stat_container/dmg/lightning"]
-margin_left = 80.0
-margin_right = 120.0
-margin_bottom = 14.0
-text = "0"
-
-[node name="physical" type="Label" parent="stat_container/dmg"]
-margin_top = 54.0
-margin_right = 55.0
-margin_bottom = 68.0
-text = "physical"
-
-[node name="physical" type="Label" parent="stat_container/dmg/physical"]
-margin_left = 80.0
-margin_right = 120.0
-margin_bottom = 14.0
-text = "0"
-
-[node name="poison" type="Label" parent="stat_container/dmg"]
-margin_top = 72.0
-margin_right = 55.0
-margin_bottom = 86.0
-text = "poison"
-
-[node name="poison" type="Label" parent="stat_container/dmg/poison"]
-margin_left = 80.0
-margin_right = 120.0
-margin_bottom = 14.0
-text = "0"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="lvl_preview" type="HBoxContainer" parent="."]
 margin_left = 700.0
@@ -485,6 +549,6 @@ __meta__ = {
 }
 
 [connection signal="pressed" from="lvl_up" to="lvl_up" method="_on_lvl_up_pressed"]
-[connection signal="pressed" from="stat_container/stat_screen/dex" to="." method="_on_dex_pressed"]
-[connection signal="pressed" from="stat_container/stat_screen/int" to="." method="_on_int_pressed"]
-[connection signal="pressed" from="stat_container/stat_screen/str" to="." method="_on_str_pressed"]
+[connection signal="pressed" from="stat_container/stat_GUI/stat_screen/dex" to="." method="_on_dex_pressed"]
+[connection signal="pressed" from="stat_container/stat_GUI/stat_screen/int" to="." method="_on_int_pressed"]
+[connection signal="pressed" from="stat_container/stat_GUI/stat_screen/str" to="." method="_on_str_pressed"]
