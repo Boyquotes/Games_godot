@@ -96,6 +96,7 @@ func _deferred_goto_scene(path, spawn):
 		player = ResourceLoader.load("res://Scenes/Player.tscn").instance()
 		inventory = ResourceLoader.load("res://Scenes/Inventory.tscn").instance()
 		GUI = ResourceLoader.load("res://Scenes/GUI.tscn").instance()
+		var GUI_node = GUI.get_node("stat_container").get_node("stat_GUI")
 		GUI.get_node("mana_progress").max_value = max_mana
 		Items = ResourceLoader.load("res://Scenes/Items.tscn").instance()
 		
@@ -117,7 +118,7 @@ func _deferred_goto_scene(path, spawn):
 			player_weapon = "1"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 150
+			weapon["power"] = 500
 			weapon["dmg_type"] = "physical"
 			weapon["special"] = ""
 			item_id += 1
@@ -128,7 +129,7 @@ func _deferred_goto_scene(path, spawn):
 			item_id += 1
 			inventory_items.push_front(body_armor)
 			inventory.get_child(0).pickup_item(inventory_items[0])
-			GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
+			GUI_node.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			spawn_enemy_type()
 			game_started = true
 		else:
@@ -145,21 +146,21 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("mana_progress").max_value = max_mana
 			GUI.get_node("mana_progress").value = int(current_mana)
 			GUI.get_node("mana_progress").get_node("mana_value").text = current_mana
-			GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
-			GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
-			GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
-			GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
-			GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
-			GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
-			GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
-			GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
+			GUI_node.get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
+			GUI_node.get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
+			GUI_node.get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
+			GUI_node.get_node("item_stats").get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
+			GUI_node.get_node("item_stats").get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
+			GUI_node.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
+			GUI_node.get_node("item_stats").get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
+			GUI_node.get_node("item_stats").get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
 			
 			if player_weapon == "bow":
 				GUI.get_node("ammo").text = current_ammo
 			GUI.get_node("ammo_num").text = str(current_ammo_num)
 #			player.move_speed += (0.1*dex)
-			GUI.remove_points(Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
-			GUI.get_node("stat_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
+			GUI.remove_points(GUI_node.get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
+			GUI_node.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
 			spawn_enemy_type()
 			
