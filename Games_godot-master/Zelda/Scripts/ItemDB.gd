@@ -350,13 +350,27 @@ const ARMOR_SPECIAL = {
 	"1": {
 		"id": "1",
 		"type": "normal",
-		"power": "mana_reg"
+		"power": "mana_reg",
+		"value": 0
 		},
 	"2": {
 		"id": "2",
 		"type": "normal",
-		"power": "life_reg"
+		"power": "life_reg",
+		"value": 0
 		},
+	"3": {
+		"id": "3",
+		"type": "normal",
+		"power": "quantity",
+		"value": 0
+	},
+	"4": {
+		"id": "4",
+		"type": "normal",
+		"power": "quality",
+		"value": 0
+	}
 }
 
 const PWRUP = {

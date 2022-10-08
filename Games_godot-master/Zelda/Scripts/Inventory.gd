@@ -112,7 +112,7 @@ func pickup_item(item_id):
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/res/poison/value").text = str(item_id["poison"])
 		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
 		if item_id.has("special"):
-			item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/special_armor_mod").text = str(item_id["special"])
+			item.get_node("stats_tt/stats_tt_popup/stats/stats_container_armor/special_armor_mod").text = str(item_id["special"][0])
 	if item_id["slot"] == "WEAPON":
 		item.get_node("stats_tt/stats_tt_popup/stats/stats_container/power/value").text = str(item_id["power"])
 		if item_id.has("special"):

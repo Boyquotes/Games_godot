@@ -51,10 +51,7 @@ func insert_item(pos):
 			Globals.player.get_node("Body_Armor").texture = ResourceLoader.load("res://Assets/items/" + item.name + ".png")
 		
 		if item.has("special"):
-			if item["special"] == "mana_reg":
-				Globals.GUI.get_node("mana_progress").step += 1
-			if item["special"] == "life_reg":
-				Globals.player.get_node("life_fill_timer").start()
+			add_special_mod(item)
 				
 		if slot == $CHARACTER:
 			Globals.current_body_armor_id = item["id"]
@@ -82,6 +79,21 @@ func insert_item(pos):
 		Globals.GUI.buff_effects(item.name, "activate")
 	
 	return true
+	
+func add_special_mod(item):
+	if "quality" in item["special"][0]:
+		Globals.quality += item["special"][1]
+		Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("loot_modifiers").get_node("qual_num").text =  str(Globals.quality)
+	if "quantity" in item["special"][0]:
+		Globals.quantity += item["special"][1]
+		Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("loot_modifiers").get_node("quant_num").text = str(Globals.quantity)
+	elif item["special"][0] == "mana_reg":
+		print("activateMana")
+		Globals.GUI.get_node("mana_progress").step += 1
+	elif item["special"][0] == "life_reg":
+		print("activateLife")
+		Globals.player.get_node("life_fill_timer").start()
+	
 
 func grab_item(pos):
 	var item = get_item_under_pos(pos)
@@ -107,9 +119,9 @@ func grab_item(pos):
 			
 		if inventory_item.has("special"):
 			print("removeMod")
-			if inventory_item["special"] == "mana_reg":
+			if inventory_item["special"][0] == "mana_reg":
 				Globals.GUI.get_node("mana_progress").step -= 1
-			if inventory_item["special"] == "life_reg":
+			if inventory_item["special"][0] == "life_reg":
 				Globals.player.get_node("life_fill_timer").stop()
 		Globals.GUI.remove_points(GUI_node.get_node("stat_screen").get_node("dex").get_node("dex"), item_id)
 		Globals.GUI.remove_points(GUI_node.get_node("stat_screen").get_node("int").get_node("intel"), item_id)

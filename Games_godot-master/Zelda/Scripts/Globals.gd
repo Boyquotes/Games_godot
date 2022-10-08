@@ -15,6 +15,8 @@ var player_move_speed = 3
 var player_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
 var player_dmg_types = {"fire": 0, "cold": 0, "lightning": 0, "physical": 0, "poison": 0}
 var boss_res = {"fire": 50, "cold": 80, "lightning": 50, "physical": 80, "poison": 20}
+var quality = 0
+var quantity = 0
 var boss_res_modifier = 10
 var load_boss
 var enemy_res_modifier = 10
@@ -115,10 +117,10 @@ func _deferred_goto_scene(path, spawn):
 			enemy_hp_value = 150
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
-			player_weapon = "1"
+			player_weapon = "3"
 			var weapon = ItemDB.WEAPON[player_weapon]
 			weapon["id"] = Globals.item_id
-			weapon["power"] = 500
+			weapon["power"] = 900
 			weapon["dmg_type"] = "physical"
 			weapon["special"] = ""
 			item_id += 1
@@ -350,7 +352,7 @@ func drop(pos, freq, weighting):
 #	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
 	
 	if weighting == null:
-		weighting = drop_weighting({0:0.10, 1:0.60, 2:0.30})
+		weighting = drop_weighting({0:0.05, 1:0.90, 2:0.05})
 	
 #	if freq == null:
 #		freq = rand.randi_range(0,1)
@@ -448,7 +450,8 @@ func drop_item(pos, ilvl):
 		"lightning": str(res[2]),
 		"physical": str(res[3]),
 		"poison": str(res[4]),
-		"special": special_mod(rand, drop, ItemDB.ARMOR_SPECIAL, "armor_special")
+		"special": special_mod(rand, drop, ItemDB.ARMOR_SPECIAL, "armor_special"),
+#		"special_val": special_mod(rand, drop, ItemDB.ARMOR_SPECIAL, "armor_special")[1],
 	}
 	
 	dropped_items.push_front(item)
@@ -493,26 +496,43 @@ func drop_weapon(pos, ilvl):
 
 func special_mod(rand, drop, armor_type, node):
 	var special
+	var special_val
 	rand.randomize()
 
 	var special_chance = rand.randi_range(0, 1)
 
-	if special_chance == 1:
-		var temp_type_arr = []
-		for i in armor_type:
-			if armor_type[i]["type"] == item["type"]:
-				temp_type_arr.push_front(armor_type[i])
-		if temp_type_arr.size() == 0:
-			temp_type_arr.push_front({"power": "ERROR: no Power available"})
+#	if special_chance == 1:
+	var temp_type_arr = []
+	for i in armor_type:
+		if armor_type[i]["type"] == item["type"]:
+			temp_type_arr.push_front(armor_type[i])
+	if temp_type_arr.size() == 0:
+		temp_type_arr.push_front({"power": "ERROR: no Power available"})
 
-		special = temp_type_arr[rand.randi_range(0, temp_type_arr.size()-1)]["power"]
-		drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node(node).visible = true
-		drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node(node).text = special
-		item["special"] = special
+	special = temp_type_arr[rand.randi_range(0, temp_type_arr.size()-1)]
+	
+	if special["power"] == "quantity" or special["power"] == "quality":
+		rand.randomize()
+		var n = special_mod_val(rand)
+		special["value"] = n
+		special_val = n
+		special = special["power"] + " " + str(special["value"])
 	else:
-		special = ""
-		drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node(node).visible = false
+		special = special["power"]
+		
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node(node).visible = true
+	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node(node).text = special
+#	item["special"] = special
 
-	return special
+	if special_val != null:
+		return [special, special_val]
+	else:
+		return [special]
+
+func special_mod_val(rand):
+	rand.randomize()
+	var n = rand.randi_range(ilvl, ilvl+10)
+	return n
+
 
 

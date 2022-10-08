@@ -62,8 +62,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 						enemy_dmg_taken(i, body)
 				elif Globals.player_weapon == "wand":
 					if Globals.wand_proj == null:
-						Globals.enemy_hp[i] -= dmg_taken
-						enemy_hp_bar.value -= dmg_taken
+						enemy_dmg_taken(i, body)
 					elif Globals.wand_proj == "fire_one":
 						if body.burning != true:
 							body.burn_timer(i, (dmg_taken*1.5), 3)
@@ -132,9 +131,10 @@ func dmg_calc():
 	
 func enemy_dmg_taken(pos, enemy):
 	var dmg_txt = dmg_floating_txt.instance()
-	enemy.add_child(dmg_txt)
+	dmg_txt.position = enemy.position
+	Globals.current_scene.add_child(dmg_txt)
 	dmg_txt.get_node("dmg_num_txt").text = str(stepify(dmg_taken, 0.1))
-
+	
 	Globals.enemy_hp[pos] -= dmg_taken
 	enemy_hp_bar.value -= dmg_taken
 
