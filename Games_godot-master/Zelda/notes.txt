@@ -4,7 +4,8 @@ if you don't know what to do -> just play the game and write down ideas + fix th
 --IDEAS--
 
 	!! main game problem solving idea -> balance build decisions and the damage types (resistances) of the biomes to be successful !!
-	!! boss is very difficult and can only be defeated when chat is strong enough -> lvl has to repeated multiple times until enough equipment is found -> qual/quant goes up !!
+	!! boss is very difficult and can only be defeated when char is strong enough -> lvl has to repeated multiple times until enough equipment is found -> qual/quant goes up !!
+	!! decision making quant/qual but mobs get stronger too (lvl is different when reset, procedural levels maybe) !!
 	
 	- archetypes have a drop chance from bosses -> drop chance goes higher when level reset (and enemies get a lot stronger) -> archetypes are biome specific
 	- level reset drops as item that can be used (like a key that can be used to farm in the biome you need for the build)

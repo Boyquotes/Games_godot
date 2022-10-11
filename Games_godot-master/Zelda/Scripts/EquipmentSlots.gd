@@ -49,11 +49,6 @@ func insert_item(pos):
 	if slot == $GLOVES or slot == $BOOTS or slot == $CHARACTER:
 		if slot == $CHARACTER:
 			Globals.player.get_node("Body_Armor").texture = ResourceLoader.load("res://Assets/items/" + item.name + ".png")
-		
-		if item.has("special"):
-			add_special_mod(item)
-				
-		if slot == $CHARACTER:
 			Globals.current_body_armor_id = item["id"]
 		if slot == $BOOTS:
 			Globals.current_boots_id = item["id"]
@@ -61,6 +56,11 @@ func insert_item(pos):
 			Globals.current_gloves_id = item["id"]
 		
 		if Globals.add_stats:
+			if item.has("special"):
+				var mode = "add"
+				var item_place = item
+				special_mod(item_place, mode)
+			
 			var GUI_node = Globals.GUI.get_node("stat_container").get_node("stat_GUI")
 			Globals.GUI.attribute_points(GUI_node.get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
 			Globals.GUI.attribute_points(GUI_node.get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])
@@ -79,20 +79,6 @@ func insert_item(pos):
 		Globals.GUI.buff_effects(item.name, "activate")
 	
 	return true
-	
-func add_special_mod(item):
-	if "quality" in item["special"][0]:
-		Globals.quality += item["special"][1]
-		Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("loot_modifiers").get_node("qual_num").text =  str(Globals.quality)
-	if "quantity" in item["special"][0]:
-		Globals.quantity += item["special"][1]
-		Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("loot_modifiers").get_node("quant_num").text = str(Globals.quantity)
-	elif item["special"][0] == "mana_reg":
-		print("activateMana")
-		Globals.GUI.get_node("mana_progress").step += 1
-	elif item["special"][0] == "life_reg":
-		print("activateLife")
-		Globals.player.get_node("life_fill_timer").start()
 	
 
 func grab_item(pos):
@@ -118,15 +104,13 @@ func grab_item(pos):
 			Globals.player.get_node("Body_Armor").texture = null
 			
 		if inventory_item.has("special"):
-			print("removeMod")
-			if inventory_item["special"][0] == "mana_reg":
-				Globals.GUI.get_node("mana_progress").step -= 1
-			if inventory_item["special"][0] == "life_reg":
-				Globals.player.get_node("life_fill_timer").stop()
+			var mode = "deduct"
+			var item_place = inventory_item
+			special_mod(item_place, mode) 
+
 		Globals.GUI.remove_points(GUI_node.get_node("stat_screen").get_node("dex").get_node("dex"), item_id)
 		Globals.GUI.remove_points(GUI_node.get_node("stat_screen").get_node("int").get_node("intel"), item_id)
-		Globals.GUI.remove_points(GUI_node.get_node("stat_screen").get_node("str").get_node("stren"), item_id)
-		
+		Globals.GUI.remove_points(GUI_node.get_node("stat_screen").get_node("str").get_node("stren"), item_id)		
 		Globals.GUI.remove_points(GUI_node.get_node("item_stats").get_node("res").get_node("fire").get_node("fire"), item_id)
 		Globals.GUI.remove_points(GUI_node.get_node("item_stats").get_node("res").get_node("cold").get_node("cold"), item_id)
 		Globals.GUI.remove_points(GUI_node.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning"), item_id)
@@ -137,6 +121,31 @@ func grab_item(pos):
 		Globals.GUI.buff_effects(item, "deactivate")
 
 	return item
+	
+	
+func special_mod(item, mode):
+	if "quality" in item["special"][0]:
+		if mode == "add":
+			Globals.quality += item["special"][1]
+		else:
+			Globals.quality -= item["special"][1]
+		Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("loot_modifiers").get_node("qual_num").text =  str(Globals.quality)
+	if "quantity" in item["special"][0]:
+		if mode == "add":
+			Globals.quantity += item["special"][1]
+		else:
+			Globals.quantity -= item["special"][1]
+		Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("loot_modifiers").get_node("quant_num").text = str(Globals.quantity)
+	if item["special"][0] == "mana_reg":
+		if mode == "add":
+			Globals.GUI.get_node("mana_progress").step += 1
+		else:
+			Globals.GUI.get_node("mana_progress").step -= 1
+	if item["special"][0] == "life_reg":
+		if mode == "add":
+			Globals.player.get_node("life_fill_timer").start()
+		else:
+			Globals.player.get_node("life_fill_timer").stop()
 
 func get_slot_under_pos(pos):
 	return get_thing_under_pos(slots, pos)

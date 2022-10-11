@@ -156,6 +156,8 @@ func _deferred_goto_scene(path, spawn):
 			GUI_node.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
 			GUI_node.get_node("item_stats").get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
 			GUI_node.get_node("item_stats").get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
+			GUI_node.get_node("loot_modifiers").get_node("quant_num").text = str(quantity)
+			GUI_node.get_node("loot_modifiers").get_node("qual_num").text = str(quality)
 			
 			if player_weapon == "bow":
 				GUI.get_node("ammo").text = current_ammo
@@ -349,11 +351,13 @@ func drop_weighting(num):
 func drop(pos, freq, weighting):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
+	var num_items_dropped = rand.randf_range(10, quantity)/2
 #	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
+	
+	print("numOfItems ", num_items_dropped)
 	
 	if weighting == null:
 		weighting = drop_weighting({0:0.05, 1:0.90, 2:0.05})
-	
 #	if freq == null:
 #		freq = rand.randi_range(0,1)
 	
@@ -361,9 +365,40 @@ func drop(pos, freq, weighting):
 	if weighting == 0:
 		drop_pwrup(pos)
 	elif weighting == 1:
-		drop_item(pos, ilvl)
+		var last_pos_x = 0
+		var last_pos_y = 0
+		for i in round(num_items_dropped):
+			pos.x = round(pos.x)
+			pos.y = round(pos.y)
+			
+			pos.x += rand.randi_range(-36, 36)
+			pos.y += rand.randi_range(-36, 36)
+			
+			if i >= 1:
+				print("newPosx ", pos.x, " ", "lastPos ", last_pos_x)
+				print("posRange ", range(last_pos_x-36, last_pos_x))
+				while pos.x in range(last_pos_x-20, last_pos_x+20): 
+					print("changePosX")
+					pos.x += rand.randi_range(-10, 10)
+				while pos.y in range(last_pos_y-20, last_pos_y+20): 
+					print("changePosY")
+					pos.y += rand.randi_range(-10, 10)
+					
+#					last_pos_x = pos.x
+#					last_pos_y = pos.y
+			
+			last_pos_x = pos.x
+			last_pos_y = pos.y
+			
+			drop_item(pos, ilvl)
+			
 	elif weighting == 2:
-		drop_weapon(pos, ilvl)
+		for i in round(num_items_dropped):
+			drop_weapon(pos, ilvl)
+			
+func drop_pos(pos):
+	pass
+	
 	
 func drop_pwrup(pos):
 	var drop_id = str(drop_weighting({1:0.13, 2:0.09, 3:0.13, 4:0.13, 5:0.13, 6:0.13, 7:0.13, 8:0.13}))
