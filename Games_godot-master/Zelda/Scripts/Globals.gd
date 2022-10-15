@@ -348,13 +348,34 @@ func drop_weighting(num):
 		if n <= sum:
 			return i
 
+func drop_spacing(pos, last_pos, rand): 
+##	var testpos = [1]
+##	var testARR = [1,2,3,4]	
+#	var testARR = range(pos-15, pos+15)
+#
+#	var condition_met = false
+##	print("test ", testARR.find(testpos[0]))
+#	print("newPOS ", pos)
+#	print("lastPosArr ", last_pos[0])
+#	print("searchARR ", testARR)
+#	print("posinrangeofARR ", testARR.has(last_pos[0]))
+#	while condition_met == false:
+#		for i in last_pos.size():
+#			if i in range(pos+15,pos-15):
+#				pos += rand.randi_range(-15,15)
+#	while range(pos-15, pos+15).find(last_pos[0]) != -1:
+#		print("changeVAL")
+#		pos += rand.randi_range(-15,15)
+#
+##	print("returnPOS ", pos)
+#
+	return pos
+
 func drop(pos, freq, weighting):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
-	var num_items_dropped = rand.randf_range(10, quantity)/2
 #	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
 	
-	print("numOfItems ", num_items_dropped)
 	
 	if weighting == null:
 		weighting = drop_weighting({0:0.05, 1:0.90, 2:0.05})
@@ -365,8 +386,13 @@ func drop(pos, freq, weighting):
 	if weighting == 0:
 		drop_pwrup(pos)
 	elif weighting == 1:
-		var last_pos_x = 0
-		var last_pos_y = 0
+		var last_pos_x = []
+		var last_pos_y = []
+		var num_items_dropped = rand.randf_range(10, quantity)/2
+#		var iteration = true
+		
+		print("NUMOFITEMS ", num_items_dropped)
+		
 		for i in round(num_items_dropped):
 			pos.x = round(pos.x)
 			pos.y = round(pos.y)
@@ -375,24 +401,66 @@ func drop(pos, freq, weighting):
 			pos.y += rand.randi_range(-36, 36)
 			
 			if i >= 1:
-				print("newPosx ", pos.x, " ", "lastPos ", last_pos_x)
-				print("posRange ", range(last_pos_x-36, last_pos_x))
-				while pos.x in range(last_pos_x-20, last_pos_x+20): 
-					print("changePosX")
-					pos.x += rand.randi_range(-10, 10)
-				while pos.y in range(last_pos_y-20, last_pos_y+20): 
-					print("changePosY")
-					pos.y += rand.randi_range(-10, 10)
-					
-#					last_pos_x = pos.x
-#					last_pos_y = pos.y
 			
-			last_pos_x = pos.x
-			last_pos_y = pos.y
+				pos.x = drop_spacing(pos.x, last_pos_x, rand)
+				
+				pos.y = drop_spacing(pos.y, last_pos_y, rand)
+				
+#				while 
+				
+##				print("newPos ", pos.x, " ", pos.y, " ", "lastPos ", last_pos_x, " ", last_pos_y)
+##				print("posRange ", range(last_pos_x-36, last_pos_x))
+#				for j in last_pos_x.size():
+#
+#					if j in range(last_pos_x[j]-20, last_pos_x[j]+20):
+#						pos.x += rand.randi_range(-10, 10)
+#
+##						at the last pos of the loop, if condition is met exit loop else start over again
+#
+#				for k in last_pos_y.size():
+#
+#					while k in range(last_pos_x[k]-20, last_pos_x[k]+20):
+#						pos.y += rand.randi_range(-10, 10)
+#
+##					print("iterationX ",j)
+#
+#					while pos.x in range(last_pos_x[j]-20, last_pos_x[j]+20):
+#					if pos.x in range(last_pos_x[iteration_x]-20, last_pos_x[iteration_x]+20): 
+#
+##						print("changePosX")
+#						pos.x += rand.randi_range(-10, 10)
+##						RESTART THE LOOP HERE
+#						iteration_x=0
+##						print("iterationAFTER ",j)
+#					else:
+#						iteration_x+=1
+#				for k in last_pos_y:
+#					print("iterationY ",k)
+#					if pos.y in range(last_pos_y[iteration_y]-20, last_pos_y[iteration_y]+20): 
+##						print("changePosX")
+#						pos.y += rand.randi_range(-10, 10)
+#						iteration_y=0
+#					else:
+#						iteration_y+=1
 			
-			drop_item(pos, ilvl)
+				last_pos_x.push_back(pos.x)
+				last_pos_y.push_back(pos.y)
+				drop_item(pos, ilvl)
+			else:
+				last_pos_x.push_back(pos.x)
+				last_pos_y.push_back(pos.y)
+				drop_item(pos, ilvl)
+			
+#			print("dropPos ", pos)
+#			print("oldDropsX ", last_pos_x)
+#			print("oldDropsY ", last_pos_y)
+#			drop_item(pos, ilvl)
+			
+#			print("X ", last_pos_x)
+#			print("Y ", last_pos_y)
 			
 	elif weighting == 2:
+		var num_items_dropped = rand.randf_range(10, quantity)/2
 		for i in round(num_items_dropped):
 			drop_weapon(pos, ilvl)
 			
