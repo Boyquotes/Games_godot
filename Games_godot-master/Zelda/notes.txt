@@ -42,6 +42,9 @@ if you don't know what to do -> just play the game and write down ideas + fix th
 
 --NOTES--
 
+19/10/22
+	- cannot find a solution from preventing dropped items spawn outside of bounds (spawn_area (959,547)) . array.has() func does not take the correct pos in drop_spacing() for some reason. 
+
 18/10/22
 	- drop spacing solution needs better distribution of items -> currently items tend to drop along the Y axis for whatever reason. -> maybe randomize() is bad for true rng or drop range is bad
 

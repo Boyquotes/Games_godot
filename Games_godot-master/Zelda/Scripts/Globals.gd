@@ -332,7 +332,6 @@ func spawn_boss_portal():
 	current_scene.call_deferred("add_child", Portal)
 	entities.clear()
 	entities.push_front(Portal)
-	
 	Portal.get_node("Boss_Portal_Anim").play()
 	Portal.position.x = 500
 	Portal.position.y = 300
@@ -348,39 +347,49 @@ func drop_weighting(num):
 		if n <= sum:
 			return i
 
-var k = false
-func drop_spacing(pos, last_pos, rand): 
-	k = false
+var drop_overlap = false
+func drop_spacing(pos, last_pos, rand, axis): 
+	drop_overlap = false
+	var drop_in_spawn_area
+	
+	if axis == "x":
+		drop_in_spawn_area = current_scene.get_node("spawn_area").rect_size.x
+	else:
+		drop_in_spawn_area = current_scene.get_node("spawn_area").rect_size.y
 
+#	print("pos ", pos)
+#	print("drop_area ", drop_in_spawn_area)
+#			print("drop_area ", range(0, drop_in_spawn_area))
+#	print("drop_inside_bound ", range(0, drop_in_spawn_area).has(pos))
+	
 	for i in last_pos.size():
-		if last_pos[i] in range(pos-25,pos+25):
+		if last_pos[i] in range(pos-25,pos+25): # or range(0, drop_in_spawn_area).has(pos) == false:
+#			print("pos ", pos)
+#			print("drop_area ", range(0, drop_in_spawn_area))
+#			print("drop_inside_bound ", range(0, drop_in_spawn_area).has(pos))
+
 			rand.randomize()
 			pos += rand.randi_range(-10,10)
-			k = true
+			drop_overlap = true
 		else:
 			pos = pos
-
 	return pos
 
 func drop(pos, freq, weighting):
+#	print("dropAREA ", range(current_scene.get_node("spawn_area").rect_size.y))
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 #	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
 	
-	
 	if weighting == null:
 		weighting = drop_weighting({0:0.05, 1:0.90, 2:0.05})
-#	if freq == null:
-#		freq = rand.randi_range(0,1)
-	
-#	if freq == 1:
+
 	if weighting == 0:
 		drop_pwrup(pos)
 	elif weighting == 1:
 		var last_pos_x = []
 		var last_pos_y = []
-		var num_items_dropped = rand.randf_range(10, quantity)/2
-#		var iteration = true
+		var num_items_dropped = rand.randf_range(10, quantity)/8
 		
 		print("NUMOFITEMS ", num_items_dropped)
 		
@@ -389,22 +398,20 @@ func drop(pos, freq, weighting):
 			pos.y = round(pos.y)
 			
 			if i >= 1:
-				pos.x = drop_spacing(pos.x, last_pos_x, rand)
-				pos.y = drop_spacing(pos.y, last_pos_y, rand)
-				while  k == true:
-					pos.x = drop_spacing(pos.x, last_pos_x, rand)
-					pos.y = drop_spacing(pos.y, last_pos_y, rand)
+				pos.x = drop_spacing(pos.x, last_pos_x, rand, "x")
+				pos.y = drop_spacing(pos.y, last_pos_y, rand, "y")
+				while  drop_overlap == true:
+					pos.x = drop_spacing(pos.x, last_pos_x, rand, "x")
+					pos.y = drop_spacing(pos.y, last_pos_y, rand, "y")
 
 			last_pos_x.push_back(pos.x)
 			last_pos_y.push_back(pos.y)
 			call_deferred("drop_item", pos, ilvl)
-
 			
 	elif weighting == 2:
 		var num_items_dropped = rand.randf_range(10, quantity)/2
 		for i in round(num_items_dropped):
 			drop_weapon(pos, ilvl)
-	
 	
 func drop_pwrup(pos):
 	var drop_id = str(drop_weighting({1:0.13, 2:0.09, 3:0.13, 4:0.13, 5:0.13, 6:0.13, 7:0.13, 8:0.13}))
