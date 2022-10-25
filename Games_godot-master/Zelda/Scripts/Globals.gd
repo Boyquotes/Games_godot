@@ -356,27 +356,16 @@ func drop_spacing(pos, last_pos, rand, axis):
 		drop_in_spawn_area = current_scene.get_node("spawn_area").rect_size.x
 	else:
 		drop_in_spawn_area = current_scene.get_node("spawn_area").rect_size.y
-
-#	print("pos ", pos)
-#	print("drop_area ", drop_in_spawn_area)
-#			print("drop_area ", range(0, drop_in_spawn_area))
-#	print("drop_inside_bound ", range(0, drop_in_spawn_area).has(pos))
 	
 	for i in last_pos.size():
-		if last_pos[i] in range(pos-25,pos+25): # or range(0, drop_in_spawn_area).has(pos) == false:
-#			print("pos ", pos)
-#			print("drop_area ", range(0, drop_in_spawn_area))
-#			print("drop_inside_bound ", range(0, drop_in_spawn_area).has(pos))
-
+		var pos_in_bounds = pos in range(0, drop_in_spawn_area)
+		if last_pos[i] in range(pos-25,pos+25) or pos_in_bounds == false:
 			rand.randomize()
-			pos += rand.randi_range(-10,10)
+			pos += rand.randi_range(-20,20)
 			drop_overlap = true
-		else:
-			pos = pos
 	return pos
 
 func drop(pos, freq, weighting):
-#	print("dropAREA ", range(current_scene.get_node("spawn_area").rect_size.y))
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 #	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
@@ -389,7 +378,7 @@ func drop(pos, freq, weighting):
 	elif weighting == 1:
 		var last_pos_x = []
 		var last_pos_y = []
-		var num_items_dropped = rand.randf_range(10, quantity)/8
+		var num_items_dropped = rand.randf_range(10, quantity)/3
 		
 		print("NUMOFITEMS ", num_items_dropped)
 		

@@ -8,3 +8,5 @@
 - pwrups do not get equipped automatically, if something has already been picked up ||BUG||
 - encountered weird movement bug when pushed against the wall from snow enemies ||BUG||
 - boss_bow proj are behaving weird bc of for in 99 loop -> need solution for the attack to start/stop depending on player coll with aggro range ||BUG||
+- tooltip from inv items does not disappear under certain circumstances
+- items drop at player pos (which does mean autopickup)
