@@ -42,6 +42,10 @@ if you don't know what to do -> just play the game and write down ideas + fix th
 
 --NOTES--
 
+26/10/22
+	- fixed array.pos problem but items still spawn OOB, probably bc drop_spacing() for y sets drop_overlap to false while x is still OOB -> check both positions in the function
+	- drop_spacing() has way to many iterations -> errors with rand and items still get dropped OOB
+
 19/10/22
 	- cannot find a solution from preventing dropped items spawn outside of bounds (spawn_area (959,547)) . array.has() func does not take the correct pos in drop_spacing() for some reason. 
 
