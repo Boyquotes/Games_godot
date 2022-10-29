@@ -366,8 +366,8 @@ func drop_spacing(pos, last_pos, rand):
 			pos_in_bounds = true
 		else:
 			pos_in_bounds = false
-		if last_pos[i].x in range(pos.x-25,pos.x+25) or last_pos[i].y in range(pos.y-25,pos.y+25) or pos_in_bounds == false or pos.x in range(player.position.x-25, player.position.x+25) or pos.y in range(player.position.y-25, player.position.y+25):
-#			while loop is infinite bc the pos gets further away with every iteration of this when item OOB
+		if last_pos[i].x in range(pos.x-18,pos.x+18) or last_pos[i].y in range(pos.y-18,pos.y+18) or pos_in_bounds == false or pos.x in range(player.position.x-18, player.position.x+18) or pos.y in range(player.position.y-18, player.position.y+18):
+#			while loop is infinite (or very long) bc the pos gets further away with every iteration of this when item OOB or the if conditions are true for a long time
 			pos += Vector2(rand.randi_range(-36,36), rand.randi_range(-36,36))
 			drop_overlap = true
 	return pos
