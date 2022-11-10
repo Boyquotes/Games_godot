@@ -42,6 +42,10 @@ if you don't know what to do -> just play the game and write down ideas + fix th
 
 --NOTES--
 
+10/11/22
+	- idea for drop spacing problem. make fixed drop locations and "space" other drops around it.
+		- check for OOB item drops in drop_spacing() loop
+ 
 26/10/22
 	- fixed array.pos problem but items still spawn OOB, probably bc drop_spacing() for y sets drop_overlap to false while x is still OOB -> check both positions in the function
 	- drop_spacing() has way to many iterations -> errors with rand and items still get dropped OOB
