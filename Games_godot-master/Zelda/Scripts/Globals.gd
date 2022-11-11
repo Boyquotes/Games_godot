@@ -348,51 +348,63 @@ func drop_weighting(num):
 			return i
 
 var drop_overlap = false
-func drop_spacing(pos, last_pos, i): 
-	
-	var iterations = [Vector2(last_pos[-1].x+30, last_pos[-1].y), Vector2(last_pos[-1].x, last_pos[-1].y-30), Vector2(last_pos[-1].x-30, last_pos[-1].y),
-		Vector2(last_pos[-1].x-30, last_pos[-1].y), Vector2(last_pos[-1].x, last_pos[-1].y+30), Vector2(last_pos[-1].x, last_pos[-1].y+30), Vector2(last_pos[-1].x+30, last_pos[-1].y), Vector2(last_pos[-1].x+30, last_pos[-1].y)]
-#	drop_overlap = false
-#	var drop_in_spawn_area = current_scene.get_node("spawn_area").rect_size
+var drop_dir = 0
+func drop_spacing(pos, last_pos, rand): 
+	drop_overlap = false
+#	drop_dir += 1
+	var drop_in_spawn_area = current_scene.get_node("spawn_area").rect_size
 #	var player_pos
-#	rand.randomize()
+	rand.randomize()
 #	if axis == "x":
 #		drop_in_spawn_area = current_scene.get_node("spawn_area").rect_size.x
 #		player_pos = player.position.x
 #	elif axis == "y":
 #		drop_in_spawn_area = current_scene.get_node("spawn_area").rect_size.y
 #		player_pos = player.position.y
-#	var x_factor = +20
-#	var y_factor = -20
-	
-#	first iteration = x+20, y-20
-#	2nd iteration = x-20, y=y
-#	3rd iteration = x-20, y+20
-#	4th iteration = x=x, y+20
-#	5th iteration = x-20, y+20
-#	6sth iteration = start again with first iteration
-#	if i >= 5:
-#		i = 1
-	
-	pos = iterations[i-1]
-#	Vector2(last_pos[-1].x+36, last_pos[-1].y-36)
-	
-	
-#	for i in last_pos.size():
-#		var pos_in_bounds = false
-#		if pos.x in range(36, drop_in_spawn_area.x-36) and pos.y in range(36, drop_in_spawn_area.y-36):
-#			pos_in_bounds = true
-#		else:
-#			pos_in_bounds = false
-#		if last_pos[i].x in range(pos.x-18,pos.x+18) or last_pos[i].y in range(pos.y-18,pos.y+18) or pos_in_bounds == false or pos.x in range(player.position.x-18, player.position.x+18) or pos.y in range(player.position.y-18, player.position.y+18):
-##			while loop is infinite (or very long) bc the pos gets further away with every iteration of this when item OOB or the if conditions are true for a long time
-#			pos += Vector2(rand.randi_range(-36,36), rand.randi_range(-36,36))
+	for i in last_pos.size():
+		drop_dir += 1
+		var pos_in_bounds = false
+		if pos.x in range(50, drop_in_spawn_area.x-50) and pos.y in range(50, drop_in_spawn_area.y-50):
+			pos_in_bounds = true
+		else:	
+			pos_in_bounds = false
+		if last_pos[i].x in range(pos.x-18,pos.x+18) or last_pos[i].y in range(pos.y-18,pos.y+18) or pos_in_bounds == false or pos.x in range(player.position.x-18, player.position.x+18) or pos.y in range(player.position.y-18, player.position.y+18):
+			drop_overlap = true
+			
+#			while loop is infinite (or very long) bc the pos gets further away with every iteration of this when item OOB or the if conditions are true for a long time
+#			if drop_dir % 2 == 0:
+			
+			pos += Vector2(rand.randi_range(-36, 36), rand.randi_range(-36, 36))
+			
+			if pos.x in range(36, drop_in_spawn_area.x-36) and pos.y in range(36, drop_in_spawn_area.y-36):
+				
+#				pos += Vector2(-50,50)
+				print("drop_locationINB ", pos)
+				print("drop_dir ", drop_dir)
+#				drop_overlap = true
+				return pos
+			else:
+				pos += Vector2(rand.randi_range(-50, 50), rand.randi_range(-50, 50))
+				print("drop_locationOOB ", pos)
+				print("drop_dir ", drop_dir)
+#				if pos_in_bounds == false:
+#					pos = last_pos[i]
+#			else:
+#				pos += Vector2(rand.randi_range(-36, -50), rand.randi_range(36, 50))
+#				pos += Vector2(-16,0)
+#				print("drop_location1 ", pos)
+#				print("drop_dir ", drop_dir)
+#				if pos_in_bounds == false:
+#					pos = last_pos[i]
+				
 #			drop_overlap = true
+#			print("drop_location ", pos)
 	return pos
 
 func drop(pos, freq, weighting):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
+
 #	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
 	
 	if weighting == null:
@@ -402,11 +414,10 @@ func drop(pos, freq, weighting):
 		drop_pwrup(pos)
 	elif weighting == 1:
 		var last_pos = []
-#		var iterations = [Vector2(last_pos[-1].x+20, last_pos[-1].y-20), Vector2(last_pos[-1].x-20, last_pos[-1].y), Vector2(last_pos[-1].x-20, last_pos[-1].y+20),
-#		Vector2(last_pos[-1].x, last_pos[-1].y+20), Vector2(last_pos[-1].x-20, last_pos[-1].y+20)]
 #		var last_pos_x = []
 #		var last_pos_y = []
-		var num_items_dropped = 9  #rand.randf_range(10, quantity)/3
+		var num_items_dropped = rand.randf_range(10, quantity)/3
+#		var drop_dir = 0
 		
 		print("NUMOFITEMS ", num_items_dropped)
 		
@@ -416,12 +427,11 @@ func drop(pos, freq, weighting):
 			pos = Vector2(round(pos.x), round(pos.y))
 			
 			if i >= 1:
-				pos = drop_spacing(pos, last_pos, i)
-				
+				pos = drop_spacing(pos, last_pos, rand)
 #				pos.x = drop_spacing(pos.x, last_pos_x, rand, "x")
 #				pos.y = drop_spacing(pos.y, last_pos_y, rand, "y")
-##				while  drop_overlap == true:
-#					pos = drop_spacing(pos, last_pos, rand)
+				while drop_overlap == true:
+					pos = drop_spacing(pos, last_pos, rand)
 					
 #					pos.x = drop_spacing(pos.x, last_pos_x, rand, "x")
 #					pos.y = drop_spacing(pos.y, last_pos_y, rand, "y")
@@ -431,6 +441,7 @@ func drop(pos, freq, weighting):
 #			last_pos_y.push_back(pos)
 			call_deferred("drop_item", pos, ilvl)
 			last_pos.push_back(pos)
+#			drop_dir += 1
 			
 	elif weighting == 2:
 		var num_items_dropped = rand.randf_range(10, quantity)/2
