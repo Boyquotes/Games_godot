@@ -96,18 +96,19 @@ func _deferred_goto_scene(path, spawn):
 	
 	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn" and path != "res://Scenes/pwr_up_screen.tscn":
 		player = ResourceLoader.load("res://Scenes/Player.tscn").instance()
-		inventory = ResourceLoader.load("res://Scenes/Inventory.tscn").instance()
+#		inventory = ResourceLoader.load("res://Scenes/GUI.tscn").instance().get_node("stat_container").get_node("Inventory")
 		GUI = ResourceLoader.load("res://Scenes/GUI.tscn").instance()
-		var GUI_node = GUI.get_node("stat_container").get_node("stat_GUI")
+		inventory = GUI.get_node("gui_container").get_node("stat_inv_container").get_node("Inventory")
+		var GUI_stats = GUI.get_node("gui_container").get_node("stat_inv_container").get_node("stat_GUI")
 		GUI.get_node("mana_progress").max_value = max_mana
 		Items = ResourceLoader.load("res://Scenes/Items.tscn").instance()
 		
 		current_scene.add_child(player)
 		current_scene.add_child(GUI)
 		current_scene.add_child(Items)
-		player.add_child(inventory)
+#		player.add_child(inventory)
 		
-		inventory.get_child(0).rect_position = player.position
+#		inventory.get_child(0).rect_position = player.position
 
 #		load start scene
 		if path == "res://Scenes/Levels/Starting_World.tscn" and game_started == false:
@@ -125,13 +126,13 @@ func _deferred_goto_scene(path, spawn):
 			weapon["special"] = ""
 			item_id += 1
 			inventory_items.push_front(weapon)
-			inventory.get_child(0).pickup_item(inventory_items[0])
+			inventory.pickup_item(inventory_items[0])
 			var body_armor = ItemDB.STARTER_ITEMS["1"]
 			body_armor["id"] = Globals.item_id
 			item_id += 1
 			inventory_items.push_front(body_armor)
-			inventory.get_child(0).pickup_item(inventory_items[0])
-			GUI_node.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
+			inventory.pickup_item(inventory_items[0])
+			GUI_stats.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			spawn_enemy_type()
 			game_started = true
 		else:
@@ -148,23 +149,23 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("mana_progress").max_value = max_mana
 			GUI.get_node("mana_progress").value = int(current_mana)
 			GUI.get_node("mana_progress").get_node("mana_value").text = current_mana
-			GUI_node.get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
-			GUI_node.get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
-			GUI_node.get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
-			GUI_node.get_node("item_stats").get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
-			GUI_node.get_node("item_stats").get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
-			GUI_node.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
-			GUI_node.get_node("item_stats").get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
-			GUI_node.get_node("item_stats").get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
-			GUI_node.get_node("loot_modifiers").get_node("quant_num").text = str(quantity)
-			GUI_node.get_node("loot_modifiers").get_node("qual_num").text = str(quality)
+			GUI_stats.get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
+			GUI_stats.get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
+			GUI_stats.get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
+			GUI_stats.get_node("item_stats").get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
+			GUI_stats.get_node("item_stats").get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
+			GUI_stats.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
+			GUI_stats.get_node("item_stats").get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
+			GUI_stats.get_node("item_stats").get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
+			GUI_stats.get_node("loot_modifiers").get_node("quant_num").text = str(quantity)
+			GUI_stats.get_node("loot_modifiers").get_node("qual_num").text = str(quality)
 			
 			if player_weapon == "bow":
 				GUI.get_node("ammo").text = current_ammo
 			GUI.get_node("ammo_num").text = str(current_ammo_num)
 #			player.move_speed += (0.1*dex)
-			GUI.remove_points(GUI_node.get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
-			GUI_node.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
+			GUI.remove_points(GUI_stats.get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
+			GUI_stats.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
 			spawn_enemy_type()
 			
@@ -348,21 +349,12 @@ func drop_weighting(num):
 			return i
 
 var drop_overlap = false
-var drop_dir = 0
 func drop_spacing(pos, last_pos, rand): 
 	drop_overlap = false
-#	drop_dir += 1
 	var drop_in_spawn_area = current_scene.get_node("spawn_area").rect_size
-#	var player_pos
 	rand.randomize()
-#	if axis == "x":
-#		drop_in_spawn_area = current_scene.get_node("spawn_area").rect_size.x
-#		player_pos = player.position.x
-#	elif axis == "y":
-#		drop_in_spawn_area = current_scene.get_node("spawn_area").rect_size.y
-#		player_pos = player.position.y
+
 	for i in last_pos.size():
-		drop_dir += 1
 		var pos_in_bounds = false
 		if pos.x in range(50, drop_in_spawn_area.x-50) and pos.y in range(50, drop_in_spawn_area.y-50):
 			pos_in_bounds = true
@@ -370,35 +362,13 @@ func drop_spacing(pos, last_pos, rand):
 			pos_in_bounds = false
 		if last_pos[i].x in range(pos.x-18,pos.x+18) or last_pos[i].y in range(pos.y-18,pos.y+18) or pos_in_bounds == false or pos.x in range(player.position.x-18, player.position.x+18) or pos.y in range(player.position.y-18, player.position.y+18):
 			drop_overlap = true
-			
-#			while loop is infinite (or very long) bc the pos gets further away with every iteration of this when item OOB or the if conditions are true for a long time
-#			if drop_dir % 2 == 0:
-			
 			pos += Vector2(rand.randi_range(-36, 36), rand.randi_range(-36, 36))
 			
 			if pos.x in range(36, drop_in_spawn_area.x-36) and pos.y in range(36, drop_in_spawn_area.y-36):
-				
-#				pos += Vector2(-50,50)
-				print("drop_locationINB ", pos)
-				print("drop_dir ", drop_dir)
-#				drop_overlap = true
 				return pos
 			else:
 				pos += Vector2(rand.randi_range(-50, 50), rand.randi_range(-50, 50))
-				print("drop_locationOOB ", pos)
-				print("drop_dir ", drop_dir)
-#				if pos_in_bounds == false:
-#					pos = last_pos[i]
-#			else:
-#				pos += Vector2(rand.randi_range(-36, -50), rand.randi_range(36, 50))
-#				pos += Vector2(-16,0)
-#				print("drop_location1 ", pos)
-#				print("drop_dir ", drop_dir)
-#				if pos_in_bounds == false:
-#					pos = last_pos[i]
-				
-#			drop_overlap = true
-#			print("drop_location ", pos)
+
 	return pos
 
 func drop(pos, freq, weighting):
@@ -414,34 +384,19 @@ func drop(pos, freq, weighting):
 		drop_pwrup(pos)
 	elif weighting == 1:
 		var last_pos = []
-#		var last_pos_x = []
-#		var last_pos_y = []
-		var num_items_dropped = rand.randf_range(10, quantity)/3
-#		var drop_dir = 0
-		
-		print("NUMOFITEMS ", num_items_dropped)
+		var num_items_dropped = rand.randf_range(10, quantity)/5
 		
 		for i in round(num_items_dropped):
-#			pos.x = round(pos.x)
-#			pos.y = round(pos.y)
 			pos = Vector2(round(pos.x), round(pos.y))
 			
 			if i >= 1:
 				pos = drop_spacing(pos, last_pos, rand)
-#				pos.x = drop_spacing(pos.x, last_pos_x, rand, "x")
-#				pos.y = drop_spacing(pos.y, last_pos_y, rand, "y")
+
 				while drop_overlap == true:
 					pos = drop_spacing(pos, last_pos, rand)
-					
-#					pos.x = drop_spacing(pos.x, last_pos_x, rand, "x")
-#					pos.y = drop_spacing(pos.y, last_pos_y, rand, "y")
-			
-#			last_pos.push_back(pos)
-#			last_pos_x.push_back(pos)
-#			last_pos_y.push_back(pos)
+
 			call_deferred("drop_item", pos, ilvl)
 			last_pos.push_back(pos)
-#			drop_dir += 1
 			
 	elif weighting == 2:
 		var num_items_dropped = rand.randf_range(10, quantity)/2

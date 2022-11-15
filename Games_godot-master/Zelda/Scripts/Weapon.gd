@@ -120,7 +120,7 @@ func dmg_calc():
 		enemy_res = Globals.enemy_resistance
 	
 	var dmg = Globals.player_pwr
-	for j in Globals.GUI.get_node("stat_container").get_node("stat_GUI").get_node("item_stats").get_node("dmg").get_children():
+	for j in Globals.GUI.get_node("gui_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("item_stats").get_node("dmg").get_children():
 		for k in Globals.enemy_resistance:
 			if j.text == k and int(j.get_child(0).text) > 0:
 				dmg = float(dmg)/enemy_res.get(k)

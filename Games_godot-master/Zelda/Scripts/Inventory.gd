@@ -99,6 +99,7 @@ func pickup_item(item_id):
 	var item = item_base.instance()
 	item.set_meta("id", item_id["id"])
 	item.texture = load(item_id["icon"])
+#	item.rect_scale = Vector2(1.5, 1.5)
 	item.get_node("type").text = item_id["slot"]
 	add_child(item)
 	if item_id["slot"] == "CHARACTER" or item_id["slot"] == "GLOVES" or item_id["slot"] == "BOOTS":

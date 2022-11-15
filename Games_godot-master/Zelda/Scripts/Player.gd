@@ -51,17 +51,17 @@ func _physics_process(delta):
 	
 	player_collision()
 	
-	if Input.is_action_just_pressed("Inventory"):
-		if !Globals.inventory.visible:
-			Globals.inventory.visible = true
-		else:
-			Globals.inventory.visible = false
+#	if Input.is_action_just_pressed("Inventory"):
+#		if !Globals.inventory.visible:
+#			Globals.inventory.visible = true
+#		else:
+#			Globals.inventory.visible = false
 			
 	if Input.is_action_just_pressed("stats"):
-		if !Globals.GUI.get_node("stat_container").visible:
-			Globals.GUI.get_node("stat_container").visible = true
+		if !Globals.GUI.get_node("gui_container").get_node("stat_inv_container").visible:
+			Globals.GUI.get_node("gui_container").get_node("stat_inv_container").visible = true
 		else:
-			Globals.GUI.get_node("stat_container").visible = false
+			Globals.GUI.get_node("gui_container").get_node("stat_inv_container").visible = false
 
 func player_movement():
 	move_speed = Globals.player_move_speed
@@ -258,7 +258,7 @@ func player_collision():
 					Globals.add_stats = true
 					Globals.inventory_items.push_front(i)
 					Globals.dropped_items.remove(Globals.dropped_items.find(i))
-					Globals.inventory.get_child(0).pickup_item(i)
+					Globals.inventory.pickup_item(i)
 					Globals.add_stats = false
 
 			Globals.current_scene.get_node(coll.collider.name).queue_free()

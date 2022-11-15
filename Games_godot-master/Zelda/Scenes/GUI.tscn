@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Assets/progress_back.png" type="Texture" id=1]
 [ext_resource path="res://Assets/progress_fill.png" type="Texture" id=2]
 [ext_resource path="res://Assets/lvl_up.png" type="Texture" id=3]
 [ext_resource path="res://Assets/lvl_up_hover.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/lvl_up.gd" type="Script" id=5]
+[ext_resource path="res://Assets/Inventory/background.png" type="Texture" id=6]
 [ext_resource path="res://Assets/int.png" type="Texture" id=7]
 [ext_resource path="res://Assets/str.png" type="Texture" id=8]
 [ext_resource path="res://Assets/str_pressed.png" type="Texture" id=9]
@@ -16,6 +17,9 @@
 [ext_resource path="res://Assets/hp_under.png" type="Texture" id=15]
 [ext_resource path="res://Assets/hp_fill.png" type="Texture" id=16]
 [ext_resource path="res://Scripts/GUI.gd" type="Script" id=17]
+[ext_resource path="res://Scripts/EquipmentSlots.gd" type="Script" id=18]
+[ext_resource path="res://Scripts/Inventory.gd" type="Script" id=19]
+[ext_resource path="res://Scripts/GridBackPack.gd" type="Script" id=20]
 
 [node name="GUI" type="CanvasLayer"]
 script = ExtResource( 17 )
@@ -168,25 +172,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="stat_container" type="MarginContainer" parent="."]
-visible = false
-margin_left = 428.0
-margin_top = 80.0
-margin_right = 621.0
-margin_bottom = 272.0
+[node name="gui_container" type="MarginContainer" parent="."]
+margin_left = 220.0
+margin_top = 57.0
+margin_right = 859.0
+margin_bottom = 264.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="stat_GUI" type="VBoxContainer" parent="stat_container"]
+[node name="stat_inv_container" type="HBoxContainer" parent="gui_container"]
+margin_right = 639.0
+margin_bottom = 207.0
+
+[node name="stat_GUI" type="VBoxContainer" parent="gui_container/stat_inv_container"]
 margin_right = 229.0
 margin_bottom = 205.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="stat_screen" type="HBoxContainer" parent="stat_container/stat_GUI"]
+[node name="stat_screen" type="HBoxContainer" parent="gui_container/stat_inv_container/stat_GUI"]
 margin_right = 151.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
@@ -196,13 +203,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="dex" type="TextureButton" parent="stat_container/stat_GUI/stat_screen"]
+[node name="dex" type="TextureButton" parent="gui_container/stat_inv_container/stat_GUI/stat_screen"]
 margin_right = 32.0
 margin_bottom = 50.0
 texture_normal = ExtResource( 10 )
 texture_pressed = ExtResource( 11 )
 
-[node name="dex" type="Label" parent="stat_container/stat_GUI/stat_screen/dex"]
+[node name="dex" type="Label" parent="gui_container/stat_inv_container/stat_GUI/stat_screen/dex"]
 margin_left = 2.0
 margin_top = 34.0
 margin_right = 32.0
@@ -212,14 +219,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="int" type="TextureButton" parent="stat_container/stat_GUI/stat_screen"]
+[node name="int" type="TextureButton" parent="gui_container/stat_inv_container/stat_GUI/stat_screen"]
 margin_left = 36.0
 margin_right = 68.0
 margin_bottom = 50.0
 texture_normal = ExtResource( 7 )
 texture_pressed = ExtResource( 12 )
 
-[node name="intel" type="Label" parent="stat_container/stat_GUI/stat_screen/int"]
+[node name="intel" type="Label" parent="gui_container/stat_inv_container/stat_GUI/stat_screen/int"]
 margin_left = 2.0
 margin_top = 34.0
 margin_right = 32.0
@@ -229,14 +236,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="str" type="TextureButton" parent="stat_container/stat_GUI/stat_screen"]
+[node name="str" type="TextureButton" parent="gui_container/stat_inv_container/stat_GUI/stat_screen"]
 margin_left = 72.0
 margin_right = 104.0
 margin_bottom = 50.0
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 9 )
 
-[node name="stren" type="Label" parent="stat_container/stat_GUI/stat_screen/str"]
+[node name="stren" type="Label" parent="gui_container/stat_inv_container/stat_GUI/stat_screen/str"]
 margin_left = 2.0
 margin_top = 34.0
 margin_right = 32.0
@@ -246,7 +253,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="power" type="Label" parent="stat_container/stat_GUI/stat_screen"]
+[node name="power" type="Label" parent="gui_container/stat_inv_container/stat_GUI/stat_screen"]
 margin_left = 108.0
 margin_top = 18.0
 margin_right = 151.0
@@ -256,7 +263,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="power" type="Label" parent="stat_container/stat_GUI/stat_screen/power"]
+[node name="power" type="Label" parent="gui_container/stat_inv_container/stat_GUI/stat_screen/power"]
 margin_left = 50.0
 margin_right = 90.0
 margin_bottom = 14.0
@@ -264,7 +271,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="loot_modifiers" type="HBoxContainer" parent="stat_container/stat_GUI"]
+[node name="loot_modifiers" type="HBoxContainer" parent="gui_container/stat_inv_container/stat_GUI"]
 margin_top = 54.0
 margin_right = 131.0
 margin_bottom = 79.0
@@ -275,13 +282,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="quantity" type="Label" parent="stat_container/stat_GUI/loot_modifiers"]
+[node name="quantity" type="Label" parent="gui_container/stat_inv_container/stat_GUI/loot_modifiers"]
 margin_top = 5.0
 margin_right = 56.0
 margin_bottom = 19.0
 text = "quantity:"
 
-[node name="quant_num" type="Label" parent="stat_container/stat_GUI/loot_modifiers"]
+[node name="quant_num" type="Label" parent="gui_container/stat_inv_container/stat_GUI/loot_modifiers"]
 margin_left = 60.0
 margin_top = 5.0
 margin_right = 68.0
@@ -291,14 +298,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="quality" type="Label" parent="stat_container/stat_GUI/loot_modifiers"]
+[node name="quality" type="Label" parent="gui_container/stat_inv_container/stat_GUI/loot_modifiers"]
 margin_left = 72.0
 margin_top = 5.0
 margin_right = 119.0
 margin_bottom = 19.0
 text = "quality:"
 
-[node name="qual_num" type="Label" parent="stat_container/stat_GUI/loot_modifiers"]
+[node name="qual_num" type="Label" parent="gui_container/stat_inv_container/stat_GUI/loot_modifiers"]
 margin_left = 123.0
 margin_top = 5.0
 margin_right = 131.0
@@ -308,14 +315,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="item_stats" type="HBoxContainer" parent="stat_container/stat_GUI"]
+[node name="item_stats" type="HBoxContainer" parent="gui_container/stat_inv_container/stat_GUI"]
 margin_top = 83.0
 margin_right = 229.0
 margin_bottom = 187.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="dmg" type="VBoxContainer" parent="stat_container/stat_GUI/item_stats"]
+[node name="dmg" type="VBoxContainer" parent="gui_container/stat_inv_container/stat_GUI/item_stats"]
 margin_right = 120.0
 margin_bottom = 104.0
 rect_min_size = Vector2( 120, 0 )
@@ -323,12 +330,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="fire" type="Label" parent="stat_container/stat_GUI/item_stats/dmg"]
+[node name="fire" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/dmg"]
 margin_right = 120.0
 margin_bottom = 14.0
 text = "fire"
 
-[node name="fire" type="Label" parent="stat_container/stat_GUI/item_stats/dmg/fire"]
+[node name="fire" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/dmg/fire"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
@@ -337,13 +344,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="cold" type="Label" parent="stat_container/stat_GUI/item_stats/dmg"]
+[node name="cold" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/dmg"]
 margin_top = 18.0
 margin_right = 120.0
 margin_bottom = 32.0
 text = "cold"
 
-[node name="cold" type="Label" parent="stat_container/stat_GUI/item_stats/dmg/cold"]
+[node name="cold" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/dmg/cold"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
@@ -352,13 +359,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="lightning" type="Label" parent="stat_container/stat_GUI/item_stats/dmg"]
+[node name="lightning" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/dmg"]
 margin_top = 36.0
 margin_right = 120.0
 margin_bottom = 50.0
 text = "lightning"
 
-[node name="lightning" type="Label" parent="stat_container/stat_GUI/item_stats/dmg/lightning"]
+[node name="lightning" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/dmg/lightning"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
@@ -367,25 +374,25 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="physical" type="Label" parent="stat_container/stat_GUI/item_stats/dmg"]
+[node name="physical" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/dmg"]
 margin_top = 54.0
 margin_right = 120.0
 margin_bottom = 68.0
 text = "physical"
 
-[node name="physical" type="Label" parent="stat_container/stat_GUI/item_stats/dmg/physical"]
+[node name="physical" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/dmg/physical"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
 text = "0"
 
-[node name="poison" type="Label" parent="stat_container/stat_GUI/item_stats/dmg"]
+[node name="poison" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/dmg"]
 margin_top = 72.0
 margin_right = 120.0
 margin_bottom = 86.0
 text = "poison"
 
-[node name="poison" type="Label" parent="stat_container/stat_GUI/item_stats/dmg/poison"]
+[node name="poison" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/dmg/poison"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
@@ -394,7 +401,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="res" type="VBoxContainer" parent="stat_container/stat_GUI/item_stats"]
+[node name="res" type="VBoxContainer" parent="gui_container/stat_inv_container/stat_GUI/item_stats"]
 margin_left = 124.0
 margin_right = 229.0
 margin_bottom = 104.0
@@ -403,18 +410,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="resistances" type="Label" parent="stat_container/stat_GUI/item_stats/res"]
+[node name="resistances" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/res"]
 margin_right = 105.0
 margin_bottom = 14.0
 text = "resistances"
 
-[node name="fire" type="Label" parent="stat_container/stat_GUI/item_stats/res"]
+[node name="fire" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/res"]
 margin_top = 18.0
 margin_right = 105.0
 margin_bottom = 32.0
 text = "fire"
 
-[node name="fire" type="Label" parent="stat_container/stat_GUI/item_stats/res/fire"]
+[node name="fire" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/res/fire"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
@@ -422,35 +429,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="cold" type="Label" parent="stat_container/stat_GUI/item_stats/res"]
+[node name="cold" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/res"]
 margin_top = 36.0
 margin_right = 105.0
 margin_bottom = 50.0
 text = "cold"
 
-[node name="cold" type="Label" parent="stat_container/stat_GUI/item_stats/res/cold"]
+[node name="cold" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/res/cold"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
 
-[node name="lightning" type="Label" parent="stat_container/stat_GUI/item_stats/res"]
+[node name="lightning" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/res"]
 margin_top = 54.0
 margin_right = 105.0
 margin_bottom = 68.0
 text = "lightning"
 
-[node name="lightning" type="Label" parent="stat_container/stat_GUI/item_stats/res/lightning"]
+[node name="lightning" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/res/lightning"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
 
-[node name="physical" type="Label" parent="stat_container/stat_GUI/item_stats/res"]
+[node name="physical" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/res"]
 margin_top = 72.0
 margin_right = 105.0
 margin_bottom = 86.0
 text = "physical"
 
-[node name="physical" type="Label" parent="stat_container/stat_GUI/item_stats/res/physical"]
+[node name="physical" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/res/physical"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
@@ -458,13 +465,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="poison" type="Label" parent="stat_container/stat_GUI/item_stats/res"]
+[node name="poison" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/res"]
 margin_top = 90.0
 margin_right = 105.0
 margin_bottom = 104.0
 text = "poison"
 
-[node name="poison" type="Label" parent="stat_container/stat_GUI/item_stats/res/poison"]
+[node name="poison" type="Label" parent="gui_container/stat_inv_container/stat_GUI/item_stats/res/poison"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
@@ -472,13 +479,96 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="dmg_type" type="Label" parent="stat_container/stat_GUI"]
+[node name="dmg_type" type="Label" parent="gui_container/stat_inv_container/stat_GUI"]
 margin_top = 191.0
 margin_right = 60.0
 margin_bottom = 205.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "dmg type"
+
+[node name="Inventory" type="Control" parent="gui_container/stat_inv_container"]
+margin_left = 233.0
+margin_right = 233.0
+margin_bottom = 207.0
+script = ExtResource( 19 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InventoryBase" type="Panel" parent="gui_container/stat_inv_container/Inventory"]
+anchor_top = 0.123
+anchor_bottom = 0.123
+margin_left = 38.6989
+margin_top = -7.52732
+margin_right = 298.699
+margin_bottom = 106.473
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="EquipmentSlots" type="Panel" parent="gui_container/stat_inv_container/Inventory/InventoryBase"]
+self_modulate = Color( 0.262745, 0.262745, 0.262745, 1 )
+margin_left = 157.0
+margin_top = 6.0
+margin_right = 257.0
+margin_bottom = 103.0
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WEAPON" type="Panel" parent="gui_container/stat_inv_container/Inventory/InventoryBase/EquipmentSlots"]
+margin_left = 10.0
+margin_top = 43.499
+margin_right = 31.0
+margin_bottom = 84.499
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CHARACTER" type="Panel" parent="gui_container/stat_inv_container/Inventory/InventoryBase/EquipmentSlots"]
+margin_left = 66.0
+margin_top = 22.0
+margin_right = 90.0
+margin_bottom = 84.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="POWERUP" type="Panel" parent="gui_container/stat_inv_container/Inventory/InventoryBase/EquipmentSlots"]
+margin_left = 10.0
+margin_top = 20.263
+margin_right = 31.0
+margin_bottom = 41.263
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BOOTS" type="Panel" parent="gui_container/stat_inv_container/Inventory/InventoryBase/EquipmentSlots"]
+margin_left = 37.0
+margin_top = 57.163
+margin_right = 61.0
+margin_bottom = 81.163
+
+[node name="GLOVES" type="Panel" parent="gui_container/stat_inv_container/Inventory/InventoryBase/EquipmentSlots"]
+margin_left = 37.0
+margin_top = 28.3
+margin_right = 61.0
+margin_bottom = 52.3
+
+[node name="GridBackPack" type="TextureRect" parent="gui_container/stat_inv_container/Inventory/InventoryBase"]
+self_modulate = Color( 0.443137, 0.443137, 0.443137, 1 )
+margin_left = 17.0
+margin_top = 23.0
+margin_right = 145.0
+margin_bottom = 88.0
+texture = ExtResource( 6 )
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="lvl_preview" type="HBoxContainer" parent="."]
 margin_left = 700.0
@@ -550,6 +640,6 @@ __meta__ = {
 }
 
 [connection signal="pressed" from="lvl_up" to="lvl_up" method="_on_lvl_up_pressed"]
-[connection signal="pressed" from="stat_container/stat_GUI/stat_screen/dex" to="." method="_on_dex_pressed"]
-[connection signal="pressed" from="stat_container/stat_GUI/stat_screen/int" to="." method="_on_int_pressed"]
-[connection signal="pressed" from="stat_container/stat_GUI/stat_screen/str" to="." method="_on_str_pressed"]
+[connection signal="pressed" from="gui_container/stat_inv_container/stat_GUI/stat_screen/dex" to="." method="_on_dex_pressed"]
+[connection signal="pressed" from="gui_container/stat_inv_container/stat_GUI/stat_screen/int" to="." method="_on_int_pressed"]
+[connection signal="pressed" from="gui_container/stat_inv_container/stat_GUI/stat_screen/str" to="." method="_on_str_pressed"]
