@@ -58,10 +58,10 @@ func _physics_process(delta):
 #			Globals.inventory.visible = false
 			
 	if Input.is_action_just_pressed("stats"):
-		if !Globals.GUI.get_node("gui_container").get_node("stat_inv_container").visible:
-			Globals.GUI.get_node("gui_container").get_node("stat_inv_container").visible = true
+		if !Globals.GUI.get_node("gui_container").visible:
+			Globals.GUI.get_node("gui_container").visible = true
 		else:
-			Globals.GUI.get_node("gui_container").get_node("stat_inv_container").visible = false
+			Globals.GUI.get_node("gui_container").visible = false
 
 func player_movement():
 	move_speed = Globals.player_move_speed

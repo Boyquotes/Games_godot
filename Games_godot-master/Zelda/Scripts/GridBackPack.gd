@@ -3,7 +3,7 @@ extends TextureRect
 var items = []
 
 var grid = {}
-var cell_size = 32
+var cell_size = 48
 var grid_width = 0
 var grid_height = 0
 

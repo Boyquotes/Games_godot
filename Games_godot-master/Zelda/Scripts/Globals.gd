@@ -98,8 +98,8 @@ func _deferred_goto_scene(path, spawn):
 		player = ResourceLoader.load("res://Scenes/Player.tscn").instance()
 #		inventory = ResourceLoader.load("res://Scenes/GUI.tscn").instance().get_node("stat_container").get_node("Inventory")
 		GUI = ResourceLoader.load("res://Scenes/GUI.tscn").instance()
-		inventory = GUI.get_node("gui_container").get_node("stat_inv_container").get_node("Inventory")
-		var GUI_stats = GUI.get_node("gui_container").get_node("stat_inv_container").get_node("stat_GUI")
+		inventory = GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("Inventory")
+		var GUI_stats = GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI")
 		GUI.get_node("mana_progress").max_value = max_mana
 		Items = ResourceLoader.load("res://Scenes/Items.tscn").instance()
 		
