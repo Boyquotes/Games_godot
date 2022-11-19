@@ -173,7 +173,6 @@ __meta__ = {
 }
 
 [node name="gui_container" type="MarginContainer" parent="."]
-visible = false
 margin_left = 162.933
 margin_top = 61.2045
 margin_right = 853.933
@@ -181,22 +180,21 @@ margin_bottom = 289.204
 size_flags_horizontal = 0
 size_flags_vertical = 0
 __meta__ = {
-"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="background_color" type="Panel" parent="gui_container"]
-modulate = Color( 0, 0, 0, 1 )
+modulate = Color( 0.854902, 0.615686, 0.196078, 0.301961 )
 show_behind_parent = true
 margin_right = 691.0
-margin_bottom = 228.0
+margin_bottom = 227.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="stat_inv_margin_container" type="MarginContainer" parent="gui_container"]
 margin_right = 691.0
-margin_bottom = 228.0
+margin_bottom = 227.0
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 
@@ -204,7 +202,7 @@ custom_constants/margin_left = 10
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 691.0
-margin_bottom = 228.0
+margin_bottom = 227.0
 
 [node name="stat_GUI" type="VBoxContainer" parent="gui_container/stat_inv_margin_container/stat_inv_container"]
 margin_right = 229.0
@@ -509,7 +507,7 @@ text = "dmg type"
 [node name="Inventory" type="Control" parent="gui_container/stat_inv_margin_container/stat_inv_container"]
 margin_left = 233.0
 margin_right = 233.0
-margin_bottom = 218.0
+margin_bottom = 217.0
 script = ExtResource( 19 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -538,43 +536,43 @@ __meta__ = {
 }
 
 [node name="WEAPON" type="Panel" parent="gui_container/stat_inv_margin_container/stat_inv_container/Inventory/InventoryBase/EquipmentSlots"]
-margin_left = 18.0
-margin_top = 64.977
-margin_right = 54.0
-margin_bottom = 126.977
+margin_left = 11.5546
+margin_top = 77.677
+margin_right = 47.5546
+margin_bottom = 139.677
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CHARACTER" type="Panel" parent="gui_container/stat_inv_margin_container/stat_inv_container/Inventory/InventoryBase/EquipmentSlots"]
-margin_left = 108.712
-margin_top = 34.1237
-margin_right = 153.712
-margin_bottom = 114.124
+margin_left = 115.057
+margin_top = 35.0
+margin_right = 160.057
+margin_bottom = 115.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="POWERUP" type="Panel" parent="gui_container/stat_inv_margin_container/stat_inv_container/Inventory/InventoryBase/EquipmentSlots"]
-margin_left = 18.0
-margin_top = 25.507
-margin_right = 54.0
-margin_bottom = 57.507
+margin_left = 11.0
+margin_top = 35.0
+margin_right = 47.0
+margin_bottom = 67.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BOOTS" type="Panel" parent="gui_container/stat_inv_margin_container/stat_inv_container/Inventory/InventoryBase/EquipmentSlots"]
-margin_left = 60.0
-margin_top = 80.149
-margin_right = 102.0
-margin_bottom = 126.149
+margin_left = 58.0
+margin_top = 84.722
+margin_right = 103.0
+margin_bottom = 129.722
 
 [node name="GLOVES" type="Panel" parent="gui_container/stat_inv_margin_container/stat_inv_container/Inventory/InventoryBase/EquipmentSlots"]
-margin_left = 60.0
-margin_top = 26.554
-margin_right = 102.0
-margin_bottom = 72.554
+margin_left = 58.0
+margin_top = 35.0
+margin_right = 103.0
+margin_bottom = 77.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

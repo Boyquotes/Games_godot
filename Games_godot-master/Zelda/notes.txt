@@ -42,6 +42,9 @@ if you don't know what to do -> just play the game and write down ideas + fix th
 
 --NOTES--
 
+19/11/22
+	- drop locations are still fucked -> endless while loop
+
 16/11/22
 	- make item sprites the same size so the fit in the inv windows
 
