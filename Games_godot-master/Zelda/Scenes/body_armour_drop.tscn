@@ -26,15 +26,19 @@ __meta__ = {
 [node name="drop_coll" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="stats_tt" type="Popup" parent="."]
+[node name="drop_stats_tt" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="stats_tt_pop_up" type="Popup" parent="drop_stats_tt"]
 margin_right = 124.0
 margin_bottom = 124.0
+rect_scale = Vector2( 2, 2 )
 mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="stats" type="TextureRect" parent="stats_tt"]
+[node name="stats" type="TextureRect" parent="drop_stats_tt/stats_tt_pop_up"]
 margin_right = 124.0
 margin_bottom = 213.0
 rect_scale = Vector2( 0.5, 0.5 )
@@ -42,7 +46,7 @@ mouse_filter = 2
 texture = ExtResource( 2 )
 expand = true
 
-[node name="item_name" type="Label" parent="stats_tt/stats"]
+[node name="item_name" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats"]
 margin_top = 5.0
 margin_right = 124.0
 margin_bottom = 19.0
@@ -51,7 +55,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="stats_container" type="VBoxContainer" parent="stats_tt/stats"]
+[node name="stats_container" type="VBoxContainer" parent="drop_stats_tt/stats_tt_pop_up/stats"]
 margin_top = 30.0
 margin_right = 124.0
 margin_bottom = 124.0
@@ -59,7 +63,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="str" type="Label" parent="stats_tt/stats/stats_container"]
+[node name="str" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container"]
 margin_right = 124.0
 margin_bottom = 14.0
 text = "Str"
@@ -67,12 +71,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="value" type="Label" parent="stats_tt/stats/stats_container/str"]
+[node name="value" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container/str"]
 margin_left = 40.0
 margin_right = 80.0
 margin_bottom = 14.0
 
-[node name="dex" type="Label" parent="stats_tt/stats/stats_container"]
+[node name="dex" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container"]
 margin_top = 18.0
 margin_right = 124.0
 margin_bottom = 32.0
@@ -81,7 +85,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="value" type="Label" parent="stats_tt/stats/stats_container/dex"]
+[node name="value" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container/dex"]
 margin_left = 40.0
 margin_right = 80.0
 margin_bottom = 14.0
@@ -89,7 +93,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="int" type="Label" parent="stats_tt/stats/stats_container"]
+[node name="int" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container"]
 margin_top = 36.0
 margin_right = 124.0
 margin_bottom = 50.0
@@ -98,22 +102,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="value" type="Label" parent="stats_tt/stats/stats_container/int"]
+[node name="value" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container/int"]
 margin_left = 40.0
 margin_right = 80.0
 margin_bottom = 14.0
 
-[node name="res" type="VBoxContainer" parent="stats_tt/stats/stats_container"]
+[node name="res" type="VBoxContainer" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container"]
 margin_top = 54.0
 margin_right = 124.0
 margin_bottom = 158.0
 
-[node name="Label" type="Label" parent="stats_tt/stats/stats_container/res"]
+[node name="Label" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container/res"]
 margin_right = 124.0
 margin_bottom = 14.0
 text = "RESISTANCES"
 
-[node name="fire" type="Label" parent="stats_tt/stats/stats_container/res"]
+[node name="fire" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container/res"]
 margin_top = 18.0
 margin_right = 124.0
 margin_bottom = 32.0
@@ -122,7 +126,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="value" type="Label" parent="stats_tt/stats/stats_container/res/fire"]
+[node name="value" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container/res/fire"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
@@ -130,7 +134,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="cold" type="Label" parent="stats_tt/stats/stats_container/res"]
+[node name="cold" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container/res"]
 margin_top = 36.0
 margin_right = 124.0
 margin_bottom = 50.0
@@ -139,12 +143,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="value" type="Label" parent="stats_tt/stats/stats_container/res/cold"]
+[node name="value" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container/res/cold"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
 
-[node name="lightning" type="Label" parent="stats_tt/stats/stats_container/res"]
+[node name="lightning" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container/res"]
 margin_top = 54.0
 margin_right = 124.0
 margin_bottom = 68.0
@@ -153,12 +157,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="value" type="Label" parent="stats_tt/stats/stats_container/res/lightning"]
+[node name="value" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container/res/lightning"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
 
-[node name="physical" type="Label" parent="stats_tt/stats/stats_container/res"]
+[node name="physical" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container/res"]
 margin_top = 72.0
 margin_right = 124.0
 margin_bottom = 86.0
@@ -167,12 +171,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="value" type="Label" parent="stats_tt/stats/stats_container/res/physical"]
+[node name="value" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container/res/physical"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
 
-[node name="poison" type="Label" parent="stats_tt/stats/stats_container/res"]
+[node name="poison" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container/res"]
 margin_top = 90.0
 margin_right = 124.0
 margin_bottom = 104.0
@@ -181,7 +185,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="value" type="Label" parent="stats_tt/stats/stats_container/res/poison"]
+[node name="value" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container/res/poison"]
 margin_left = 80.0
 margin_right = 120.0
 margin_bottom = 14.0
@@ -189,7 +193,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="armor_special" type="Label" parent="stats_tt/stats/stats_container"]
+[node name="armor_special" type="Label" parent="drop_stats_tt/stats_tt_pop_up/stats/stats_container"]
 margin_top = 162.0
 margin_right = 124.0
 margin_bottom = 176.0

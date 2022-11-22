@@ -17,11 +17,11 @@ func _on_drop_mouse_entered():
 	if "pwrup" in self.name:
 		return
 	else:
-		$stats_tt.rect_position = self.position
-		$stats_tt.show()
+		$drop_stats_tt/stats_tt_pop_up.rect_position = Vector2(600, 200)
+		$drop_stats_tt/stats_tt_pop_up.show()
 
 func _on_drop_mouse_exited():
-	$stats_tt.hide()
+	$drop_stats_tt/stats_tt_pop_up.hide()
 
 func _on_Despawn_Timer_timeout():
 	

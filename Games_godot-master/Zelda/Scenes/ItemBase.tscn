@@ -15,6 +15,7 @@ margin_right = 40.0
 margin_bottom = 14.0
 
 [node name="stats_tt" type="CanvasLayer" parent="."]
+layer = 0
 
 [node name="stats_tt_popup" type="Popup" parent="stats_tt"]
 margin_right = 128.0

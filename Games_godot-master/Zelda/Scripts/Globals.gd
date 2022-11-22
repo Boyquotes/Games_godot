@@ -462,15 +462,15 @@ func drop_item(pos, ilvl):
 	
 	drop.get_node("id").text = str(item_id)
 		
-	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("dex").get_node("value").text = str(stats[2])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("str").get_node("value").text = str(stats[1])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("int").get_node("value").text = str(stats[0])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("fire").get_node("value").text = str(res[0])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("cold").get_node("value").text = str(res[1])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("lightning").get_node("value").text = str(res[2])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("physical").get_node("value").text = str(res[3])
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("res").get_node("poison").get_node("value").text = str(res[4])
+	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("item_name").text = item["name"]
+	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("dex").get_node("value").text = str(stats[2])
+	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("str").get_node("value").text = str(stats[1])
+	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("int").get_node("value").text = str(stats[0])
+	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("res").get_node("fire").get_node("value").text = str(res[0])
+	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("res").get_node("cold").get_node("value").text = str(res[1])
+	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("res").get_node("lightning").get_node("value").text = str(res[2])
+	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("res").get_node("physical").get_node("value").text = str(res[3])
+	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("res").get_node("poison").get_node("value").text = str(res[4])
 	
 	var icon = item.icon
 	
@@ -511,9 +511,9 @@ func drop_weapon(pos, ilvl):
 	drop.position = pos
 	drop.name = "item"
 	drop.get_node("id").text = str(item_id)
-	drop.get_node("stats_tt").get_node("stats").get_node("item_name").text = item["name"]
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("power").get_node("value").text = str(potency)
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node("dmg_type").get_node("value").text = str(dmg_types[dmg_type])
+	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("item_name").text = item["name"]
+	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("power").get_node("value").text = str(potency)
+	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("dmg_type").get_node("value").text = str(dmg_types[dmg_type])
 	
 	var item_name = item.name
 	var icon = item.icon
@@ -558,8 +558,8 @@ func special_mod(rand, drop, armor_type, node):
 	else:
 		special = special["power"]
 		
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node(node).visible = true
-	drop.get_node("stats_tt").get_node("stats").get_node("stats_container").get_node(node).text = special
+	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node(node).visible = true
+	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node(node).text = special
 #	item["special"] = special
 
 	if special_val != null:

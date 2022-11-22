@@ -173,6 +173,7 @@ __meta__ = {
 }
 
 [node name="gui_container" type="MarginContainer" parent="."]
+visible = false
 margin_left = 162.933
 margin_top = 61.2045
 margin_right = 853.933
