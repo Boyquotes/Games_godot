@@ -356,19 +356,19 @@ func drop_spacing(pos, last_pos, rand):
 
 	for i in last_pos.size():
 		var pos_in_bounds = false
-		if pos.x in range(50, drop_in_spawn_area.x-50) and pos.y in range(50, drop_in_spawn_area.y-50):
+		if pos.x in range(18, drop_in_spawn_area.x-18) and pos.y in range(18, drop_in_spawn_area.y-18):
 			pos_in_bounds = true
 		else:	
 			pos_in_bounds = false
 		if last_pos[i].x in range(pos.x-18,pos.x+18) or last_pos[i].y in range(pos.y-18,pos.y+18) or pos_in_bounds == false or pos.x in range(player.position.x-18, player.position.x+18) or pos.y in range(player.position.y-18, player.position.y+18):
 			drop_overlap = true
-			pos += Vector2(rand.randi_range(-36, 36), rand.randi_range(-36, 36))
-			
-			if pos.x in range(36, drop_in_spawn_area.x-36) and pos.y in range(36, drop_in_spawn_area.y-36):
-				return pos
+			pos += Vector2(rand.randi_range(-18, 18), rand.randi_range(-18, 18))
+			if pos.x > 500:
+				pos += Vector2(rand.randi_range(-18, -36), rand.randi_range(18, 36))
+			elif pos.y > 270:
+				pos += Vector2(rand.randi_range(18, 36), rand.randi_range(-18, -36))
 			else:
-				pos += Vector2(rand.randi_range(-50, 50), rand.randi_range(-50, 50))
-
+				pos += Vector2(rand.randi_range(18, 36), rand.randi_range(18, 36))
 	return pos
 
 func drop(pos, freq, weighting):
@@ -386,17 +386,22 @@ func drop(pos, freq, weighting):
 		var last_pos = []
 		var num_items_dropped = rand.randf_range(10, quantity)/5
 		
+		print("numOfItems ", num_items_dropped)
+		
 		for i in round(num_items_dropped):
 			pos = Vector2(round(pos.x), round(pos.y))
 			
 			if i >= 1:
 				pos = drop_spacing(pos, last_pos, rand)
+				print("newPOS ", pos)
 
 				while drop_overlap == true:
 					pos = drop_spacing(pos, last_pos, rand)
+					print("changePOS ", pos)
 
 			call_deferred("drop_item", pos, ilvl)
 			last_pos.push_back(pos)
+			print("dropPOS ", pos)
 			
 	elif weighting == 2:
 		var num_items_dropped = rand.randf_range(10, quantity)/2

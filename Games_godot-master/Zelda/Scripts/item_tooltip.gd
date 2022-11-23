@@ -17,7 +17,7 @@ func _on_drop_mouse_entered():
 	if "pwrup" in self.name:
 		return
 	else:
-		$drop_stats_tt/stats_tt_pop_up.rect_position = Vector2(600, 200)
+		$drop_stats_tt/stats_tt_pop_up.rect_position = Vector2(700, 350)
 		$drop_stats_tt/stats_tt_pop_up.show()
 
 func _on_drop_mouse_exited():
