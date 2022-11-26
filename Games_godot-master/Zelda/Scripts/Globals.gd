@@ -358,17 +358,26 @@ func drop_spacing(pos, last_pos, rand):
 		var pos_in_bounds = false
 		if pos.x in range(18, drop_in_spawn_area.x-18) and pos.y in range(18, drop_in_spawn_area.y-18):
 			pos_in_bounds = true
-		else:	
+		else:
 			pos_in_bounds = false
-		if last_pos[i].x in range(pos.x-18,pos.x+18) or last_pos[i].y in range(pos.y-18,pos.y+18) or pos_in_bounds == false or pos.x in range(player.position.x-18, player.position.x+18) or pos.y in range(player.position.y-18, player.position.y+18):
+
+		if last_pos[i].x in range(pos.x-18,pos.x+18) and last_pos[i].y in range(pos.y-18,pos.y+18):
 			drop_overlap = true
-			pos += Vector2(rand.randi_range(-18, 18), rand.randi_range(-18, 18))
-			if pos.x > 500:
-				pos += Vector2(rand.randi_range(-18, -36), rand.randi_range(18, 36))
-			elif pos.y > 270:
-				pos += Vector2(rand.randi_range(18, 36), rand.randi_range(-18, -36))
-			else:
-				pos += Vector2(rand.randi_range(18, 36), rand.randi_range(18, 36))
+			pos = drop_spacing_border_correction(pos, rand)
+		if pos_in_bounds == false or pos.x in range(player.position.x-18, player.position.x+18) or pos.y in range(player.position.y-18, player.position.y+18):
+			drop_overlap = true
+			pos = drop_spacing_border_correction(pos, rand)
+			
+	return pos
+
+func drop_spacing_border_correction(pos, rand):
+	rand.randomize()
+	if pos.x > 500:
+		pos -= Vector2(rand.randi_range(18, 36), rand.randi_range(-36, 36))
+	if pos.y > 270:
+		pos -= Vector2(rand.randi_range(-36, 36), rand.randi_range(18, 36))
+	else:
+		pos += Vector2(rand.randi_range(18, 36), rand.randi_range(18, 36))
 	return pos
 
 func drop(pos, freq, weighting):
@@ -384,21 +393,23 @@ func drop(pos, freq, weighting):
 		drop_pwrup(pos)
 	elif weighting == 1:
 		var last_pos = []
-		var num_items_dropped = rand.randf_range(10, quantity)/5
+		var num_items_dropped = rand.randf_range(10, quantity)/2
 		
-		print("numOfItems ", num_items_dropped)
+		print("!! NUMOFITEMS !! ", num_items_dropped)
 		
 		for i in round(num_items_dropped):
 			pos = Vector2(round(pos.x), round(pos.y))
 			
 			if i >= 1:
+				pos = drop_spacing_border_correction(pos, rand)
 				pos = drop_spacing(pos, last_pos, rand)
 				print("newPOS ", pos)
 
 				while drop_overlap == true:
 					pos = drop_spacing(pos, last_pos, rand)
 					print("changePOS ", pos)
-
+					
+#			drop_item(pos, ilvl)
 			call_deferred("drop_item", pos, ilvl)
 			last_pos.push_back(pos)
 			print("dropPOS ", pos)
