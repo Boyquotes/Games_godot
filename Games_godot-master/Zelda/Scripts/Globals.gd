@@ -367,6 +367,11 @@ func drop_spacing(pos, last_pos, rand):
 		if pos_in_bounds == false or pos.x in range(player.position.x-18, player.position.x+18) or pos.y in range(player.position.y-18, player.position.y+18):
 			drop_overlap = true
 			pos = drop_spacing_border_correction(pos, rand)
+		if current_scene.get_node("Shop_Entrance") != null:
+			if pos.x in range(current_scene.get_node("Shop_Entrance").position.x-18, current_scene.get_node("Shop_Entrance").position.x+18) or pos.y in range(current_scene.get_node("Shop_Entrance").position.x-18, current_scene.get_node("Shop_Entrance").position.x+18):
+				print("check_shop_overlap")
+				drop_overlap = true
+				pos = drop_spacing_border_correction(pos, rand)
 			
 	return pos
 
@@ -387,13 +392,18 @@ func drop(pos, freq, weighting):
 #	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
 	
 	if weighting == null:
-		weighting = drop_weighting({0:0.05, 1:0.90, 2:0.05})
+		weighting = drop_weighting({0:0.30, 1:0.40, 2:0.30})
 
 	if weighting == 0:
 		drop_pwrup(pos)
 	elif weighting == 1:
 		var last_pos = []
-		var num_items_dropped = rand.randf_range(10, quantity)/2
+		var num_items_dropped
+		
+		if current_scene.name != "Boss_Room":
+			num_items_dropped = rand.randf_range(10, quantity)/8
+		else:
+			num_items_dropped = 1
 		
 		print("!! NUMOFITEMS !! ", num_items_dropped)
 		
@@ -403,21 +413,20 @@ func drop(pos, freq, weighting):
 			if i >= 1:
 				pos = drop_spacing_border_correction(pos, rand)
 				pos = drop_spacing(pos, last_pos, rand)
-				print("newPOS ", pos)
-
+#				print("newPOS ", pos)
 				while drop_overlap == true:
 					pos = drop_spacing(pos, last_pos, rand)
-					print("changePOS ", pos)
+#					print("changePOS ", pos)
 					
 #			drop_item(pos, ilvl)
 			call_deferred("drop_item", pos, ilvl)
 			last_pos.push_back(pos)
-			print("dropPOS ", pos)
+#			print("dropPOS ", pos)
 			
 	elif weighting == 2:
-		var num_items_dropped = rand.randf_range(10, quantity)/2
-		for i in round(num_items_dropped):
-			drop_weapon(pos, ilvl)
+#		var num_items_dropped = rand.randf_range(10, quantity)/2
+#		for i in round(num_items_dropped):
+		drop_weapon(pos, ilvl)
 	
 func drop_pwrup(pos):
 	var drop_id = str(drop_weighting({1:0.13, 2:0.09, 3:0.13, 4:0.13, 5:0.13, 6:0.13, 7:0.13, 8:0.13}))

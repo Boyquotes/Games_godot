@@ -4,17 +4,17 @@ func _ready():
 	pass
 
 func _on_str_pressed():
-	attribute_points($stat_container/stat_GUI/stat_screen/str/stren, true, false)
+	attribute_points($gui_container/stat_inv_margin_container/stat_inv_container/stat_GUI/stat_screen/str/stren, true, false)
 	attribute_effects("stren", "augment", 1)
 	Globals.stren += 1
 
 func _on_int_pressed():
-	attribute_points($stat_container/stat_GUI/stat_screen/int/intel, true, false)
+	attribute_points($gui_container/stat_inv_margin_container/stat_inv_container/stat_GUI/stat_screen/int/intel, true, false)
 	attribute_effects("intel", "augment", 1)
 	Globals.intel += 1
 
 func _on_dex_pressed():
-	attribute_points($stat_container/stat_GUI/stat_screen/dex/dex, true, false)
+	attribute_points($gui_container/stat_inv_margin_container/stat_inv_container/stat_GUI/stat_screen/dex/dex, true, false)
 	attribute_effects("dex", "augment", 1)
 	Globals.dex += 1
 
@@ -29,7 +29,7 @@ func attribute_points(stat, lvlup_stats, id):
 			stat.text = str(i)
 			$points_container/points/points_num.text = str(j)
 		if j == 0:
-			$stat_container.visible = false
+			$gui_container.visible = false
 			$points_container.visible = false
 	else:
 		if stat.name == "dex" or stat.name == "intel" or stat.name == "stren":
