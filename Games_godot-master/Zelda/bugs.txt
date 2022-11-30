@@ -1,3 +1,12 @@
+- lvl up button does not persist between levels
+- Error message when changing scene: 
+E 0:01:04.875   body_set_shape_as_one_way_collision: Can't change this state while flushing queries. Use call_deferred() or set_deferred() to change monitoring state instead.
+  <C++ Error>   Condition "body->get_space() && flushing_queries" is true.
+  <C++ Source>  servers/physics_2d/physics_2d_server_sw.cpp:733 @ body_set_shape_as_one_way_collision()
+  <Stack Trace> Globals.gd:255 @ spawn_enemies()
+                Globals.gd:230 @ spawn_enemy_type()
+                Weapon.gd:107 @ _on_Area2D_body_shape_entered()
+
 - player dmg take can be negative -> too much res
 - boss door disappears after coming back from store
 - attributes are fucked again when changing scene ||BUG||

@@ -273,7 +273,7 @@ func player_collision():
 				if i.name == coll.collider.name:
 					Globals.inventory_items.push_front(i)
 					Globals.dropped_items.remove(Globals.dropped_items.find(i))
-					Globals.inventory.get_child(0).pickup_item(i)
+					Globals.inventory.pickup_item(i)
 
 			Globals.current_scene.get_node(coll.collider.name).queue_free()
 		

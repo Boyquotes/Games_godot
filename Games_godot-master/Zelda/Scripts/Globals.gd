@@ -114,6 +114,7 @@ func _deferred_goto_scene(path, spawn):
 		if path == "res://Scenes/Levels/Starting_World.tscn" and game_started == false:
 			add_stats = true
 			player_spawn_pos = Vector2(512, 300)
+			player.position = player_spawn_pos
 			player_lvl = 0
 			enemy_hp_value = 150
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
@@ -142,6 +143,7 @@ func _deferred_goto_scene(path, spawn):
 #				spawn_boss_portal()
 #			load change scene
 			player_spawn_pos = current_scene.get_node("Player_Spawn").position
+			player.position = player_spawn_pos
 			GUI.get_node("hp_num").text = str(player_hp)
 			GUI.get_node("hp_visual").value = player_hp
 			GUI.get_node("lvl_progress").value = player_xp
@@ -259,17 +261,18 @@ func spawn_enemies(pos, type):
 #			spawn enemies
 		else:
 			rand.randomize()
-			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
-
+#			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 			var dir = [Vector2.DOWN, Vector2.UP, Vector2.RIGHT, Vector2.LEFT]
 			enemy.move_vec = dir[rand.randi() % dir.size()]
 			enemy.get_node("hp_bar").max_value = enemy_hp_value
 			enemy.get_node("hp_bar").value = enemy_hp_value
 			
+			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 			var distance_to_player = enemy.get_global_position().distance_to(player.get_global_position())
-
-			if distance_to_player < 150:
+			while distance_to_player < 200:
+				print("changepos")
 				enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
+				distance_to_player = enemy.get_global_position().distance_to(player.get_global_position())
 
 			if "Fire" in current_scene.name:
 				enemy_resistance = {"fire": 7*enemy_res_modifier, "cold": 2*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
@@ -299,8 +302,8 @@ func spawn_enemies(pos, type):
 			enemy_id.push_front(str(enemy))
 			enemy_hp.push_front(enemy_hp_value)
 			enemies.push_front(enemy)
-			
 			entities.push_front(enemy)
+			
 
 # coming back from shop
 #	elif current_scene.name == "Starting_World":
