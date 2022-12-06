@@ -110,6 +110,7 @@ func _deferred_goto_scene(path, spawn):
 		
 #		inventory.get_child(0).rect_position = player.position
 
+
 #		load start scene
 		if path == "res://Scenes/Levels/Starting_World.tscn" and game_started == false:
 			add_stats = true
@@ -170,11 +171,10 @@ func _deferred_goto_scene(path, spawn):
 			GUI_stats.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
 			spawn_enemy_type()
-			
 		
 		player.position = player_spawn_pos
+		
 
-#		spawn_enemy_type()
 		
 #		if current_scene.name == "Boss_World":
 #			GUI.get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(next_scene).get_string()
@@ -183,7 +183,6 @@ func _deferred_goto_scene(path, spawn):
 			
 #		enemy_tracker = enemy_pos.size()
 		GUI.get_node("number").text = str(enemy_tracker)
-		
 	
 #	if current_scene.name == "Shop" and player_weapon and !starter_weapon:
 #		current_scene.get_node("Weapons_TileMap").tile_set.remove_tile(current_scene.get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
