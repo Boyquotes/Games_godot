@@ -17,7 +17,7 @@ func _physics_process(delta):
 	boss_movement()
 
 func boss_movement():
-	dir = self.position.direction_to(Globals.player.position)
+	dir = self.position.direction_to(GV.GV["player"].position)
 	move_and_collide(Vector2.move_toward(dir, boss_move_speed))
 	
 	if dir.x > 0:

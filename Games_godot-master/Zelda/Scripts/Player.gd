@@ -325,7 +325,7 @@ func bleed_damage(modifier):
 	self.get_node("bleed_timer").start()
 	var bleed_dmg_timer = Timer.new()
 	bleed_dmg_timer.name = "bleed_dmg_timer"
-	bleed_dmg_timer.connect("timeout", Globals.player, "_on_bleed_dmg_timer_timeout")
+	bleed_dmg_timer.connect("timeout", GV.GV["player"], "_on_bleed_dmg_timer_timeout")
 	self.add_child(bleed_dmg_timer)
 	self.get_node(bleed_dmg_timer.name).start()
 	

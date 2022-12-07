@@ -24,7 +24,7 @@ func _physics_process(delta):
 	boss_movement()
 
 func boss_movement():
-	dir_to_player = self.position.direction_to(Globals.player.position)
+	dir_to_player = self.position.direction_to(GV.GV["player"].position)
 	
 	if run_anim == false and attack_anim == false:
 		anim_boss.play("bow_idle")

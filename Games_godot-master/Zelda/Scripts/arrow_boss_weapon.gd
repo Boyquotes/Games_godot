@@ -10,7 +10,7 @@ func _ready():
 	var arrow_pos = self.get_parent().get_node("Boss_bow").position
 	
 	if attack_mode == "single":
-		var dir_to_player = (Globals.player.global_position - arrow_pos).normalized()
+		var dir_to_player = (GV.GV["player"].global_position - arrow_pos).normalized()
 		var angle = atan2(dir_to_player.y, dir_to_player.x)
 		self.rotation_degrees = (angle*(180/PI)+180)
 		dir = dir_to_player * move_speed

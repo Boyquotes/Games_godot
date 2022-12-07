@@ -1,6 +1,6 @@
 extends Node
 
-var player = null
+#var player = null
 var current_scene = null
 var next_scene
 var player_spawn_pos = null
@@ -74,6 +74,8 @@ var game_started = false
 func _ready():
 	var root = get_tree().get_root()
 	current_scene = root.get_child(root.get_child_count() - 1)
+	GV.GV["player"] = ResourceLoader.load("res://Scenes/Player.tscn").instance()
+	
 	
 func _process(delta):
 	if Input.is_action_just_pressed("exit"):
@@ -95,7 +97,8 @@ func _deferred_goto_scene(path, spawn):
 		next_scene = random_scene()
 	
 	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn" and path != "res://Scenes/pwr_up_screen.tscn":
-		player = ResourceLoader.load("res://Scenes/Player.tscn").instance()
+		
+		
 #		inventory = ResourceLoader.load("res://Scenes/GUI.tscn").instance().get_node("stat_container").get_node("Inventory")
 		GUI = ResourceLoader.load("res://Scenes/GUI.tscn").instance()
 		inventory = GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("Inventory")
@@ -103,7 +106,7 @@ func _deferred_goto_scene(path, spawn):
 		GUI.get_node("mana_progress").max_value = max_mana
 		Items = ResourceLoader.load("res://Scenes/Items.tscn").instance()
 		
-		current_scene.add_child(player)
+		current_scene.add_child(GV.GV["player"])
 		current_scene.add_child(GUI)
 		current_scene.add_child(Items)
 #		player.add_child(inventory)
@@ -115,7 +118,7 @@ func _deferred_goto_scene(path, spawn):
 		if path == "res://Scenes/Levels/Starting_World.tscn" and game_started == false:
 			add_stats = true
 			player_spawn_pos = Vector2(512, 300)
-			player.position = player_spawn_pos
+			GV.GV["player"].position = player_spawn_pos
 			player_lvl = 0
 			enemy_hp_value = 150
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
@@ -144,7 +147,7 @@ func _deferred_goto_scene(path, spawn):
 #				spawn_boss_portal()
 #			load change scene
 			player_spawn_pos = current_scene.get_node("Player_Spawn").position
-			player.position = player_spawn_pos
+			GV.GV["player"].position = player_spawn_pos
 			GUI.get_node("hp_num").text = str(player_hp)
 			GUI.get_node("hp_visual").value = player_hp
 			GUI.get_node("lvl_progress").value = player_xp
@@ -166,14 +169,13 @@ func _deferred_goto_scene(path, spawn):
 			if player_weapon == "bow":
 				GUI.get_node("ammo").text = current_ammo
 			GUI.get_node("ammo_num").text = str(current_ammo_num)
-#			player.move_speed += (0.1*dex)
+#			GV.GV["player"].move_speed += (0.1*dex)
 			GUI.remove_points(GUI_stats.get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
 			GUI_stats.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
 			spawn_enemy_type()
 		
-		player.position = player_spawn_pos
-		
+		GV.GV["player"].position = player_spawn_pos
 
 		
 #		if current_scene.name == "Boss_World":
@@ -267,11 +269,11 @@ func spawn_enemies(pos, type):
 			enemy.get_node("hp_bar").value = enemy_hp_value
 			
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
-			var distance_to_player = enemy.get_global_position().distance_to(player.get_global_position())
+			var distance_to_player = enemy.get_global_position().distance_to(GV.GV["player"].get_global_position())
 			while distance_to_player < 200:
 				print("changepos")
 				enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
-				distance_to_player = enemy.get_global_position().distance_to(player.get_global_position())
+				distance_to_player = enemy.get_global_position().distance_to(GV.GV["player"].get_global_position())
 
 			if "Fire" in current_scene.name:
 				enemy_resistance = {"fire": 7*enemy_res_modifier, "cold": 2*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
@@ -366,7 +368,7 @@ func drop_spacing(pos, last_pos, rand):
 		if last_pos[i].x in range(pos.x-18,pos.x+18) and last_pos[i].y in range(pos.y-18,pos.y+18):
 			drop_overlap = true
 			pos = drop_spacing_border_correction(pos, rand)
-		if pos_in_bounds == false or pos.x in range(player.position.x-18, player.position.x+18) or pos.y in range(player.position.y-18, player.position.y+18):
+		if pos_in_bounds == false or pos.x in range(GV.GV["player"].position.x-18, GV.GV["player"].position.x+18) or pos.y in range(GV.GV["player"].position.y-18, GV.GV["player"].position.y+18):
 			drop_overlap = true
 			pos = drop_spacing_border_correction(pos, rand)
 		if current_scene.get_node("Shop_Entrance") != null:

@@ -32,7 +32,7 @@ func insert_item(pos):
 		Globals.player_weapon = item["name"]
 		Globals.GUI.attribute_points(Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power"), false, item["id"])
 		if item.has("special"):
-			Globals.player.special = item["special"]
+			GV.GV["player"].special = item["special"]
 #		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_screen").get_node("dmg_type").get_node("power"), false, item["id"])
 		Globals.current_weapon_id = item["id"]
 		
@@ -48,7 +48,7 @@ func insert_item(pos):
 		
 	if slot == $GLOVES or slot == $BOOTS or slot == $CHARACTER:
 		if slot == $CHARACTER:
-			Globals.player.get_node("Body_Armor").texture = ResourceLoader.load("res://Assets/items/" + item.name + ".png")
+			GV.GV["player"].get_node("Body_Armor").texture = ResourceLoader.load("res://Assets/items/" + item.name + ".png")
 			Globals.current_body_armor_id = item["id"]
 		if slot == $BOOTS:
 			Globals.current_boots_id = item["id"]
@@ -101,7 +101,7 @@ func grab_item(pos):
 		Globals.GUI.remove_points(GUI_stats.get_node("stat_screen").get_node("power").get_node("power"), item_id)
 	elif item_slot == "CHARACTER" or item_slot == "GLOVES" or item_slot == "BOOTS":
 		if item_slot == "CHARACTER":
-			Globals.player.get_node("Body_Armor").texture = null
+			GV.GV["player"].get_node("Body_Armor").texture = null
 			
 		if inventory_item.has("special"):
 			var mode = "deduct"
@@ -143,9 +143,9 @@ func special_mod(item, mode):
 			Globals.GUI.get_node("mana_progress").step -= 1
 	if item["special"][0] == "life_reg":
 		if mode == "add":
-			Globals.player.get_node("life_fill_timer").start()
+			GV.GV["player"].get_node("life_fill_timer").start()
 		else:
-			Globals.player.get_node("life_fill_timer").stop()
+			GV.GV["player"].get_node("life_fill_timer").stop()
 
 func get_slot_under_pos(pos):
 	return get_thing_under_pos(slots, pos)

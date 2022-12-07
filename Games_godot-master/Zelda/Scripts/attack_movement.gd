@@ -19,7 +19,7 @@
 #func attack_movement(body):
 #	anim_enemy = $AnimationPlayer
 ##	move_speed = 3
-#	var dir = body.position.direction_to(Globals.player.position)
+#	var dir = body.position.direction_to(GV.GV["player"].position)
 #	var attack_coll = move_and_collide(Vector2.move_toward(dir, move_speed))
 #	anim_enemy.play("attack")
 #	if dir.x > 0:
