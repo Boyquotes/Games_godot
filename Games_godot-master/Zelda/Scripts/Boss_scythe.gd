@@ -17,7 +17,7 @@ func _physics_process(delta):
 	boss_movement()
 
 func boss_movement():
-	dir = self.position.direction_to(GV.GV["player"].position)
+	dir = self.position.direction_to(GV.Player["player"].position)
 	move_and_collide(Vector2.move_toward(dir, boss_move_speed))
 	
 	if dir.x > 0:
@@ -43,7 +43,7 @@ func _on_attack_dmg_zone_body_shape_entered(body_id, body, body_shape, local_sha
 
 func _on_scythe_throw_timer_timeout():
 	var scythe = load("res://Scenes/Scythe_boss_weapon.tscn").instance()
-	Globals.current_scene.get_node("Boss_scythe").add_child(scythe)
+	GV.Scenes["current_scene"].get_node("Boss_scythe").add_child(scythe)
 	scythe.position = dir
 	scythe.get_node("AnimationPlayer").play("scythe_throw")
 	

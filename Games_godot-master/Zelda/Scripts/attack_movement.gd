@@ -13,13 +13,13 @@
 #
 #func _physics_process(delta):
 #
-#	if Globals.current_scene.name == "Starting_World":
+#	if GV.Scenes["current_scene"].name == "Starting_World":
 #		attack_movement(self)
 #
 #func attack_movement(body):
 #	anim_enemy = $AnimationPlayer
 ##	move_speed = 3
-#	var dir = body.position.direction_to(GV.GV["player"].position)
+#	var dir = body.position.direction_to(GV.Player["player"].position)
 #	var attack_coll = move_and_collide(Vector2.move_toward(dir, move_speed))
 #	anim_enemy.play("attack")
 #	if dir.x > 0:
@@ -77,10 +77,10 @@
 #		Globals.GUI.get_node("lvl").text = str(curr_lvl)
 #		Globals.player_lvl = curr_lvl
 #		lvl_progress.value = 0
-#		Globals.current_scene.get_node("GUI").get_node("lvl_up").visible = true
-#		var lvlupstats = int(Globals.current_scene.get_node("GUI").get_node("stat_screen").get_node("points").get_node("points_num").text) 
+#		GV.Scenes["current_scene"].get_node("GUI").get_node("lvl_up").visible = true
+#		var lvlupstats = int(GV.Scenes["current_scene"].get_node("GUI").get_node("stat_screen").get_node("points").get_node("points_num").text) 
 #		lvlupstats += 5
-#		Globals.current_scene.get_node("GUI").get_node("stat_screen").get_node("points").get_node("points_num").text = str(lvlupstats)
+#		GV.Scenes["current_scene"].get_node("GUI").get_node("stat_screen").get_node("points").get_node("points_num").text = str(lvlupstats)
 #	else:
 #		lvl_progress.value += lvl_progress.step
 #	self.queue_free()

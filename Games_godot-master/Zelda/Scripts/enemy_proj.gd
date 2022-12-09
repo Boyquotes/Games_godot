@@ -6,7 +6,7 @@ var proj
 
 func _ready():
 	if "poison" in self.name:
-		var dir_to_player = (GV.GV["player"].global_position - $proj_pos.position).normalized()
+		var dir_to_player = (GV.Player["player"].global_position - $proj_pos.position).normalized()
 		var angle = atan2(dir_to_player.y, dir_to_player.x)
 		self.rotation_degrees = (angle*(180/PI)+180)
 		velocity = dir_to_player
@@ -19,13 +19,13 @@ func _on_poison_proj_body_entered(body):
 		self.queue_free()
 	elif "Player" in body.name:
 		Globals.damage_type = "poison"
-		GV.GV["player"].get_node("poison_timer").start()
+		GV.Player["player"].get_node("poison_timer").start()
 		var poison_dmg_timer = Timer.new()
 		Globals.poison_stacks += 1
 		poison_dmg_timer.name = "poison_dmg_timer"
-		poison_dmg_timer.connect("timeout", GV.GV["player"], "_on_poison_dmg_timer_timeout", [ Globals.poison_stacks ])
-		GV.GV["player"].add_child(poison_dmg_timer)
-		GV.GV["player"].get_node(poison_dmg_timer.name).start()
+		poison_dmg_timer.connect("timeout", GV.Player["player"], "_on_poison_dmg_timer_timeout", [ Globals.poison_stacks ])
+		GV.Player["player"].add_child(poison_dmg_timer)
+		GV.Player["player"].get_node(poison_dmg_timer.name).start()
 
 		self.queue_free()
 

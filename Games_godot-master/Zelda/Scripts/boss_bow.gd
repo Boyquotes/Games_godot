@@ -24,7 +24,7 @@ func _physics_process(delta):
 	boss_movement()
 
 func boss_movement():
-	dir_to_player = self.position.direction_to(GV.GV["player"].position)
+	dir_to_player = self.position.direction_to(GV.Player["player"].position)
 	
 	if run_anim == false and attack_anim == false:
 		anim_boss.play("bow_idle")
@@ -70,7 +70,7 @@ func bow_attack_cd(cd, n):
 func single_arrow_attack():
 	var arrow = load("res://Scenes/arrow_boss_weapon.tscn").instance()
 	arrow.attack_mode = "single"
-	Globals.current_scene.add_child(arrow)
+	GV.Scenes["current_scene"].add_child(arrow)
 	arrow.position = self.position
 
 func multi_arrow_attack():
@@ -80,7 +80,7 @@ func multi_arrow_attack():
 		arrow.position = self.position
 		arrow.rotation_degrees = rotation
 		arrow.attack_mode = "multi"
-		Globals.current_scene.call_deferred("add_child", arrow)
+		GV.Scenes["current_scene"].call_deferred("add_child", arrow)
 		if self.get_node("boss_sprite").is_flipped_h() == false:
 			arrow.get_node("arrow_sprite").set_flip_h(true)
 		rotation += 35

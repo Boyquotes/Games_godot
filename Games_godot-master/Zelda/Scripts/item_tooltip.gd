@@ -25,7 +25,7 @@ func _on_drop_mouse_exited():
 
 func _on_Despawn_Timer_timeout():
 	
-	if "Boss" in Globals.current_scene.name:
+	if "Boss" in GV.Scenes["current_scene"].name:
 		return
 	else:
 		for i in Globals.dropped_items:

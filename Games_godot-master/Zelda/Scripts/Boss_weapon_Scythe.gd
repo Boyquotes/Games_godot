@@ -5,7 +5,7 @@ var test_dir
 var move_speed = 2
 
 func _ready():
-	dir = self.get_parent().position.direction_to(GV.GV["player"].position)
+	dir = self.get_parent().position.direction_to(GV.Player["player"].position)
 	
 func _physics_process(delta):
 	

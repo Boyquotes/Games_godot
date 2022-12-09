@@ -1,8 +1,8 @@
 extends Node
 
 #var player = null
-var current_scene = null
-var next_scene
+#var current_scene = null
+#var next_scene
 var player_spawn_pos = null
 var player_weapon = false
 var starter_weapon = true
@@ -49,7 +49,7 @@ var current_boots_id
 var current_ammo
 var current_ammo_num = 0
 var stats
-var prev_scene
+#var prev_scene
 var GUI = null
 var entities = []
 var enemies
@@ -73,8 +73,8 @@ var game_started = false
 
 func _ready():
 	var root = get_tree().get_root()
-	current_scene = root.get_child(root.get_child_count() - 1)
-	GV.GV["player"] = ResourceLoader.load("res://Scenes/Player.tscn").instance()
+	GV.Scenes["current_scene"] = root.get_child(root.get_child_count() - 1)
+	GV.Player["player"] = ResourceLoader.load("res://Scenes/Player.tscn").instance()
 	
 	
 func _process(delta):
@@ -87,14 +87,14 @@ func goto_scene(path, spawn):
 
 func _deferred_goto_scene(path, spawn):
 	
-	prev_scene = spawn
-	current_scene.free()
+	GV.Scenes["prev_scene"] = spawn
+	GV.Scenes["current_scene"].free()
 	
-	current_scene = ResourceLoader.load(path).instance()
-	get_tree().get_root().add_child(current_scene)
+	GV.Scenes["current_scene"] = ResourceLoader.load(path).instance()
+	get_tree().get_root().add_child(GV.Scenes["current_scene"])
 
-	if current_scene.name != "Boss_Room" and current_scene.name != "pwr_up_screen":
-		next_scene = random_scene()
+	if GV.Scenes["current_scene"].name != "Boss_Room" and GV.Scenes["current_scene"].name != "pwr_up_screen":
+		GV.Scenes["next_scene"] = random_scene()
 	
 	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn" and path != "res://Scenes/pwr_up_screen.tscn":
 		
@@ -106,9 +106,9 @@ func _deferred_goto_scene(path, spawn):
 		GUI.get_node("mana_progress").max_value = max_mana
 		Items = ResourceLoader.load("res://Scenes/Items.tscn").instance()
 		
-		current_scene.add_child(GV.GV["player"])
-		current_scene.add_child(GUI)
-		current_scene.add_child(Items)
+		GV.Scenes["current_scene"].add_child(GV.Player["player"])
+		GV.Scenes["current_scene"].add_child(GUI)
+		GV.Scenes["current_scene"].add_child(Items)
 #		player.add_child(inventory)
 		
 #		inventory.get_child(0).rect_position = player.position
@@ -118,7 +118,7 @@ func _deferred_goto_scene(path, spawn):
 		if path == "res://Scenes/Levels/Starting_World.tscn" and game_started == false:
 			add_stats = true
 			player_spawn_pos = Vector2(512, 300)
-			GV.GV["player"].position = player_spawn_pos
+			GV.Player["player"].position = player_spawn_pos
 			player_lvl = 0
 			enemy_hp_value = 150
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
@@ -141,13 +141,13 @@ func _deferred_goto_scene(path, spawn):
 			spawn_enemy_type()
 			game_started = true
 		else:
-#			if current_scene.name == "Starting_World":
-#				current_scene.get_node("Player_Spawn").position = shop_spawn_pos
+#			if GV.Scenes["current_scene"].name == "Starting_World":
+#				GV.Scenes["current_scene"].get_node("Player_Spawn").position = shop_spawn_pos
 #			if portal_spawned:
 #				spawn_boss_portal()
 #			load change scene
-			player_spawn_pos = current_scene.get_node("Player_Spawn").position
-			GV.GV["player"].position = player_spawn_pos
+			player_spawn_pos = GV.Scenes["current_scene"].get_node("Player_Spawn").position
+			GV.Player["player"].position = player_spawn_pos
 			GUI.get_node("hp_num").text = str(player_hp)
 			GUI.get_node("hp_visual").value = player_hp
 			GUI.get_node("lvl_progress").value = player_xp
@@ -169,40 +169,40 @@ func _deferred_goto_scene(path, spawn):
 			if player_weapon == "bow":
 				GUI.get_node("ammo").text = current_ammo
 			GUI.get_node("ammo_num").text = str(current_ammo_num)
-#			GV.GV["player"].move_speed += (0.1*dex)
+#			GV.Player["player"].move_speed += (0.1*dex)
 			GUI.remove_points(GUI_stats.get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
 			GUI_stats.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
 			spawn_enemy_type()
 		
-		GV.GV["player"].position = player_spawn_pos
+		GV.Player["player"].position = player_spawn_pos
 
 		
-#		if current_scene.name == "Boss_World":
+#		if GV.Scenes["current_scene"].name == "Boss_World":
 #			GUI.get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(next_scene).get_string()
 #		else:
-		GUI.get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(next_scene).get_string()
+		GUI.get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(GV.Scenes["next_scene"]).get_string()
 			
 #		enemy_tracker = enemy_pos.size()
 		GUI.get_node("number").text = str(enemy_tracker)
 	
-#	if current_scene.name == "Shop" and player_weapon and !starter_weapon:
-#		current_scene.get_node("Weapons_TileMap").tile_set.remove_tile(current_scene.get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
-#		current_scene.get_node("Weapons_TileMap").queue_free()
-	if current_scene.name == "Shop" and player_weapon and starter_weapon:
+#	if GV.Scenes["current_scene"].name == "Shop" and player_weapon and !starter_weapon:
+#		GV.Scenes["current_scene"].get_node("Weapons_TileMap").tile_set.remove_tile(GV.Scenes["current_scene"].get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
+#		GV.Scenes["current_scene"].get_node("Weapons_TileMap").queue_free()
+	if GV.Scenes["current_scene"].name == "Shop" and player_weapon and starter_weapon:
 		starter_weapon = false
 		var rand = RandomNumberGenerator.new()
-		var ammo = current_scene.get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
+		var ammo = GV.Scenes["current_scene"].get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
 		rand.randomize()
-		current_scene.get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
-#		current_scene.get_node("Ammo_TileMap").set_cell(14,8,5)
-		current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
-		current_scene.get_node("ammo_price").text = str(50)
-		current_scene.get_node("ammo_price_two").text = str(50)
-		while current_scene.get_node("Ammo_TileMap").get_cell(14,8) == current_scene.get_node("Ammo_TileMap").get_cell(15,8):
-			current_scene.get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
-		current_scene.get_node("ammo_capacity").text = str(ilvl*2)
-		current_scene.get_node("ammo_capacity_two").text = str(ilvl*2)
+		GV.Scenes["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
+#		GV.Scenes["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,5)
+		GV.Scenes["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
+		GV.Scenes["current_scene"].get_node("ammo_price").text = str(50)
+		GV.Scenes["current_scene"].get_node("ammo_price_two").text = str(50)
+		while GV.Scenes["current_scene"].get_node("Ammo_TileMap").get_cell(14,8) == GV.Scenes["current_scene"].get_node("Ammo_TileMap").get_cell(15,8):
+			GV.Scenes["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
+		GV.Scenes["current_scene"].get_node("ammo_capacity").text = str(ilvl*2)
+		GV.Scenes["current_scene"].get_node("ammo_capacity_two").text = str(ilvl*2)
 		
 #	block_attribute_changes = false
 
@@ -223,7 +223,7 @@ func random_scene():
 func spawn_enemy_type():
 	regex = RegEx.new()
 	regex.compile("^[^_]+")
-	var scene = current_scene.name
+	var scene = GV.Scenes["current_scene"].name
 	var type = regex.search(scene).get_string()
 	var enemy_type = "Enemy_" + type
 	
@@ -242,17 +242,17 @@ func num_of_enemies(n):
 	
 func spawn_enemies(pos, type):
 	var rand = RandomNumberGenerator.new()
-	var tilemap = current_scene.get_node("Level_TileMap")
+	var tilemap = GV.Scenes["current_scene"].get_node("Level_TileMap")
 
-	if "World" in current_scene.name: #and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or prev_scene == "pwr_up_screen" or "World" in prev_scene or respawn:
-		var spawn_area = current_scene.get_node("spawn_area").rect_size
+	if "World" in GV.Scenes["current_scene"].name: #and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or prev_scene == "pwr_up_screen" or "World" in prev_scene or respawn:
+		var spawn_area = GV.Scenes["current_scene"].get_node("spawn_area").rect_size
 		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance()
 
-#		current_scene.call_deferred("add_child", enemy)
-		current_scene.add_child(enemy) 
+#		GV.Scenes["current_scene"].call_deferred("add_child", enemy)
+		GV.Scenes["current_scene"].add_child(enemy) 
 		
 #		respawn enemies when coming back from shop
-		if current_scene.name == "Starting_World" and game_started and respawn == false:
+		if GV.Scenes["current_scene"].name == "Starting_World" and game_started and respawn == false:
 			enemy.position = enemy_pos[pos]
 			enemy.move_vec = enemy_dir[pos]
 			enemy_id[pos] = (str(enemy))
@@ -269,23 +269,23 @@ func spawn_enemies(pos, type):
 			enemy.get_node("hp_bar").value = enemy_hp_value
 			
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
-			var distance_to_player = enemy.get_global_position().distance_to(GV.GV["player"].get_global_position())
+			var distance_to_player = enemy.get_global_position().distance_to(GV.Player["player"].get_global_position())
 			while distance_to_player < 200:
 				print("changepos")
 				enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
-				distance_to_player = enemy.get_global_position().distance_to(GV.GV["player"].get_global_position())
+				distance_to_player = enemy.get_global_position().distance_to(GV.Player["player"].get_global_position())
 
-			if "Fire" in current_scene.name:
+			if "Fire" in GV.Scenes["current_scene"].name:
 				enemy_resistance = {"fire": 7*enemy_res_modifier, "cold": 2*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
-			if "Starting" in current_scene.name:
+			if "Starting" in GV.Scenes["current_scene"].name:
 				enemy_resistance = {"fire": 3*enemy_res_modifier, "cold": 3*enemy_res_modifier, "lightning": 3*enemy_res_modifier, "physical": 7*enemy_res_modifier, "poison": 1*enemy_res_modifier}
-			if "lightning" in current_scene.name:
+			if "lightning" in GV.Scenes["current_scene"].name:
 				enemy_resistance = {"fire": 5*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 7*enemy_res_modifier, "physical": 2*enemy_res_modifier, "poison": 5*enemy_res_modifier}
-			if "Snow" in current_scene.name:
+			if "Snow" in GV.Scenes["current_scene"].name:
 				enemy_resistance = {"fire": 2*enemy_res_modifier, "cold": 7*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
-			if "Desert" in current_scene.name:
+			if "Desert" in GV.Scenes["current_scene"].name:
 				enemy_resistance = {"fire": 2*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 3*enemy_res_modifier, "poison": 7*enemy_res_modifier}
-			if "Jungle" in current_scene.name:
+			if "Jungle" in GV.Scenes["current_scene"].name:
 				enemy_resistance = {"fire": 5*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 2*enemy_res_modifier}
 			
 	#		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
@@ -307,10 +307,10 @@ func spawn_enemies(pos, type):
 			
 
 # coming back from shop
-#	elif current_scene.name == "Starting_World":
+#	elif GV.Scenes["current_scene"].name == "Starting_World":
 #		print("reloadEnemies")
 #		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 
-#		current_scene.add_child(enemy)
+#		GV.Scenes["current_scene"].add_child(enemy)
 #		enemy.position = enemy_pos[pos]
 #		enemy.move_vec = enemy_dir[pos]
 #		enemy_id[pos] = (str(enemy))
@@ -322,8 +322,8 @@ func spawn_enemies(pos, type):
 func spawn_weapon_shop():
 	var rand = RandomNumberGenerator.new()
 	var shop_entrance = ResourceLoader.load("res://Scenes/Weapon_Shop_Entrance.tscn").instance()
-	var wep_spawn_area = current_scene.get_node("weaponshop_spawn_area").rect_size
-	current_scene.get_node("weaponshop_spawn_area").call_deferred("add_child", shop_entrance)
+	var wep_spawn_area = GV.Scenes["current_scene"].get_node("weaponshop_spawn_area").rect_size
+	GV.Scenes["current_scene"].get_node("weaponshop_spawn_area").call_deferred("add_child", shop_entrance)
 	
 	rand.randomize()
 	shop_entrance.position = Vector2(rand.randf_range(0, wep_spawn_area.x), rand.randf_range(0, wep_spawn_area.y))
@@ -334,7 +334,7 @@ func spawn_weapon_shop():
 func spawn_boss_portal():
 	portal_spawned = true
 	var Portal = ResourceLoader.load("res://Scenes/Boss_Portal_Entrance.tscn").instance()
-	current_scene.call_deferred("add_child", Portal)
+	GV.Scenes["current_scene"].call_deferred("add_child", Portal)
 	entities.clear()
 	entities.push_front(Portal)
 	Portal.get_node("Boss_Portal_Anim").play()
@@ -355,7 +355,7 @@ func drop_weighting(num):
 var drop_overlap = false
 func drop_spacing(pos, last_pos, rand): 
 	drop_overlap = false
-	var drop_in_spawn_area = current_scene.get_node("spawn_area").rect_size
+	var drop_in_spawn_area = GV.Scenes["current_scene"].get_node("spawn_area").rect_size
 	rand.randomize()
 
 	for i in last_pos.size():
@@ -368,11 +368,11 @@ func drop_spacing(pos, last_pos, rand):
 		if last_pos[i].x in range(pos.x-18,pos.x+18) and last_pos[i].y in range(pos.y-18,pos.y+18):
 			drop_overlap = true
 			pos = drop_spacing_border_correction(pos, rand)
-		if pos_in_bounds == false or pos.x in range(GV.GV["player"].position.x-18, GV.GV["player"].position.x+18) or pos.y in range(GV.GV["player"].position.y-18, GV.GV["player"].position.y+18):
+		if pos_in_bounds == false or pos.x in range(GV.Player["player"].position.x-18, GV.Player["player"].position.x+18) or pos.y in range(GV.Player["player"].position.y-18, GV.Player["player"].position.y+18):
 			drop_overlap = true
 			pos = drop_spacing_border_correction(pos, rand)
-		if current_scene.get_node("Shop_Entrance") != null:
-			if pos.x in range(current_scene.get_node("Shop_Entrance").position.x-18, current_scene.get_node("Shop_Entrance").position.x+18) or pos.y in range(current_scene.get_node("Shop_Entrance").position.x-18, current_scene.get_node("Shop_Entrance").position.x+18):
+		if GV.Scenes["current_scene"].get_node("Shop_Entrance") != null:
+			if pos.x in range(GV.Scenes["current_scene"].get_node("Shop_Entrance").position.x-18, GV.Scenes["current_scene"].get_node("Shop_Entrance").position.x+18) or pos.y in range(GV.Scenes["current_scene"].get_node("Shop_Entrance").position.x-18, GV.Scenes["current_scene"].get_node("Shop_Entrance").position.x+18):
 				print("check_shop_overlap")
 				drop_overlap = true
 				pos = drop_spacing_border_correction(pos, rand)
@@ -404,7 +404,7 @@ func drop(pos, freq, weighting):
 		var last_pos = []
 		var num_items_dropped
 		
-		if current_scene.name != "Boss_Room":
+		if GV.Scenes["current_scene"].name != "Boss_Room":
 			num_items_dropped = rand.randf_range(10, quantity)/8
 		else:
 			num_items_dropped = 1
@@ -441,7 +441,7 @@ func drop_pwrup(pos):
 	
 	item = ItemDB.PWRUP[drop_id]
 
-	current_scene.call_deferred("add_child", drop)
+	GV.Scenes["current_scene"].call_deferred("add_child", drop)
 	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
 	drop.name = drop_name
 	drop.position = pos
@@ -480,7 +480,7 @@ func drop_item(pos, ilvl):
 	(item["physical"]+rand.randi_range(0, ilvl)), (item["poison"]+rand.randi_range(0, ilvl))]
 	
 	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()
-	current_scene.call_deferred("add_child", drop)
+	GV.Scenes["current_scene"].call_deferred("add_child", drop)
 	
 	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
 #	drop.get_node("drop_sprite").scale.x = 0.5
@@ -535,7 +535,7 @@ func drop_weapon(pos, ilvl):
 	var dmg_types = ["fire", "cold", "lightning", "physical", "poison"]
 	var dmg_type = rand.randi_range(0, dmg_types.size()-1)
 	var drop = ResourceLoader.load("res://Scenes/weapon_drop.tscn").instance()
-	current_scene.call_deferred("add_child", drop)
+	GV.Scenes["current_scene"].call_deferred("add_child", drop)
 	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
 	drop.position = pos
 	drop.name = "item"

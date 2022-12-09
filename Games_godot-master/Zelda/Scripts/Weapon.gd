@@ -55,7 +55,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 						body.poison_timer(i, dmg_taken)
 					elif Globals.current_ammo == "web arrow":
 						var spider_web = ResourceLoader.load("res://Scenes/spider_web.tscn").instance()
-						Globals.current_scene.call_deferred("add_child", spider_web)
+						GV.Scenes["current_scene"].call_deferred("add_child", spider_web)
 						spider_web.position = body.position
 						enemy_dmg_taken(i, body)
 					else:
@@ -114,7 +114,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 
 func dmg_calc():
 	var enemy_res
-	if "Boss" in Globals.current_scene.name:
+	if "Boss" in GV.Scenes["current_scene"].name:
 		enemy_res = Globals.boss_res
 	else:
 		enemy_res = Globals.enemy_resistance
@@ -132,7 +132,7 @@ func dmg_calc():
 func enemy_dmg_taken(pos, enemy):
 	var dmg_txt = dmg_floating_txt.instance()
 	dmg_txt.position = enemy.position
-	Globals.current_scene.add_child(dmg_txt)
+	GV.Scenes["current_scene"].add_child(dmg_txt)
 	dmg_txt.get_node("dmg_num_txt").text = str(stepify(dmg_taken, 0.1))
 	
 	Globals.enemy_hp[pos] -= dmg_taken

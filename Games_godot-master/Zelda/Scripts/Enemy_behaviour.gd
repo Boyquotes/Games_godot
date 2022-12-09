@@ -13,7 +13,7 @@ func _ready():
 	anim_enemy = $AnimationPlayer
 	proj_life_time = 2
 	
-	if Globals.current_scene.name == "Desert_World":
+	if GV.Scenes["current_scene"].name == "Desert_World":
 		$attack_timeout.set_wait_time(proj_life_time)
 		$attack_timeout.start()
 
@@ -21,9 +21,9 @@ func _physics_process(delta):
 
 	if Globals.all_attack or snow_attack or enemy_attack:
 		enemy_attack_move()
-	elif Globals.current_scene.name == "Fire_World":
+	elif GV.Scenes["current_scene"].name == "Fire_World":
 		anim_enemy.play("idle")
-	elif "Boss" in Globals.current_scene.name:
+	elif "Boss" in GV.Scenes["current_scene"].name:
 		pass
 	else:
 		enemy_movement()
@@ -66,7 +66,7 @@ func _on_Area2D_area_exited(area):
 
 func enemy_attack_move():
 	move_speed = 1
-	var dir = self.position.direction_to(GV.GV["player"].position)
+	var dir = self.position.direction_to(GV.Player["player"].position)
 	var attack_coll = move_and_collide(Vector2.move_toward(dir, move_speed))
 	
 	anim_enemy.play("attack")
@@ -150,10 +150,10 @@ func remove_enemy(i):
 		Globals.GUI.get_node("lvl").text = str(curr_lvl)
 		Globals.player_lvl = curr_lvl
 		lvl_progress.value = 0
-		Globals.current_scene.get_node("GUI").get_node("lvl_up").visible = true
-		var lvlupstats = int(Globals.current_scene.get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text) 
+		GV.Scenes["current_scene"].get_node("GUI").get_node("lvl_up").visible = true
+		var lvlupstats = int(GV.Scenes["current_scene"].get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text) 
 		lvlupstats += 5
-		Globals.current_scene.get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text = str(lvlupstats)
+		GV.Scenes["current_scene"].get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text = str(lvlupstats)
 	else:
 		lvl_progress.value += lvl_progress.step
 	if Globals.enemy_tracker == 0:

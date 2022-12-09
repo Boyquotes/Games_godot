@@ -34,15 +34,15 @@ func goto_scene(path, spawn, prev_scene):
 
 func _deferred_goto_scene(path, spawn, prev_scene):
 	var root = get_tree().get_root()
-	var current_scene = root.get_child(root.get_child_count() - 1)
+	var GV.Scenes["current_scene"] = root.get_child(root.get_child_count() - 1)
 	
 #	|| freeing previous scene ||
 	prev_scene = spawn
-	current_scene.free()
+	GV.Scenes["current_scene"].free()
 	
 #	|| loading new scene and adding it to the tree ||
-	current_scene = ResourceLoader.load(path).instance()
-	get_tree().get_root().add_child(current_scene)
+	GV.Scenes["current_scene"] = ResourceLoader.load(path).instance()
+	get_tree().get_root().add_child(GV.Scenes["current_scene"])
 
 #	|| check if scene is a level screen -> ||
 	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn" and path != "res://Scenes/pwr_up_screen.tscn":
@@ -55,9 +55,9 @@ func _deferred_goto_scene(path, spawn, prev_scene):
 		items = ResourceLoader.load("res://Scenes/Items.tscn").instance()
 		
 #	|| add game entities to current scene ||
-		current_scene.add_child(player)
-		current_scene.add_child(GUI)
-		current_scene.add_child(items)
+		GV.Scenes["current_scene"].add_child(player)
+		GV.Scenes["current_scene"].add_child(GUI)
+		GV.Scenes["current_scene"].add_child(items)
 
 #	|| initiate start values if first level loads -> this only loads once at startup of first level scene ||
 		if path == "res://Scenes/Levels/Starting_World.tscn":
@@ -85,7 +85,7 @@ func _deferred_goto_scene(path, spawn, prev_scene):
 			
 #	|| load global (changed) values from GUI if regular level load ||
 		else:
-			player_spawn_pos = current_scene.get_node("Player_Spawn").position
+			player_spawn_pos = GV.Scenes["current_scene"].get_node("Player_Spawn").position
 			player.position = player_spawn_pos
 			GUI.get_node("hp_num").text = str(player_hp)
 			GUI.get_node("hp_visual").value = player_hp
@@ -110,7 +110,7 @@ func _deferred_goto_scene(path, spawn, prev_scene):
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
 			
 #	|| set player position depending on a node in tree of current scene ||
-		player.position = current_scene.get_node("player_spawn_pos")
+		player.position = GV.Scenes["current_scene"].get_node("player_spawn_pos")
 
 #	|| spawn enemy entities ||
 #		spawn_enemy_type()

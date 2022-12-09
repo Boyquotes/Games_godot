@@ -32,7 +32,7 @@ func _ready():
 	
 	player_invuln = false
 
-	level_tilemap = Globals.current_scene.get_node("Level_TileMap")
+	level_tilemap = GV.Scenes["current_scene"].get_node("Level_TileMap")
 	
 	if level_tilemap == null:
 		level_tilemap = $"/root/Main/Starting_World/Level_TileMap"
@@ -41,8 +41,8 @@ func _ready():
 	
 	mana_progress = Globals.GUI.get_node("mana_progress")
 	
-	if Globals.current_scene.has_node("Ammo_TileMap"):
-		ammo_tilemap = Globals.current_scene.get_node("Ammo_TileMap")
+	if GV.Scenes["current_scene"].has_node("Ammo_TileMap"):
+		ammo_tilemap = GV.Scenes["current_scene"].get_node("Ammo_TileMap")
 
 
 func _physics_process(delta):
@@ -167,18 +167,18 @@ func player_collision():
 			var ammo_tile_name = get_tile_name(coll, ammo_tilemap)[0]
 			var cell = get_tile_name(coll, ammo_tilemap)[1]
 
-#			if ammo_tile_name and Globals.coins >= int(Globals.current_scene.get_node("ammo_price").text):
+#			if ammo_tile_name and Globals.coins >= int(GV.Scenes["current_scene"].get_node("ammo_price").text):
 			Globals.current_ammo = ammo_tile_name
-			Globals.coins -= int(Globals.current_scene.get_node("ammo_price").text)
+			Globals.coins -= int(GV.Scenes["current_scene"].get_node("ammo_price").text)
 			Globals.GUI.get_node("coins").get_node("coins_num").text = str(Globals.coins)
-			Globals.current_ammo_num = int(Globals.current_scene.get_node("ammo_capacity").text)
+			Globals.current_ammo_num = int(GV.Scenes["current_scene"].get_node("ammo_capacity").text)
 			Globals.GUI.get_node("ammo").text = ammo_tile_name
-			Globals.GUI.get_node("ammo_num").text = Globals.current_scene.get_node("ammo_capacity").text
-			Globals.current_scene.get_node("Ammo_TileMap").queue_free()
-			Globals.current_scene.get_node("ammo_capacity").visible = false
-			Globals.current_scene.get_node("ammo_capacity_two").visible = false
-			Globals.current_scene.get_node("ammo_price").visible = false
-			Globals.current_scene.get_node("ammo_price_two").visible = false
+			Globals.GUI.get_node("ammo_num").text = GV.Scenes["current_scene"].get_node("ammo_capacity").text
+			GV.Scenes["current_scene"].get_node("Ammo_TileMap").queue_free()
+			GV.Scenes["current_scene"].get_node("ammo_capacity").visible = false
+			GV.Scenes["current_scene"].get_node("ammo_capacity_two").visible = false
+			GV.Scenes["current_scene"].get_node("ammo_price").visible = false
+			GV.Scenes["current_scene"].get_node("ammo_price_two").visible = false
 #			else:
 #				print("notEnoughMuns")
 
@@ -261,11 +261,11 @@ func player_collision():
 					Globals.inventory.pickup_item(i)
 					Globals.add_stats = false
 
-			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			GV.Scenes["current_scene"].get_node(coll.collider.name).queue_free()
 			
-			if "Boss" in Globals.current_scene.name:
+			if "Boss" in GV.Scenes["current_scene"].name:
 				Globals.ilvl -= 5
-				Globals.goto_scene("res://Scenes/pwr_up_screen.tscn", Globals.current_scene.name)
+				Globals.goto_scene("res://Scenes/pwr_up_screen.tscn", GV.Scenes["current_scene"].name)
 				
 			
 		if "proj" in coll.collider.name:
@@ -275,18 +275,18 @@ func player_collision():
 					Globals.dropped_items.remove(Globals.dropped_items.find(i))
 					Globals.inventory.pickup_item(i)
 
-			Globals.current_scene.get_node(coll.collider.name).queue_free()
+			GV.Scenes["current_scene"].get_node(coll.collider.name).queue_free()
 		
 		if "Portal" in coll.collider.name:
 			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
-			if "Starting" in Globals.current_scene.name:
+			if "Starting" in GV.Scenes["current_scene"].name:
 				Globals.load_boss = "Boss_slime"
-			elif "jungle" in Globals.current_scene.name:
+			elif "jungle" in GV.Scenes["current_scene"].name:
 				Globals.load_boss = "Boss_bow"
 			else:
 				Globals.load_boss = "Boss_slime"
 			Globals.ilvl += 10
-			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", Globals.current_scene.name)
+			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", GV.Scenes["current_scene"].name)
 #			Globals.block_attribute_changes = true
 			Globals.portal_spawned = false
 			
@@ -295,7 +295,7 @@ func despawn_drop(coll):
 		if i["id"] == int(coll.collider.get_node("id").text):
 			Globals.dropped_items.remove(Globals.dropped_items.find(i))
 
-	Globals.current_scene.get_node(coll.collider.name).queue_free()
+	GV.Scenes["current_scene"].get_node(coll.collider.name).queue_free()
 			
 func snow_attack():
 	loose_hp(Globals.enemy_dmg_modifier)
@@ -325,7 +325,7 @@ func bleed_damage(modifier):
 	self.get_node("bleed_timer").start()
 	var bleed_dmg_timer = Timer.new()
 	bleed_dmg_timer.name = "bleed_dmg_timer"
-	bleed_dmg_timer.connect("timeout", GV.GV["player"], "_on_bleed_dmg_timer_timeout")
+	bleed_dmg_timer.connect("timeout", GV.Player["player"], "_on_bleed_dmg_timer_timeout")
 	self.add_child(bleed_dmg_timer)
 	self.get_node(bleed_dmg_timer.name).start()
 	
@@ -409,7 +409,7 @@ func weapon_achievement_anim(weapons_tile_name, coll, cell):
 
 		weapon_sprite.queue_free()
 
-		Globals.current_scene.get_node("Weapons_TileMap").queue_free()
+		GV.Scenes["current_scene"].get_node("Weapons_TileMap").queue_free()
 	
 func weapon_attack(move_vec, axe_pos, axe_dir):
 	attacking = true
@@ -418,7 +418,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 		var weapon = load("res://Scenes/Weapon.tscn").instance()
 
 		if Globals.player_weapon == "axe":
-			Globals.current_scene.get_node("Player").add_child(weapon)
+			GV.Scenes["current_scene"].get_node("Player").add_child(weapon)
 			var axe = load("res://Assets/axe_small.png")
 			
 			if axe_dir == "y":
@@ -433,7 +433,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 		if Globals.player_weapon == "bow": 
 			if special:
 					weapon.special = special
-			Globals.current_scene.add_child(weapon)
+			GV.Scenes["current_scene"].add_child(weapon)
 			weapon.position = self.position
 			var arrow = load("res://Assets/arrow.png")
 			if Globals.current_ammo != null and Globals.current_ammo_num != 0:
@@ -465,7 +465,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			var wand
 			var mana_cost = 10
 			if mana_progress.value > mana_cost:
-				Globals.current_scene.add_child(weapon)
+				GV.Scenes["current_scene"].add_child(weapon)
 				weapon.position = self.position
 				if special:
 					if special == "multi_proj":
@@ -497,21 +497,21 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				mana_progress.value -= mana_cost
 				mana_progress.get_node("mana_value").text = str(mana_progress.value)
 				weapon.get_node("weapon").set_texture(wand)
-				var shortest_distance_enemy = Globals.current_scene.get_node("Level_TileMap")
-				if Globals.current_scene.name != "Shop":
+				var shortest_distance_enemy = GV.Scenes["current_scene"].get_node("Level_TileMap")
+				if GV.Scenes["current_scene"].name != "Shop":
 					if Globals.entities.size() > 0:
 						for i in Globals.entities:
 							var distance_to_player = i.get_global_position().distance_to(self.get_global_position())
 							if distance_to_player < shortest_distance_enemy.get_global_position().distance_to(self.get_global_position()):
 								shortest_distance_enemy = i
-							var dir = weapon.position.direction_to(Globals.current_scene.get_node(shortest_distance_enemy.name).position)
+							var dir = weapon.position.direction_to(GV.Scenes["current_scene"].get_node(shortest_distance_enemy.name).position)
 							weapon.velocity = Vector2.move_toward(dir, weapon.speed)
 					else:
 						print("cannot fire in shop")
 				else:
 					print("oom")
 		if Globals.player_weapon == "staff":
-			Globals.current_scene.get_node("Player").add_child(weapon)
+			GV.Scenes["current_scene"].get_node("Player").add_child(weapon)
 			var staff = load("res://Assets/staff_attack.png")
 			weapon.get_node("weapon").set_texture(staff)
 			weapon.get_node("weapon_coll").scale.y = 3
@@ -531,7 +531,7 @@ func spec_mod_wand_multi_proj(wand):
 	var multi_projs = [multi_proj_one, multi_proj_two]
 	
 	for i in multi_projs:
-		Globals.current_scene.add_child(i)
+		GV.Scenes["current_scene"].add_child(i)
 		i.get_node("weapon").set_texture(wand)
 		i.position = self.position
 	

@@ -38,7 +38,7 @@ func populate_options():
 	for i in self.get_children():
 		if "lvl" in i.get_child(0).text:
 			print("btn_name ", i.get_child(0).text)
-			i.get_child(0).text += "  current: " + Globals.next_scene
+			i.get_child(0).text += "  current: " + GV.Scenes["next_scene"]
 	
 func _on_option_one_btn_pressed():
 	pwr_up_effect(pwr_up_one.name, pwr_up_one.amount)
@@ -83,8 +83,8 @@ func goto_next_scene():
 #	Globals.respawn = false
 	if change_next_scene:
 		print("randomScene")
-		Globals.goto_scene("res://Scenes/Levels/" + Globals.random_scene() + ".tscn", Globals.current_scene.name)
+		Globals.goto_scene("res://Scenes/Levels/" + Globals.random_scene() + ".tscn", GV.Scenes["current_scene"].name)
 		change_next_scene = false
 	else:
-		Globals.goto_scene("res://Scenes/Levels/" + Globals.next_scene + ".tscn", Globals.current_scene.name)
+		Globals.goto_scene("res://Scenes/Levels/" + GV.Scenes["next_scene"] + ".tscn", GV.Scenes["current_scene"].name)
 		

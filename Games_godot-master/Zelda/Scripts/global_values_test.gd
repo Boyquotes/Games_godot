@@ -1,8 +1,14 @@
 extends Node2D
 
-var GV = {
+var Player = {
 	"player": null,
 	"player_xp": ""
+}
+
+var Scenes = {
+	"current_scene": null,
+	"next_scene": null,
+	"prev_scene": null
 }
 #
 #var player = null

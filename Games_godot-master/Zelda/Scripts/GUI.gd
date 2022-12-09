@@ -97,7 +97,7 @@ func attribute_effects(stat, effect, value):
 		if effect == "augment":
 			Globals.GUI.get_node("mana_progress").max_value += value
 			Globals.max_mana += value
-			GV.GV["player"].get_node("mana_fill_timer").start()
+			GV.Player["player"].get_node("mana_fill_timer").start()
 		else:
 			Globals.GUI.get_node("mana_progress").max_value -= value
 			Globals.max_mana -= value
