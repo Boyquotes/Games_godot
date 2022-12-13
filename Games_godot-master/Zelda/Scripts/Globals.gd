@@ -3,7 +3,7 @@ extends Node
 #var player = null
 #var current_scene = null
 #var next_scene
-var player_spawn_pos = null
+#var player_spawn_pos = null
 var player_weapon = false
 var starter_weapon = true
 var wand_proj = null
@@ -72,9 +72,9 @@ var add_stats = false
 var game_started = false
 
 func _ready():
+	print("callReady")
 	var root = get_tree().get_root()
 	GV.Scenes["current_scene"] = root.get_child(root.get_child_count() - 1)
-	GV.Player["player"] = ResourceLoader.load("res://Scenes/Player.tscn").instance()
 	
 	
 func _process(delta):
@@ -87,8 +87,11 @@ func goto_scene(path, spawn):
 
 func _deferred_goto_scene(path, spawn):
 	
+	print("Player ", GV.Player["player"])
+	
 	GV.Scenes["prev_scene"] = spawn
 	GV.Scenes["current_scene"].free()
+	print("Player ", GV.Player["player"])
 	
 	GV.Scenes["current_scene"] = ResourceLoader.load(path).instance()
 	get_tree().get_root().add_child(GV.Scenes["current_scene"])
@@ -97,9 +100,8 @@ func _deferred_goto_scene(path, spawn):
 		GV.Scenes["next_scene"] = random_scene()
 	
 	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn" and path != "res://Scenes/pwr_up_screen.tscn":
-		
-		
 #		inventory = ResourceLoader.load("res://Scenes/GUI.tscn").instance().get_node("stat_container").get_node("Inventory")
+		GV.Player["player"] = ResourceLoader.load("res://Scenes/Player.tscn").instance()
 		GUI = ResourceLoader.load("res://Scenes/GUI.tscn").instance()
 		inventory = GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("Inventory")
 		var GUI_stats = GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI")
@@ -113,12 +115,11 @@ func _deferred_goto_scene(path, spawn):
 		
 #		inventory.get_child(0).rect_position = player.position
 
-
 #		load start scene
 		if path == "res://Scenes/Levels/Starting_World.tscn" and game_started == false:
 			add_stats = true
-			player_spawn_pos = Vector2(512, 300)
-			GV.Player["player"].position = player_spawn_pos
+#			player_spawn_pos = Vector2(512, 300)
+			GV.Player["player"].position = Vector2(512, 300)
 			player_lvl = 0
 			enemy_hp_value = 150
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
@@ -146,8 +147,8 @@ func _deferred_goto_scene(path, spawn):
 #			if portal_spawned:
 #				spawn_boss_portal()
 #			load change scene
-			player_spawn_pos = GV.Scenes["current_scene"].get_node("Player_Spawn").position
-			GV.Player["player"].position = player_spawn_pos
+#			player_spawn_pos = GV.Scenes["current_scene"].get_node("Player_Spawn").position
+			GV.Player["player"].position = GV.Scenes["current_scene"].get_node("Player_Spawn").position
 			GUI.get_node("hp_num").text = str(player_hp)
 			GUI.get_node("hp_visual").value = player_hp
 			GUI.get_node("lvl_progress").value = player_xp
@@ -175,7 +176,7 @@ func _deferred_goto_scene(path, spawn):
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
 			spawn_enemy_type()
 		
-		GV.Player["player"].position = player_spawn_pos
+#		GV.Player["player"].position = player_spawn_pos
 
 		
 #		if GV.Scenes["current_scene"].name == "Boss_World":
