@@ -29,14 +29,14 @@ func insert_item(pos):
 	pos.rect_global_position = slot.rect_global_position + slot.rect_size / 2 - pos.rect_size / 2
 	
 	if slot == $WEAPON:
-		Globals.player_weapon = item["name"]
+		GV.Player["player_weapon"] = item["name"]
 		Globals.GUI.attribute_points(Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power"), false, item["id"])
 		if item.has("special"):
 			GV.Player["player"].special = item["special"]
 #		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_screen").get_node("dmg_type").get_node("power"), false, item["id"])
 		Globals.current_weapon_id = item["id"]
 		
-		if Globals.player_weapon == "bow":
+		if GV.Player["player_weapon"] == "bow":
 			if Globals.current_ammo == null:
 				Globals.current_ammo = "standard arrow"
 				Globals.GUI.get_node("ammo").text = "standard arrow"
@@ -97,7 +97,7 @@ func grab_item(pos):
 	items[item_slot] = null
 	
 	if item_slot == "WEAPON":
-		Globals.player_weapon = null
+		GV.Player["player_weapon"] = null
 		Globals.GUI.remove_points(GUI_stats.get_node("stat_screen").get_node("power").get_node("power"), item_id)
 	elif item_slot == "CHARACTER" or item_slot == "GLOVES" or item_slot == "BOOTS":
 		if item_slot == "CHARACTER":

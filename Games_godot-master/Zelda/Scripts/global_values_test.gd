@@ -2,7 +2,12 @@ extends Node2D
 
 var Player = {
 	"player": null,
-	"player_xp": ""
+	"player_xp": "",
+	"player_weapon": null
+}
+
+var Weapon = {
+	"wand_proj": null
 }
 
 var Scenes = {

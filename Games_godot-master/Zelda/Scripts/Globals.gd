@@ -4,8 +4,8 @@ extends Node
 #var current_scene = null
 #var next_scene
 #var player_spawn_pos = null
-var player_weapon = false
-var starter_weapon = true
+#var player_weapon = false
+#var starter_weapon = true
 var wand_proj = null
 var player_hp = 300
 var player_xp = 0
@@ -77,6 +77,7 @@ func _ready():
 	GV.Scenes["current_scene"] = root.get_child(root.get_child_count() - 1)
 	
 	
+	
 func _process(delta):
 	if Input.is_action_just_pressed("exit"):
 		get_tree().quit()
@@ -124,8 +125,8 @@ func _deferred_goto_scene(path, spawn):
 			enemy_hp_value = 150
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
-			player_weapon = "3"
-			var weapon = ItemDB.WEAPON[player_weapon]
+			GV.Player["player_weapon"] = "3"
+			var weapon = ItemDB.WEAPON[GV.Player["player_weapon"]]
 			weapon["id"] = Globals.item_id
 			weapon["power"] = 900
 			weapon["dmg_type"] = "physical"
@@ -167,7 +168,7 @@ func _deferred_goto_scene(path, spawn):
 			GUI_stats.get_node("loot_modifiers").get_node("quant_num").text = str(quantity)
 			GUI_stats.get_node("loot_modifiers").get_node("qual_num").text = str(quality)
 			
-			if player_weapon == "bow":
+			if GV.Player["player_weapon"] == "bow":
 				GUI.get_node("ammo").text = current_ammo
 			GUI.get_node("ammo_num").text = str(current_ammo_num)
 #			GV.Player["player"].move_speed += (0.1*dex)
@@ -190,8 +191,8 @@ func _deferred_goto_scene(path, spawn):
 #	if GV.Scenes["current_scene"].name == "Shop" and player_weapon and !starter_weapon:
 #		GV.Scenes["current_scene"].get_node("Weapons_TileMap").tile_set.remove_tile(GV.Scenes["current_scene"].get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
 #		GV.Scenes["current_scene"].get_node("Weapons_TileMap").queue_free()
-	if GV.Scenes["current_scene"].name == "Shop" and player_weapon and starter_weapon:
-		starter_weapon = false
+	if GV.Scenes["current_scene"].name == "Shop" and GV.Player["player_weapon"]: #and starter_weapon:
+#		starter_weapon = false
 		var rand = RandomNumberGenerator.new()
 		var ammo = GV.Scenes["current_scene"].get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
 		rand.randomize()

@@ -67,8 +67,8 @@ func _deferred_goto_scene(path, spawn, prev_scene):
 			enemy_hp_value = 150
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
-			player_weapon = "3"
-			var weapon = ItemDB.WEAPON[player_weapon]
+			GV.Player["player_weapon"] = "3"
+			var weapon = ItemDB.WEAPON[GV.Player["player_weapon"]]
 			weapon["id"] = Globals.item_id
 			weapon["power"] = 900
 			weapon["dmg_type"] = "physical"

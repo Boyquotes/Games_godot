@@ -60,7 +60,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 						enemy_dmg_taken(i, body)
 					else:
 						enemy_dmg_taken(i, body)
-				elif Globals.player_weapon == "wand":
+				elif GV.Player["player_weapon"] == "wand":
 					if Globals.wand_proj == null:
 						enemy_dmg_taken(i, body)
 					elif Globals.wand_proj == "fire_one":

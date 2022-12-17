@@ -73,11 +73,11 @@ func player_movement():
 		weapon_dir = "DOWN"
 	if Input.is_action_pressed("move_up"):
 		move_vec = Vector2.UP
-		if !Globals.player_weapon:
+		if !GV.Player["player_weapon"]:
 			anim_player.play("walking_back")
 		else:
 			self.get_node("Weapon").visible = true
-			self.get_node("Weapon").texture = ResourceLoader.load("res://Assets/items/" + Globals.player_weapon + ".png")
+			self.get_node("Weapon").texture = ResourceLoader.load("res://Assets/items/" + GV.Player["player_weapon"] + ".png")
 			anim_player.play("walking_back")
 		weapon_dir = "UP"
 	if Input.is_action_pressed("move_right"):
@@ -99,7 +99,7 @@ func player_movement():
 	else:
 		is_moving = true
 	if Input.is_action_just_pressed("attack"):
-		if Globals.player_weapon == "axe":
+		if GV.Player["player_weapon"] == "axe":
 			if !attacking:
 				axe_pos = - 28
 				axe_dir = "y"
@@ -414,10 +414,10 @@ func weapon_achievement_anim(weapons_tile_name, coll, cell):
 func weapon_attack(move_vec, axe_pos, axe_dir):
 	attacking = true
 	
-	if Globals.player_weapon:
+	if GV.Player["player_weapon"]:
 		var weapon = load("res://Scenes/Weapon.tscn").instance()
 
-		if Globals.player_weapon == "axe":
+		if GV.Player["player_weapon"] == "axe":
 			GV.Scenes["current_scene"].get_node("Player").add_child(weapon)
 			var axe = load("res://Assets/axe_small.png")
 			
@@ -430,7 +430,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			weapon.speed = 0
 			weapon.get_node("AnimationPlayer").play("axe_swirl")
 
-		if Globals.player_weapon == "bow": 
+		if GV.Player["player_weapon"] == "bow": 
 			if special:
 					weapon.special = special
 			GV.Scenes["current_scene"].add_child(weapon)
@@ -461,7 +461,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				weapon.rotation_degrees = 0
 				weapon.velocity = Vector2.LEFT
 		
-		if Globals.player_weapon == "wand":
+		if GV.Player["player_weapon"] == "wand":
 			var wand
 			var mana_cost = 10
 			if mana_progress.value > mana_cost:
@@ -510,7 +510,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 						print("cannot fire in shop")
 				else:
 					print("oom")
-		if Globals.player_weapon == "staff":
+		if GV.Player["player_weapon"] == "staff":
 			GV.Scenes["current_scene"].get_node("Player").add_child(weapon)
 			var staff = load("res://Assets/staff_attack.png")
 			weapon.get_node("weapon").set_texture(staff)

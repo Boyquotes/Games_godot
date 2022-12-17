@@ -129,7 +129,7 @@ func pickup_item(item_id):
 	elif !char_slot_taken and item_id["slot"] == "CHARACTER":
 		eq_slots.insert_item(item)
 		char_slot_taken = true
-	elif !char_slot_taken and item_id["slot"] == "POWERUP" and Globals.player_weapon == "wand":
+	elif !char_slot_taken and item_id["slot"] == "POWERUP" and GV.Player["player_weapon"] == "wand":
 		eq_slots.insert_item(item)
 		pwr_slot_taken = true
 	elif !glove_slot_taken and item_id["slot"] == "GLOVES":
