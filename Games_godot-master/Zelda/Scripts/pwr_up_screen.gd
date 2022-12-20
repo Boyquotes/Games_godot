@@ -54,9 +54,9 @@ func _on_option_three_btn_pressed():
 	
 func pwr_up_effect(name, amount):
 	if "speed" in name:
-		Globals.player_move_speed += amount
+		GV.Player["player_move_speed"] += amount
 	elif "hp" in name:
-		Globals.player_hp += amount
+		GV.Player["player_hp"] += amount
 	elif "coins" in name:
 		Globals.coins += amount
 	elif "mana" in name:

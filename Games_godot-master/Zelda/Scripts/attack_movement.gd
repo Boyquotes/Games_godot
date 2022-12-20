@@ -75,7 +75,7 @@
 #		var curr_lvl = int(Globals.GUI.get_node("lvl").text)
 #		curr_lvl += 1
 #		Globals.GUI.get_node("lvl").text = str(curr_lvl)
-#		Globals.player_lvl = curr_lvl
+#		GV.Player["player_lvl"] = curr_lvl
 #		lvl_progress.value = 0
 #		GV.Scenes["current_scene"].get_node("GUI").get_node("lvl_up").visible = true
 #		var lvlupstats = int(GV.Scenes["current_scene"].get_node("GUI").get_node("stat_screen").get_node("points").get_node("points_num").text) 

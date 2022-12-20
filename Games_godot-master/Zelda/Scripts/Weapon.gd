@@ -13,20 +13,20 @@ var dmg_floating_txt = preload("res://Scenes/Floating_dmg_num.tscn")
 
 
 func _ready():
-	if Globals.wand_proj == "wand_beam_proj":
+	if GV.Weapon["wand_proj"] == "wand_beam_proj":
 		life_time = 3
 		
 	$Weapon_Timeout.set_wait_time(life_time)
 	$Weapon_Timeout.start()
 	
 func _physics_process(delta):
-	if Globals.wand_proj != "wand_beam_proj":
+	if GV.Weapon["wand_proj"] != "wand_beam_proj":
 		position += velocity * speed
 
 func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
-	if body.name != "Player" and Globals.wand_proj != "wand_beam_proj":
+	if body.name != "Player" and GV.Weapon["wand_proj"] != "wand_beam_proj":
 		self.queue_free()
-	if Globals.wand_proj == "wand_beam_proj" and "Level_TileMap" in body.name:
+	if GV.Weapon["wand_proj"] == "wand_beam_proj" and "Level_TileMap" in body.name:
 		self.show_behind_parent == true
 	
 	if "Enemy" in body.name or "Boss" in body.name:
@@ -34,7 +34,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			body.enemy_attack = true
 		var lvl_progress = Globals.GUI.get_node("lvl_progress")
 		enemy_hp_bar = body.get_node("hp_bar")
-		var original_player_pwr = Globals.player_pwr
+		var original_player_pwr = GV.Player["player_pwr"]
 		dmg_taken = dmg_calc()
 #		
 		for i in Globals.entities.size():
@@ -61,13 +61,13 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 					else:
 						enemy_dmg_taken(i, body)
 				elif GV.Player["player_weapon"] == "wand":
-					if Globals.wand_proj == null:
+					if GV.Weapon["wand_proj"] == null:
 						enemy_dmg_taken(i, body)
-					elif Globals.wand_proj == "fire_one":
+					elif GV.Weapon["wand_proj"] == "fire_one":
 						if body.burning != true:
 							body.burn_timer(i, (dmg_taken*1.5), 3)
 							body.burning = true
-					elif Globals.wand_proj == "wand_beam_proj":
+					elif GV.Weapon["wand_proj"] == "wand_beam_proj":
 						var beam_dmg_timer = Timer.new()
 						beam_dmg_timer.name = "beam_dmg_timer"
 						beam_dmg_timer.connect("timeout", Globals.entities[i], "_on_beam_dmg_timer_timeout", [Globals.entities[i], dmg_taken])
@@ -79,12 +79,12 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			if Globals.enemy_hp[i] <= 0:
 				body.remove_enemy(i)
 				body.queue_free()
-				Globals.player_xp = lvl_progress.value
+				GV.Player["player_lvl"] = lvl_progress.value
 				break
 
-				Globals.player_pwr = original_player_pwr
+				GV.Player["player_pwr"] = original_player_pwr
 
-			Globals.player_xp = lvl_progress.value
+			GV.Player["player_lvl"] = lvl_progress.value
 
 		if Globals.enemy_tracker == 1 and !Globals.shop_spawned:
 			Globals.spawn_weapon_shop()
@@ -119,7 +119,7 @@ func dmg_calc():
 	else:
 		enemy_res = Globals.enemy_resistance
 	
-	var dmg = Globals.player_pwr
+	var dmg = GV.Player["player_pwr"]
 	for j in Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("item_stats").get_node("dmg").get_children():
 		for k in Globals.enemy_resistance:
 			if j.text == k and int(j.get_child(0).text) > 0:

@@ -27,7 +27,7 @@ func shock_timer(curr_enemy, dmg_value):
 	Globals.enemy_hp[curr_enemy] -= dmg_value
 	$hp_bar.value -= dmg_value
 	yield(get_tree().create_timer(5), "timeout")
-#	Globals.player_pwr -= 20
+#	GV.Player["player_pwr"] -= 20
 	shocked = false
 
 func burn_timer(curr_enemy, dmg_value, ticks):

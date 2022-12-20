@@ -3,11 +3,11 @@ extends Node
 var player
 var player_pwr
 var player_hp
-var player_xp
+var GV.Player["player_xp"]
 var intel
 var stren
 var dex
-var player_resistance = {}
+var GV.Player["player_resistance"] = {}
 var quantity
 var quality
 var current_ammo_num
@@ -34,7 +34,7 @@ func goto_scene(path, spawn, prev_scene):
 
 func _deferred_goto_scene(path, spawn, prev_scene):
 	var root = get_tree().get_root()
-	var GV.Scenes["current_scene"] = root.get_child(root.get_child_count() - 1)
+	GV.Scenes["current_scene"] = root.get_child(root.get_child_count() - 1)
 	
 #	|| freeing previous scene ||
 	prev_scene = spawn
@@ -63,7 +63,7 @@ func _deferred_goto_scene(path, spawn, prev_scene):
 		if path == "res://Scenes/Levels/Starting_World.tscn":
 			player_spawn_pos = Vector2(512, 300)
 			player.position = player_spawn_pos
-			player_lvl = 0
+			GV.Player["player_lvl"] = 0
 			enemy_hp_value = 150
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
@@ -89,19 +89,19 @@ func _deferred_goto_scene(path, spawn, prev_scene):
 			player.position = player_spawn_pos
 			GUI.get_node("hp_num").text = str(player_hp)
 			GUI.get_node("hp_visual").value = player_hp
-			GUI.get_node("lvl_progress").value = player_xp
-			GUI.get_node("lvl").text = str(player_lvl)
+			GUI.get_node("lvl_progress").value = GV.Player["player_xp"]
+			GUI.get_node("lvl").text = str(GV.Player["player_lvl"])
 			GUI.get_node("mana_progress").max_value = max_mana
 			GUI.get_node("mana_progress").value = int(current_mana)
 			GUI.get_node("mana_progress").get_node("mana_value").text = current_mana
 			GUI_stats.get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
 			GUI_stats.get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
 			GUI_stats.get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
-			GUI_stats.get_node("item_stats").get_node("res").get_node("fire").get_node("fire").text = str(player_resistance["fire"])
-			GUI_stats.get_node("item_stats").get_node("res").get_node("cold").get_node("cold").text = str(player_resistance["cold"])
-			GUI_stats.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning").text = str(player_resistance["lightning"])
-			GUI_stats.get_node("item_stats").get_node("res").get_node("physical").get_node("physical").text = str(player_resistance["physical"])
-			GUI_stats.get_node("item_stats").get_node("res").get_node("poison").get_node("poison").text = str(player_resistance["poison"])
+			GUI_stats.get_node("item_stats").get_node("res").get_node("fire").get_node("fire").text = str(GV.Player["player_resistance"]["fire"])
+			GUI_stats.get_node("item_stats").get_node("res").get_node("cold").get_node("cold").text = str(GV.Player["player_resistance"]["cold"])
+			GUI_stats.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning").text = str(GV.Player["player_resistance"]["lightning"])
+			GUI_stats.get_node("item_stats").get_node("res").get_node("physical").get_node("physical").text = str(GV.Player["player_resistance"]["physical"])
+			GUI_stats.get_node("item_stats").get_node("res").get_node("poison").get_node("poison").text = str(GV.Player["player_resistance"]["poison"])
 			GUI_stats.get_node("loot_modifiers").get_node("quant_num").text = str(quantity)
 			GUI_stats.get_node("loot_modifiers").get_node("qual_num").text = str(quality)
 			GUI.get_node("ammo_num").text = str(current_ammo_num)

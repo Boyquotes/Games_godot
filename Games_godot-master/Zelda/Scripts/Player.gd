@@ -64,7 +64,7 @@ func _physics_process(delta):
 			Globals.GUI.get_node("gui_container").visible = false
 
 func player_movement():
-	move_speed = Globals.player_move_speed
+	move_speed = GV.Player["player_move_speed"]
 	var move_vec = Vector2()
 	if Input.is_action_pressed("move_down"):
 		self.get_node("Weapon").visible = false
@@ -241,14 +241,14 @@ func player_collision():
 		elif "health_up" in coll.collider.name:
 			hp += 25
 			Globals.GUI.get_node("hp_num").text = str(hp)
-			Globals.player_hp = hp
+			GV.Player["player_hp"] = hp
 			
 			despawn_drop(coll)
 
 		elif "dmg_up" in coll.collider.name:
 			$pwr_up_timer.wait_time = 15
 			$pwr_up_timer.start()
-			Globals.player_pwr += 25
+			GV.Player["player_pwr"] += 25
 			
 			despawn_drop(coll)
 			
@@ -337,15 +337,15 @@ func _on_bleed_dmg_timer_timeout():
 		
 func resistance_damage_calc(value):
 	if Globals.damage_type == "fire":
-		value -= (Globals.player_resistance["fire"]/2)
+		value -= (GV.Player.player_resistance["fire"]/2)
 	elif Globals.damage_type == "cold":
-		value -= (Globals.player_resistance["cold"]/2)
+		value -= (GV.Player.player_resistance["cold"]/2)
 	elif Globals.damage_type == "lightning":
-		value -= (Globals.player_resistance["lightning"]/2)
+		value -= (GV.Player.player_resistance["lightning"]/2)
 	elif Globals.damage_type == "poison":
-		value -= (Globals.player_resistance["poison"]/2)
+		value -= (GV.Player.player_resistance["poison"]/2)
 	elif Globals.damage_type == "physical":
-		value -= (Globals.player_resistance["physical"]/2)
+		value -= (GV.Player.player_resistance["physical"]/2)
 	else:
 		return value
 	return value
@@ -354,8 +354,8 @@ func loose_hp(value):
 	var res_value = resistance_damage_calc(value)
 	print("dmgTaken ", res_value)
 	Globals.GUI.get_node("hp_visual").value -= res_value
-	Globals.player_hp -= res_value
-	Globals.GUI.get_node("hp_num").text = str(Globals.player_hp)
+	GV.Player["player_hp"] -= res_value
+	Globals.GUI.get_node("hp_num").text = str(GV.Player["player_hp"])
 	
 #	self.visible = false
 	player_invuln = true
@@ -371,7 +371,7 @@ func _on_pwr_up_timer_timeout():
 		self.move_speed -= 1
 		speed_up = false
 	elif dmg_up:
-		Globals.player_pwr -= 25
+		GV.Player["player_pwr"] -= 25
 		dmg_up = false
 
 func _on_invuln_timer_timeout():
@@ -388,7 +388,7 @@ func _on_mana_fill_timer_timeout():
 func _on_life_fill_timer_timeout():
 	if Globals.GUI.get_node("hp_visual").value != Globals.GUI.get_node("hp_visual").max_value: 
 		Globals.GUI.get_node("hp_visual").value += Globals.GUI.get_node("hp_visual").step
-		Globals.player_hp += Globals.GUI.get_node("hp_visual").step
+		GV.Player["player_hp"] += Globals.GUI.get_node("hp_visual").step
 		Globals.GUI.get_node("hp_num").text = str(Globals.GUI.get_node("hp_visual").value)
 		num +=1
 #	else:
@@ -472,11 +472,11 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 						spec_mod_wand_multi_proj(wand)
 					if special == "speed_proj":
 						spec_mod_wand_speed(weapon)
-				if Globals.wand_proj != null:
-					wand = load("res://Assets/" + Globals.wand_proj + ".png")
-					if "fire" in Globals.wand_proj: 
+				if GV.Weapon["wand_proj"] != null:
+					wand = load("res://Assets/" + GV.Weapon["wand_proj"] + ".png")
+					if "fire" in GV.Weapon["wand_proj"]: 
 						weapon.get_node("AnimationPlayer").play("fireball")
-					elif "beam" in Globals.wand_proj:
+					elif "beam" in GV.Weapon["wand_proj"]:
 						weapon.get_node("weapon_coll").shape = RectangleShape2D.new()
 						weapon.get_node("weapon_coll").shape.extents.y = 822
 						weapon.get_node("AnimationPlayer").play("beam")

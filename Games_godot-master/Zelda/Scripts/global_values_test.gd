@@ -3,7 +3,13 @@ extends Node2D
 var Player = {
 	"player": null,
 	"player_xp": "",
-	"player_weapon": null
+	"player_weapon": null,
+	"player_hp": 300,
+	"player_lvl": 0,
+	"player_pwr": 0,
+	"player_move_speed": 3,
+	"player_resistance": {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10},
+	"player_dmg_types": {"fire": 0, "cold": 0, "lightning": 0, "physical": 0, "poison": 0}
 }
 
 var Weapon = {
@@ -28,7 +34,7 @@ var Scenes = {
 #var player_lvl = 0
 #var player_pwr = 0
 #var player_move_speed = 3
-#var player_resistance = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
+#var GV.Player["player_resistance"] = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
 #var player_dmg_types = {"fire": 0, "cold": 0, "lightning": 0, "physical": 0, "poison": 0}
 #var boss_res = {"fire": 50, "cold": 80, "lightning": 50, "physical": 80, "poison": 20}
 #var quality = 0
