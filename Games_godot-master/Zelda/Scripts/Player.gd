@@ -280,11 +280,11 @@ func player_collision():
 		if "Portal" in coll.collider.name:
 			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
 			if "Starting" in GV.Scenes["current_scene"].name:
-				Globals.load_boss = "Boss_slime"
+				GV.Boss["load_boss"] = "Boss_slime"
 			elif "jungle" in GV.Scenes["current_scene"].name:
-				Globals.load_boss = "Boss_bow"
+				GV.Boss["load_boss"] = "Boss_bow"
 			else:
-				Globals.load_boss = "Boss_slime"
+				GV.Boss["load_boss"] = "Boss_slime"
 			Globals.ilvl += 10
 			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", GV.Scenes["current_scene"].name)
 #			Globals.block_attribute_changes = true

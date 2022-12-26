@@ -2,7 +2,7 @@ extends Node2D
 
 var Player = {
 	"player": null,
-	"player_xp": "",
+	"player_xp": 0,
 	"player_weapon": null,
 	"player_hp": 300,
 	"player_lvl": 0,
@@ -20,6 +20,15 @@ var Scenes = {
 	"current_scene": null,
 	"next_scene": null,
 	"prev_scene": null
+}
+
+var Boss = {
+	"load_boss": null,
+	"boss_type": "",
+	"boss_res": {"fire": 50, "cold": 80, "lightning": 50, "physical": 80, "poison": 20},
+	"boss_res_modifier": 10,
+	"boss_hp_modifier": 500,
+	"boss_pwr_modifier": 50
 }
 #
 #var player = null

@@ -107,7 +107,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			Globals.spawn_enemy_type()
 			Globals.enemy_res_modifier += 2
 			Globals.enemy_dmg_modifier += 2
-			Globals.boss_res_modifier += 2
+			GV.Boss["boss_res_modifier"] += 2
 #			Globals.ilvl += 5
 			Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
 			Globals.portal_spawned = false
@@ -115,7 +115,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 func dmg_calc():
 	var enemy_res
 	if "Boss" in GV.Scenes["current_scene"].name:
-		enemy_res = Globals.boss_res
+		enemy_res = GV.Boss["boss_res"]
 	else:
 		enemy_res = Globals.enemy_resistance
 	

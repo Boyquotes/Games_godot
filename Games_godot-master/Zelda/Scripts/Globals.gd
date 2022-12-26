@@ -14,15 +14,15 @@ extends Node
 #var player_move_speed = 3
 #var GV.Player["player_resistance"] = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
 #var player_dmg_types = {"fire": 0, "cold": 0, "lightning": 0, "physical": 0, "poison": 0}
-var boss_res = {"fire": 50, "cold": 80, "lightning": 50, "physical": 80, "poison": 20}
+#var boss_res = {"fire": 50, "cold": 80, "lightning": 50, "physical": 80, "poison": 20}
 var quality = 0
 var quantity = 0
-var boss_res_modifier = 10
-var load_boss
+#var boss_res_modifier = 10
+#var load_boss
 var enemy_res_modifier = 10
 var enemy_dmg_modifier = 80
-var boss_hp_modifier = 500
-var boss_pwr_modifier = 50
+#var boss_hp_modifier = 500
+#var boss_pwr_modifier = 50
 var portal_spawned = false
 var enemy_resistance
 var damage_type
@@ -62,7 +62,7 @@ var enemy_removed = false
 var enemy_hp
 var enemy_hp_value
 var all_attack = false
-var boss = null
+#var boss = null
 var shop_spawn_pos
 var shop_spawned = false
 var regex
@@ -72,7 +72,6 @@ var add_stats = false
 var game_started = false
 
 func _ready():
-	print("callReady")
 	var root = get_tree().get_root()
 	GV.Scenes["current_scene"] = root.get_child(root.get_child_count() - 1)
 	
@@ -88,11 +87,8 @@ func goto_scene(path, spawn):
 
 func _deferred_goto_scene(path, spawn):
 	
-	print("Player ", GV.Player["player"])
-	
 	GV.Scenes["prev_scene"] = spawn
 	GV.Scenes["current_scene"].free()
-	print("Player ", GV.Player["player"])
 	
 	GV.Scenes["current_scene"] = ResourceLoader.load(path).instance()
 	get_tree().get_root().add_child(GV.Scenes["current_scene"])
@@ -273,7 +269,6 @@ func spawn_enemies(pos, type):
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 			var distance_to_player = enemy.get_global_position().distance_to(GV.Player["player"].get_global_position())
 			while distance_to_player < 200:
-				print("changepos")
 				enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 				distance_to_player = enemy.get_global_position().distance_to(GV.Player["player"].get_global_position())
 
@@ -419,10 +414,8 @@ func drop(pos, freq, weighting):
 			if i >= 1:
 				pos = drop_spacing_border_correction(pos, rand)
 				pos = drop_spacing(pos, last_pos, rand)
-#				print("newPOS ", pos)
 				while drop_overlap == true:
 					pos = drop_spacing(pos, last_pos, rand)
-#					print("changePOS ", pos)
 					
 #			drop_item(pos, ilvl)
 			call_deferred("drop_item", pos, ilvl)

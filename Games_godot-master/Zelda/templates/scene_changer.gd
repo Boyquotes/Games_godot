@@ -3,11 +3,11 @@ extends Node
 var player
 var player_pwr
 var player_hp
-var GV.Player["player_xp"]
+var player_xp
 var intel
 var stren
 var dex
-var GV.Player["player_resistance"] = {}
+var player_resistance
 var quantity
 var quality
 var current_ammo_num

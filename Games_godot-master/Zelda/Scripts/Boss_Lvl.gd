@@ -1,14 +1,14 @@
 extends Node2D
 
 func _ready():
-	Globals.boss = ResourceLoader.load("res://Scenes/" + Globals.load_boss + ".tscn").instance()
-	GV.Scenes["current_scene"].add_child(Globals.boss)
-	Globals.boss.position = $Boss_Spawn.position
+	GV.Boss["boss_type"] = ResourceLoader.load("res://Scenes/" + GV.Boss["load_boss"] + ".tscn").instance()
+	GV.Scenes["current_scene"].add_child(GV.Boss["boss_type"])
+	GV.Boss["boss_type"].position = $Boss_Spawn.position
 	Globals.entities.clear()
-	Globals.entities.push_front(Globals.boss)
+	Globals.entities.push_front(GV.Boss["boss_type"])
 #
-	Globals.enemy_pos.push_front(Vector2(Globals.boss.position.x, Globals.boss.position.y))
+	Globals.enemy_pos.push_front(Vector2(GV.Boss["boss_type"].position.x, GV.Boss["boss_type"].position.y))
 	Globals.enemy_dir.push_front(Vector2.RIGHT)
-	Globals.enemy_id.push_front(str(Globals.boss))
-	Globals.enemy_hp.push_front(Globals.boss_hp_modifier)
-	Globals.enemies.push_front(Globals.boss)
+	Globals.enemy_id.push_front(str(GV.Boss["boss_type"]))
+	Globals.enemy_hp.push_front(GV.Boss["boss_hp_modifier"])
+	Globals.enemies.push_front(GV.Boss["boss_type"])

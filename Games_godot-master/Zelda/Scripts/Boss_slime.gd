@@ -9,8 +9,8 @@ var coll
 
 
 func _ready():
-	$hp_bar.max_value = Globals.boss_hp_modifier
-	$hp_bar.value = Globals.boss_hp_modifier
+	$hp_bar.max_value = GV.Boss["boss_hp_modifier"]
+	$hp_bar.value = GV.Boss["boss_hp_modifier"]
 
 func _physics_process(delta):
 	if attack == false:
