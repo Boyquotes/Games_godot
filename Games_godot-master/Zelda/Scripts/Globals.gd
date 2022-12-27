@@ -19,12 +19,12 @@ var quality = 0
 var quantity = 0
 #var boss_res_modifier = 10
 #var load_boss
-var enemy_res_modifier = 10
-var enemy_dmg_modifier = 80
+#var enemy_res_modifier = 10
+#var enemy_dmg_modifier = 80
 #var boss_hp_modifier = 500
 #var boss_pwr_modifier = 50
 var portal_spawned = false
-var enemy_resistance
+#var enemy_resistance
 var damage_type
 var max_mana = 500
 var poison_stacks = 0
@@ -51,16 +51,16 @@ var current_ammo_num = 0
 var stats
 #var prev_scene
 var GUI = null
-var entities = []
-var enemies
-var enemy_pos
-var enemy_dir
-var enemy_id
-var enemy_num
-var enemy_tracker = null
-var enemy_removed = false
-var enemy_hp
-var enemy_hp_value
+#var entities = []
+#var enemies
+#var enemy_pos
+#var enemy_dir
+#var enemy_id
+#var enemy_num
+#var GV.Enemy["enemy_tracker"] = null
+#var enemy_removed = false
+#var enemy_hp
+#var enemy_hp_value
 var all_attack = false
 #var boss = null
 var shop_spawn_pos
@@ -118,7 +118,7 @@ func _deferred_goto_scene(path, spawn):
 #			player_spawn_pos = Vector2(512, 300)
 			GV.Player["player"].position = Vector2(512, 300)
 			GV.Player["player_lvl"] = 0
-			enemy_hp_value = 150
+			GV.Enemy["enemy_hp_value"] = 150
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
 			GV.Player["player_weapon"] = "3"
@@ -181,8 +181,8 @@ func _deferred_goto_scene(path, spawn):
 #		else:
 		GUI.get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(GV.Scenes["next_scene"]).get_string()
 			
-#		enemy_tracker = enemy_pos.size()
-		GUI.get_node("number").text = str(enemy_tracker)
+#		GV.Enemy["enemy_tracker"] = enemy_pos.size()
+		GUI.get_node("number").text = str(GV.Enemy["enemy_tracker"])
 	
 #	if GV.Scenes["current_scene"].name == "Shop" and player_weapon and !starter_weapon:
 #		GV.Scenes["current_scene"].get_node("Weapons_TileMap").tile_set.remove_tile(GV.Scenes["current_scene"].get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
@@ -225,18 +225,18 @@ func spawn_enemy_type():
 	var type = regex.search(scene).get_string()
 	var enemy_type = "Enemy_" + type
 	
-	for i in enemy_pos.size():
+	for i in GV.Enemy["enemy_pos"].size():
 #		call_deferred("spawn_enemies", i, enemy_type)
 		spawn_enemies(i, enemy_type)
 	respawn = false
 
 func num_of_enemies(n):
-	enemy_pos = range(0, n)
-	enemy_dir = range(0, n)
-	enemy_id = range(0, n)
-	enemy_hp = range(0, n)
-	enemies = range(0, n)
-	enemy_tracker = n
+	GV.Enemy["enemy_pos"] = range(0, n)
+	GV.Enemy["enemy_dir"] = range(0, n)
+	GV.Enemy["enemy_id"] = range(0, n)
+	GV.Enemy["enemy_hp"] = range(0, n)
+	GV.Enemy["enemies"] = range(0, n)
+	GV.Enemy["enemy_tracker"] = n
 	
 func spawn_enemies(pos, type):
 	var rand = RandomNumberGenerator.new()
@@ -251,11 +251,11 @@ func spawn_enemies(pos, type):
 		
 #		respawn enemies when coming back from shop
 		if GV.Scenes["current_scene"].name == "Starting_World" and game_started and respawn == false:
-			enemy.position = enemy_pos[pos]
-			enemy.move_vec = enemy_dir[pos]
-			enemy_id[pos] = (str(enemy))
-			enemies[pos] = enemy
-			entities[pos] = enemy 
+			enemy.position = GV.Enemy["enemy_pos"][pos]
+			enemy.move_vec = GV.Enemy["enemy_dir"][pos]
+			GV.Enemy["enemy_id"][pos] = (str(enemy))
+			GV.Enemy["enemies"][pos] = enemy
+			GV.Enemy["enemy_entites"][pos] = enemy 
 #			respawn = false
 #			spawn enemies
 		else:
@@ -263,8 +263,8 @@ func spawn_enemies(pos, type):
 #			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 			var dir = [Vector2.DOWN, Vector2.UP, Vector2.RIGHT, Vector2.LEFT]
 			enemy.move_vec = dir[rand.randi() % dir.size()]
-			enemy.get_node("hp_bar").max_value = enemy_hp_value
-			enemy.get_node("hp_bar").value = enemy_hp_value
+			enemy.get_node("hp_bar").max_value = GV.Enemy["enemy_hp_value"]
+			enemy.get_node("hp_bar").value = GV.Enemy["enemy_hp_value"]
 			
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 			var distance_to_player = enemy.get_global_position().distance_to(GV.Player["player"].get_global_position())
@@ -273,34 +273,34 @@ func spawn_enemies(pos, type):
 				distance_to_player = enemy.get_global_position().distance_to(GV.Player["player"].get_global_position())
 
 			if "Fire" in GV.Scenes["current_scene"].name:
-				enemy_resistance = {"fire": 7*enemy_res_modifier, "cold": 2*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
+				GV.Enemy["enemy_resistance"] = {"fire": 7*GV.Enemy["enemy_res_modifier"], "cold": 2*GV.Enemy["enemy_res_modifier"], "lightning": 5*GV.Enemy["enemy_res_modifier"], "physical": 5*GV.Enemy["enemy_res_modifier"], "poison": 5*GV.Enemy["enemy_res_modifier"]}
 			if "Starting" in GV.Scenes["current_scene"].name:
-				enemy_resistance = {"fire": 3*enemy_res_modifier, "cold": 3*enemy_res_modifier, "lightning": 3*enemy_res_modifier, "physical": 7*enemy_res_modifier, "poison": 1*enemy_res_modifier}
+				GV.Enemy["enemy_resistance"] = {"fire": 3*GV.Enemy["enemy_res_modifier"], "cold": 3*GV.Enemy["enemy_res_modifier"], "lightning": 3*GV.Enemy["enemy_res_modifier"], "physical": 7*GV.Enemy["enemy_res_modifier"], "poison": 1*GV.Enemy["enemy_res_modifier"]}
 			if "lightning" in GV.Scenes["current_scene"].name:
-				enemy_resistance = {"fire": 5*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 7*enemy_res_modifier, "physical": 2*enemy_res_modifier, "poison": 5*enemy_res_modifier}
+				GV.Enemy["enemy_resistance"] = {"fire": 5*GV.Enemy["enemy_res_modifier"], "cold": 5*GV.Enemy["enemy_res_modifier"], "lightning": 7*GV.Enemy["enemy_res_modifier"], "physical": 2*GV.Enemy["enemy_res_modifier"], "poison": 5*GV.Enemy["enemy_res_modifier"]}
 			if "Snow" in GV.Scenes["current_scene"].name:
-				enemy_resistance = {"fire": 2*enemy_res_modifier, "cold": 7*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 5*enemy_res_modifier}
+				GV.Enemy["enemy_resistance"] = {"fire": 2*GV.Enemy["enemy_res_modifier"], "cold": 7*GV.Enemy["enemy_res_modifier"], "lightning": 5*GV.Enemy["enemy_res_modifier"], "physical": 5*GV.Enemy["enemy_res_modifier"], "poison": 5*GV.Enemy["enemy_res_modifier"]}
 			if "Desert" in GV.Scenes["current_scene"].name:
-				enemy_resistance = {"fire": 2*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 3*enemy_res_modifier, "poison": 7*enemy_res_modifier}
+				GV.Enemy["enemy_resistance"] = {"fire": 2*GV.Enemy["enemy_res_modifier"], "cold": 5*GV.Enemy["enemy_res_modifier"], "lightning": 5*GV.Enemy["enemy_res_modifier"], "physical": 3*GV.Enemy["enemy_res_modifier"], "poison": 7*GV.Enemy["enemy_res_modifier"]}
 			if "Jungle" in GV.Scenes["current_scene"].name:
-				enemy_resistance = {"fire": 5*enemy_res_modifier, "cold": 5*enemy_res_modifier, "lightning": 5*enemy_res_modifier, "physical": 5*enemy_res_modifier, "poison": 2*enemy_res_modifier}
+				GV.Enemy["enemy_resistance"] = {"fire": 5*GV.Enemy["enemy_res_modifier"], "cold": 5*GV.Enemy["enemy_res_modifier"], "lightning": 5*GV.Enemy["enemy_res_modifier"], "physical": 5*GV.Enemy["enemy_res_modifier"], "poison": 2*GV.Enemy["enemy_res_modifier"]}
 			
 	#		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
 	#			print(tilemap.get_cellv(tilemap.world_to_map(enemy.position)))
 	#			enemy.queue_free()
 	#			spawn_enemies(pos)
 	#			return		
-			enemy_pos.remove(pos)
-			enemy_dir.remove(pos)
-			enemy_id.remove(pos)
-			enemy_hp.remove(pos)
-			enemies.remove(pos)
-			enemy_pos.push_front(Vector2(enemy.position.x, enemy.position.y))
-			enemy_dir.push_front(enemy.move_vec)
-			enemy_id.push_front(str(enemy))
-			enemy_hp.push_front(enemy_hp_value)
-			enemies.push_front(enemy)
-			entities.push_front(enemy)
+			GV.Enemy["enemy_pos"].remove(pos)
+			GV.Enemy["enemy_dir"].remove(pos)
+			GV.Enemy["enemy_id"].remove(pos)
+			GV.Enemy["enemy_hp"].remove(pos)
+			GV.Enemy["enemies"].remove(pos)
+			GV.Enemy["enemy_pos"].push_front(Vector2(enemy.position.x, enemy.position.y))
+			GV.Enemy["enemy_dir"].push_front(enemy.move_vec)
+			GV.Enemy["enemy_id"].push_front(str(enemy))
+			GV.Enemy["enemy_hp"].push_front(GV.Enemy["enemy_hp_value"])
+			GV.Enemy["enemies"].push_front(enemy)
+			GV.Enemy["enemy_entites"].push_front(enemy)
 			
 
 # coming back from shop
@@ -308,7 +308,7 @@ func spawn_enemies(pos, type):
 #		print("reloadEnemies")
 #		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 
 #		GV.Scenes["current_scene"].add_child(enemy)
-#		enemy.position = enemy_pos[pos]
+#		enemy.position = GV.Enemy["enemy_pos"][pos]
 #		enemy.move_vec = enemy_dir[pos]
 #		enemy_id[pos] = (str(enemy))
 #		enemies[pos] = enemy
@@ -332,8 +332,8 @@ func spawn_boss_portal():
 	portal_spawned = true
 	var Portal = ResourceLoader.load("res://Scenes/Boss_Portal_Entrance.tscn").instance()
 	GV.Scenes["current_scene"].call_deferred("add_child", Portal)
-	entities.clear()
-	entities.push_front(Portal)
+	GV.Enemy["enemy_entites"].clear()
+	GV.Enemy["enemy_entites"].push_front(Portal)
 	Portal.get_node("Boss_Portal_Anim").play()
 	Portal.position.x = 500
 	Portal.position.y = 300

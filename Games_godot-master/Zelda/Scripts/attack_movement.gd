@@ -34,16 +34,16 @@
 ##func poison_timer(curr_enemy):
 ##	var poison_dmg = Globals.player_pwr/5
 ##	yield(get_tree().create_timer(2), "timeout")
-##	Globals.enemy_hp[curr_enemy] -= poison_dmg
+##	GV.Enemy["enemy_hp"][curr_enemy] -= poison_dmg
 ##	$enemy_hp_bar.value -= poison_dmg
-##	if Globals.enemy_hp[curr_enemy] <= 0:
+##	if GV.Enemy["enemy_hp"][curr_enemy] <= 0:
 ##		remove_enemy(curr_enemy)
 ##	print("poisonStack")
 ##
 ##func shock_timer(curr_enemy):
 ##	shocked = true
 ##	Globals.player_pwr += 20
-##	Globals.enemy_hp[curr_enemy] -= Globals.player_pwr
+##	GV.Enemy["enemy_hp"][curr_enemy] -= Globals.player_pwr
 ##	$enemy_hp_bar.value -= Globals.player_pwr
 ##	yield(get_tree().create_timer(5), "timeout")
 ##	Globals.player_pwr -= 20
@@ -55,22 +55,22 @@
 ##		for i in 5:
 ##			burning = true
 ##			yield(get_tree().create_timer(2), "timeout")
-##			Globals.enemy_hp[curr_enemy] -= 20
+##			GV.Enemy["enemy_hp"][curr_enemy] -= 20
 ##			$enemy_hp_bar.value -= 20
-##			if Globals.enemy_hp[curr_enemy] <= 0:
+##			if GV.Enemy["enemy_hp"][curr_enemy] <= 0:
 ##				remove_enemy(curr_enemy)
 ##		burning = false
 ##
 #func remove_enemy(i):
 #	var lvl_progress = Globals.GUI.get_node("lvl_progress")
 #
-#	Globals.enemy_id.remove(i)
-#	Globals.enemy_pos.remove(i)
-#	Globals.enemy_hp.remove(i)
-#	Globals.enemies.remove(i)
-#	Globals.enemy_tracker -= 1
+#	GV.Enemy["enemy_id"].remove(i)
+#	GV.Enemy["enemy_pos"].remove(i)
+#	GV.Enemy["enemy_hp"].remove(i)
+#	GV.Enemy["enemies"].remove(i)
+#	GV.Enemy["enemy_tracker"] -= 1
 #	Globals.drop(self.position)
-#	Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
+#	Globals.GUI.get_node("number").text = str(GV.Enemy["enemy_tracker"])
 #	if lvl_progress.value == (lvl_progress.max_value-lvl_progress.step):
 #		var curr_lvl = int(Globals.GUI.get_node("lvl").text)
 #		curr_lvl += 1

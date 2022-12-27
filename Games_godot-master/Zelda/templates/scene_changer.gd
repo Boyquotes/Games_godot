@@ -18,7 +18,7 @@ var inventory
 var items
 var player_spawn_pos
 var player_lvl
-var enemy_hp_value
+var GV.Enemy["enemy_hp_value"]
 var max_mana
 var current_mana
 var player_weapon
@@ -64,7 +64,7 @@ func _deferred_goto_scene(path, spawn, prev_scene):
 			player_spawn_pos = Vector2(512, 300)
 			player.position = player_spawn_pos
 			GV.Player["player_lvl"] = 0
-			enemy_hp_value = 150
+			GV.Enemy["enemy_hp_value"] = 150
 			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
 			current_mana = max_mana
 			GV.Player["player_weapon"] = "3"

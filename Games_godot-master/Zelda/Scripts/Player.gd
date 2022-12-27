@@ -203,12 +203,12 @@ func player_collision():
 			Globals.damage_type = "cold"
 			snow_attack()
 		elif "lightning" in coll.collider.name and player_invuln == false:
-			loose_hp(Globals.enemy_dmg_modifier)
+			loose_hp(GV.Enemy["enemy_dmg_modifier"])
 		elif "Fire" in coll.collider.name and player_invuln == false:
-			loose_hp(Globals.enemy_dmg_modifier)
+			loose_hp(GV.Enemy["enemy_dmg_modifier"])
 		elif "Starting" in coll.collider.name and player_invuln == false:
 			Globals.damage_type = "physical"
-			loose_hp(Globals.enemy_dmg_modifier)
+			loose_hp(GV.Enemy["enemy_dmg_modifier"])
 				
 		if "speed_up" in coll.collider.name:
 			$pwr_up_timer.wait_time = 15
@@ -298,7 +298,7 @@ func despawn_drop(coll):
 	GV.Scenes["current_scene"].get_node(coll.collider.name).queue_free()
 			
 func snow_attack():
-	loose_hp(Globals.enemy_dmg_modifier)
+	loose_hp(GV.Enemy["enemy_dmg_modifier"])
 	$freeze_timer.start()
 	move_speed -= 1
 	
@@ -312,7 +312,7 @@ func _on_poison_timer_timeout():
 	
 func _on_poison_dmg_timer_timeout(tick):
 	if $poison_timer.time_left != 0:
-		loose_hp(Globals.enemy_dmg_modifier/2)
+		loose_hp(GV.Enemy["enemy_dmg_modifier"]/2)
 
 func _on_bleed_timer_timeout():
 	for i in self.get_children():
@@ -331,9 +331,9 @@ func bleed_damage(modifier):
 	
 func _on_bleed_dmg_timer_timeout():
 	if is_moving:
-		loose_hp(Globals.enemy_dmg_modifier/bleed_dmg_modifier)
+		loose_hp(GV.Enemy["enemy_dmg_modifier"]/bleed_dmg_modifier)
 	else: 
-		loose_hp((Globals.enemy_dmg_modifier/2)/bleed_dmg_modifier)
+		loose_hp((GV.Enemy["enemy_dmg_modifier"]/2)/bleed_dmg_modifier)
 		
 func resistance_damage_calc(value):
 	if Globals.damage_type == "fire":
@@ -499,8 +499,8 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				weapon.get_node("weapon").set_texture(wand)
 				var shortest_distance_enemy = GV.Scenes["current_scene"].get_node("Level_TileMap")
 				if GV.Scenes["current_scene"].name != "Shop":
-					if Globals.entities.size() > 0:
-						for i in Globals.entities:
+					if GV.Enemy["enemy_entites"].size() > 0:
+						for i in GV.Enemy["enemy_entites"]:
 							var distance_to_player = i.get_global_position().distance_to(self.get_global_position())
 							if distance_to_player < shortest_distance_enemy.get_global_position().distance_to(self.get_global_position()):
 								shortest_distance_enemy = i

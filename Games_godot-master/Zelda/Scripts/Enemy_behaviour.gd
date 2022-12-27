@@ -125,25 +125,25 @@ func _on_jungle_attack_timeout_timeout():
 		
 func _on_beam_dmg_timer_timeout(enemy, dmg_taken):
 #	print("enemy ", enemy, " takes ", dmg_taken)
-	Globals.enemy_hp[Globals.entities.find(enemy)] -= dmg_taken
+	GV.Enemy["enemy_hp"][GV.Enemy["enemy_entites"].find(enemy)] -= dmg_taken
 	self.get_node("hp_bar").value -= dmg_taken
-	if Globals.enemy_hp[Globals.entities.find(enemy)] <= 0:
-		self.remove_enemy(Globals.entities.find(enemy))
+	if GV.Enemy["enemy_hp"][GV.Enemy["enemy_entites"].find(enemy)] <= 0:
+		self.remove_enemy(GV.Enemy["enemy_entites"].find(enemy))
 
 func remove_enemy(i):
 	var lvl_progress = Globals.GUI.get_node("lvl_progress")
-	if "Boss" in Globals.entities[i].name:
+	if "Boss" in GV.Enemy["enemy_entites"][i].name:
 		Globals.drop(self.position, 1, 1)
 	else:
 		Globals.drop(self.position, null, null)
-	Globals.enemies[i].queue_free()
-	Globals.enemy_id.remove(i)
-	Globals.enemy_hp.remove(i)
-	Globals.enemy_pos.remove(i)
-	Globals.enemies.remove(i)
-	Globals.entities.remove(i)
-	Globals.enemy_tracker -= 1
-	Globals.GUI.get_node("number").text = str(Globals.enemy_tracker)
+	GV.Enemy["enemies"][i].queue_free()
+	GV.Enemy["enemy_id"].remove(i)
+	GV.Enemy["enemy_hp"].remove(i)
+	GV.Enemy["enemy_pos"].remove(i)
+	GV.Enemy["enemies"].remove(i)
+	GV.Enemy["enemy_entites"].remove(i)
+	GV.Enemy["enemy_tracker"] -= 1
+	Globals.GUI.get_node("number").text = str(GV.Enemy["enemy_tracker"])
 	if lvl_progress.value == (lvl_progress.max_value-lvl_progress.step):
 		var curr_lvl = int(Globals.GUI.get_node("lvl").text)
 		curr_lvl += 1
@@ -156,7 +156,7 @@ func remove_enemy(i):
 		GV.Scenes["current_scene"].get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text = str(lvlupstats)
 	else:
 		lvl_progress.value += lvl_progress.step
-	if Globals.enemy_tracker == 0:
+	if GV.Enemy["enemy_tracker"] == 0:
 			print("spawn boss portal")
 			Globals.spawn_boss_portal()
 			return

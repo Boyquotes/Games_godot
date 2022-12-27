@@ -115,4 +115,4 @@ func _on_coll_area_body_shape_entered(body_id, body, body_shape, local_shape):
 		
 		
 	if "Player" in body.name:
-		body.loose_hp(Globals.enemy_dmg_modifier*2)
+		body.loose_hp(GV.Enemy["enemy_dmg_modifier"]*2)

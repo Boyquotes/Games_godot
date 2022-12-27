@@ -74,12 +74,12 @@ func pwr_up_effect(name, amount):
 				
 func goto_next_scene():
 	print("gotoNext")
-	Globals.entities.clear()
+	GV.Enemy["enemy_entites"].clear()
 	Globals.ilvl += 10
-	Globals.enemy_hp_value += 50
+	GV.Enemy["enemy_hp_value"] += 50
 	Globals.num_of_enemies(5)
-	Globals.enemy_res_modifier += 5
-	Globals.enemy_dmg_modifier += 20
+	GV.Enemy["enemy_res_modifier"] += 5
+	GV.Enemy["enemy_dmg_modifier"] += 20
 #	Globals.respawn = false
 	if change_next_scene:
 		print("randomScene")
