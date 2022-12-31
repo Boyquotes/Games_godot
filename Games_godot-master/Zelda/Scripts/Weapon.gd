@@ -40,20 +40,20 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		for i in GV.Enemy["enemy_entites"].size():
 			if str(body) == GV.Enemy["enemy_id"][i]:
 				enemy_hp_bar.visible = true
-				if Globals.current_ammo:
+				if GV.Items["current_ammo"]:
 					if special:
 						print("special ", special)
 					
-					if Globals.current_ammo == "frost arrow":
+					if GV.Items["current_ammo"] == "frost arrow":
 						body.move_speed = 0.5
 						body.unfreeze_timer(i)
-					elif Globals.current_ammo == "fire arrow": 
+					elif GV.Items["current_ammo"] == "fire arrow": 
 						body.burn_timer(i, dmg_taken, 2)
-					elif Globals.current_ammo == "lightning arrow":
+					elif GV.Items["current_ammo"] == "lightning arrow":
 						body.shock_timer(i, dmg_taken)
-					elif Globals.current_ammo == "poison arrow":
+					elif GV.Items["current_ammo"] == "poison arrow":
 						body.poison_timer(i, dmg_taken)
-					elif Globals.current_ammo == "web arrow":
+					elif GV.Items["current_ammo"] == "web arrow":
 						var spider_web = ResourceLoader.load("res://Scenes/spider_web.tscn").instance()
 						GV.Scenes["current_scene"].call_deferred("add_child", spider_web)
 						spider_web.position = body.position

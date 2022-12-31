@@ -118,11 +118,11 @@ func player_movement():
 				axe_dir = "y"
 			weapon_attack(move_vec, axe_pos, axe_dir)
 		else:
-			if cooldown == false and Globals.current_ammo != "magic arrow":
+			if cooldown == false and GV.Items["current_ammo"] != "magic arrow":
 				weapon_attack(move_vec, axe_pos, axe_dir)
 				$attack_cooldown.start()
 				cooldown = true
-			elif Globals.current_ammo == "magic arrow":
+			elif GV.Items["current_ammo"] == "magic arrow":
 				weapon_attack(move_vec, axe_pos, axe_dir)
 
 	move_vec = move_vec.normalized()
@@ -168,10 +168,10 @@ func player_collision():
 			var cell = get_tile_name(coll, ammo_tilemap)[1]
 
 #			if ammo_tile_name and Globals.coins >= int(GV.Scenes["current_scene"].get_node("ammo_price").text):
-			Globals.current_ammo = ammo_tile_name
+			GV.Items["current_ammo"] = ammo_tile_name
 			Globals.coins -= int(GV.Scenes["current_scene"].get_node("ammo_price").text)
 			Globals.GUI.get_node("coins").get_node("coins_num").text = str(Globals.coins)
-			Globals.current_ammo_num = int(GV.Scenes["current_scene"].get_node("ammo_capacity").text)
+			GV.Items["current_ammo_num"] = int(GV.Scenes["current_scene"].get_node("ammo_capacity").text)
 			Globals.GUI.get_node("ammo").text = ammo_tile_name
 			Globals.GUI.get_node("ammo_num").text = GV.Scenes["current_scene"].get_node("ammo_capacity").text
 			GV.Scenes["current_scene"].get_node("Ammo_TileMap").queue_free()
@@ -253,26 +253,26 @@ func player_collision():
 			despawn_drop(coll)
 			
 		if "item" in coll.collider.name:
-			for i in Globals.dropped_items:
+			for i in GV.Items["dropped_items"]:
 				if i["id"] == int(coll.collider.get_node("id").text):
 					Globals.add_stats = true
-					Globals.inventory_items.push_front(i)
-					Globals.dropped_items.remove(Globals.dropped_items.find(i))
+					GV.Items["inventory_items"].push_front(i)
+					GV.Items["dropped_items"].remove(GV.Items["dropped_items"].find(i))
 					Globals.inventory.pickup_item(i)
 					Globals.add_stats = false
 
 			GV.Scenes["current_scene"].get_node(coll.collider.name).queue_free()
 			
 			if "Boss" in GV.Scenes["current_scene"].name:
-				Globals.ilvl -= 5
+				GV.Items["ilvl"] -= 5
 				Globals.goto_scene("res://Scenes/pwr_up_screen.tscn", GV.Scenes["current_scene"].name)
 				
 			
 		if "proj" in coll.collider.name:
-			for i in Globals.dropped_items:
+			for i in GV.Items["dropped_items"]:
 				if i.name == coll.collider.name:
-					Globals.inventory_items.push_front(i)
-					Globals.dropped_items.remove(Globals.dropped_items.find(i))
+					GV.Items["inventory_items"].push_front(i)
+					GV.Items["dropped_items"].remove(GV.Items["dropped_items"].find(i))
 					Globals.inventory.pickup_item(i)
 
 			GV.Scenes["current_scene"].get_node(coll.collider.name).queue_free()
@@ -285,15 +285,15 @@ func player_collision():
 				GV.Boss["load_boss"] = "Boss_bow"
 			else:
 				GV.Boss["load_boss"] = "Boss_slime"
-			Globals.ilvl += 10
+			GV.Items["ilvl"] += 10
 			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", GV.Scenes["current_scene"].name)
 #			Globals.block_attribute_changes = true
 			Globals.portal_spawned = false
 			
 func despawn_drop(coll):
-	for i in Globals.dropped_items:
+	for i in GV.Items["dropped_items"]:
 		if i["id"] == int(coll.collider.get_node("id").text):
-			Globals.dropped_items.remove(Globals.dropped_items.find(i))
+			GV.Items["dropped_items"].remove(GV.Items["dropped_items"].find(i))
 
 	GV.Scenes["current_scene"].get_node(coll.collider.name).queue_free()
 			
@@ -436,14 +436,14 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			GV.Scenes["current_scene"].add_child(weapon)
 			weapon.position = self.position
 			var arrow = load("res://Assets/arrow.png")
-			if Globals.current_ammo != null and Globals.current_ammo_num != 0:
-				var special_arrow = load("res://Assets/ammo_" + Globals.current_ammo + ".png")
+			if GV.Items["current_ammo"] != null and GV.Items["current_ammo_num"] != 0:
+				var special_arrow = load("res://Assets/ammo_" + GV.Items["current_ammo"] + ".png")
 				weapon.get_node("weapon").set_texture(special_arrow)
 				weapon.get_node("weapon").rotation_degrees = -45
-				Globals.current_ammo_num -= 1
-				Globals.GUI.get_node("ammo_num").text = str(Globals.current_ammo_num)
-				if Globals.current_ammo_num == 0:
-					Globals.current_ammo = "standard arrow"
+				GV.Items["current_ammo_num"] -= 1
+				Globals.GUI.get_node("ammo_num").text = str(GV.Items["current_ammo_num"])
+				if GV.Items["current_ammo_num"] == 0:
+					GV.Items["current_ammo"] = "standard arrow"
 					Globals.GUI.get_node("ammo").text = "standard arrow"
 #				ammo -= 1
 			else:

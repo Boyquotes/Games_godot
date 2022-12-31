@@ -18,7 +18,7 @@ var inventory
 var items
 var player_spawn_pos
 var player_lvl
-var GV.Enemy["enemy_hp_value"]
+var enemy_hp_value
 var max_mana
 var current_mana
 var player_weapon
@@ -69,18 +69,18 @@ func _deferred_goto_scene(path, spawn, prev_scene):
 			current_mana = max_mana
 			GV.Player["player_weapon"] = "3"
 			var weapon = ItemDB.WEAPON[GV.Player["player_weapon"]]
-			weapon["id"] = Globals.item_id
+			weapon["id"] = GV.Items["item_id"]
 			weapon["power"] = 900
 			weapon["dmg_type"] = "physical"
 			weapon["special"] = ""
-			item_id += 1
-			inventory_items.push_front(weapon)
-			inventory.pickup_item(inventory_items[0])
+			GV.Items["item_id"] += 1
+			GV.Items["inventory_items"].push_front(weapon)
+			inventory.pickup_item(GV.Items["inventory_items"][0])
 			var body_armor = ItemDB.STARTER_ITEMS["1"]
-			body_armor["id"] = Globals.item_id
-			item_id += 1
-			inventory_items.push_front(body_armor)
-			inventory.pickup_item(inventory_items[0])
+			body_armor["id"] = GV.Items["item_id"]
+			GV.Items["item_id"] += 1
+			GV.Items["inventory_items"].push_front(body_armor)
+			inventory.pickup_item(GV.Items["inventory_items"][0])
 			GUI_stats.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			
 #	|| load global (changed) values from GUI if regular level load ||
@@ -102,10 +102,10 @@ func _deferred_goto_scene(path, spawn, prev_scene):
 			GUI_stats.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning").text = str(GV.Player["player_resistance"]["lightning"])
 			GUI_stats.get_node("item_stats").get_node("res").get_node("physical").get_node("physical").text = str(GV.Player["player_resistance"]["physical"])
 			GUI_stats.get_node("item_stats").get_node("res").get_node("poison").get_node("poison").text = str(GV.Player["player_resistance"]["poison"])
-			GUI_stats.get_node("loot_modifiers").get_node("quant_num").text = str(quantity)
-			GUI_stats.get_node("loot_modifiers").get_node("qual_num").text = str(quality)
+			GUI_stats.get_node("loot_modifiers").get_node("quant_num").text = str(GV.Items["quantity"])
+			GUI_stats.get_node("loot_modifiers").get_node("qual_num").text = str(GV.Items["quality"])
 			GUI.get_node("ammo_num").text = str(current_ammo_num)
-			GUI.remove_points(GUI_stats.get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
+			GUI.remove_points(GUI_stats.get_node("stat_screen").get_node("power").get_node("power"), GV.Items["current_weapon_id"])
 			GUI_stats.get_node("stat_screen").get_node("power").get_node("power").text = str(player_pwr)
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
 			

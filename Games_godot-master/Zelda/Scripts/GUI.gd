@@ -33,14 +33,14 @@ func attribute_points(stat, lvlup_stats, id):
 			$points_container.visible = false
 	else:
 		if stat.name == "dex" or stat.name == "intel" or stat.name == "stren":
-			for y in Globals.inventory_items:
+			for y in GV.Items["inventory_items"]:
 				if id == y["id"]:
 					i+= int(y[stat.name])
 					Globals[stat.name] += int(y[stat.name])
 					attribute_effects(stat.name, "augment", int(y[stat.name]))
 			stat.text = str(i)
 		if stat.name == "fire" or stat.name == "cold" or stat.name == "lightning" or stat.name == "physical" or stat.name == "poison":
-			for y in Globals.inventory_items:
+			for y in GV.Items["inventory_items"]:
 				if id == y["id"]:
 					i += int(y[stat.name])
 					GV.Player["player_resistance"][stat.name] += int(y[stat.name])
@@ -48,7 +48,7 @@ func attribute_points(stat, lvlup_stats, id):
 						GV.Player["player_resistance"][stat.name] = 60
 			stat.text = str(GV.Player["player_resistance"][stat.name])
 		if stat.name == "power":
-			for y in Globals.inventory_items:
+			for y in GV.Items["inventory_items"]:
 				if id == y["id"]:
 					i += int(y[stat.name])
 					GV.Player["player_pwr"] += int(y[stat.name])
@@ -62,14 +62,14 @@ func remove_points(stat, id):
 #	print("removePoints ", Globals.inventory_items[id].name, " ", stat.name)
 	var i = int(stat.text)
 	if stat.name == "dex" or stat.name == "intel" or stat.name == "stren":
-		for y in Globals.inventory_items:
+		for y in GV.Items["inventory_items"]:
 			if id == y["id"]:
 				i-= int(y[stat.name])
 				Globals[stat.name] -= int(y[stat.name])
 				attribute_effects(stat.name, "decrease", int(y[stat.name]))
 		stat.text = str(i)
 	if stat.name == "fire" or stat.name == "cold" or stat.name == "lightning" or stat.name == "physical" or stat.name == "poison":
-		for y in Globals.inventory_items:
+		for y in GV.Items["inventory_items"]:
 			if id == y["id"]:
 				i -= int(y[stat.name])
 				GV.Player["player_resistance"][stat.name] -= int(y[stat.name])
@@ -77,7 +77,7 @@ func remove_points(stat, id):
 					GV.Player["player_resistance"][stat.name] = 60
 		stat.text = str(GV.Player["player_resistance"][stat.name])
 	if stat.name == "power":
-		for y in Globals.inventory_items:
+		for y in GV.Items["inventory_items"]:
 			if id == y["id"]:
 				i -= int(y[stat.name])
 				GV.Player["player_pwr"] -= int(y[stat.name])

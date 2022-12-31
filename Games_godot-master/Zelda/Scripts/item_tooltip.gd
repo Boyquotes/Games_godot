@@ -28,8 +28,8 @@ func _on_Despawn_Timer_timeout():
 	if "Boss" in GV.Scenes["current_scene"].name:
 		return
 	else:
-		for i in Globals.dropped_items:
+		for i in GV.Items["dropped_items"]:
 			if i["id"] == int($id.text):
-				Globals.dropped_items.remove(Globals.dropped_items.find(i))
+				GV.Items["dropped_items"].remove(GV.Items["dropped_items"].find(i))
 	
 		self.queue_free()

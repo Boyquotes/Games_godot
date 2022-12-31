@@ -9,7 +9,7 @@ func _ready():
 
 func insert_item(pos):
 	var item
-	for i in Globals.inventory_items:
+	for i in GV.Items["inventory_items"]:
 		if pos.get_meta("id") == i["id"]:
 			item = i
 	
@@ -34,26 +34,26 @@ func insert_item(pos):
 		if item.has("special"):
 			GV.Player["player"].special = item["special"]
 #		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_screen").get_node("dmg_type").get_node("power"), false, item["id"])
-		Globals.current_weapon_id = item["id"]
+		GV.Items["current_weapon_id"] = item["id"]
 		
 		if GV.Player["player_weapon"] == "bow":
-			if Globals.current_ammo == null:
-				Globals.current_ammo = "standard arrow"
+			if GV.Items["current_ammo"] == null:
+				GV.Items["current_ammo"] = "standard arrow"
 				Globals.GUI.get_node("ammo").text = "standard arrow"
 				Globals.GUI.get_node("ammo_num").text = "unl."
 		else:
-			Globals.current_ammo = null
+			GV.Items["current_ammo"] = null
 			Globals.GUI.get_node("ammo").text = ""
 			Globals.GUI.get_node("ammo_num").text = ""
 		
 	if slot == $GLOVES or slot == $BOOTS or slot == $CHARACTER:
 		if slot == $CHARACTER:
 			GV.Player["player"].get_node("Body_Armor").texture = ResourceLoader.load("res://Assets/items/" + item.name + ".png")
-			Globals.current_body_armor_id = item["id"]
+			GV.Items["current_body_armor_id"] = item["id"]
 		if slot == $BOOTS:
-			Globals.current_boots_id = item["id"]
+			GV.Items["current_boots_id"] = item["id"]
 		if slot == $GLOVES:
-			Globals.current_gloves_id = item["id"]
+			GV.Items["current_gloves_id"] = item["id"]
 		
 		if Globals.add_stats:
 			if item.has("special"):
@@ -89,7 +89,7 @@ func grab_item(pos):
 	var GUI_stats = Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI")
 	var item_slot
 	var item_id
-	for i in Globals.inventory_items:
+	for i in GV.Items["inventory_items"]:
 		if item.get_meta("id") == i["id"]:
 			item_slot = i["slot"]
 			item_id = i["id"]
@@ -126,16 +126,16 @@ func grab_item(pos):
 func special_mod(item, mode):
 	if "quality" in item["special"][0]:
 		if mode == "add":
-			Globals.quality += item["special"][1]
+			GV.Items["quality"] += item["special"][1]
 		else:
-			Globals.quality -= item["special"][1]
-		Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("loot_modifiers").get_node("qual_num").text =  str(Globals.quality)
+			GV.Items["quality"] -= item["special"][1]
+		Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("loot_modifiers").get_node("qual_num").text =  str(GV.Items["quality"])
 	if "quantity" in item["special"][0]:
 		if mode == "add":
-			Globals.quantity += item["special"][1]
+			GV.Items["quantity"] += item["special"][1]
 		else:
-			Globals.quantity -= item["special"][1]
-		Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("loot_modifiers").get_node("quant_num").text = str(Globals.quantity)
+			GV.Items["quantity"] -= item["special"][1]
+		Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("loot_modifiers").get_node("quant_num").text = str(GV.Items["quantity"])
 	if item["special"][0] == "mana_reg":
 		if mode == "add":
 			Globals.GUI.get_node("mana_progress").step += 1

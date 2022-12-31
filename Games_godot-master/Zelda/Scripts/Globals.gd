@@ -15,8 +15,8 @@ extends Node
 #var GV.Player["player_resistance"] = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
 #var player_dmg_types = {"fire": 0, "cold": 0, "lightning": 0, "physical": 0, "poison": 0}
 #var boss_res = {"fire": 50, "cold": 80, "lightning": 50, "physical": 80, "poison": 20}
-var quality = 0
-var quantity = 0
+#var quality = 0
+#var quantity = 0
 #var boss_res_modifier = 10
 #var load_boss
 #var enemy_res_modifier = 10
@@ -37,17 +37,17 @@ var player_attack = false
 var inventory
 var Items
 var item
-var item_id = 0
-var ilvl = 10
-var dropped_items = []
-var dropped = false
-var inventory_items = []
-var current_body_armor_id
-var current_weapon_id
-var current_gloves_id
-var current_boots_id
-var current_ammo
-var current_ammo_num = 0
+#var item_id = 0
+#var GV.Items["ilvl"] = 10
+#var dropped_items = []
+#var dropped = false
+#var inventory_items = []
+#var current_body_armor_id
+#var current_weapon_id
+#var current_gloves_id
+#var current_boots_id
+#var current_ammo
+#var current_ammo_num = 0
 var stats
 #var prev_scene
 var GUI = null
@@ -123,18 +123,18 @@ func _deferred_goto_scene(path, spawn):
 			current_mana = max_mana
 			GV.Player["player_weapon"] = "3"
 			var weapon = ItemDB.WEAPON[GV.Player["player_weapon"]]
-			weapon["id"] = Globals.item_id
+			weapon["id"] = GV.Items["item_id"]
 			weapon["power"] = 900
 			weapon["dmg_type"] = "physical"
 			weapon["special"] = ""
-			item_id += 1
-			inventory_items.push_front(weapon)
-			inventory.pickup_item(inventory_items[0])
+			GV.Items["item_id"] += 1
+			GV.Items["inventory_items"].push_front(weapon)
+			inventory.pickup_item(GV.Items["inventory_items"][0])
 			var body_armor = ItemDB.STARTER_ITEMS["1"]
-			body_armor["id"] = Globals.item_id
-			item_id += 1
-			inventory_items.push_front(body_armor)
-			inventory.pickup_item(inventory_items[0])
+			body_armor["id"] = GV.Items["item_id"]
+			GV.Items["item_id"] += 1
+			GV.Items["inventory_items"].push_front(body_armor)
+			inventory.pickup_item(GV.Items["inventory_items"][0])
 			GUI_stats.get_node("stat_screen").get_node("power").get_node("power").text = str(GV.Player["player_pwr"])
 			spawn_enemy_type()
 			game_started = true
@@ -161,14 +161,14 @@ func _deferred_goto_scene(path, spawn):
 			GUI_stats.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning").text = str(GV.Player["player_resistance"]["lightning"])
 			GUI_stats.get_node("item_stats").get_node("res").get_node("physical").get_node("physical").text = str(GV.Player["player_resistance"]["physical"])
 			GUI_stats.get_node("item_stats").get_node("res").get_node("poison").get_node("poison").text = str(GV.Player["player_resistance"]["poison"])
-			GUI_stats.get_node("loot_modifiers").get_node("quant_num").text = str(quantity)
-			GUI_stats.get_node("loot_modifiers").get_node("qual_num").text = str(quality)
+			GUI_stats.get_node("loot_modifiers").get_node("quant_num").text = str(GV.Items["quantity"])
+			GUI_stats.get_node("loot_modifiers").get_node("qual_num").text = str(GV.Items["quality"])
 			
 			if GV.Player["player_weapon"] == "bow":
-				GUI.get_node("ammo").text = current_ammo
-			GUI.get_node("ammo_num").text = str(current_ammo_num)
+				GUI.get_node("ammo").text = GV.Items["current_ammo"]
+			GUI.get_node("ammo_num").text = str(GV.Items["current_ammo_num"])
 #			GV.Player["player"].move_speed += (0.1*dex)
-			GUI.remove_points(GUI_stats.get_node("stat_screen").get_node("power").get_node("power"), current_weapon_id)
+			GUI.remove_points(GUI_stats.get_node("stat_screen").get_node("power").get_node("power"), GV.Items["current_weapon_id"])
 			GUI_stats.get_node("stat_screen").get_node("power").get_node("power").text = str(GV.Player["player_pwr"])
 			GUI.get_node("coins").get_node("coins_num").text = str(coins)
 			spawn_enemy_type()
@@ -199,8 +199,8 @@ func _deferred_goto_scene(path, spawn):
 		GV.Scenes["current_scene"].get_node("ammo_price_two").text = str(50)
 		while GV.Scenes["current_scene"].get_node("Ammo_TileMap").get_cell(14,8) == GV.Scenes["current_scene"].get_node("Ammo_TileMap").get_cell(15,8):
 			GV.Scenes["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
-		GV.Scenes["current_scene"].get_node("ammo_capacity").text = str(ilvl*2)
-		GV.Scenes["current_scene"].get_node("ammo_capacity_two").text = str(ilvl*2)
+		GV.Scenes["current_scene"].get_node("ammo_capacity").text = str(GV.Items["ilvl"]*2)
+		GV.Scenes["current_scene"].get_node("ammo_capacity_two").text = str(GV.Items["ilvl"]*2)
 		
 #	block_attribute_changes = false
 
@@ -402,7 +402,7 @@ func drop(pos, freq, weighting):
 		var num_items_dropped
 		
 		if GV.Scenes["current_scene"].name != "Boss_Room":
-			num_items_dropped = rand.randf_range(10, quantity)/8
+			num_items_dropped = rand.randf_range(10, GV.Items["quantity"])/8
 		else:
 			num_items_dropped = 1
 		
@@ -417,15 +417,15 @@ func drop(pos, freq, weighting):
 				while drop_overlap == true:
 					pos = drop_spacing(pos, last_pos, rand)
 					
-#			drop_item(pos, ilvl)
-			call_deferred("drop_item", pos, ilvl)
+#			drop_item(pos, GV.Items["ilvl"])
+			call_deferred("drop_item", pos, GV.Items["ilvl"])
 			last_pos.push_back(pos)
 #			print("dropPOS ", pos)
 			
 	elif weighting == 2:
 #		var num_items_dropped = rand.randf_range(10, quantity)/2
 #		for i in round(num_items_dropped):
-		drop_weapon(pos, ilvl)
+		drop_weapon(pos, GV.Items["ilvl"])
 	
 func drop_pwrup(pos):
 	var drop_id = str(drop_weighting({1:0.13, 2:0.09, 3:0.13, 4:0.13, 5:0.13, 6:0.13, 7:0.13, 8:0.13}))
@@ -440,20 +440,20 @@ func drop_pwrup(pos):
 	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
 	drop.name = drop_name
 	drop.position = pos
-	drop.get_node("id").text = str(item_id)
+	drop.get_node("id").text = str(GV.Items["item_id"])
 	
 	var icon = item.icon
 	
 	item = {
-		"id": item_id,
+		"id": GV.Items["item_id"],
 		"name": item.name,
 		"icon": icon,
 		"type": item.type,
 		"slot": item.slot
 	}
 	
-	dropped_items.push_front(item)
-	item_id += 1
+	GV.Items["dropped_items"].push_front(item)
+	GV.Items["item_id"] += 1
 
 func drop_item(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
@@ -484,7 +484,7 @@ func drop_item(pos, ilvl):
 	drop.position = pos
 	drop.name = "item"
 	
-	drop.get_node("id").text = str(item_id)
+	drop.get_node("id").text = str(GV.Items["item_id"])
 		
 	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("item_name").text = item["name"]
 	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("dex").get_node("value").text = str(stats[2])
@@ -499,7 +499,7 @@ func drop_item(pos, ilvl):
 	var icon = item.icon
 	
 	item = {
-		"id": item_id,
+		"id": GV.Items["item_id"],
 		"name": item.name,
 		"icon": icon,
 		"type": item.type,
@@ -516,8 +516,8 @@ func drop_item(pos, ilvl):
 #		"special_val": special_mod(rand, drop, ItemDB.ARMOR_SPECIAL, "armor_special")[1],
 	}
 	
-	dropped_items.push_front(item)
-	item_id += 1
+	GV.Items["dropped_items"].push_front(item)
+	GV.Items["item_id"] += 1
 
 
 func drop_weapon(pos, ilvl):
@@ -534,7 +534,7 @@ func drop_weapon(pos, ilvl):
 	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
 	drop.position = pos
 	drop.name = "item"
-	drop.get_node("id").text = str(item_id)
+	drop.get_node("id").text = str(GV.Items["item_id"])
 	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("item_name").text = item["name"]
 	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("power").get_node("value").text = str(potency)
 	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("dmg_type").get_node("value").text = str(dmg_types[dmg_type])
@@ -543,7 +543,7 @@ func drop_weapon(pos, ilvl):
 	var icon = item.icon
 	
 	item = {
-		"id": item_id,
+		"id": GV.Items["item_id"],
 		"icon": icon,
 		"name": item_name,
 		"type": item.type,
@@ -553,8 +553,8 @@ func drop_weapon(pos, ilvl):
 		"special": special_mod(rand, drop, ItemDB.WEP_SPECIAL, "special_wep")
 	}
 	
-	dropped_items.push_front(item)
-	item_id += 1
+	GV.Items["dropped_items"].push_front(item)
+	GV.Items["item_id"] += 1
 
 func special_mod(rand, drop, armor_type, node):
 	var special
@@ -593,7 +593,7 @@ func special_mod(rand, drop, armor_type, node):
 
 func special_mod_val(rand):
 	rand.randomize()
-	var n = rand.randi_range(ilvl, ilvl+10)
+	var n = rand.randi_range(GV.Items["ilvl"], GV.Items["ilvl"]+10)
 	return n
 
 

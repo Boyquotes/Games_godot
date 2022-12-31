@@ -64,18 +64,18 @@ func pwr_up_effect(name, amount):
 	elif "lvl" in name:
 		change_next_scene = true
 	elif "armor" in name:
-		Globals.drop_item(self.rect_position, Globals.ilvl)
-		Globals.inventory_items.push_front(Globals.dropped_items[0])
-		Globals.dropped_items.remove(0)
+		Globals.drop_item(self.rect_position, GV.Items["ilvl"])
+		GV.Items["inventory_items"].push_front(GV.Items["dropped_items"][0])
+		GV.Items["dropped_items"].remove(0)
 	elif "weapon" in name:
-		Globals.drop_weapon(self.rect_position, Globals.ilvl)
-		Globals.inventory_items.push_front(Globals.dropped_items[0])
-		Globals.dropped_items.remove(0)
+		Globals.drop_weapon(self.rect_position, GV.Items["ilvl"])
+		GV.Items["inventory_items"].push_front(GV.Items["dropped_items"][0])
+		GV.Items["dropped_items"].remove(0)
 				
 func goto_next_scene():
 	print("gotoNext")
 	GV.Enemy["enemy_entites"].clear()
-	Globals.ilvl += 10
+	GV.Items["ilvl"] += 10
 	GV.Enemy["enemy_hp_value"] += 50
 	Globals.num_of_enemies(5)
 	GV.Enemy["enemy_res_modifier"] += 5

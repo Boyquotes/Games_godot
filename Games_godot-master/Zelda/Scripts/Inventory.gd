@@ -17,26 +17,26 @@ var glove_slot_taken = false
 var boot_slot_taken = false
 
 func _ready():
-	if Globals.inventory_items.size() > 0:
+	if GV.Items["inventory_items"].size() > 0:
 #		weap_slot_taken = false
-		for i in Globals.inventory_items:
-			if i["id"] == Globals.current_weapon_id:
+		for i in GV.Items["inventory_items"]:
+			if i["id"] == GV.Items["current_weapon_id"]:
 				pickup_item(i)
 				break
-		for i in Globals.inventory_items:
-			if i["id"] == Globals.current_body_armor_id:
+		for i in GV.Items["inventory_items"]:
+			if i["id"] == GV.Items["current_body_armor_id"]:
 				pickup_item(i)
 				break
-		for i in Globals.inventory_items:
-			if i["id"] == Globals.current_boots_id:
+		for i in GV.Items["inventory_items"]:
+			if i["id"] == GV.Items["current_boots_id"]:
 				pickup_item(i)
 				break
-		for i in Globals.inventory_items:
-			if i["id"] == Globals.current_gloves_id:
+		for i in GV.Items["inventory_items"]:
+			if i["id"] == GV.Items["current_gloves_id"]:
 				pickup_item(i)
 				break
-		for i in Globals.inventory_items:
-			if i["id"] != Globals.current_body_armor_id and i["id"] != Globals.current_weapon_id and i["id"] != Globals.current_gloves_id and i["id"] != Globals.current_boots_id:
+		for i in GV.Items["inventory_items"]:
+			if i["id"] != GV.Items["current_body_armor_id"] and i["id"] != GV.Items["current_weapon_id"] and i["id"] != GV.Items["current_gloves_id"] and i["id"] != GV.Items["current_boots_id"]:
 				pickup_item(i)
 		return
 
@@ -84,9 +84,9 @@ func get_container_under_cursor(cursor_pos):
 	return null
 
 func drop_item():
-	for i in Globals.inventory_items:
+	for i in GV.Items["inventory_items"]:
 		if item_held.get_meta("id") == i["id"]:
-			Globals.inventory_items.remove(Globals.inventory_items.find(i))
+			GV.Items["inventory_items"].remove(GV.Items["inventory_items"].find(i))
 	item_held.queue_free()
 	item_held = null
 

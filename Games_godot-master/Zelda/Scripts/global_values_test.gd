@@ -40,10 +40,23 @@ var Enemy = {
 	"enemy_pos": null,
 	"enemy_dir": null,
 	"enemy_id": 0,
-#	"enemy_num": 0,
 	"enemy_tracker": 0,
-#	"enemy_removed": false,
 	"enemy_hp": 0,
-	"enemy_hp_value": 0,
+	"enemy_hp_value": 0
+}
+
+var Items = {
+	"item_id": 0,
+	"ilvl": 10,
+	"dropped_items": [],
+	"inventory_items": [],
+	"current_body_armor_id": null,
+	"current_weapon_id": null,
+	"current_gloves_id": 0,
+	"current_boots_id": 0,
+	"current_ammo": null,
+	"current_ammo_num": 0,
+	"quality": 0,
+	"quantity": 0
 	
 }
