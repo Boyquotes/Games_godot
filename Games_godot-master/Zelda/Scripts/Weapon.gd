@@ -8,6 +8,7 @@ var beam_dmg = false
 var enemy_hp_bar
 var dmg_taken
 var special
+var shop_spawned = false
 
 var dmg_floating_txt = preload("res://Scenes/Floating_dmg_num.tscn")
 
@@ -32,7 +33,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 	if "Enemy" in body.name or "Boss" in body.name:
 		if "Starting" in body.name:
 			body.enemy_attack = true
-		var lvl_progress = Globals.GUI.get_node("lvl_progress")
+		var lvl_progress = GV.GUI["GUI"].get_node("lvl_progress")
 		enemy_hp_bar = body.get_node("hp_bar")
 		var original_player_pwr = GV.Player["player_pwr"]
 		dmg_taken = dmg_calc()
@@ -40,22 +41,22 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		for i in GV.Enemy["enemy_entites"].size():
 			if str(body) == GV.Enemy["enemy_id"][i]:
 				enemy_hp_bar.visible = true
-				if GV.Items["current_ammo"]:
+				if GV.Item["current_ammo"]:
 					if special:
 						print("special ", special)
 					
-					if GV.Items["current_ammo"] == "frost arrow":
+					if GV.Item["current_ammo"] == "frost arrow":
 						body.move_speed = 0.5
 						body.unfreeze_timer(i)
-					elif GV.Items["current_ammo"] == "fire arrow": 
+					elif GV.Item["current_ammo"] == "fire arrow": 
 						body.burn_timer(i, dmg_taken, 2)
-					elif GV.Items["current_ammo"] == "lightning arrow":
+					elif GV.Item["current_ammo"] == "lightning arrow":
 						body.shock_timer(i, dmg_taken)
-					elif GV.Items["current_ammo"] == "poison arrow":
+					elif GV.Item["current_ammo"] == "poison arrow":
 						body.poison_timer(i, dmg_taken)
-					elif GV.Items["current_ammo"] == "web arrow":
+					elif GV.Item["current_ammo"] == "web arrow":
 						var spider_web = ResourceLoader.load("res://Scenes/spider_web.tscn").instance()
-						GV.Scenes["current_scene"].call_deferred("add_child", spider_web)
+						GV.Scene["current_scene"].call_deferred("add_child", spider_web)
 						spider_web.position = body.position
 						enemy_dmg_taken(i, body)
 					else:
@@ -86,9 +87,9 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 
 			GV.Player["player_lvl"] = lvl_progress.value
 
-		if GV.Enemy["enemy_tracker"] == 1 and !Globals.shop_spawned:
+		if GV.Enemy["enemy_tracker"] == 1 and !shop_spawned:
 			Globals.spawn_weapon_shop()
-			Globals.shop_spawned = true
+			shop_spawned = true
 
 	if "Portal" in body.name:
 		var boss_portal_health = 150
@@ -103,24 +104,24 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			GV.Enemy["enemy_hp_value"] += 10
 			Globals.num_of_enemies(5)
 			GV.Enemy["enemy_entites"].clear()
-			Globals.respawn = true
+			GV.Enemy["respawn"] = true
 			Globals.spawn_enemy_type()
 			GV.Enemy["enemy_res_modifier"] += 2
 			GV.Enemy["enemy_dmg_modifier"] += 2
 			GV.Boss["boss_res_modifier"] += 2
 #			Globals.ilvl += 5
-			Globals.GUI.get_node("number").text = str(GV.Enemy["enemy_tracker"])
-			Globals.portal_spawned = false
+			GV.GUI["GUI"].get_node("number").text = str(GV.Enemy["enemy_tracker"])
+			GV.Scene["portal_spawned"] = false
 
 func dmg_calc():
 	var enemy_res
-	if "Boss" in GV.Scenes["current_scene"].name:
+	if "Boss" in GV.Scene["current_scene"].name:
 		enemy_res = GV.Boss["boss_res"]
 	else:
 		enemy_res = GV.Enemy["enemy_resistance"]
 	
 	var dmg = GV.Player["player_pwr"]
-	for j in Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("item_stats").get_node("dmg").get_children():
+	for j in GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("item_stats").get_node("dmg").get_children():
 		for k in GV.Enemy["enemy_resistance"]:
 			if j.text == k and int(j.get_child(0).text) > 0:
 				dmg = float(dmg)/enemy_res.get(k)
@@ -132,7 +133,7 @@ func dmg_calc():
 func enemy_dmg_taken(pos, enemy):
 	var dmg_txt = dmg_floating_txt.instance()
 	dmg_txt.position = enemy.position
-	GV.Scenes["current_scene"].add_child(dmg_txt)
+	GV.Scene["current_scene"].add_child(dmg_txt)
 	dmg_txt.get_node("dmg_num_txt").text = str(stepify(dmg_taken, 0.1))
 	
 	GV.Enemy["enemy_hp"][pos] -= dmg_taken

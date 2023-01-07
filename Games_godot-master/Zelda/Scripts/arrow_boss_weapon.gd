@@ -15,7 +15,7 @@ func _ready():
 		self.rotation_degrees = (angle*(180/PI)+180)
 		dir = dir_to_player * move_speed
 	elif attack_mode == "multi":
-		if GV.Scenes["current_scene"].get_node("Boss_bow").get_node("boss_sprite").is_flipped_h() == false:
+		if GV.Scene["current_scene"].get_node("Boss_bow").get_node("boss_sprite").is_flipped_h() == false:
 			dir = Vector2(1,0).rotated(rotation) * move_speed
 		else:
 			dir = Vector2(-1,0).rotated(rotation) * move_speed

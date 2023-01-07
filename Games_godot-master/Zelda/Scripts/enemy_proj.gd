@@ -18,12 +18,12 @@ func _on_poison_proj_body_entered(body):
 	if "Level_TileMap" in body.name:
 		self.queue_free()
 	elif "Player" in body.name:
-		Globals.damage_type = "poison"
+		GV.Enemy["enemy_dmg_type"] = "poison"
 		GV.Player["player"].get_node("poison_timer").start()
 		var poison_dmg_timer = Timer.new()
-		Globals.poison_stacks += 1
+		GV.GUI["poison_stacks"] += 1
 		poison_dmg_timer.name = "poison_dmg_timer"
-		poison_dmg_timer.connect("timeout", GV.Player["player"], "_on_poison_dmg_timer_timeout", [ Globals.poison_stacks ])
+		poison_dmg_timer.connect("timeout", GV.Player["player"], "_on_poison_dmg_timer_timeout", [ GV.GUI["poison_stacks"] ])
 		GV.Player["player"].add_child(poison_dmg_timer)
 		GV.Player["player"].get_node(poison_dmg_timer.name).start()
 
@@ -33,7 +33,7 @@ func _on_thorn_proj_body_entered(body):
 	if "Level_TileMap" in body.name:
 		self.queue_free()
 	elif "Player" in body.name:
-		Globals.damage_type = "physical"
+		GV.Enemy["enemy_dmg_type"] = "physical"
 		body.bleed_damage(2)
 		
 		self.queue_free()

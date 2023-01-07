@@ -2,7 +2,7 @@ extends Node2D
 
 func _ready():
 	GV.Boss["boss_type"] = ResourceLoader.load("res://Scenes/" + GV.Boss["load_boss"] + ".tscn").instance()
-	GV.Scenes["current_scene"].add_child(GV.Boss["boss_type"])
+	GV.Scene["current_scene"].add_child(GV.Boss["boss_type"])
 	GV.Boss["boss_type"].position = $Boss_Spawn.position
 	GV.Enemy["enemy_entites"].clear()
 	GV.Enemy["enemy_entites"].push_front(GV.Boss["boss_type"])

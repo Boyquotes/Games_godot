@@ -1,81 +1,15 @@
 extends Node
 
-#var player = null
-#var current_scene = null
-#var next_scene
-#var player_spawn_pos = null
-#var player_weapon = false
-#var starter_weapon = true
-#var wand_proj = null
-#var player_hp = 300
-#var player_xp = 0
-#var player_lvl = 0
-#var player_pwr = 0
-#var player_move_speed = 3
-#var GV.Player["player_resistance"] = {"fire": 10, "cold": 10, "lightning": 10, "physical": 10, "poison": 10}
-#var player_dmg_types = {"fire": 0, "cold": 0, "lightning": 0, "physical": 0, "poison": 0}
-#var boss_res = {"fire": 50, "cold": 80, "lightning": 50, "physical": 80, "poison": 20}
-#var quality = 0
-#var quantity = 0
-#var boss_res_modifier = 10
-#var load_boss
-#var enemy_res_modifier = 10
-#var enemy_dmg_modifier = 80
-#var boss_hp_modifier = 500
-#var boss_pwr_modifier = 50
-var portal_spawned = false
-#var enemy_resistance
-var damage_type
-var max_mana = 500
-var poison_stacks = 0
-var current_mana
-var coins = 0
-var dex = 0
-var intel = 0
-var stren = 0
-var player_attack = false
-var inventory
-var Items
-var item
-#var item_id = 0
-#var GV.Items["ilvl"] = 10
-#var dropped_items = []
-#var dropped = false
-#var inventory_items = []
-#var current_body_armor_id
-#var current_weapon_id
-#var current_gloves_id
-#var current_boots_id
-#var current_ammo
-#var current_ammo_num = 0
-var stats
-#var prev_scene
-var GUI = null
-#var entities = []
-#var enemies
-#var enemy_pos
-#var enemy_dir
-#var enemy_id
-#var enemy_num
-#var GV.Enemy["enemy_tracker"] = null
-#var enemy_removed = false
-#var enemy_hp
-#var enemy_hp_value
-var all_attack = false
-#var boss = null
-var shop_spawn_pos
-var shop_spawned = false
-var regex
-var respawn = false
-var pwr_upDB
-var add_stats = false
-var game_started = false
+var Item #only in Globals
+var item #only in Globals
+var stats #only in Globals
+var shop_spawn_pos #only in Globals
+var regex #only in Globals
+var game_started = false #only in Globals
 
 func _ready():
 	var root = get_tree().get_root()
-	GV.Scenes["current_scene"] = root.get_child(root.get_child_count() - 1)
-	
-	
+	GV.Scene["current_scene"] = root.get_child(root.get_child_count() - 1)
 	
 func _process(delta):
 	if Input.is_action_just_pressed("exit"):
@@ -87,124 +21,124 @@ func goto_scene(path, spawn):
 
 func _deferred_goto_scene(path, spawn):
 	
-	GV.Scenes["prev_scene"] = spawn
-	GV.Scenes["current_scene"].free()
+	GV.Scene["prev_scene"] = spawn
+	GV.Scene["current_scene"].free()
 	
-	GV.Scenes["current_scene"] = ResourceLoader.load(path).instance()
-	get_tree().get_root().add_child(GV.Scenes["current_scene"])
+	GV.Scene["current_scene"] = ResourceLoader.load(path).instance()
+	get_tree().get_root().add_child(GV.Scene["current_scene"])
 
-	if GV.Scenes["current_scene"].name != "Boss_Room" and GV.Scenes["current_scene"].name != "pwr_up_screen":
-		GV.Scenes["next_scene"] = random_scene()
+	if GV.Scene["current_scene"].name != "Boss_Room" and GV.Scene["current_scene"].name != "pwr_up_screen":
+		GV.Scene["next_scene"] = random_scene()
 	
 	if path != "res://Scenes/game_over_screen.tscn" and path != "res://Scenes/game_won_screen.tscn" and path != "res://Scenes/pwr_up_screen.tscn":
-#		inventory = ResourceLoader.load("res://Scenes/GUI.tscn").instance().get_node("stat_container").get_node("Inventory")
+#		GV.GUI["inventory"] = ResourceLoader.load("res://Scenes/GV.GUI["GUI"].tscn").instance().get_node("stat_container").get_node("Inventory")
 		GV.Player["player"] = ResourceLoader.load("res://Scenes/Player.tscn").instance()
-		GUI = ResourceLoader.load("res://Scenes/GUI.tscn").instance()
-		inventory = GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("Inventory")
-		var GUI_stats = GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI")
-		GUI.get_node("mana_progress").max_value = max_mana
-		Items = ResourceLoader.load("res://Scenes/Items.tscn").instance()
+		GV.GUI["GUI"] = ResourceLoader.load("res://Scenes/GUI.tscn").instance()
+		GV.GUI["inventory"] = GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("Inventory")
+		var GUI_stats = GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI")
+		GV.GUI["GUI"].get_node("mana_progress").max_value = GV.GUI["max_mana"]
+		Item = ResourceLoader.load("res://Scenes/Items.tscn").instance()
 		
-		GV.Scenes["current_scene"].add_child(GV.Player["player"])
-		GV.Scenes["current_scene"].add_child(GUI)
-		GV.Scenes["current_scene"].add_child(Items)
-#		player.add_child(inventory)
+		GV.Scene["current_scene"].add_child(GV.Player["player"])
+		GV.Scene["current_scene"].add_child(GV.GUI["GUI"])
+		GV.Scene["current_scene"].add_child(Item)
+#		player.add_child(GV.GUI["inventory"])
 		
-#		inventory.get_child(0).rect_position = player.position
+#		GV.GUI["inventory"].get_child(0).rect_position = player.position
 
 #		load start scene
 		if path == "res://Scenes/Levels/Starting_World.tscn" and game_started == false:
-			add_stats = true
+			GV.GUI["add_stats"] = true
 #			player_spawn_pos = Vector2(512, 300)
 			GV.Player["player"].position = Vector2(512, 300)
 			GV.Player["player_lvl"] = 0
 			GV.Enemy["enemy_hp_value"] = 150
-			GUI.get_node("mana_progress").get_node("mana_value").text = str(max_mana)
-			current_mana = max_mana
+			GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text = str(GV.GUI["max_mana"])
+			GV.GUI["current_mana"] = GV.GUI["max_mana"]
 			GV.Player["player_weapon"] = "3"
 			var weapon = ItemDB.WEAPON[GV.Player["player_weapon"]]
-			weapon["id"] = GV.Items["item_id"]
+			weapon["id"] = GV.Item["item_id"]
 			weapon["power"] = 900
 			weapon["dmg_type"] = "physical"
 			weapon["special"] = ""
-			GV.Items["item_id"] += 1
-			GV.Items["inventory_items"].push_front(weapon)
-			inventory.pickup_item(GV.Items["inventory_items"][0])
+			GV.Item["item_id"] += 1
+			GV.Item["inventory_items"].push_front(weapon)
+			GV.GUI["inventory"].pickup_item(GV.Item["inventory_items"][0])
 			var body_armor = ItemDB.STARTER_ITEMS["1"]
-			body_armor["id"] = GV.Items["item_id"]
-			GV.Items["item_id"] += 1
-			GV.Items["inventory_items"].push_front(body_armor)
-			inventory.pickup_item(GV.Items["inventory_items"][0])
+			body_armor["id"] = GV.Item["item_id"]
+			GV.Item["item_id"] += 1
+			GV.Item["inventory_items"].push_front(body_armor)
+			GV.GUI["inventory"].pickup_item(GV.Item["inventory_items"][0])
 			GUI_stats.get_node("stat_screen").get_node("power").get_node("power").text = str(GV.Player["player_pwr"])
 			spawn_enemy_type()
 			game_started = true
 		else:
-#			if GV.Scenes["current_scene"].name == "Starting_World":
-#				GV.Scenes["current_scene"].get_node("Player_Spawn").position = shop_spawn_pos
-#			if portal_spawned:
+#			if GV.Scene["current_scene"].name == "Starting_World":
+#				GV.Scene["current_scene"].get_node("Player_Spawn").position = shop_spawn_pos
+#			if GV.Scene["portal_spawned"]:
 #				spawn_boss_portal()
 #			load change scene
-#			player_spawn_pos = GV.Scenes["current_scene"].get_node("Player_Spawn").position
-			GV.Player["player"].position = GV.Scenes["current_scene"].get_node("Player_Spawn").position
-			GUI.get_node("hp_num").text = str(GV.Player["player_hp"])
-			GUI.get_node("hp_visual").value = GV.Player["player_hp"]
-			GUI.get_node("lvl_progress").value = GV.Player["player_xp"]
-			GUI.get_node("lvl").text = str(GV.Player["player_lvl"])
-			GUI.get_node("mana_progress").max_value = max_mana
-			GUI.get_node("mana_progress").value = int(current_mana)
-			GUI.get_node("mana_progress").get_node("mana_value").text = current_mana
-			GUI_stats.get_node("stat_screen").get_node("dex").get_node("dex").text = str(dex)
-			GUI_stats.get_node("stat_screen").get_node("int").get_node("intel").text = str(intel)
-			GUI_stats.get_node("stat_screen").get_node("str").get_node("stren").text = str(stren)
+#			player_spawn_pos = GV.Scene["current_scene"].get_node("Player_Spawn").position
+			GV.Player["player"].position = GV.Scene["current_scene"].get_node("Player_Spawn").position
+			GV.GUI["GUI"].get_node("hp_num").text = str(GV.Player["player_hp"])
+			GV.GUI["GUI"].get_node("hp_visual").value = GV.Player["player_hp"]
+			GV.GUI["GUI"].get_node("lvl_progress").value = GV.Player["player_xp"]
+			GV.GUI["GUI"].get_node("lvl").text = str(GV.Player["player_lvl"])
+			GV.GUI["GUI"].get_node("mana_progress").max_value = GV.GUI["max_mana"]
+			GV.GUI["GUI"].get_node("mana_progress").value = int(GV.GUI["current_mana"])
+			GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text = GV.GUI["current_mana"]
+			GUI_stats.get_node("stat_screen").get_node("dex").get_node("dex").text = str(GV.GUI["dex"])
+			GUI_stats.get_node("stat_screen").get_node("int").get_node("intel").text = str(GV.GUI["intel"])
+			GUI_stats.get_node("stat_screen").get_node("str").get_node("stren").text = str(GV.GUI["stren"])
 			GUI_stats.get_node("item_stats").get_node("res").get_node("fire").get_node("fire").text = str(GV.Player["player_resistance"]["fire"])
 			GUI_stats.get_node("item_stats").get_node("res").get_node("cold").get_node("cold").text = str(GV.Player["player_resistance"]["cold"])
 			GUI_stats.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning").text = str(GV.Player["player_resistance"]["lightning"])
 			GUI_stats.get_node("item_stats").get_node("res").get_node("physical").get_node("physical").text = str(GV.Player["player_resistance"]["physical"])
 			GUI_stats.get_node("item_stats").get_node("res").get_node("poison").get_node("poison").text = str(GV.Player["player_resistance"]["poison"])
-			GUI_stats.get_node("loot_modifiers").get_node("quant_num").text = str(GV.Items["quantity"])
-			GUI_stats.get_node("loot_modifiers").get_node("qual_num").text = str(GV.Items["quality"])
+			GUI_stats.get_node("loot_modifiers").get_node("quant_num").text = str(GV.Item["quantity"])
+			GUI_stats.get_node("loot_modifiers").get_node("qual_num").text = str(GV.Item["quality"])
 			
 			if GV.Player["player_weapon"] == "bow":
-				GUI.get_node("ammo").text = GV.Items["current_ammo"]
-			GUI.get_node("ammo_num").text = str(GV.Items["current_ammo_num"])
+				GV.GUI["GUI"].get_node("ammo").text = GV.Item["current_ammo"]
+			GV.GUI["GUI"].get_node("ammo_num").text = str(GV.Item["current_ammo_num"])
 #			GV.Player["player"].move_speed += (0.1*dex)
-			GUI.remove_points(GUI_stats.get_node("stat_screen").get_node("power").get_node("power"), GV.Items["current_weapon_id"])
+			GV.GUI["GUI"].remove_points(GUI_stats.get_node("stat_screen").get_node("power").get_node("power"), GV.Item["current_weapon_id"])
 			GUI_stats.get_node("stat_screen").get_node("power").get_node("power").text = str(GV.Player["player_pwr"])
-			GUI.get_node("coins").get_node("coins_num").text = str(coins)
+			GV.GUI["GUI"].get_node("coins").get_node("coins_num").text = str(GV.GUI["coins"])
 			spawn_enemy_type()
 		
 #		GV.Player["player"].position = player_spawn_pos
 
 		
-#		if GV.Scenes["current_scene"].name == "Boss_World":
-#			GUI.get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(next_scene).get_string()
+#		if GV.Scene["current_scene"].name == "Boss_World":
+#			GV.GUI["GUI"].get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(next_scene).get_string()
 #		else:
-		GUI.get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(GV.Scenes["next_scene"]).get_string()
+		GV.GUI["GUI"].get_node("lvl_preview").get_node("Next Level").get_node("lvl_name").text = regex.search(GV.Scene["next_scene"]).get_string()
 			
 #		GV.Enemy["enemy_tracker"] = enemy_pos.size()
-		GUI.get_node("number").text = str(GV.Enemy["enemy_tracker"])
+		GV.GUI["GUI"].get_node("number").text = str(GV.Enemy["enemy_tracker"])
 	
-#	if GV.Scenes["current_scene"].name == "Shop" and player_weapon and !starter_weapon:
-#		GV.Scenes["current_scene"].get_node("Weapons_TileMap").tile_set.remove_tile(GV.Scenes["current_scene"].get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
-#		GV.Scenes["current_scene"].get_node("Weapons_TileMap").queue_free()
-	if GV.Scenes["current_scene"].name == "Shop" and GV.Player["player_weapon"]: #and starter_weapon:
+#	if GV.Scene["current_scene"].name == "Shop" and player_weapon and !starter_weapon:
+#		GV.Scene["current_scene"].get_node("Weapons_TileMap").tile_set.remove_tile(GV.Scene["current_scene"].get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
+#		GV.Scene["current_scene"].get_node("Weapons_TileMap").queue_free()
+	if GV.Scene["current_scene"].name == "Shop" and GV.Player["player_weapon"]: #and starter_weapon:
 #		starter_weapon = false
 		var rand = RandomNumberGenerator.new()
-		var ammo = GV.Scenes["current_scene"].get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
+		var ammo = GV.Scene["current_scene"].get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
 		rand.randomize()
-		GV.Scenes["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
-#		GV.Scenes["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,5)
-		GV.Scenes["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
-		GV.Scenes["current_scene"].get_node("ammo_price").text = str(50)
-		GV.Scenes["current_scene"].get_node("ammo_price_two").text = str(50)
-		while GV.Scenes["current_scene"].get_node("Ammo_TileMap").get_cell(14,8) == GV.Scenes["current_scene"].get_node("Ammo_TileMap").get_cell(15,8):
-			GV.Scenes["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
-		GV.Scenes["current_scene"].get_node("ammo_capacity").text = str(GV.Items["ilvl"]*2)
-		GV.Scenes["current_scene"].get_node("ammo_capacity_two").text = str(GV.Items["ilvl"]*2)
+		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
+#		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,5)
+		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
+		GV.Scene["current_scene"].get_node("ammo_price").text = str(50)
+		GV.Scene["current_scene"].get_node("ammo_price_two").text = str(50)
+		while GV.Scene["current_scene"].get_node("Ammo_TileMap").get_cell(14,8) == GV.Scene["current_scene"].get_node("Ammo_TileMap").get_cell(15,8):
+			GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
+		GV.Scene["current_scene"].get_node("ammo_capacity").text = str(GV.Item["ilvl"]*2)
+		GV.Scene["current_scene"].get_node("ammo_capacity_two").text = str(GV.Item["ilvl"]*2)
 		
 #	block_attribute_changes = false
 
-#		Weapons in inventory are still shown in Shop bc only player wep is removed when entering the shop	
+#		Weapons in GV.GUI["inventory"] are still shown in Shop bc only player wep is removed when entering the shop	
 	print_stray_nodes()
 	
 #	pwr_upDB = ResourceLoader.load("res://Scripts/pwr_upDB.gd").instance() 
@@ -221,14 +155,14 @@ func random_scene():
 func spawn_enemy_type():
 	regex = RegEx.new()
 	regex.compile("^[^_]+")
-	var scene = GV.Scenes["current_scene"].name
+	var scene = GV.Scene["current_scene"].name
 	var type = regex.search(scene).get_string()
 	var enemy_type = "Enemy_" + type
 	
 	for i in GV.Enemy["enemy_pos"].size():
 #		call_deferred("spawn_enemies", i, enemy_type)
 		spawn_enemies(i, enemy_type)
-	respawn = false
+	GV.Enemy["respawn"] = false
 
 func num_of_enemies(n):
 	GV.Enemy["enemy_pos"] = range(0, n)
@@ -240,23 +174,23 @@ func num_of_enemies(n):
 	
 func spawn_enemies(pos, type):
 	var rand = RandomNumberGenerator.new()
-	var tilemap = GV.Scenes["current_scene"].get_node("Level_TileMap")
+	var tilemap = GV.Scene["current_scene"].get_node("Level_TileMap")
 
-	if "World" in GV.Scenes["current_scene"].name: #and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or prev_scene == "pwr_up_screen" or "World" in prev_scene or respawn:
-		var spawn_area = GV.Scenes["current_scene"].get_node("spawn_area").rect_size
+	if "World" in GV.Scene["current_scene"].name: #and prev_scene == "start_screen" or prev_scene == "game_over_screen" or prev_scene == "game_won_screen" or prev_scene == "pwr_up_screen" or "World" in prev_scene or GV.Enemy["respawn"]:
+		var spawn_area = GV.Scene["current_scene"].get_node("spawn_area").rect_size
 		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance()
 
-#		GV.Scenes["current_scene"].call_deferred("add_child", enemy)
-		GV.Scenes["current_scene"].add_child(enemy) 
+#		GV.Scene["current_scene"].call_deferred("add_child", enemy)
+		GV.Scene["current_scene"].add_child(enemy) 
 		
-#		respawn enemies when coming back from shop
-		if GV.Scenes["current_scene"].name == "Starting_World" and game_started and respawn == false:
+#		GV.Enemy["respawn"] enemies when coming back from shop
+		if GV.Scene["current_scene"].name == "Starting_World" and game_started and GV.Enemy["respawn"] == false:
 			enemy.position = GV.Enemy["enemy_pos"][pos]
 			enemy.move_vec = GV.Enemy["enemy_dir"][pos]
 			GV.Enemy["enemy_id"][pos] = (str(enemy))
 			GV.Enemy["enemies"][pos] = enemy
 			GV.Enemy["enemy_entites"][pos] = enemy 
-#			respawn = false
+#			GV.Enemy["respawn"] = false
 #			spawn enemies
 		else:
 			rand.randomize()
@@ -272,17 +206,17 @@ func spawn_enemies(pos, type):
 				enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
 				distance_to_player = enemy.get_global_position().distance_to(GV.Player["player"].get_global_position())
 
-			if "Fire" in GV.Scenes["current_scene"].name:
+			if "Fire" in GV.Scene["current_scene"].name:
 				GV.Enemy["enemy_resistance"] = {"fire": 7*GV.Enemy["enemy_res_modifier"], "cold": 2*GV.Enemy["enemy_res_modifier"], "lightning": 5*GV.Enemy["enemy_res_modifier"], "physical": 5*GV.Enemy["enemy_res_modifier"], "poison": 5*GV.Enemy["enemy_res_modifier"]}
-			if "Starting" in GV.Scenes["current_scene"].name:
+			if "Starting" in GV.Scene["current_scene"].name:
 				GV.Enemy["enemy_resistance"] = {"fire": 3*GV.Enemy["enemy_res_modifier"], "cold": 3*GV.Enemy["enemy_res_modifier"], "lightning": 3*GV.Enemy["enemy_res_modifier"], "physical": 7*GV.Enemy["enemy_res_modifier"], "poison": 1*GV.Enemy["enemy_res_modifier"]}
-			if "lightning" in GV.Scenes["current_scene"].name:
+			if "lightning" in GV.Scene["current_scene"].name:
 				GV.Enemy["enemy_resistance"] = {"fire": 5*GV.Enemy["enemy_res_modifier"], "cold": 5*GV.Enemy["enemy_res_modifier"], "lightning": 7*GV.Enemy["enemy_res_modifier"], "physical": 2*GV.Enemy["enemy_res_modifier"], "poison": 5*GV.Enemy["enemy_res_modifier"]}
-			if "Snow" in GV.Scenes["current_scene"].name:
+			if "Snow" in GV.Scene["current_scene"].name:
 				GV.Enemy["enemy_resistance"] = {"fire": 2*GV.Enemy["enemy_res_modifier"], "cold": 7*GV.Enemy["enemy_res_modifier"], "lightning": 5*GV.Enemy["enemy_res_modifier"], "physical": 5*GV.Enemy["enemy_res_modifier"], "poison": 5*GV.Enemy["enemy_res_modifier"]}
-			if "Desert" in GV.Scenes["current_scene"].name:
+			if "Desert" in GV.Scene["current_scene"].name:
 				GV.Enemy["enemy_resistance"] = {"fire": 2*GV.Enemy["enemy_res_modifier"], "cold": 5*GV.Enemy["enemy_res_modifier"], "lightning": 5*GV.Enemy["enemy_res_modifier"], "physical": 3*GV.Enemy["enemy_res_modifier"], "poison": 7*GV.Enemy["enemy_res_modifier"]}
-			if "Jungle" in GV.Scenes["current_scene"].name:
+			if "Jungle" in GV.Scene["current_scene"].name:
 				GV.Enemy["enemy_resistance"] = {"fire": 5*GV.Enemy["enemy_res_modifier"], "cold": 5*GV.Enemy["enemy_res_modifier"], "lightning": 5*GV.Enemy["enemy_res_modifier"], "physical": 5*GV.Enemy["enemy_res_modifier"], "poison": 2*GV.Enemy["enemy_res_modifier"]}
 			
 	#		if !tilemap.tile_set.tile_get_name(tilemap.get_cellv(tilemap.world_to_map(enemy.position))).begins_with("floor_tiles"):
@@ -304,23 +238,23 @@ func spawn_enemies(pos, type):
 			
 
 # coming back from shop
-#	elif GV.Scenes["current_scene"].name == "Starting_World":
+#	elif GV.Scene["current_scene"].name == "Starting_World":
 #		print("reloadEnemies")
 #		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance() 
-#		GV.Scenes["current_scene"].add_child(enemy)
+#		GV.Scene["current_scene"].add_child(enemy)
 #		enemy.position = GV.Enemy["enemy_pos"][pos]
 #		enemy.move_vec = enemy_dir[pos]
 #		enemy_id[pos] = (str(enemy))
 #		enemies[pos] = enemy
 #		entities[pos] = enemy
 #
-#		respawn = false
+#		GV.Enemy["respawn"] = false
 	
 func spawn_weapon_shop():
 	var rand = RandomNumberGenerator.new()
 	var shop_entrance = ResourceLoader.load("res://Scenes/Weapon_Shop_Entrance.tscn").instance()
-	var wep_spawn_area = GV.Scenes["current_scene"].get_node("weaponshop_spawn_area").rect_size
-	GV.Scenes["current_scene"].get_node("weaponshop_spawn_area").call_deferred("add_child", shop_entrance)
+	var wep_spawn_area = GV.Scene["current_scene"].get_node("weaponshop_spawn_area").rect_size
+	GV.Scene["current_scene"].get_node("weaponshop_spawn_area").call_deferred("add_child", shop_entrance)
 	
 	rand.randomize()
 	shop_entrance.position = Vector2(rand.randf_range(0, wep_spawn_area.x), rand.randf_range(0, wep_spawn_area.y))
@@ -329,9 +263,9 @@ func spawn_weapon_shop():
 	print("shop spawned")
 	
 func spawn_boss_portal():
-	portal_spawned = true
+	GV.Scene["portal_spawned"] = true
 	var Portal = ResourceLoader.load("res://Scenes/Boss_Portal_Entrance.tscn").instance()
-	GV.Scenes["current_scene"].call_deferred("add_child", Portal)
+	GV.Scene["current_scene"].call_deferred("add_child", Portal)
 	GV.Enemy["enemy_entites"].clear()
 	GV.Enemy["enemy_entites"].push_front(Portal)
 	Portal.get_node("Boss_Portal_Anim").play()
@@ -352,7 +286,7 @@ func drop_weighting(num):
 var drop_overlap = false
 func drop_spacing(pos, last_pos, rand): 
 	drop_overlap = false
-	var drop_in_spawn_area = GV.Scenes["current_scene"].get_node("spawn_area").rect_size
+	var drop_in_spawn_area = GV.Scene["current_scene"].get_node("spawn_area").rect_size
 	rand.randomize()
 
 	for i in last_pos.size():
@@ -368,8 +302,8 @@ func drop_spacing(pos, last_pos, rand):
 		if pos_in_bounds == false or pos.x in range(GV.Player["player"].position.x-18, GV.Player["player"].position.x+18) or pos.y in range(GV.Player["player"].position.y-18, GV.Player["player"].position.y+18):
 			drop_overlap = true
 			pos = drop_spacing_border_correction(pos, rand)
-		if GV.Scenes["current_scene"].get_node("Shop_Entrance") != null:
-			if pos.x in range(GV.Scenes["current_scene"].get_node("Shop_Entrance").position.x-18, GV.Scenes["current_scene"].get_node("Shop_Entrance").position.x+18) or pos.y in range(GV.Scenes["current_scene"].get_node("Shop_Entrance").position.x-18, GV.Scenes["current_scene"].get_node("Shop_Entrance").position.x+18):
+		if GV.Scene["current_scene"].get_node("Shop_Entrance") != null:
+			if pos.x in range(GV.Scene["current_scene"].get_node("Shop_Entrance").position.x-18, GV.Scene["current_scene"].get_node("Shop_Entrance").position.x+18) or pos.y in range(GV.Scene["current_scene"].get_node("Shop_Entrance").position.x-18, GV.Scene["current_scene"].get_node("Shop_Entrance").position.x+18):
 				print("check_shop_overlap")
 				drop_overlap = true
 				pos = drop_spacing_border_correction(pos, rand)
@@ -401,8 +335,8 @@ func drop(pos, freq, weighting):
 		var last_pos = []
 		var num_items_dropped
 		
-		if GV.Scenes["current_scene"].name != "Boss_Room":
-			num_items_dropped = rand.randf_range(10, GV.Items["quantity"])/8
+		if GV.Scene["current_scene"].name != "Boss_Room":
+			num_items_dropped = rand.randf_range(10, GV.Item["quantity"])/8
 		else:
 			num_items_dropped = 1
 		
@@ -417,15 +351,15 @@ func drop(pos, freq, weighting):
 				while drop_overlap == true:
 					pos = drop_spacing(pos, last_pos, rand)
 					
-#			drop_item(pos, GV.Items["ilvl"])
-			call_deferred("drop_item", pos, GV.Items["ilvl"])
+#			drop_item(pos, GV.Item["ilvl"])
+			call_deferred("drop_item", pos, GV.Item["ilvl"])
 			last_pos.push_back(pos)
 #			print("dropPOS ", pos)
 			
 	elif weighting == 2:
 #		var num_items_dropped = rand.randf_range(10, quantity)/2
 #		for i in round(num_items_dropped):
-		drop_weapon(pos, GV.Items["ilvl"])
+		drop_weapon(pos, GV.Item["ilvl"])
 	
 func drop_pwrup(pos):
 	var drop_id = str(drop_weighting({1:0.13, 2:0.09, 3:0.13, 4:0.13, 5:0.13, 6:0.13, 7:0.13, 8:0.13}))
@@ -436,24 +370,24 @@ func drop_pwrup(pos):
 	
 	item = ItemDB.PWRUP[drop_id]
 
-	GV.Scenes["current_scene"].call_deferred("add_child", drop)
+	GV.Scene["current_scene"].call_deferred("add_child", drop)
 	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
 	drop.name = drop_name
 	drop.position = pos
-	drop.get_node("id").text = str(GV.Items["item_id"])
+	drop.get_node("id").text = str(GV.Item["item_id"])
 	
 	var icon = item.icon
 	
 	item = {
-		"id": GV.Items["item_id"],
+		"id": GV.Item["item_id"],
 		"name": item.name,
 		"icon": icon,
 		"type": item.type,
 		"slot": item.slot
 	}
 	
-	GV.Items["dropped_items"].push_front(item)
-	GV.Items["item_id"] += 1
+	GV.Item["dropped_items"].push_front(item)
+	GV.Item["item_id"] += 1
 
 func drop_item(pos, ilvl):
 	var rand = RandomNumberGenerator.new()
@@ -475,7 +409,7 @@ func drop_item(pos, ilvl):
 	(item["physical"]+rand.randi_range(0, ilvl)), (item["poison"]+rand.randi_range(0, ilvl))]
 	
 	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()
-	GV.Scenes["current_scene"].call_deferred("add_child", drop)
+	GV.Scene["current_scene"].call_deferred("add_child", drop)
 	
 	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
 #	drop.get_node("drop_sprite").scale.x = 0.5
@@ -484,7 +418,7 @@ func drop_item(pos, ilvl):
 	drop.position = pos
 	drop.name = "item"
 	
-	drop.get_node("id").text = str(GV.Items["item_id"])
+	drop.get_node("id").text = str(GV.Item["item_id"])
 		
 	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("item_name").text = item["name"]
 	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("dex").get_node("value").text = str(stats[2])
@@ -499,7 +433,7 @@ func drop_item(pos, ilvl):
 	var icon = item.icon
 	
 	item = {
-		"id": GV.Items["item_id"],
+		"id": GV.Item["item_id"],
 		"name": item.name,
 		"icon": icon,
 		"type": item.type,
@@ -516,8 +450,8 @@ func drop_item(pos, ilvl):
 #		"special_val": special_mod(rand, drop, ItemDB.ARMOR_SPECIAL, "armor_special")[1],
 	}
 	
-	GV.Items["dropped_items"].push_front(item)
-	GV.Items["item_id"] += 1
+	GV.Item["dropped_items"].push_front(item)
+	GV.Item["item_id"] += 1
 
 
 func drop_weapon(pos, ilvl):
@@ -530,11 +464,11 @@ func drop_weapon(pos, ilvl):
 	var dmg_types = ["fire", "cold", "lightning", "physical", "poison"]
 	var dmg_type = rand.randi_range(0, dmg_types.size()-1)
 	var drop = ResourceLoader.load("res://Scenes/weapon_drop.tscn").instance()
-	GV.Scenes["current_scene"].call_deferred("add_child", drop)
+	GV.Scene["current_scene"].call_deferred("add_child", drop)
 	drop.get_node("drop_sprite").set_texture(ResourceLoader.load(item["icon"]))
 	drop.position = pos
 	drop.name = "item"
-	drop.get_node("id").text = str(GV.Items["item_id"])
+	drop.get_node("id").text = str(GV.Item["item_id"])
 	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("item_name").text = item["name"]
 	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("power").get_node("value").text = str(potency)
 	drop.get_node("drop_stats_tt").get_node("stats_tt_pop_up").get_node("stats").get_node("stats_container").get_node("dmg_type").get_node("value").text = str(dmg_types[dmg_type])
@@ -543,7 +477,7 @@ func drop_weapon(pos, ilvl):
 	var icon = item.icon
 	
 	item = {
-		"id": GV.Items["item_id"],
+		"id": GV.Item["item_id"],
 		"icon": icon,
 		"name": item_name,
 		"type": item.type,
@@ -553,8 +487,8 @@ func drop_weapon(pos, ilvl):
 		"special": special_mod(rand, drop, ItemDB.WEP_SPECIAL, "special_wep")
 	}
 	
-	GV.Items["dropped_items"].push_front(item)
-	GV.Items["item_id"] += 1
+	GV.Item["dropped_items"].push_front(item)
+	GV.Item["item_id"] += 1
 
 func special_mod(rand, drop, armor_type, node):
 	var special
@@ -593,7 +527,7 @@ func special_mod(rand, drop, armor_type, node):
 
 func special_mod_val(rand):
 	rand.randomize()
-	var n = rand.randi_range(GV.Items["ilvl"], GV.Items["ilvl"]+10)
+	var n = rand.randi_range(GV.Item["ilvl"], GV.Item["ilvl"]+10)
 	return n
 
 

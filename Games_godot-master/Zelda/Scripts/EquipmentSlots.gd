@@ -9,7 +9,7 @@ func _ready():
 
 func insert_item(pos):
 	var item
-	for i in GV.Items["inventory_items"]:
+	for i in GV.Item["inventory_items"]:
 		if pos.get_meta("id") == i["id"]:
 			item = i
 	
@@ -30,53 +30,53 @@ func insert_item(pos):
 	
 	if slot == $WEAPON:
 		GV.Player["player_weapon"] = item["name"]
-		Globals.GUI.attribute_points(Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power"), false, item["id"])
+		GV.GUI["GUI"].attribute_points(GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power"), false, item["id"])
 		if item.has("special"):
 			GV.Player["player"].special = item["special"]
-#		Globals.GUI.attribute_points(Globals.GUI.get_node("stat_screen").get_node("dmg_type").get_node("power"), false, item["id"])
-		GV.Items["current_weapon_id"] = item["id"]
+#		GV.GUI["GUI"].attribute_points(GV.GUI["GUI"].get_node("stat_screen").get_node("dmg_type").get_node("power"), false, item["id"])
+		GV.Item["current_weapon_id"] = item["id"]
 		
 		if GV.Player["player_weapon"] == "bow":
-			if GV.Items["current_ammo"] == null:
-				GV.Items["current_ammo"] = "standard arrow"
-				Globals.GUI.get_node("ammo").text = "standard arrow"
-				Globals.GUI.get_node("ammo_num").text = "unl."
+			if GV.Item["current_ammo"] == null:
+				GV.Item["current_ammo"] = "standard arrow"
+				GV.GUI["GUI"].get_node("ammo").text = "standard arrow"
+				GV.GUI["GUI"].get_node("ammo_num").text = "unl."
 		else:
-			GV.Items["current_ammo"] = null
-			Globals.GUI.get_node("ammo").text = ""
-			Globals.GUI.get_node("ammo_num").text = ""
+			GV.Item["current_ammo"] = null
+			GV.GUI["GUI"].get_node("ammo").text = ""
+			GV.GUI["GUI"].get_node("ammo_num").text = ""
 		
 	if slot == $GLOVES or slot == $BOOTS or slot == $CHARACTER:
 		if slot == $CHARACTER:
 			GV.Player["player"].get_node("Body_Armor").texture = ResourceLoader.load("res://Assets/items/" + item.name + ".png")
-			GV.Items["current_body_armor_id"] = item["id"]
+			GV.Item["current_body_armor_id"] = item["id"]
 		if slot == $BOOTS:
-			GV.Items["current_boots_id"] = item["id"]
+			GV.Item["current_boots_id"] = item["id"]
 		if slot == $GLOVES:
-			GV.Items["current_gloves_id"] = item["id"]
+			GV.Item["current_gloves_id"] = item["id"]
 		
-		if Globals.add_stats:
+		if GV.GUI["add_stats"]:
 			if item.has("special"):
 				var mode = "add"
 				var item_place = item
 				special_mod(item_place, mode)
 			
-			var GUI_stats = Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI")
-			Globals.GUI.attribute_points(GUI_stats.get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
-			Globals.GUI.attribute_points(GUI_stats.get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])
-			Globals.GUI.attribute_points(GUI_stats.get_node("stat_screen").get_node("str").get_node("stren"), false, item["id"])
-			Globals.GUI.attribute_points(GUI_stats.get_node("item_stats").get_node("res").get_node("fire").get_node("fire"), false, item["id"])
-			Globals.GUI.attribute_points(GUI_stats.get_node("item_stats").get_node("res").get_node("cold").get_node("cold"), false, item["id"])
-			Globals.GUI.attribute_points(GUI_stats.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning"), false, item["id"])
-			Globals.GUI.attribute_points(GUI_stats.get_node("item_stats").get_node("res").get_node("physical").get_node("physical"), false, item["id"])
-			Globals.GUI.attribute_points(GUI_stats.get_node("item_stats").get_node("res").get_node("poison").get_node("poison"), false, item["id"])
+			var GUI_stats = GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI")
+			GV.GUI["GUI"].attribute_points(GUI_stats.get_node("stat_screen").get_node("dex").get_node("dex"), false, item["id"])
+			GV.GUI["GUI"].attribute_points(GUI_stats.get_node("stat_screen").get_node("int").get_node("intel"), false, item["id"])
+			GV.GUI["GUI"].attribute_points(GUI_stats.get_node("stat_screen").get_node("str").get_node("stren"), false, item["id"])
+			GV.GUI["GUI"].attribute_points(GUI_stats.get_node("item_stats").get_node("res").get_node("fire").get_node("fire"), false, item["id"])
+			GV.GUI["GUI"].attribute_points(GUI_stats.get_node("item_stats").get_node("res").get_node("cold").get_node("cold"), false, item["id"])
+			GV.GUI["GUI"].attribute_points(GUI_stats.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning"), false, item["id"])
+			GV.GUI["GUI"].attribute_points(GUI_stats.get_node("item_stats").get_node("res").get_node("physical").get_node("physical"), false, item["id"])
+			GV.GUI["GUI"].attribute_points(GUI_stats.get_node("item_stats").get_node("res").get_node("poison").get_node("poison"), false, item["id"])
 
-			Globals.add_stats = false
+			GV.GUI["add_stats"] = false
 		else:
 			return
 	
 	if slot == $POWERUP:
-		Globals.GUI.buff_effects(item.name, "activate")
+		GV.GUI["GUI"].buff_effects(item.name, "activate")
 	
 	return true
 	
@@ -86,10 +86,10 @@ func grab_item(pos):
 	var inventory_item
 	if item == null:
 		return null
-	var GUI_stats = Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI")
+	var GUI_stats = GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI")
 	var item_slot
 	var item_id
-	for i in GV.Items["inventory_items"]:
+	for i in GV.Item["inventory_items"]:
 		if item.get_meta("id") == i["id"]:
 			item_slot = i["slot"]
 			item_id = i["id"]
@@ -98,7 +98,7 @@ func grab_item(pos):
 	
 	if item_slot == "WEAPON":
 		GV.Player["player_weapon"] = null
-		Globals.GUI.remove_points(GUI_stats.get_node("stat_screen").get_node("power").get_node("power"), item_id)
+		GV.GUI["GUI"].remove_points(GUI_stats.get_node("stat_screen").get_node("power").get_node("power"), item_id)
 	elif item_slot == "CHARACTER" or item_slot == "GLOVES" or item_slot == "BOOTS":
 		if item_slot == "CHARACTER":
 			GV.Player["player"].get_node("Body_Armor").texture = null
@@ -108,17 +108,17 @@ func grab_item(pos):
 			var item_place = inventory_item
 			special_mod(item_place, mode) 
 
-		Globals.GUI.remove_points(GUI_stats.get_node("stat_screen").get_node("dex").get_node("dex"), item_id)
-		Globals.GUI.remove_points(GUI_stats.get_node("stat_screen").get_node("int").get_node("intel"), item_id)
-		Globals.GUI.remove_points(GUI_stats.get_node("stat_screen").get_node("str").get_node("stren"), item_id)		
-		Globals.GUI.remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("fire").get_node("fire"), item_id)
-		Globals.GUI.remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("cold").get_node("cold"), item_id)
-		Globals.GUI.remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning"), item_id)
-		Globals.GUI.remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("physical").get_node("physical"), item_id)
-		Globals.GUI.remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("poison").get_node("poison"), item_id)
+		GV.GUI["GUI"].remove_points(GUI_stats.get_node("stat_screen").get_node("dex").get_node("dex"), item_id)
+		GV.GUI["GUI"].remove_points(GUI_stats.get_node("stat_screen").get_node("int").get_node("intel"), item_id)
+		GV.GUI["GUI"].remove_points(GUI_stats.get_node("stat_screen").get_node("str").get_node("stren"), item_id)		
+		GV.GUI["GUI"].remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("fire").get_node("fire"), item_id)
+		GV.GUI["GUI"].remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("cold").get_node("cold"), item_id)
+		GV.GUI["GUI"].remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning"), item_id)
+		GV.GUI["GUI"].remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("physical").get_node("physical"), item_id)
+		GV.GUI["GUI"].remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("poison").get_node("poison"), item_id)
 
 	elif item_slot == "POWERUP":
-		Globals.GUI.buff_effects(item, "deactivate")
+		GV.GUI["GUI"].buff_effects(item, "deactivate")
 
 	return item
 	
@@ -126,21 +126,21 @@ func grab_item(pos):
 func special_mod(item, mode):
 	if "quality" in item["special"][0]:
 		if mode == "add":
-			GV.Items["quality"] += item["special"][1]
+			GV.Item["quality"] += item["special"][1]
 		else:
-			GV.Items["quality"] -= item["special"][1]
-		Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("loot_modifiers").get_node("qual_num").text =  str(GV.Items["quality"])
+			GV.Item["quality"] -= item["special"][1]
+		GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("loot_modifiers").get_node("qual_num").text =  str(GV.Item["quality"])
 	if "quantity" in item["special"][0]:
 		if mode == "add":
-			GV.Items["quantity"] += item["special"][1]
+			GV.Item["quantity"] += item["special"][1]
 		else:
-			GV.Items["quantity"] -= item["special"][1]
-		Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("loot_modifiers").get_node("quant_num").text = str(GV.Items["quantity"])
+			GV.Item["quantity"] -= item["special"][1]
+		GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("loot_modifiers").get_node("quant_num").text = str(GV.Item["quantity"])
 	if item["special"][0] == "mana_reg":
 		if mode == "add":
-			Globals.GUI.get_node("mana_progress").step += 1
+			GV.GUI["GUI"].get_node("mana_progress").step += 1
 		else:
-			Globals.GUI.get_node("mana_progress").step -= 1
+			GV.GUI["GUI"].get_node("mana_progress").step -= 1
 	if item["special"][0] == "life_reg":
 		if mode == "add":
 			GV.Player["player"].get_node("life_fill_timer").start()

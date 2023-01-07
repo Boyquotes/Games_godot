@@ -6,17 +6,17 @@ func _ready():
 func _on_str_pressed():
 	attribute_points($gui_container/stat_inv_margin_container/stat_inv_container/stat_GUI/stat_screen/str/stren, true, false)
 	attribute_effects("stren", "augment", 1)
-	Globals.stren += 1
+	GV.GUI["stren"] += 1
 
 func _on_int_pressed():
 	attribute_points($gui_container/stat_inv_margin_container/stat_inv_container/stat_GUI/stat_screen/int/intel, true, false)
 	attribute_effects("intel", "augment", 1)
-	Globals.intel += 1
+	GV.GUI["intel"] += 1
 
 func _on_dex_pressed():
 	attribute_points($gui_container/stat_inv_margin_container/stat_inv_container/stat_GUI/stat_screen/dex/dex, true, false)
 	attribute_effects("dex", "augment", 1)
-	Globals.dex += 1
+	GV.GUI["dex"] += 1
 
 func attribute_points(stat, lvlup_stats, id):
 #	print("addPoints ", Globals.inventory_items[id].name, " ", stat.name)
@@ -33,14 +33,14 @@ func attribute_points(stat, lvlup_stats, id):
 			$points_container.visible = false
 	else:
 		if stat.name == "dex" or stat.name == "intel" or stat.name == "stren":
-			for y in GV.Items["inventory_items"]:
+			for y in GV.Item["inventory_items"]:
 				if id == y["id"]:
 					i+= int(y[stat.name])
-					Globals[stat.name] += int(y[stat.name])
+					GV.GUI[stat.name] += int(y[stat.name])
 					attribute_effects(stat.name, "augment", int(y[stat.name]))
 			stat.text = str(i)
 		if stat.name == "fire" or stat.name == "cold" or stat.name == "lightning" or stat.name == "physical" or stat.name == "poison":
-			for y in GV.Items["inventory_items"]:
+			for y in GV.Item["inventory_items"]:
 				if id == y["id"]:
 					i += int(y[stat.name])
 					GV.Player["player_resistance"][stat.name] += int(y[stat.name])
@@ -48,12 +48,12 @@ func attribute_points(stat, lvlup_stats, id):
 						GV.Player["player_resistance"][stat.name] = 60
 			stat.text = str(GV.Player["player_resistance"][stat.name])
 		if stat.name == "power":
-			for y in GV.Items["inventory_items"]:
+			for y in GV.Item["inventory_items"]:
 				if id == y["id"]:
 					i += int(y[stat.name])
 					GV.Player["player_pwr"] += int(y[stat.name])
 					GV.Player["player_dmg_types"][y["dmg_type"]] += y[stat.name]
-					Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("item_stats").get_node("dmg").get_node(y["dmg_type"]).get_child(0).text = str(GV.Player["player_dmg_types"][y["dmg_type"]])
+					GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("item_stats").get_node("dmg").get_node(y["dmg_type"]).get_child(0).text = str(GV.Player["player_dmg_types"][y["dmg_type"]])
 			stat.text = str(i)
 		if stat.name == "special":
 			print("activate_special")
@@ -62,14 +62,14 @@ func remove_points(stat, id):
 #	print("removePoints ", Globals.inventory_items[id].name, " ", stat.name)
 	var i = int(stat.text)
 	if stat.name == "dex" or stat.name == "intel" or stat.name == "stren":
-		for y in GV.Items["inventory_items"]:
+		for y in GV.Item["inventory_items"]:
 			if id == y["id"]:
 				i-= int(y[stat.name])
 				Globals[stat.name] -= int(y[stat.name])
 				attribute_effects(stat.name, "decrease", int(y[stat.name]))
 		stat.text = str(i)
 	if stat.name == "fire" or stat.name == "cold" or stat.name == "lightning" or stat.name == "physical" or stat.name == "poison":
-		for y in GV.Items["inventory_items"]:
+		for y in GV.Item["inventory_items"]:
 			if id == y["id"]:
 				i -= int(y[stat.name])
 				GV.Player["player_resistance"][stat.name] -= int(y[stat.name])
@@ -77,31 +77,31 @@ func remove_points(stat, id):
 					GV.Player["player_resistance"][stat.name] = 60
 		stat.text = str(GV.Player["player_resistance"][stat.name])
 	if stat.name == "power":
-		for y in GV.Items["inventory_items"]:
+		for y in GV.Item["inventory_items"]:
 			if id == y["id"]:
 				i -= int(y[stat.name])
 				GV.Player["player_pwr"] -= int(y[stat.name])
 				GV.Player["player_dmg_types"][y["dmg_type"]] -= y[stat.name]
-				Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("item_stats").get_node("dmg").get_node(y["dmg_type"]).get_child(0).text = str(GV.Player["player_dmg_types"][y["dmg_type"]])
+				GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("item_stats").get_node("dmg").get_node(y["dmg_type"]).get_child(0).text = str(GV.Player["player_dmg_types"][y["dmg_type"]])
 		stat.text = str(i)
 			
 func attribute_effects(stat, effect, value):
 	if stat == "stren":
 		if effect == "augment":
 			GV.Player["player_pwr"] += value
-			Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power").text = str(GV.Player["player_pwr"])
+			GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power").text = str(GV.Player["player_pwr"])
 		else:
 			GV.Player["player_pwr"] -= value
-			Globals.GUI.get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power").text  = str(GV.Player["player_pwr"])
+			GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power").text  = str(GV.Player["player_pwr"])
 	elif stat == "intel":
 		if effect == "augment":
-			Globals.GUI.get_node("mana_progress").max_value += value
-			Globals.max_mana += value
+			GV.GUI["GUI"].get_node("mana_progress").max_value += value
+			GV.GUI["max_mana"] += value
 			GV.Player["player"].get_node("mana_fill_timer").start()
 		else:
-			Globals.GUI.get_node("mana_progress").max_value -= value
-			Globals.max_mana -= value
-			Globals.GUI.get_node("mana_progress").get_node("mana_value").text = str(Globals.max_mana)
+			GV.GUI["GUI"].get_node("mana_progress").max_value -= value
+			GV.GUI["max_mana"] -= value
+			GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text = str(GV.GUI["max_mana"])
 	elif stat == "dex":
 		if effect == "augment":
 			GV.Player["player_move_speed"] += (0.02 * value)

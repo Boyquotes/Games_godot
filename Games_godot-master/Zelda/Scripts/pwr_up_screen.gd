@@ -38,7 +38,7 @@ func populate_options():
 	for i in self.get_children():
 		if "lvl" in i.get_child(0).text:
 			print("btn_name ", i.get_child(0).text)
-			i.get_child(0).text += "  current: " + GV.Scenes["next_scene"]
+			i.get_child(0).text += "  current: " + GV.Scene["next_scene"]
 	
 func _on_option_one_btn_pressed():
 	pwr_up_effect(pwr_up_one.name, pwr_up_one.amount)
@@ -58,33 +58,33 @@ func pwr_up_effect(name, amount):
 	elif "hp" in name:
 		GV.Player["player_hp"] += amount
 	elif "coins" in name:
-		Globals.coins += amount
+		GV.GUI["coins"] += amount
 	elif "mana" in name:
-		Globals.max_mana += amount
+		GV.GUI["max_mana"] += amount
 	elif "lvl" in name:
 		change_next_scene = true
 	elif "armor" in name:
-		Globals.drop_item(self.rect_position, GV.Items["ilvl"])
-		GV.Items["inventory_items"].push_front(GV.Items["dropped_items"][0])
-		GV.Items["dropped_items"].remove(0)
+		Globals.drop_item(self.rect_position, GV.Item["ilvl"])
+		GV.Item["inventory_items"].push_front(GV.Item["dropped_items"][0])
+		GV.Item["dropped_items"].remove(0)
 	elif "weapon" in name:
-		Globals.drop_weapon(self.rect_position, GV.Items["ilvl"])
-		GV.Items["inventory_items"].push_front(GV.Items["dropped_items"][0])
-		GV.Items["dropped_items"].remove(0)
+		Globals.drop_weapon(self.rect_position, GV.Item["ilvl"])
+		GV.Item["inventory_items"].push_front(GV.Item["dropped_items"][0])
+		GV.Item["dropped_items"].remove(0)
 				
 func goto_next_scene():
 	print("gotoNext")
 	GV.Enemy["enemy_entites"].clear()
-	GV.Items["ilvl"] += 10
+	GV.Item["ilvl"] += 10
 	GV.Enemy["enemy_hp_value"] += 50
 	Globals.num_of_enemies(5)
 	GV.Enemy["enemy_res_modifier"] += 5
 	GV.Enemy["enemy_dmg_modifier"] += 20
-#	Globals.respawn = false
+#	GV.Enemy["respawn"] = false
 	if change_next_scene:
 		print("randomScene")
-		Globals.goto_scene("res://Scenes/Levels/" + Globals.random_scene() + ".tscn", GV.Scenes["current_scene"].name)
+		Globals.goto_scene("res://Scenes/Levels/" + Globals.random_scene() + ".tscn", GV.Scene["current_scene"].name)
 		change_next_scene = false
 	else:
-		Globals.goto_scene("res://Scenes/Levels/" + GV.Scenes["next_scene"] + ".tscn", GV.Scenes["current_scene"].name)
+		Globals.goto_scene("res://Scenes/Levels/" + GV.Scene["next_scene"] + ".tscn", GV.Scene["current_scene"].name)
 		

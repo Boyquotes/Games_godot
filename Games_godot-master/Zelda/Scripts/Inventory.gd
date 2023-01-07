@@ -17,26 +17,26 @@ var glove_slot_taken = false
 var boot_slot_taken = false
 
 func _ready():
-	if GV.Items["inventory_items"].size() > 0:
+	if GV.Item["inventory_items"].size() > 0:
 #		weap_slot_taken = false
-		for i in GV.Items["inventory_items"]:
-			if i["id"] == GV.Items["current_weapon_id"]:
+		for i in GV.Item["inventory_items"]:
+			if i["id"] == GV.Item["current_weapon_id"]:
 				pickup_item(i)
 				break
-		for i in GV.Items["inventory_items"]:
-			if i["id"] == GV.Items["current_body_armor_id"]:
+		for i in GV.Item["inventory_items"]:
+			if i["id"] == GV.Item["current_body_armor_id"]:
 				pickup_item(i)
 				break
-		for i in GV.Items["inventory_items"]:
-			if i["id"] == GV.Items["current_boots_id"]:
+		for i in GV.Item["inventory_items"]:
+			if i["id"] == GV.Item["current_boots_id"]:
 				pickup_item(i)
 				break
-		for i in GV.Items["inventory_items"]:
-			if i["id"] == GV.Items["current_gloves_id"]:
+		for i in GV.Item["inventory_items"]:
+			if i["id"] == GV.Item["current_gloves_id"]:
 				pickup_item(i)
 				break
-		for i in GV.Items["inventory_items"]:
-			if i["id"] != GV.Items["current_body_armor_id"] and i["id"] != GV.Items["current_weapon_id"] and i["id"] != GV.Items["current_gloves_id"] and i["id"] != GV.Items["current_boots_id"]:
+		for i in GV.Item["inventory_items"]:
+			if i["id"] != GV.Item["current_body_armor_id"] and i["id"] != GV.Item["current_weapon_id"] and i["id"] != GV.Item["current_gloves_id"] and i["id"] != GV.Item["current_boots_id"]:
 				pickup_item(i)
 		return
 
@@ -66,14 +66,14 @@ func release(cursor_pos):
 	if c == null:
 		drop_item()
 	elif c.has_method("insert_item"):
-		Globals.add_stats = true
+		GV.GUI["add_stats"] = true
 		if c.insert_item(item_held):
 			item_held = null
 		else:
 			return_item()
 	else:
 		return_item()
-	Globals.add_stats = false
+	GV.GUI["add_stats"] = false
 		
 
 func get_container_under_cursor(cursor_pos):
@@ -84,9 +84,9 @@ func get_container_under_cursor(cursor_pos):
 	return null
 
 func drop_item():
-	for i in GV.Items["inventory_items"]:
+	for i in GV.Item["inventory_items"]:
 		if item_held.get_meta("id") == i["id"]:
-			GV.Items["inventory_items"].remove(GV.Items["inventory_items"].find(i))
+			GV.Item["inventory_items"].remove(GV.Item["inventory_items"].find(i))
 	item_held.queue_free()
 	item_held = null
 

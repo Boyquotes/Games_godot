@@ -13,17 +13,17 @@ func _ready():
 	anim_enemy = $AnimationPlayer
 	proj_life_time = 2
 	
-	if GV.Scenes["current_scene"].name == "Desert_World":
+	if GV.Scene["current_scene"].name == "Desert_World":
 		$attack_timeout.set_wait_time(proj_life_time)
 		$attack_timeout.start()
 
 func _physics_process(delta):
 
-	if Globals.all_attack or snow_attack or enemy_attack:
+	if GV.Enemy["all_attack"] or snow_attack or enemy_attack:
 		enemy_attack_move()
-	elif GV.Scenes["current_scene"].name == "Fire_World":
+	elif GV.Scene["current_scene"].name == "Fire_World":
 		anim_enemy.play("idle")
-	elif "Boss" in GV.Scenes["current_scene"].name:
+	elif "Boss" in GV.Scene["current_scene"].name:
 		pass
 	else:
 		enemy_movement()
@@ -131,7 +131,7 @@ func _on_beam_dmg_timer_timeout(enemy, dmg_taken):
 		self.remove_enemy(GV.Enemy["enemy_entites"].find(enemy))
 
 func remove_enemy(i):
-	var lvl_progress = Globals.GUI.get_node("lvl_progress")
+	var lvl_progress = GV.GUI["GUI"].get_node("lvl_progress")
 	if "Boss" in GV.Enemy["enemy_entites"][i].name:
 		Globals.drop(self.position, 1, 1)
 	else:
@@ -143,17 +143,17 @@ func remove_enemy(i):
 	GV.Enemy["enemies"].remove(i)
 	GV.Enemy["enemy_entites"].remove(i)
 	GV.Enemy["enemy_tracker"] -= 1
-	Globals.GUI.get_node("number").text = str(GV.Enemy["enemy_tracker"])
+	GV.GUI["GUI"].get_node("number").text = str(GV.Enemy["enemy_tracker"])
 	if lvl_progress.value == (lvl_progress.max_value-lvl_progress.step):
-		var curr_lvl = int(Globals.GUI.get_node("lvl").text)
+		var curr_lvl = int(GV.GUI["GUI"].get_node("lvl").text)
 		curr_lvl += 1
-		Globals.GUI.get_node("lvl").text = str(curr_lvl)
+		GV.GUI["GUI"].get_node("lvl").text = str(curr_lvl)
 		GV.Player["player_lvl"] = curr_lvl
 		lvl_progress.value = 0
-		GV.Scenes["current_scene"].get_node("GUI").get_node("lvl_up").visible = true
-		var lvlupstats = int(GV.Scenes["current_scene"].get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text) 
+		GV.Scene["current_scene"].get_node("GUI").get_node("lvl_up").visible = true
+		var lvlupstats = int(GV.Scene["current_scene"].get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text) 
 		lvlupstats += 5
-		GV.Scenes["current_scene"].get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text = str(lvlupstats)
+		GV.Scene["current_scene"].get_node("GUI").get_node("points_container").get_node("points").get_node("points_num").text = str(lvlupstats)
 	else:
 		lvl_progress.value += lvl_progress.step
 	if GV.Enemy["enemy_tracker"] == 0:

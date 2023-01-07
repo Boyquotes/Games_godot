@@ -13,7 +13,7 @@
 #
 #func _physics_process(delta):
 #
-#	if GV.Scenes["current_scene"].name == "Starting_World":
+#	if GV.Scene["current_scene"].name == "Starting_World":
 #		attack_movement(self)
 #
 #func attack_movement(body):
@@ -62,7 +62,7 @@
 ##		burning = false
 ##
 #func remove_enemy(i):
-#	var lvl_progress = Globals.GUI.get_node("lvl_progress")
+#	var lvl_progress = GV.GUI["GUI"].get_node("lvl_progress")
 #
 #	GV.Enemy["enemy_id"].remove(i)
 #	GV.Enemy["enemy_pos"].remove(i)
@@ -70,17 +70,17 @@
 #	GV.Enemy["enemies"].remove(i)
 #	GV.Enemy["enemy_tracker"] -= 1
 #	Globals.drop(self.position)
-#	Globals.GUI.get_node("number").text = str(GV.Enemy["enemy_tracker"])
+#	GV.GUI["GUI"].get_node("number").text = str(GV.Enemy["enemy_tracker"])
 #	if lvl_progress.value == (lvl_progress.max_value-lvl_progress.step):
-#		var curr_lvl = int(Globals.GUI.get_node("lvl").text)
+#		var curr_lvl = int(GV.GUI["GUI"].get_node("lvl").text)
 #		curr_lvl += 1
-#		Globals.GUI.get_node("lvl").text = str(curr_lvl)
+#		GV.GUI["GUI"].get_node("lvl").text = str(curr_lvl)
 #		GV.Player["player_lvl"] = curr_lvl
 #		lvl_progress.value = 0
-#		GV.Scenes["current_scene"].get_node("GUI").get_node("lvl_up").visible = true
-#		var lvlupstats = int(GV.Scenes["current_scene"].get_node("GUI").get_node("stat_screen").get_node("points").get_node("points_num").text) 
+#		GV.Scene["current_scene"].get_node("GUI").get_node("lvl_up").visible = true
+#		var lvlupstats = int(GV.Scene["current_scene"].get_node("GUI").get_node("stat_screen").get_node("points").get_node("points_num").text) 
 #		lvlupstats += 5
-#		GV.Scenes["current_scene"].get_node("GUI").get_node("stat_screen").get_node("points").get_node("points_num").text = str(lvlupstats)
+#		GV.Scene["current_scene"].get_node("GUI").get_node("stat_screen").get_node("points").get_node("points_num").text = str(lvlupstats)
 #	else:
 #		lvl_progress.value += lvl_progress.step
 #	self.queue_free()

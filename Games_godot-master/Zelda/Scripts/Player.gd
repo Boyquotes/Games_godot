@@ -19,9 +19,7 @@ var is_moving = true
 var cooldown = false
 var bleed_dmg_modifier
 var special = false
-
 var num
-
 var weapon = preload("res://Scenes/Weapon.tscn")
 
 func _ready():
@@ -32,17 +30,17 @@ func _ready():
 	
 	player_invuln = false
 
-	level_tilemap = GV.Scenes["current_scene"].get_node("Level_TileMap")
+	level_tilemap = GV.Scene["current_scene"].get_node("Level_TileMap")
 	
 	if level_tilemap == null:
 		level_tilemap = $"/root/Main/Starting_World/Level_TileMap"
 	
-	hp = int(Globals.GUI.get_node("hp_num").text)
+	hp = int(GV.GUI["GUI"].get_node("hp_num").text)
 	
-	mana_progress = Globals.GUI.get_node("mana_progress")
+	mana_progress = GV.GUI["GUI"].get_node("mana_progress")
 	
-	if GV.Scenes["current_scene"].has_node("Ammo_TileMap"):
-		ammo_tilemap = GV.Scenes["current_scene"].get_node("Ammo_TileMap")
+	if GV.Scene["current_scene"].has_node("Ammo_TileMap"):
+		ammo_tilemap = GV.Scene["current_scene"].get_node("Ammo_TileMap")
 
 
 func _physics_process(delta):
@@ -52,16 +50,16 @@ func _physics_process(delta):
 	player_collision()
 	
 #	if Input.is_action_just_pressed("Inventory"):
-#		if !Globals.inventory.visible:
-#			Globals.inventory.visible = true
+#		if !GV.GUI["inventory"].visible:
+#			GV.GUI["inventory"].visible = true
 #		else:
-#			Globals.inventory.visible = false
+#			GV.GUI["inventory"].visible = false
 			
 	if Input.is_action_just_pressed("stats"):
-		if !Globals.GUI.get_node("gui_container").visible:
-			Globals.GUI.get_node("gui_container").visible = true
+		if !GV.GUI["GUI"].get_node("gui_container").visible:
+			GV.GUI["GUI"].get_node("gui_container").visible = true
 		else:
-			Globals.GUI.get_node("gui_container").visible = false
+			GV.GUI["GUI"].get_node("gui_container").visible = false
 
 func player_movement():
 	move_speed = GV.Player["player_move_speed"]
@@ -118,11 +116,11 @@ func player_movement():
 				axe_dir = "y"
 			weapon_attack(move_vec, axe_pos, axe_dir)
 		else:
-			if cooldown == false and GV.Items["current_ammo"] != "magic arrow":
+			if cooldown == false and GV.Item["current_ammo"] != "magic arrow":
 				weapon_attack(move_vec, axe_pos, axe_dir)
 				$attack_cooldown.start()
 				cooldown = true
-			elif GV.Items["current_ammo"] == "magic arrow":
+			elif GV.Item["current_ammo"] == "magic arrow":
 				weapon_attack(move_vec, axe_pos, axe_dir)
 
 	move_vec = move_vec.normalized()
@@ -147,7 +145,7 @@ func player_collision():
 
 	if coll:
 		if coll.collider.name == "Shop_Entrance_Entry":
-			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
+			GV.GUI["current_mana"] = GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text
 			Globals.goto_scene("res://Scenes/Levels/Shop.tscn", "null")
 #			Globals.block_attribute_changes = true
 			
@@ -156,7 +154,7 @@ func player_collision():
 			var level_tile_name = get_tile_name(coll, level_tilemap)[0]
 	
 			if level_tile_name == "shop_stairs_exit":
-				Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
+				GV.GUI["current_mana"] = GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text
 				Globals.goto_scene("res://Scenes/Levels/Starting_World.tscn", "null")
 #				Globals.block_attribute_changes = true
 #				
@@ -167,18 +165,18 @@ func player_collision():
 			var ammo_tile_name = get_tile_name(coll, ammo_tilemap)[0]
 			var cell = get_tile_name(coll, ammo_tilemap)[1]
 
-#			if ammo_tile_name and Globals.coins >= int(GV.Scenes["current_scene"].get_node("ammo_price").text):
-			GV.Items["current_ammo"] = ammo_tile_name
-			Globals.coins -= int(GV.Scenes["current_scene"].get_node("ammo_price").text)
-			Globals.GUI.get_node("coins").get_node("coins_num").text = str(Globals.coins)
-			GV.Items["current_ammo_num"] = int(GV.Scenes["current_scene"].get_node("ammo_capacity").text)
-			Globals.GUI.get_node("ammo").text = ammo_tile_name
-			Globals.GUI.get_node("ammo_num").text = GV.Scenes["current_scene"].get_node("ammo_capacity").text
-			GV.Scenes["current_scene"].get_node("Ammo_TileMap").queue_free()
-			GV.Scenes["current_scene"].get_node("ammo_capacity").visible = false
-			GV.Scenes["current_scene"].get_node("ammo_capacity_two").visible = false
-			GV.Scenes["current_scene"].get_node("ammo_price").visible = false
-			GV.Scenes["current_scene"].get_node("ammo_price_two").visible = false
+#			if ammo_tile_name and GV.GUI["coins"] >= int(GV.Scene["current_scene"].get_node("ammo_price").text):
+			GV.Item["current_ammo"] = ammo_tile_name
+			GV.GUI["coins"] -= int(GV.Scene["current_scene"].get_node("ammo_price").text)
+			GV.GUI["GUI"].get_node("coins").get_node("coins_num").text = str(GV.GUI["coins"])
+			GV.Item["current_ammo_num"] = int(GV.Scene["current_scene"].get_node("ammo_capacity").text)
+			GV.GUI["GUI"].get_node("ammo").text = ammo_tile_name
+			GV.GUI["GUI"].get_node("ammo_num").text = GV.Scene["current_scene"].get_node("ammo_capacity").text
+			GV.Scene["current_scene"].get_node("Ammo_TileMap").queue_free()
+			GV.Scene["current_scene"].get_node("ammo_capacity").visible = false
+			GV.Scene["current_scene"].get_node("ammo_capacity_two").visible = false
+			GV.Scene["current_scene"].get_node("ammo_price").visible = false
+			GV.Scene["current_scene"].get_node("ammo_price_two").visible = false
 #			else:
 #				print("notEnoughMuns")
 
@@ -187,7 +185,7 @@ func player_collision():
 #				weapon["id"] = Globals.item_id
 #				Globals.item_id += 1
 #				Globals.inventory_items.push_front(weapon)
-#				Globals.inventory.get_child(0).pickup_item(Globals.inventory_items[0])
+#				GV.GUI["inventory"].get_child(0).pickup_item(Globals.inventory_items[0])
 	
 		if coll.collider.name == "camera_transition":
 			var tween = get_node("Camera_Transition")
@@ -200,14 +198,14 @@ func player_collision():
 #			BUG: only triggers once. Maybe leave it this way bc it could be intentional this way (triggering the camera transition is a bit tedious) also enemies getting stuck in coll
 			
 		if "Snow" in coll.collider.name and player_invuln == false:
-			Globals.damage_type = "cold"
+			GV.Enemy["enemy_dmg_type"] = "cold"
 			snow_attack()
 		elif "lightning" in coll.collider.name and player_invuln == false:
 			loose_hp(GV.Enemy["enemy_dmg_modifier"])
 		elif "Fire" in coll.collider.name and player_invuln == false:
 			loose_hp(GV.Enemy["enemy_dmg_modifier"])
 		elif "Starting" in coll.collider.name and player_invuln == false:
-			Globals.damage_type = "physical"
+			GV.Enemy["enemy_dmg_type"] = "physical"
 			loose_hp(GV.Enemy["enemy_dmg_modifier"])
 				
 		if "speed_up" in coll.collider.name:
@@ -219,15 +217,15 @@ func player_collision():
 			despawn_drop(coll)
 			
 		elif "muns" in coll.collider.name:
-			Globals.coins += 50
-			Globals.GUI.get_node("coins").get_node("coins_num").text = str(Globals.coins)
+			GV.GUI["coins"] += 50
+			GV.GUI["GUI"].get_node("coins").get_node("coins_num").text = str(GV.GUI["coins"])
 			
 			despawn_drop(coll)
 			
 		elif "all_attack" in coll.collider.name:
 			$pwr_up_timer.wait_time = 15
 			$pwr_up_timer.start()
-			Globals.all_attack = true
+			GV.Enemy["all_attack"] = true
 			
 			despawn_drop(coll)
 			
@@ -240,7 +238,7 @@ func player_collision():
 			
 		elif "health_up" in coll.collider.name:
 			hp += 25
-			Globals.GUI.get_node("hp_num").text = str(hp)
+			GV.GUI["GUI"].get_node("hp_num").text = str(hp)
 			GV.Player["player_hp"] = hp
 			
 			despawn_drop(coll)
@@ -253,49 +251,49 @@ func player_collision():
 			despawn_drop(coll)
 			
 		if "item" in coll.collider.name:
-			for i in GV.Items["dropped_items"]:
+			for i in GV.Item["dropped_items"]:
 				if i["id"] == int(coll.collider.get_node("id").text):
-					Globals.add_stats = true
-					GV.Items["inventory_items"].push_front(i)
-					GV.Items["dropped_items"].remove(GV.Items["dropped_items"].find(i))
-					Globals.inventory.pickup_item(i)
-					Globals.add_stats = false
+					GV.GUI["add_stats"] = true
+					GV.Item["inventory_items"].push_front(i)
+					GV.Item["dropped_items"].remove(GV.Item["dropped_items"].find(i))
+					GV.GUI["inventory"].pickup_item(i)
+					GV.GUI["add_stats"] = false
 
-			GV.Scenes["current_scene"].get_node(coll.collider.name).queue_free()
+			GV.Scene["current_scene"].get_node(coll.collider.name).queue_free()
 			
-			if "Boss" in GV.Scenes["current_scene"].name:
-				GV.Items["ilvl"] -= 5
-				Globals.goto_scene("res://Scenes/pwr_up_screen.tscn", GV.Scenes["current_scene"].name)
+			if "Boss" in GV.Scene["current_scene"].name:
+				GV.Item["ilvl"] -= 5
+				Globals.goto_scene("res://Scenes/pwr_up_screen.tscn", GV.Scene["current_scene"].name)
 				
 			
 		if "proj" in coll.collider.name:
-			for i in GV.Items["dropped_items"]:
+			for i in GV.Item["dropped_items"]:
 				if i.name == coll.collider.name:
-					GV.Items["inventory_items"].push_front(i)
-					GV.Items["dropped_items"].remove(GV.Items["dropped_items"].find(i))
-					Globals.inventory.pickup_item(i)
+					GV.Item["inventory_items"].push_front(i)
+					GV.Item["dropped_items"].remove(GV.Item["dropped_items"].find(i))
+					GV.GUI["inventory"].pickup_item(i)
 
-			GV.Scenes["current_scene"].get_node(coll.collider.name).queue_free()
+			GV.Scene["current_scene"].get_node(coll.collider.name).queue_free()
 		
 		if "Portal" in coll.collider.name:
-			Globals.current_mana = Globals.GUI.get_node("mana_progress").get_node("mana_value").text
-			if "Starting" in GV.Scenes["current_scene"].name:
+			GV.GUI["current_mana"] = GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text
+			if "Starting" in GV.Scene["current_scene"].name:
 				GV.Boss["load_boss"] = "Boss_slime"
-			elif "jungle" in GV.Scenes["current_scene"].name:
+			elif "jungle" in GV.Scene["current_scene"].name:
 				GV.Boss["load_boss"] = "Boss_bow"
 			else:
 				GV.Boss["load_boss"] = "Boss_slime"
-			GV.Items["ilvl"] += 10
-			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", GV.Scenes["current_scene"].name)
+			GV.Item["ilvl"] += 10
+			Globals.goto_scene("res://Scenes/Levels/Boss_World.tscn", GV.Scene["current_scene"].name)
 #			Globals.block_attribute_changes = true
-			Globals.portal_spawned = false
+			GV.Scene["portal_spawned"] = false
 			
 func despawn_drop(coll):
-	for i in GV.Items["dropped_items"]:
+	for i in GV.Item["dropped_items"]:
 		if i["id"] == int(coll.collider.get_node("id").text):
-			GV.Items["dropped_items"].remove(GV.Items["dropped_items"].find(i))
+			GV.Item["dropped_items"].remove(GV.Item["dropped_items"].find(i))
 
-	GV.Scenes["current_scene"].get_node(coll.collider.name).queue_free()
+	GV.Scene["current_scene"].get_node(coll.collider.name).queue_free()
 			
 func snow_attack():
 	loose_hp(GV.Enemy["enemy_dmg_modifier"])
@@ -336,15 +334,15 @@ func _on_bleed_dmg_timer_timeout():
 		loose_hp((GV.Enemy["enemy_dmg_modifier"]/2)/bleed_dmg_modifier)
 		
 func resistance_damage_calc(value):
-	if Globals.damage_type == "fire":
+	if GV.Enemy["enemy_dmg_type"] == "fire":
 		value -= (GV.Player.player_resistance["fire"]/2)
-	elif Globals.damage_type == "cold":
+	elif GV.Enemy["enemy_dmg_type"] == "cold":
 		value -= (GV.Player.player_resistance["cold"]/2)
-	elif Globals.damage_type == "lightning":
+	elif GV.Enemy["enemy_dmg_type"] == "lightning":
 		value -= (GV.Player.player_resistance["lightning"]/2)
-	elif Globals.damage_type == "poison":
+	elif GV.Enemy["enemy_dmg_type"] == "poison":
 		value -= (GV.Player.player_resistance["poison"]/2)
-	elif Globals.damage_type == "physical":
+	elif GV.Enemy["enemy_dmg_type"] == "physical":
 		value -= (GV.Player.player_resistance["physical"]/2)
 	else:
 		return value
@@ -353,20 +351,20 @@ func resistance_damage_calc(value):
 func loose_hp(value):
 	var res_value = resistance_damage_calc(value)
 	print("dmgTaken ", res_value)
-	Globals.GUI.get_node("hp_visual").value -= res_value
+	GV.GUI["GUI"].get_node("hp_visual").value -= res_value
 	GV.Player["player_hp"] -= res_value
-	Globals.GUI.get_node("hp_num").text = str(GV.Player["player_hp"])
+	GV.GUI["GUI"].get_node("hp_num").text = str(GV.Player["player_hp"])
 	
 #	self.visible = false
 	player_invuln = true
 	$invuln_timer.wait_time = 1
 	$invuln_timer.start()
-	if Globals.GUI.get_node("hp_num").text <= str(0):
+	if GV.GUI["GUI"].get_node("hp_num").text <= str(0):
 		Globals.goto_scene("res://Scenes/game_over_screen.tscn", "null")
 	
 func _on_pwr_up_timer_timeout():
-	if Globals.all_attack:
-		Globals.all_attack = false
+	if GV.Enemy["all_attack"]:
+		GV.Enemy["all_attack"] = false
 	elif speed_up:
 		self.move_speed -= 1
 		speed_up = false
@@ -386,10 +384,10 @@ func _on_mana_fill_timer_timeout():
 		$mana_fill_timer.stop()
 		
 func _on_life_fill_timer_timeout():
-	if Globals.GUI.get_node("hp_visual").value != Globals.GUI.get_node("hp_visual").max_value: 
-		Globals.GUI.get_node("hp_visual").value += Globals.GUI.get_node("hp_visual").step
-		GV.Player["player_hp"] += Globals.GUI.get_node("hp_visual").step
-		Globals.GUI.get_node("hp_num").text = str(Globals.GUI.get_node("hp_visual").value)
+	if GV.GUI["GUI"].get_node("hp_visual").value != GV.GUI["GUI"].get_node("hp_visual").max_value: 
+		GV.GUI["GUI"].get_node("hp_visual").value += GV.GUI["GUI"].get_node("hp_visual").step
+		GV.Player["player_hp"] += GV.GUI["GUI"].get_node("hp_visual").step
+		GV.GUI["GUI"].get_node("hp_num").text = str(GV.GUI["GUI"].get_node("hp_visual").value)
 		num +=1
 #	else:
 #		$life_fill_timer.stop()
@@ -409,7 +407,7 @@ func weapon_achievement_anim(weapons_tile_name, coll, cell):
 
 		weapon_sprite.queue_free()
 
-		GV.Scenes["current_scene"].get_node("Weapons_TileMap").queue_free()
+		GV.Scene["current_scene"].get_node("Weapons_TileMap").queue_free()
 	
 func weapon_attack(move_vec, axe_pos, axe_dir):
 	attacking = true
@@ -418,7 +416,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 		var weapon = load("res://Scenes/Weapon.tscn").instance()
 
 		if GV.Player["player_weapon"] == "axe":
-			GV.Scenes["current_scene"].get_node("Player").add_child(weapon)
+			GV.Scene["current_scene"].get_node("Player").add_child(weapon)
 			var axe = load("res://Assets/axe_small.png")
 			
 			if axe_dir == "y":
@@ -433,18 +431,18 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 		if GV.Player["player_weapon"] == "bow": 
 			if special:
 					weapon.special = special
-			GV.Scenes["current_scene"].add_child(weapon)
+			GV.Scene["current_scene"].add_child(weapon)
 			weapon.position = self.position
 			var arrow = load("res://Assets/arrow.png")
-			if GV.Items["current_ammo"] != null and GV.Items["current_ammo_num"] != 0:
-				var special_arrow = load("res://Assets/ammo_" + GV.Items["current_ammo"] + ".png")
+			if GV.Item["current_ammo"] != null and GV.Item["current_ammo_num"] != 0:
+				var special_arrow = load("res://Assets/ammo_" + GV.Item["current_ammo"] + ".png")
 				weapon.get_node("weapon").set_texture(special_arrow)
 				weapon.get_node("weapon").rotation_degrees = -45
-				GV.Items["current_ammo_num"] -= 1
-				Globals.GUI.get_node("ammo_num").text = str(GV.Items["current_ammo_num"])
-				if GV.Items["current_ammo_num"] == 0:
-					GV.Items["current_ammo"] = "standard arrow"
-					Globals.GUI.get_node("ammo").text = "standard arrow"
+				GV.Item["current_ammo_num"] -= 1
+				GV.GUI["GUI"].get_node("ammo_num").text = str(GV.Item["current_ammo_num"])
+				if GV.Item["current_ammo_num"] == 0:
+					GV.Item["current_ammo"] = "standard arrow"
+					GV.GUI["GUI"].get_node("ammo").text = "standard arrow"
 #				ammo -= 1
 			else:
 				weapon.get_node("weapon").set_texture(arrow)
@@ -465,7 +463,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			var wand
 			var mana_cost = 10
 			if mana_progress.value > mana_cost:
-				GV.Scenes["current_scene"].add_child(weapon)
+				GV.Scene["current_scene"].add_child(weapon)
 				weapon.position = self.position
 				if special:
 					if special == "multi_proj":
@@ -497,21 +495,21 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				mana_progress.value -= mana_cost
 				mana_progress.get_node("mana_value").text = str(mana_progress.value)
 				weapon.get_node("weapon").set_texture(wand)
-				var shortest_distance_enemy = GV.Scenes["current_scene"].get_node("Level_TileMap")
-				if GV.Scenes["current_scene"].name != "Shop":
+				var shortest_distance_enemy = GV.Scene["current_scene"].get_node("Level_TileMap")
+				if GV.Scene["current_scene"].name != "Shop":
 					if GV.Enemy["enemy_entites"].size() > 0:
 						for i in GV.Enemy["enemy_entites"]:
 							var distance_to_player = i.get_global_position().distance_to(self.get_global_position())
 							if distance_to_player < shortest_distance_enemy.get_global_position().distance_to(self.get_global_position()):
 								shortest_distance_enemy = i
-							var dir = weapon.position.direction_to(GV.Scenes["current_scene"].get_node(shortest_distance_enemy.name).position)
+							var dir = weapon.position.direction_to(GV.Scene["current_scene"].get_node(shortest_distance_enemy.name).position)
 							weapon.velocity = Vector2.move_toward(dir, weapon.speed)
 					else:
 						print("cannot fire in shop")
 				else:
 					print("oom")
 		if GV.Player["player_weapon"] == "staff":
-			GV.Scenes["current_scene"].get_node("Player").add_child(weapon)
+			GV.Scene["current_scene"].get_node("Player").add_child(weapon)
 			var staff = load("res://Assets/staff_attack.png")
 			weapon.get_node("weapon").set_texture(staff)
 			weapon.get_node("weapon_coll").scale.y = 3
@@ -531,7 +529,7 @@ func spec_mod_wand_multi_proj(wand):
 	var multi_projs = [multi_proj_one, multi_proj_two]
 	
 	for i in multi_projs:
-		GV.Scenes["current_scene"].add_child(i)
+		GV.Scene["current_scene"].add_child(i)
 		i.get_node("weapon").set_texture(wand)
 		i.position = self.position
 	

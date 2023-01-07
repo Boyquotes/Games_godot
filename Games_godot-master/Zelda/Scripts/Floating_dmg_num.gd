@@ -2,7 +2,6 @@ extends Position2D
 
 onready var tween = get_node("dmg_num_anim")
 
-
 func _ready():
 	
 	self.position.y -= 30

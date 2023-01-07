@@ -16,10 +16,11 @@ var Weapon = {
 	"wand_proj": null
 }
 
-var Scenes = {
+var Scene = {
 	"current_scene": null,
 	"next_scene": null,
-	"prev_scene": null
+	"prev_scene": null,
+	"portal_spawned": false
 }
 
 var Boss = {
@@ -42,10 +43,13 @@ var Enemy = {
 	"enemy_id": 0,
 	"enemy_tracker": 0,
 	"enemy_hp": 0,
-	"enemy_hp_value": 0
+	"enemy_hp_value": 0,
+	"enemy_dmg_type": "",
+	"all_attack": false,
+	"respawn": false
 }
 
-var Items = {
+var Item = {
 	"item_id": 0,
 	"ilvl": 10,
 	"dropped_items": [],
@@ -57,6 +61,18 @@ var Items = {
 	"current_ammo": null,
 	"current_ammo_num": 0,
 	"quality": 0,
-	"quantity": 0
-	
+	"quantity": 0	
+}
+
+var GUI = {
+	"GUI": null,
+	"inventory": null,
+	"max_mana": 500,
+	"poison_stacks": 0,
+	"current_mana": 0,
+	"coins": 0,
+	"add_stats": false,
+	"dex": 0,
+	"intel": 0,
+	"stren": 0
 }
