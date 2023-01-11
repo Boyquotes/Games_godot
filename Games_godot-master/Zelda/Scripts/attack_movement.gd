@@ -32,7 +32,7 @@
 ##	move_speed = 3
 ##
 ##func poison_timer(curr_enemy):
-##	var poison_dmg = Globals.player_pwr/5
+##	var poison_dmg = GF.player_pwr/5
 ##	yield(get_tree().create_timer(2), "timeout")
 ##	GV.Enemy["enemy_hp"][curr_enemy] -= poison_dmg
 ##	$enemy_hp_bar.value -= poison_dmg
@@ -42,11 +42,11 @@
 ##
 ##func shock_timer(curr_enemy):
 ##	shocked = true
-##	Globals.player_pwr += 20
-##	GV.Enemy["enemy_hp"][curr_enemy] -= Globals.player_pwr
-##	$enemy_hp_bar.value -= Globals.player_pwr
+##	GF.player_pwr += 20
+##	GV.Enemy["enemy_hp"][curr_enemy] -= GF.player_pwr
+##	$enemy_hp_bar.value -= GF.player_pwr
 ##	yield(get_tree().create_timer(5), "timeout")
-##	Globals.player_pwr -= 20
+##	GF.player_pwr -= 20
 ##	print("notSHOCKED")
 ##	shocked = false
 ##
@@ -69,7 +69,7 @@
 #	GV.Enemy["enemy_hp"].remove(i)
 #	GV.Enemy["enemies"].remove(i)
 #	GV.Enemy["enemy_tracker"] -= 1
-#	Globals.drop(self.position)
+#	GF.drop(self.position)
 #	GV.GUI["GUI"].get_node("number").text = str(GV.Enemy["enemy_tracker"])
 #	if lvl_progress.value == (lvl_progress.max_value-lvl_progress.step):
 #		var curr_lvl = int(GV.GUI["GUI"].get_node("lvl").text)

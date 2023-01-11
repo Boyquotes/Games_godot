@@ -1,11 +1,10 @@
 extends Node
 
-var Item #only in Globals
-var item #only in Globals
-var stats #only in Globals
-var shop_spawn_pos #only in Globals
-var regex #only in Globals
-var game_started = false #only in Globals
+var item #only in GF
+var stats #only in GF
+var shop_spawn_pos #only in GF
+var regex #only in GF
+var game_started = false #only in GF
 
 func _ready():
 	var root = get_tree().get_root()
@@ -37,11 +36,11 @@ func _deferred_goto_scene(path, spawn):
 		GV.GUI["inventory"] = GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("Inventory")
 		var GUI_stats = GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI")
 		GV.GUI["GUI"].get_node("mana_progress").max_value = GV.GUI["max_mana"]
-		Item = ResourceLoader.load("res://Scenes/Items.tscn").instance()
+		GV.Item["Item"] = ResourceLoader.load("res://Scenes/Items.tscn").instance()
 		
 		GV.Scene["current_scene"].add_child(GV.Player["player"])
 		GV.Scene["current_scene"].add_child(GV.GUI["GUI"])
-		GV.Scene["current_scene"].add_child(Item)
+		GV.Scene["current_scene"].add_child(GV.Item["Item"])
 #		player.add_child(GV.GUI["inventory"])
 		
 #		GV.GUI["inventory"].get_child(0).rect_position = player.position

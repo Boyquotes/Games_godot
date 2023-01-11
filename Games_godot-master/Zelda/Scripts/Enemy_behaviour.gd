@@ -133,9 +133,9 @@ func _on_beam_dmg_timer_timeout(enemy, dmg_taken):
 func remove_enemy(i):
 	var lvl_progress = GV.GUI["GUI"].get_node("lvl_progress")
 	if "Boss" in GV.Enemy["enemy_entites"][i].name:
-		Globals.drop(self.position, 1, 1)
+		GF.drop(self.position, 1, 1)
 	else:
-		Globals.drop(self.position, null, null)
+		GF.drop(self.position, null, null)
 	GV.Enemy["enemies"][i].queue_free()
 	GV.Enemy["enemy_id"].remove(i)
 	GV.Enemy["enemy_hp"].remove(i)
@@ -158,7 +158,7 @@ func remove_enemy(i):
 		lvl_progress.value += lvl_progress.step
 	if GV.Enemy["enemy_tracker"] == 0:
 			print("spawn boss portal")
-			Globals.spawn_boss_portal()
+			GF.spawn_boss_portal()
 			return
 
 

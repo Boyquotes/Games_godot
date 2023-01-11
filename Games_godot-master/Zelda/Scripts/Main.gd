@@ -5,4 +5,4 @@ func _ready():
 	
 func _process(delta):
 	pass
-#	Globals.goto_scene("res://Scenes/Levels/Starting_World.tscn")
+#	GF.goto_scene("res://Scenes/Levels/Starting_World.tscn")

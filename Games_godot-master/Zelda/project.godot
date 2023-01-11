@@ -21,10 +21,10 @@ config/icon="res://icon.png"
 [autoload]
 
 GV="*res://Scenes/global_values.tscn"
-Globals="*res://Scripts/Globals.gd"
 ItemDB="*res://Scenes/ItemDB.tscn"
 ItemDatabase="*res://Scripts/ItemDATABASE.gd"
 PwrUpDb="*res://Scripts/pwr_upDB.gd"
+GF="*res://Scripts/global_func.gd"
 
 [global]
 

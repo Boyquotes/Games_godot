@@ -19,7 +19,7 @@ func _on_dex_pressed():
 	GV.GUI["dex"] += 1
 
 func attribute_points(stat, lvlup_stats, id):
-#	print("addPoints ", Globals.inventory_items[id].name, " ", stat.name)
+#	print("addPoints ", GF.inventory_items[id].name, " ", stat.name)
 	var i = int(stat.text)
 	if lvlup_stats:
 		var j = int($points_container/points/points_num.text)
@@ -59,13 +59,13 @@ func attribute_points(stat, lvlup_stats, id):
 			print("activate_special")
 		
 func remove_points(stat, id):
-#	print("removePoints ", Globals.inventory_items[id].name, " ", stat.name)
+#	print("removePoints ", GF.inventory_items[id].name, " ", stat.name)
 	var i = int(stat.text)
 	if stat.name == "dex" or stat.name == "intel" or stat.name == "stren":
 		for y in GV.Item["inventory_items"]:
 			if id == y["id"]:
 				i-= int(y[stat.name])
-				Globals[stat.name] -= int(y[stat.name])
+				GV.GUI[stat.name] -= int(y[stat.name])
 				attribute_effects(stat.name, "decrease", int(y[stat.name]))
 		stat.text = str(i)
 	if stat.name == "fire" or stat.name == "cold" or stat.name == "lightning" or stat.name == "physical" or stat.name == "poison":

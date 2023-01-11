@@ -64,11 +64,11 @@ func pwr_up_effect(name, amount):
 	elif "lvl" in name:
 		change_next_scene = true
 	elif "armor" in name:
-		Globals.drop_item(self.rect_position, GV.Item["ilvl"])
+		GF.drop_item(self.rect_position, GV.Item["ilvl"])
 		GV.Item["inventory_items"].push_front(GV.Item["dropped_items"][0])
 		GV.Item["dropped_items"].remove(0)
 	elif "weapon" in name:
-		Globals.drop_weapon(self.rect_position, GV.Item["ilvl"])
+		GF.drop_weapon(self.rect_position, GV.Item["ilvl"])
 		GV.Item["inventory_items"].push_front(GV.Item["dropped_items"][0])
 		GV.Item["dropped_items"].remove(0)
 				
@@ -77,14 +77,14 @@ func goto_next_scene():
 	GV.Enemy["enemy_entites"].clear()
 	GV.Item["ilvl"] += 10
 	GV.Enemy["enemy_hp_value"] += 50
-	Globals.num_of_enemies(5)
+	GF.num_of_enemies(5)
 	GV.Enemy["enemy_res_modifier"] += 5
 	GV.Enemy["enemy_dmg_modifier"] += 20
 #	GV.Enemy["respawn"] = false
 	if change_next_scene:
 		print("randomScene")
-		Globals.goto_scene("res://Scenes/Levels/" + Globals.random_scene() + ".tscn", GV.Scene["current_scene"].name)
+		GF.goto_scene("res://Scenes/Levels/" + GF.random_scene() + ".tscn", GV.Scene["current_scene"].name)
 		change_next_scene = false
 	else:
-		Globals.goto_scene("res://Scenes/Levels/" + GV.Scene["next_scene"] + ".tscn", GV.Scene["current_scene"].name)
+		GF.goto_scene("res://Scenes/Levels/" + GV.Scene["next_scene"] + ".tscn", GV.Scene["current_scene"].name)
 		

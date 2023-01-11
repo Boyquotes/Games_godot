@@ -88,7 +88,7 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 			GV.Player["player_lvl"] = lvl_progress.value
 
 		if GV.Enemy["enemy_tracker"] == 1 and !shop_spawned:
-			Globals.spawn_weapon_shop()
+			GF.spawn_weapon_shop()
 			shop_spawned = true
 
 	if "Portal" in body.name:
@@ -102,14 +102,14 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 		if boss_portal_health_bar.value <= 0:
 			body.queue_free()
 			GV.Enemy["enemy_hp_value"] += 10
-			Globals.num_of_enemies(5)
+			GF.num_of_enemies(5)
 			GV.Enemy["enemy_entites"].clear()
 			GV.Enemy["respawn"] = true
-			Globals.spawn_enemy_type()
+			GF.spawn_enemy_type()
 			GV.Enemy["enemy_res_modifier"] += 2
 			GV.Enemy["enemy_dmg_modifier"] += 2
 			GV.Boss["boss_res_modifier"] += 2
-#			Globals.ilvl += 5
+#			GF.ilvl += 5
 			GV.GUI["GUI"].get_node("number").text = str(GV.Enemy["enemy_tracker"])
 			GV.Scene["portal_spawned"] = false
 

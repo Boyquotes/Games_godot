@@ -50,6 +50,7 @@ var Enemy = {
 }
 
 var Item = {
+	"Item": null,
 	"item_id": 0,
 	"ilvl": 10,
 	"dropped_items": [],
