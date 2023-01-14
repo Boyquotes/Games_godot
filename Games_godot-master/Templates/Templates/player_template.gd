@@ -20,7 +20,7 @@ var cooldown = false
 var bleed_dmg_modifier
 var special = false
 var num
-var weapon = preload("res://Scenes/Weapon.tscn")
+#var weapon = preload("res://Scenes/Weapon.tscn")
 
 func _ready():
 	
@@ -48,12 +48,6 @@ func _physics_process(delta):
 	player_movement()
 	
 	player_collision()
-	
-#	if Input.is_action_just_pressed("Inventory"):
-#		if !GV.GUI["inventory"].visible:
-#			GV.GUI["inventory"].visible = true
-#		else:
-#			GV.GUI["inventory"].visible = false
 			
 	if Input.is_action_just_pressed("stats"):
 		if !GV.GUI["GUI"].get_node("gui_container").visible:
