@@ -1,46 +1,7 @@
 extends KinematicBody2D
 
-var level_tilemap
-var objects_tilemap
-var weapons_tilemap
-var ammo_tilemap
-var anim_player
-var move_speed
-var player_invuln
-var axe_pos
-var axe_dir
-var attacking = false
-var weapon_dir
-var hp
-var mana_progress
-var speed_up = false
-var dmg_up = false
-var is_moving = true
-var cooldown = false
-var bleed_dmg_modifier
-var special = false
-var num
-#var weapon = preload("res://Scenes/Weapon.tscn")
-
 func _ready():
-	
-	num = 0
-	
-	anim_player = $AnimationPlayer
-	
-	player_invuln = false
-
-	level_tilemap = GV.Scene["current_scene"].get_node("Level_TileMap")
-	
-	if level_tilemap == null:
-		level_tilemap = $"/root/Main/Starting_World/Level_TileMap"
-	
-	hp = int(GV.GUI["GUI"].get_node("hp_num").text)
-	
-	mana_progress = GV.GUI["GUI"].get_node("mana_progress")
-	
-	if GV.Scene["current_scene"].has_node("Ammo_TileMap"):
-		ammo_tilemap = GV.Scene["current_scene"].get_node("Ammo_TileMap")
+	pass
 
 
 func _physics_process(delta):
@@ -48,16 +9,11 @@ func _physics_process(delta):
 	player_movement()
 	
 	player_collision()
-			
-	if Input.is_action_just_pressed("stats"):
-		if !GV.GUI["GUI"].get_node("gui_container").visible:
-			GV.GUI["GUI"].get_node("gui_container").visible = true
-		else:
-			GV.GUI["GUI"].get_node("gui_container").visible = false
 
 func player_movement():
-	move_speed = GV.Player["player_move_speed"]
+	var move_speed = 2.5
 	var move_vec = Vector2()
+#	|| change behaviour and play different animations depending on input pressed ||
 	if Input.is_action_pressed("move_down"):
 		self.get_node("Weapon").visible = false
 		move_vec += Vector2.DOWN
@@ -118,22 +74,12 @@ func player_movement():
 				weapon_attack(move_vec, axe_pos, axe_dir)
 
 	move_vec = move_vec.normalized()
+
+#	|| making the character move by multiplying the vector by the movement speed ||
 	
 	move_and_collide(move_vec * move_speed)
 	
-func _on_attack_cooldown_timeout():
-	cooldown = false
-	
-func get_tile_name(coll, tilemap):
-	var cell = tilemap.world_to_map(coll.position - coll.normal)
-	var tile_id = tilemap.get_cellv(cell)
-	var tile_name = coll.collider.tile_set.tile_get_name(tile_id)
-
-	return [tile_name, tile_id]
-
-func clear_tile(coll, tile_id):
-	return coll.collider.tile_set.remove_tile(tile_id)
-
+#	|| change behaviour depending on different collision events ||
 func player_collision():
 	var coll = move_and_collide(Vector2() * move_speed)
 
@@ -141,25 +87,17 @@ func player_collision():
 		if coll.collider.name == "Shop_Entrance_Entry":
 			GV.GUI["current_mana"] = GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text
 			GF.goto_scene("res://Scenes/Levels/Shop.tscn", "null")
-#			GF.block_attribute_changes = true
-			
-		
+
 		if coll.collider.name == "Level_TileMap":
 			var level_tile_name = get_tile_name(coll, level_tilemap)[0]
 	
 			if level_tile_name == "shop_stairs_exit":
 				GV.GUI["current_mana"] = GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text
 				GF.goto_scene("res://Scenes/Levels/Starting_World.tscn", "null")
-#				GF.block_attribute_changes = true
-#				
-				
 
 		if coll.collider.name == "Ammo_TileMap":
-#			var test = get_tile_name(coll, ammo_tilemap)
 			var ammo_tile_name = get_tile_name(coll, ammo_tilemap)[0]
 			var cell = get_tile_name(coll, ammo_tilemap)[1]
-
-#			if ammo_tile_name and GV.GUI["coins"] >= int(GV.Scene["current_scene"].get_node("ammo_price").text):
 			GV.Item["current_ammo"] = ammo_tile_name
 			GV.GUI["coins"] -= int(GV.Scene["current_scene"].get_node("ammo_price").text)
 			GV.GUI["GUI"].get_node("coins").get_node("coins_num").text = str(GV.GUI["coins"])
@@ -171,15 +109,7 @@ func player_collision():
 			GV.Scene["current_scene"].get_node("ammo_capacity_two").visible = false
 			GV.Scene["current_scene"].get_node("ammo_price").visible = false
 			GV.Scene["current_scene"].get_node("ammo_price_two").visible = false
-#			else:
-#				print("notEnoughMuns")
 
-#				weapon_achievement_anim(ammo_tile_name, coll, cell)
-#				var weapon = ItemDB.WEAPON[ammo_tile_name]
-#				weapon["id"] = GF.item_id
-#				GF.item_id += 1
-#				GF.inventory_items.push_front(weapon)
-#				GV.GUI["inventory"].get_child(0).pickup_item(GF.inventory_items[0])
 	
 		if coll.collider.name == "camera_transition":
 			var tween = get_node("Camera_Transition")
@@ -188,8 +118,6 @@ func player_collision():
 			tween.interpolate_property($Camera2D, "limit_right",
 			1124, 2248, 5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 			tween.start()
-			
-#			BUG: only triggers once. Maybe leave it this way bc it could be intentional this way (triggering the camera transition is a bit tedious) also enemies getting stuck in coll
 			
 		if "Snow" in coll.collider.name and player_invuln == false:
 			GV.Enemy["enemy_dmg_type"] = "cold"
@@ -282,6 +210,8 @@ func player_collision():
 #			GF.block_attribute_changes = true
 			GV.Scene["portal_spawned"] = false
 			
+#	|| helper functions to change Player states depending on different events ||
+
 func despawn_drop(coll):
 	for i in GV.Item["dropped_items"]:
 		if i["id"] == int(coll.collider.get_node("id").text):
@@ -402,6 +332,8 @@ func weapon_achievement_anim(weapons_tile_name, coll, cell):
 		weapon_sprite.queue_free()
 
 		GV.Scene["current_scene"].get_node("Weapons_TileMap").queue_free()
+	
+#	|| attack helper function which changes depending on the current state of Player and/or current scene ||
 	
 func weapon_attack(move_vec, axe_pos, axe_dir):
 	attacking = true
