@@ -87,9 +87,10 @@ func _on_Area2D_body_shape_entered(body_id, body, body_shape, area_shape):
 
 			GV.Player["player_lvl"] = lvl_progress.value
 
-		if GV.Enemy["enemy_tracker"] == 1 and !shop_spawned:
-			GF.spawn_weapon_shop()
-			shop_spawned = true
+#		if GV.Enemy["enemy_tracker"] == 1 and !shop_spawned:
+#			print("spawn_shop")
+#			GF.spawn_weapon_shop()
+#			shop_spawned = true
 
 	if "Portal" in body.name:
 		var boss_portal_health = 150

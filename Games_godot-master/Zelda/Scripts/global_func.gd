@@ -120,20 +120,20 @@ func _deferred_goto_scene(path, spawn):
 #	if GV.Scene["current_scene"].name == "Shop" and player_weapon and !starter_weapon:
 #		GV.Scene["current_scene"].get_node("Weapons_TileMap").tile_set.remove_tile(GV.Scene["current_scene"].get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
 #		GV.Scene["current_scene"].get_node("Weapons_TileMap").queue_free()
-	if GV.Scene["current_scene"].name == "Shop" and GV.Player["player_weapon"]: #and starter_weapon:
-#		starter_weapon = false
-		var rand = RandomNumberGenerator.new()
-		var ammo = GV.Scene["current_scene"].get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
-		rand.randomize()
-		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
-#		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,5)
-		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
-		GV.Scene["current_scene"].get_node("ammo_price").text = str(50)
-		GV.Scene["current_scene"].get_node("ammo_price_two").text = str(50)
-		while GV.Scene["current_scene"].get_node("Ammo_TileMap").get_cell(14,8) == GV.Scene["current_scene"].get_node("Ammo_TileMap").get_cell(15,8):
-			GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
-		GV.Scene["current_scene"].get_node("ammo_capacity").text = str(GV.Item["ilvl"]*2)
-		GV.Scene["current_scene"].get_node("ammo_capacity_two").text = str(GV.Item["ilvl"]*2)
+#	if GV.Scene["current_scene"].name == "Shop" and GV.Player["player_weapon"]: #and starter_weapon:
+##		starter_weapon = false
+#		var rand = RandomNumberGenerator.new()
+#		var ammo = GV.Scene["current_scene"].get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
+#		rand.randomize()
+#		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
+##		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,5)
+#		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
+#		GV.Scene["current_scene"].get_node("ammo_price").text = str(50)
+#		GV.Scene["current_scene"].get_node("ammo_price_two").text = str(50)
+#		while GV.Scene["current_scene"].get_node("Ammo_TileMap").get_cell(14,8) == GV.Scene["current_scene"].get_node("Ammo_TileMap").get_cell(15,8):
+#			GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
+#		GV.Scene["current_scene"].get_node("ammo_capacity").text = str(GV.Item["ilvl"]*2)
+#		GV.Scene["current_scene"].get_node("ammo_capacity_two").text = str(GV.Item["ilvl"]*2)
 		
 #	block_attribute_changes = false
 
@@ -180,7 +180,11 @@ func spawn_enemies(pos, type):
 		var enemy = ResourceLoader.load("res://Scenes/" + type + ".tscn").instance()
 
 #		GV.Scene["current_scene"].call_deferred("add_child", enemy)
-		GV.Scene["current_scene"].add_child(enemy) 
+		if GV.Enemy["respawn"] == false:
+			GV.Scene["current_scene"].add_child(enemy)
+		else:
+			GV.Scene["current_scene"].call_deferred("add_child", enemy)
+			
 		
 #		GV.Enemy["respawn"] enemies when coming back from shop
 		if GV.Scene["current_scene"].name == "Starting_World" and game_started and GV.Enemy["respawn"] == false:
@@ -301,11 +305,11 @@ func drop_spacing(pos, last_pos, rand):
 		if pos_in_bounds == false or pos.x in range(GV.Player["player"].position.x-18, GV.Player["player"].position.x+18) or pos.y in range(GV.Player["player"].position.y-18, GV.Player["player"].position.y+18):
 			drop_overlap = true
 			pos = drop_spacing_border_correction(pos, rand)
-		if GV.Scene["current_scene"].get_node("Shop_Entrance") != null:
-			if pos.x in range(GV.Scene["current_scene"].get_node("Shop_Entrance").position.x-18, GV.Scene["current_scene"].get_node("Shop_Entrance").position.x+18) or pos.y in range(GV.Scene["current_scene"].get_node("Shop_Entrance").position.x-18, GV.Scene["current_scene"].get_node("Shop_Entrance").position.x+18):
-				print("check_shop_overlap")
-				drop_overlap = true
-				pos = drop_spacing_border_correction(pos, rand)
+#		if GV.Scene["current_scene"].get_node("Shop_Entrance") != null:
+#			if pos.x in range(GV.Scene["current_scene"].get_node("Shop_Entrance").position.x-18, GV.Scene["current_scene"].get_node("Shop_Entrance").position.x+18) or pos.y in range(GV.Scene["current_scene"].get_node("Shop_Entrance").position.x-18, GV.Scene["current_scene"].get_node("Shop_Entrance").position.x+18):
+#				print("check_shop_overlap")
+#				drop_overlap = true
+#				pos = drop_spacing_border_correction(pos, rand)
 			
 	return pos
 

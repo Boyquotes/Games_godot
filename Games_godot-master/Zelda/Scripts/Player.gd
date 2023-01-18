@@ -144,19 +144,19 @@ func player_collision():
 	var coll = move_and_collide(Vector2() * move_speed)
 
 	if coll:
-		if coll.collider.name == "Shop_Entrance_Entry":
-			GV.GUI["current_mana"] = GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text
-			GF.goto_scene("res://Scenes/Levels/Shop.tscn", "null")
-#			GF.block_attribute_changes = true
-			
-		
-		if coll.collider.name == "Level_TileMap":
-			var level_tile_name = get_tile_name(coll, level_tilemap)[0]
-	
-			if level_tile_name == "shop_stairs_exit":
-				GV.GUI["current_mana"] = GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text
-				GF.goto_scene("res://Scenes/Levels/Starting_World.tscn", "null")
-#				GF.block_attribute_changes = true
+#		if coll.collider.name == "Shop_Entrance_Entry":
+#			GV.GUI["current_mana"] = GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text
+#			GF.goto_scene("res://Scenes/Levels/Shop.tscn", "null")
+##			GF.block_attribute_changes = true
+##
+##
+#		if coll.collider.name == "Level_TileMap":
+#			var level_tile_name = get_tile_name(coll, level_tilemap)[0]
+#
+#			if level_tile_name == "shop_stairs_exit":
+#				GV.GUI["current_mana"] = GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text
+#				GF.goto_scene("res://Scenes/Levels/Starting_World.tscn", "null")
+##				GF.block_attribute_changes = true
 #				
 				
 
@@ -166,17 +166,17 @@ func player_collision():
 			var cell = get_tile_name(coll, ammo_tilemap)[1]
 
 #			if ammo_tile_name and GV.GUI["coins"] >= int(GV.Scene["current_scene"].get_node("ammo_price").text):
-			GV.Item["current_ammo"] = ammo_tile_name
-			GV.GUI["coins"] -= int(GV.Scene["current_scene"].get_node("ammo_price").text)
-			GV.GUI["GUI"].get_node("coins").get_node("coins_num").text = str(GV.GUI["coins"])
-			GV.Item["current_ammo_num"] = int(GV.Scene["current_scene"].get_node("ammo_capacity").text)
-			GV.GUI["GUI"].get_node("ammo").text = ammo_tile_name
-			GV.GUI["GUI"].get_node("ammo_num").text = GV.Scene["current_scene"].get_node("ammo_capacity").text
-			GV.Scene["current_scene"].get_node("Ammo_TileMap").queue_free()
-			GV.Scene["current_scene"].get_node("ammo_capacity").visible = false
-			GV.Scene["current_scene"].get_node("ammo_capacity_two").visible = false
-			GV.Scene["current_scene"].get_node("ammo_price").visible = false
-			GV.Scene["current_scene"].get_node("ammo_price_two").visible = false
+#				GV.Item["current_ammo"] = ammo_tile_name
+#				GV.GUI["coins"] -= int(GV.Scene["current_scene"].get_node("ammo_price").text)
+#				GV.GUI["GUI"].get_node("coins").get_node("coins_num").text = str(GV.GUI["coins"])
+#				GV.Item["current_ammo_num"] = int(GV.Scene["current_scene"].get_node("ammo_capacity").text)
+#				GV.GUI["GUI"].get_node("ammo").text = ammo_tile_name
+#				GV.GUI["GUI"].get_node("ammo_num").text = GV.Scene["current_scene"].get_node("ammo_capacity").text
+#				GV.Scene["current_scene"].get_node("Ammo_TileMap").queue_free()
+#				GV.Scene["current_scene"].get_node("ammo_capacity").visible = false
+#				GV.Scene["current_scene"].get_node("ammo_capacity_two").visible = false
+#				GV.Scene["current_scene"].get_node("ammo_price").visible = false
+#				GV.Scene["current_scene"].get_node("ammo_price_two").visible = false
 #			else:
 #				print("notEnoughMuns")
 
