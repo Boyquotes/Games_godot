@@ -51,13 +51,13 @@ func _deferred_goto_scene(path, spawn):
 #			player_spawn_pos = Vector2(512, 300)
 			GV.Player["player"].position = Vector2(512, 300)
 			GV.Player["player_lvl"] = 0
-			GV.Enemy["enemy_hp_value"] = 150
+			GV.Enemy["enemy_hp_value"] = 50
 			GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text = str(GV.GUI["max_mana"])
 			GV.GUI["current_mana"] = GV.GUI["max_mana"]
-			GV.Player["player_weapon"] = "3"
+			GV.Player["player_weapon"] = "1"
 			var weapon = ItemDB.WEAPON[GV.Player["player_weapon"]]
 			weapon["id"] = GV.Item["item_id"]
-			weapon["power"] = 900
+			weapon["power"] = 550
 			weapon["dmg_type"] = "physical"
 			weapon["special"] = ""
 			GV.Item["item_id"] += 1

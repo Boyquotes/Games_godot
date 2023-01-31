@@ -466,9 +466,10 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 				GV.Scene["current_scene"].add_child(weapon)
 				weapon.position = self.position
 				if special:
-					if special == "multi_proj":
+					print("specialwand ", special)
+					if special[0] == "multi_proj":
 						spec_mod_wand_multi_proj(wand)
-					if special == "speed_proj":
+					if special[0] == "speed_proj":
 						spec_mod_wand_speed(weapon)
 				if GV.Weapon["wand_proj"] != null:
 					wand = load("res://Assets/" + GV.Weapon["wand_proj"] + ".png")

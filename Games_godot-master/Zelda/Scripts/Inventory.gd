@@ -99,7 +99,7 @@ func pickup_item(item_id):
 	var item = item_base.instance()
 	item.set_meta("id", item_id["id"])
 	item.texture = load(item_id["icon"])
-	item.rect_size = Vector2(32, 32)
+	item.rect_size = Vector2(24, 56)
 	item.rect_scale = Vector2(1.6, 1.6)
 	item.get_node("type").text = item_id["slot"]
 	add_child(item)

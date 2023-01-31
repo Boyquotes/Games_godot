@@ -32,6 +32,7 @@ func insert_item(pos):
 		GV.Player["player_weapon"] = item["name"]
 		GV.GUI["GUI"].attribute_points(GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("stat_GUI").get_node("stat_screen").get_node("power").get_node("power"), false, item["id"])
 		if item.has("special"):
+			print("equipSpecial ", item["special"])
 			GV.Player["player"].special = item["special"]
 #		GV.GUI["GUI"].attribute_points(GV.GUI["GUI"].get_node("stat_screen").get_node("dmg_type").get_node("power"), false, item["id"])
 		GV.Item["current_weapon_id"] = item["id"]
