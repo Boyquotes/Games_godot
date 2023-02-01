@@ -57,7 +57,7 @@ func _deferred_goto_scene(path, spawn):
 			GV.Player["player_weapon"] = "1"
 			var weapon = ItemDB.WEAPON[GV.Player["player_weapon"]]
 			weapon["id"] = GV.Item["item_id"]
-			weapon["power"] = 550
+			weapon["power"] = 30
 			weapon["dmg_type"] = "physical"
 			weapon["special"] = ""
 			GV.Item["item_id"] += 1
