@@ -60,6 +60,8 @@ func _physics_process(delta):
 			GV.GUI["GUI"].get_node("gui_container").visible = true
 		else:
 			GV.GUI["GUI"].get_node("gui_container").visible = false
+#			print(GV.GUI["GUI"].get_node("gui_container").get_node("stat_inv_margin_container").get_node("stat_inv_container").get_node("Inventory").get_children())
+			
 
 func player_movement():
 	move_speed = GV.Player["player_move_speed"]

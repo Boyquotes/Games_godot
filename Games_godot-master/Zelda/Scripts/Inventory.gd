@@ -17,6 +17,7 @@ var glove_slot_taken = false
 var boot_slot_taken = false
 
 func _ready():
+	
 	if GV.Item["inventory_items"].size() > 0:
 #		weap_slot_taken = false
 		for i in GV.Item["inventory_items"]:

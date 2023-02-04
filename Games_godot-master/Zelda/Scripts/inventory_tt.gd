@@ -2,7 +2,7 @@ extends TextureRect
 
 func _ready():
 	pass
-	
+
 func _process(delta):
 	pass
 
@@ -19,4 +19,8 @@ func _on_ItemBase_mouse_exited():
 	$stats_tt/stats_tt_popup.hide()
 	$stats_tt/stats_tt_popup/stats/stats_container.visible = false
 	$stats_tt/stats_tt_popup/stats/stats_container_armor.visible = false
-	
+
+func _on_ItemBase_hide():
+	$stats_tt/stats_tt_popup.hide()
+	$stats_tt/stats_tt_popup/stats/stats_container.visible = false
+	$stats_tt/stats_tt_popup/stats/stats_container_armor.visible = false
