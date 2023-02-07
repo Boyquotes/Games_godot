@@ -57,7 +57,7 @@ func _deferred_goto_scene(path, spawn):
 			GV.Player["player_weapon"] = "1"
 			var weapon = ItemDB.WEAPON[GV.Player["player_weapon"]]
 			weapon["id"] = GV.Item["item_id"]
-			weapon["power"] = 30
+			weapon["power"] = 300
 			weapon["dmg_type"] = "physical"
 			weapon["special"] = ""
 			GV.Item["item_id"] += 1
@@ -327,16 +327,15 @@ func drop(pos, freq, weighting):
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
 
-#	var weighting = drop_weighting({0:0.98, 1:0.01, 2:0.01})
-	
+#	pwrup is 0 armour is 1, weapon is 2
 	if weighting == null:
-		weighting = drop_weighting({0:0.30, 1:0.40, 2:0.30})
+		weighting = drop_weighting({0:0.60, 1:0.20, 2:0.20})
 
 	if weighting == 0:
 		drop_pwrup(pos)
 	elif weighting == 1:
 		var last_pos = []
-		var num_items_dropped
+		var num_items_dropped = 1
 		
 		if GV.Scene["current_scene"].name != "Boss_Room":
 			num_items_dropped = rand.randf_range(10, GV.Item["quantity"])/8

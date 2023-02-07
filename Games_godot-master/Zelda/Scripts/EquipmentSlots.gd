@@ -80,7 +80,6 @@ func insert_item(pos):
 		GV.GUI["GUI"].buff_effects(item.name, "activate")
 	
 	return true
-	
 
 func grab_item(pos):
 	var item = get_item_under_pos(pos)
