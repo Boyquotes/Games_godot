@@ -329,7 +329,7 @@ func drop(pos, freq, weighting):
 
 #	pwrup is 0 armour is 1, weapon is 2
 	if weighting == null:
-		weighting = drop_weighting({0:0.60, 1:0.20, 2:0.20})
+		weighting = drop_weighting({0:0.20, 1:0.20, 2:0.60})
 
 	if weighting == 0:
 		drop_pwrup(pos)
@@ -337,10 +337,10 @@ func drop(pos, freq, weighting):
 		var last_pos = []
 		var num_items_dropped = 1
 		
-		if GV.Scene["current_scene"].name != "Boss_Room":
-			num_items_dropped = rand.randf_range(10, GV.Item["quantity"])/8
-		else:
-			num_items_dropped = 1
+#		if GV.Scene["current_scene"].name != "Boss_Room":
+#			num_items_dropped = rand.randf_range(10, GV.Item["quantity"])/8
+#		else:
+#			num_items_dropped = 1
 		
 		print("!! NUMOFITEMS !! ", num_items_dropped)
 		

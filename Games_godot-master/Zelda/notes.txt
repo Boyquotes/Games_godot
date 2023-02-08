@@ -42,6 +42,10 @@ if you don't know what to do -> just play the game and write down ideas + fix th
 
 --NOTES--
 
+08/01/22
+	- split values from global_func all scripts to global_val
+	- stat comparison weapon drops
+
 31/12/22
 	- shop is broken in most scenes -> decide what to do with this
 

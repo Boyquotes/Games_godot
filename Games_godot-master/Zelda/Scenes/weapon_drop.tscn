@@ -56,6 +56,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="compare_container" type="VBoxContainer" parent="drop_stats_tt/stats_tt_pop_up/stats"]
+margin_right = 40.0
+margin_bottom = 40.0
+
 [node name="stats_container" type="VBoxContainer" parent="drop_stats_tt/stats_tt_pop_up/stats"]
 margin_top = 30.0
 margin_right = 124.0
