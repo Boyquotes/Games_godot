@@ -50,15 +50,15 @@ func _deferred_goto_scene(path, spawn):
 			GV.GUI["add_stats"] = true
 #			player_spawn_pos = Vector2(512, 300)
 			GV.Player["player"].position = Vector2(512, 300)
-			GV.Player["player_lvl"] = 0
-			GV.Enemy["enemy_hp_value"] = 50
+			GV.Player["player_lvl"] = GV.Starting_values["player_lvl"]
+			GV.Enemy["enemy_hp_value"] = GV.Starting_values["enemy_hp_value"]
 			GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text = str(GV.GUI["max_mana"])
 			GV.GUI["current_mana"] = GV.GUI["max_mana"]
-			GV.Player["player_weapon"] = "1"
+			GV.Player["player_weapon"] = GV.Starting_values["player_weapon"]
 			var weapon = ItemDB.WEAPON[GV.Player["player_weapon"]]
 			weapon["id"] = GV.Item["item_id"]
-			weapon["power"] = 300
-			weapon["dmg_type"] = "physical"
+			weapon["power"] = GV.Starting_values["weapon_power"]
+			weapon["dmg_type"] = GV.Starting_values["weapon_damage_type"]
 			weapon["special"] = ""
 			GV.Item["item_id"] += 1
 			GV.Item["inventory_items"].push_front(weapon)
@@ -120,20 +120,20 @@ func _deferred_goto_scene(path, spawn):
 #	if GV.Scene["current_scene"].name == "Shop" and player_weapon and !starter_weapon:
 #		GV.Scene["current_scene"].get_node("Weapons_TileMap").tile_set.remove_tile(GV.Scene["current_scene"].get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
 #		GV.Scene["current_scene"].get_node("Weapons_TileMap").queue_free()
-#	if GV.Scene["current_scene"].name == "Shop" and GV.Player["player_weapon"]: #and starter_weapon:
-##		starter_weapon = false
-#		var rand = RandomNumberGenerator.new()
-#		var ammo = GV.Scene["current_scene"].get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
-#		rand.randomize()
-#		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
-##		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,5)
-#		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
-#		GV.Scene["current_scene"].get_node("ammo_price").text = str(50)
-#		GV.Scene["current_scene"].get_node("ammo_price_two").text = str(50)
-#		while GV.Scene["current_scene"].get_node("Ammo_TileMap").get_cell(14,8) == GV.Scene["current_scene"].get_node("Ammo_TileMap").get_cell(15,8):
-#			GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
-#		GV.Scene["current_scene"].get_node("ammo_capacity").text = str(GV.Item["ilvl"]*2)
-#		GV.Scene["current_scene"].get_node("ammo_capacity_two").text = str(GV.Item["ilvl"]*2)
+	if GV.Scene["current_scene"].name == "Shop" and GV.Player["player_weapon"]: #and starter_weapon:
+#		starter_weapon = false
+		var rand = RandomNumberGenerator.new()
+		var ammo = GV.Scene["current_scene"].get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
+		rand.randomize()
+		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
+#		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,5)
+		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
+		GV.Scene["current_scene"].get_node("ammo_price").text = str(50)
+		GV.Scene["current_scene"].get_node("ammo_price_two").text = str(50)
+		while GV.Scene["current_scene"].get_node("Ammo_TileMap").get_cell(14,8) == GV.Scene["current_scene"].get_node("Ammo_TileMap").get_cell(15,8):
+			GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
+		GV.Scene["current_scene"].get_node("ammo_capacity").text = str(GV.Item["ilvl"]*2)
+		GV.Scene["current_scene"].get_node("ammo_capacity_two").text = str(GV.Item["ilvl"]*2)
 		
 #	block_attribute_changes = false
 
@@ -204,10 +204,10 @@ func spawn_enemies(pos, type):
 			enemy.get_node("hp_bar").value = GV.Enemy["enemy_hp_value"]
 			
 			enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
-			var distance_to_player = enemy.get_global_position().distance_to(GV.Player["player"].get_global_position())
+			var distance_to_player = enemy.get_position().distance_to(GV.Player["player"].get_position())
 			while distance_to_player < 200:
 				enemy.position = Vector2(rand.randf_range(0, spawn_area.x), rand.randf_range(0, spawn_area.y))
-				distance_to_player = enemy.get_global_position().distance_to(GV.Player["player"].get_global_position())
+				distance_to_player = enemy.get_position().distance_to(GV.Player["player"].get_position())
 
 			if "Fire" in GV.Scene["current_scene"].name:
 				GV.Enemy["enemy_resistance"] = {"fire": 7*GV.Enemy["enemy_res_modifier"], "cold": 2*GV.Enemy["enemy_res_modifier"], "lightning": 5*GV.Enemy["enemy_res_modifier"], "physical": 5*GV.Enemy["enemy_res_modifier"], "poison": 5*GV.Enemy["enemy_res_modifier"]}

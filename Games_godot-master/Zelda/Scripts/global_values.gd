@@ -77,3 +77,11 @@ var GUI = {
 	"intel": 0,
 	"stren": 0
 }
+
+var Starting_values = {
+	"enemy_hp_value": 50,
+	"player_lvl": 0,
+	"player_weapon": "1",
+	"weapon_power": 50,
+	"weapon_damage_type": "physical"
+}
