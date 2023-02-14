@@ -4,12 +4,12 @@
 [ext_resource path="res://Assets/shop_table.png" type="Texture" id=2]
 [ext_resource path="res://Assets/items.png" type="Texture" id=3]
 [ext_resource path="res://Assets/shop_owner.png" type="Texture" id=4]
-[ext_resource path="res://Assets/ammo_fire arrow.png" type="Texture" id=5]
-[ext_resource path="res://Assets/ammo_frost arrow.png" type="Texture" id=6]
-[ext_resource path="res://Assets/ammo_lightning arrow.png" type="Texture" id=7]
-[ext_resource path="res://Assets/ammo_magic arrow.png" type="Texture" id=8]
-[ext_resource path="res://Assets/ammo_poison arrow.png" type="Texture" id=9]
-[ext_resource path="res://Assets/ammo_web arrow.png" type="Texture" id=10]
+[ext_resource path="res://Assets/items/ammo_fire arrow.png" type="Texture" id=5]
+[ext_resource path="res://Assets/items/ammo_frost arrow.png" type="Texture" id=6]
+[ext_resource path="res://Assets/items/ammo_lightning arrow.png" type="Texture" id=7]
+[ext_resource path="res://Assets/items/ammo_magic arrow.png" type="Texture" id=8]
+[ext_resource path="res://Assets/items/ammo_poison arrow.png" type="Texture" id=9]
+[ext_resource path="res://Assets/items/ammo_web arrow.png" type="Texture" id=10]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )

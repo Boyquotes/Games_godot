@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ammo_lightning arrow.png-0dd2143991fff464d13d7eb703ce03e0.stex"
+path="res://.import/ammo_lightning arrow.png-bc4cca1cc19b6d4d91952e11fb753a77.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/ammo_lightning arrow.png"
-dest_files=[ "res://.import/ammo_lightning arrow.png-0dd2143991fff464d13d7eb703ce03e0.stex" ]
+source_file="res://Assets/items/ammo_lightning arrow.png"
+dest_files=[ "res://.import/ammo_lightning arrow.png-bc4cca1cc19b6d4d91952e11fb753a77.stex" ]
 
 [params]
 

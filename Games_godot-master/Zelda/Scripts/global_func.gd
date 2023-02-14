@@ -120,20 +120,20 @@ func _deferred_goto_scene(path, spawn):
 #	if GV.Scene["current_scene"].name == "Shop" and player_weapon and !starter_weapon:
 #		GV.Scene["current_scene"].get_node("Weapons_TileMap").tile_set.remove_tile(GV.Scene["current_scene"].get_node("Weapons_TileMap").tile_set.find_tile_by_name(player_weapon))
 #		GV.Scene["current_scene"].get_node("Weapons_TileMap").queue_free()
-	if GV.Scene["current_scene"].name == "Shop" and GV.Player["player_weapon"]: #and starter_weapon:
-#		starter_weapon = false
-		var rand = RandomNumberGenerator.new()
-		var ammo = GV.Scene["current_scene"].get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
-		rand.randomize()
-		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
-#		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,5)
-		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
-		GV.Scene["current_scene"].get_node("ammo_price").text = str(50)
-		GV.Scene["current_scene"].get_node("ammo_price_two").text = str(50)
-		while GV.Scene["current_scene"].get_node("Ammo_TileMap").get_cell(14,8) == GV.Scene["current_scene"].get_node("Ammo_TileMap").get_cell(15,8):
-			GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
-		GV.Scene["current_scene"].get_node("ammo_capacity").text = str(GV.Item["ilvl"]*2)
-		GV.Scene["current_scene"].get_node("ammo_capacity_two").text = str(GV.Item["ilvl"]*2)
+#	if GV.Scene["current_scene"].name == "Shop" and GV.Player["player_weapon"]: #and starter_weapon:
+##		starter_weapon = false
+#		var rand = RandomNumberGenerator.new()
+#		var ammo = GV.Scene["current_scene"].get_node("Ammo_TileMap").get_tileset().get_tiles_ids()
+#		rand.randomize()
+#		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,rand.randi_range(0, ammo.size()-1))
+##		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(14,8,5)
+#		GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(0, ammo.size()-1))
+#		GV.Scene["current_scene"].get_node("ammo_price").text = str(50)
+#		GV.Scene["current_scene"].get_node("ammo_price_two").text = str(50)
+#		while GV.Scene["current_scene"].get_node("Ammo_TileMap").get_cell(14,8) == GV.Scene["current_scene"].get_node("Ammo_TileMap").get_cell(15,8):
+#			GV.Scene["current_scene"].get_node("Ammo_TileMap").set_cell(15,8,rand.randi_range(1, ammo.size()-1))
+#		GV.Scene["current_scene"].get_node("ammo_capacity").text = str(GV.Item["ilvl"]*2)
+#		GV.Scene["current_scene"].get_node("ammo_capacity_two").text = str(GV.Item["ilvl"]*2)
 		
 #	block_attribute_changes = false
 
@@ -329,7 +329,7 @@ func drop(pos, freq, weighting):
 
 #	pwrup is 0 armour is 1, weapon is 2
 	if weighting == null:
-		weighting = drop_weighting({0:0.20, 1:0.20, 2:0.60})
+		weighting = drop_weighting({0:0.80, 1:0.10, 2:0.10})
 
 	if weighting == 0:
 		drop_pwrup(pos)
@@ -364,7 +364,7 @@ func drop(pos, freq, weighting):
 		drop_weapon(pos, GV.Item["ilvl"])
 	
 func drop_pwrup(pos):
-	var drop_id = str(drop_weighting({1:0.13, 2:0.09, 3:0.13, 4:0.13, 5:0.13, 6:0.13, 7:0.13, 8:0.13}))
+	var drop_id = str(drop_weighting({1:0.07, 2:0.09, 3:0.07, 4:0.07, 5:0.07, 6:0.07, 7:0.07, 8:0.07, 9:0.07, 10:0.07, 11:0.07, 12:0.07, 13:0.07, 14:0.07}))
 #	var drop_id = str(drop_weighting({1:0.93, 2:0.01, 3:0.01, 4:0.01, 5:0.01, 6:0.01, 7:0.01, 8:0.01}))
 	var drop_texture = ItemDB.PWRUP[drop_id]
 	var drop_name = ItemDB.PWRUP[drop_id].name

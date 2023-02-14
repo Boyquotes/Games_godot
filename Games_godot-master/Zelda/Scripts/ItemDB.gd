@@ -429,7 +429,51 @@ const PWRUP = {
 		"type": "wand_proj",
 		"name": "pwrup_lazor_proj",
 		"slot": "POWERUP"
-	}
+	},
+	"9": {
+		"id": "9",
+		"icon": ITEM_PATH + "ammo_fire arrow.png",
+		"type": "arrow_ammo",
+		"name": "pwrup_ammo_fire",
+		"slot": "POWERUP"
+	},
+		"10": {
+		"id": "10",
+		"icon": ITEM_PATH + "ammo_frost arrow.png",
+		"type": "arrow_ammo",
+		"name": "pwrup_ammo_frost",
+		"slot": "POWERUP"
+	},
+		"11": {
+		"id": "11",
+		"icon": ITEM_PATH + "ammo_lightning arrow.png",
+		"type": "arrow_ammo",
+		"name": "pwrup_ammo_lightning",
+		"slot": "POWERUP"
+	},
+		"12": {
+		"id": "12",
+		"icon": ITEM_PATH + "ammo_magic arrow.png",
+		"type": "arrow_ammo",
+		"name": "pwrup_ammo_magic",
+		"slot": "POWERUP"
+	},
+		"13": {
+		"id": "13",
+		"icon": ITEM_PATH + "ammo_poison arrow.png",
+		"type": "arrow_ammo",
+		"name": "pwrup_ammo_poison",
+		"slot": "POWERUP"
+	},
+		"14": {
+		"id": "14",
+		"icon": ITEM_PATH + "ammo_web arrow.png",
+		"type": "arrow_ammo",
+		"name": "pwrup_ammo_web",
+		"slot": "POWERUP"
+	},
+	
+	
 	
 }
 
