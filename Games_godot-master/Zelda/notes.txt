@@ -39,7 +39,7 @@ if you don't know what to do -> just play the game and write down ideas + fix th
 	- item tooltip comparison
 
 --CODE REFAC--	
-	- KILL ALL GLOBAL FUNCTIONS
+	- KILL ALL GLOBAL VARIABLES
 	- change scene func
  	- find a solution to cleanly transfer variables from scene to scene (load inventory+items and entities into singleton)
 	- refactor the base functions -> create template
