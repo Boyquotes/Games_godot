@@ -4,7 +4,6 @@ var task_suggestion = false
 
 func _ready():
 	pass
-	#random_task()
 	
 func populate_tasks():
 	var f = File.new()
@@ -26,7 +25,9 @@ func _on_choose_task_button_pressed():
 	
 	for i in tasks.size():
 		if tasks[i] == chosen_task:
-			print(chosen_task)
+#			$end_task/end_task_button.connect("pressed", self, "_on_end_task_button_pressed")
+			
+#			print("current task ",chosen_task)
 			if task_suggestion == false:
 				$current_task.text = chosen_task
 				$suggest_task/choose_task_button/Label.text = "Click to get another suggestion"
@@ -49,23 +50,25 @@ func _on_end_task_button_pressed():
 	
 func delete_task(task):
 	var f = File.new()
-	f.open("res://task_selector.txt", File.READ_WRITE)
+	f.open("res://task_selector.txt", File.READ)
 	var tasks = f.get_as_text().split(",")
-	
+	f.open("res://task_selector.txt", File.WRITE)
+	f.close()
+#
 	for i in tasks.size():
 		if tasks[i] == task:
 			tasks.remove(i)
+			f.open("res://task_selector.txt", File.WRITE)
 			f.store_string(tasks.join(","))
-			print("tasks ", f)
 			f.close()
 			break
 			
 func _on_add_task_button_pressed():
-	
 	var f = File.new()
-	f.open("res://task_selector.txt", File.READ_WRITE)
+	f.open("res://task_selector.txt", File.READ)
 	var tasks = f.get_as_text().split(",")
 	tasks.push_back($add_task/add_task_prompt.text)
+	f.open("res://task_selector.txt", File.WRITE)
 	f.store_string(tasks.join(","))
 	f.close()
 	$add_task/add_task_prompt.text = ""

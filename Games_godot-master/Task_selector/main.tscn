@@ -110,9 +110,9 @@ margin_bottom = 38.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="add_task_button" type="Button" parent="add_task"]
-margin_top = 50.0
+margin_top = 42.0
 margin_right = 300.0
-margin_bottom = 70.0
+margin_bottom = 62.0
 
 [node name="Label" type="Label" parent="add_task/add_task_button"]
 margin_right = 40.0
@@ -126,5 +126,4 @@ __meta__ = {
 }
 
 [connection signal="pressed" from="suggest_task/choose_task_button" to="." method="_on_choose_task_button_pressed"]
-[connection signal="pressed" from="end_task/end_task_button" to="." method="_on_choose_task_button_pressed"]
 [connection signal="pressed" from="add_task/add_task_button" to="." method="_on_add_task_button_pressed"]
