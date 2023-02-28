@@ -8,7 +8,7 @@ const filepath = "user://highscore.json"
 func _ready():
 	current_highscores = [$VBoxContainer/highscore_1, $VBoxContainer/highscore_2, $VBoxContainer/highscore_3, 
 	$VBoxContainer/highscore_4, $VBoxContainer/highscore_5]
-	highscore = Globals.get("highscore")	
+	highscore = Globals.get("highscore")
 	
 	load_highscore()
 	

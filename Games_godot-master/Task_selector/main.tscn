@@ -72,6 +72,34 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="save_and_close" type="VBoxContainer" parent="."]
+margin_left = 350.0
+margin_top = 400.0
+margin_right = 650.0
+margin_bottom = 440.0
+rect_min_size = Vector2( 300, 40 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="close_button" type="Button" parent="save_and_close"]
+margin_right = 300.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 300, 40 )
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="save_and_close/close_button"]
+margin_right = 300.0
+margin_bottom = 40.0
+text = "Save and close"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="completed_tasks" type="VBoxContainer" parent="."]
 margin_left = 720.0
 margin_top = 30.0
@@ -126,4 +154,5 @@ __meta__ = {
 }
 
 [connection signal="pressed" from="suggest_task/choose_task_button" to="." method="_on_choose_task_button_pressed"]
+[connection signal="pressed" from="save_and_close/close_button" to="." method="_on_close_button_pressed"]
 [connection signal="pressed" from="add_task/add_task_button" to="." method="_on_add_task_button_pressed"]
