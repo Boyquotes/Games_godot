@@ -154,5 +154,6 @@ __meta__ = {
 }
 
 [connection signal="pressed" from="suggest_task/choose_task_button" to="." method="_on_choose_task_button_pressed"]
+[connection signal="pressed" from="end_task/end_task_button" to="." method="_on_end_task_button_pressed"]
 [connection signal="pressed" from="save_and_close/close_button" to="." method="_on_close_button_pressed"]
 [connection signal="pressed" from="add_task/add_task_button" to="." method="_on_add_task_button_pressed"]
