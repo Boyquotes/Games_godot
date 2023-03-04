@@ -1,6 +1,5 @@
 extends CanvasLayer
 
-var task_suggestion = false
 const state_filepath = "user://task_state.json"
 const tasks_filepath = "user://tasks.txt"
 
@@ -28,26 +27,21 @@ func _on_close_button_pressed():
 	
 func _on_choose_task_button_pressed():
 	var chosen_task
-	var tasks = populate_tasks()
 	$end_task.visible = true
 	
 	if $current_task.text != "" and populate_tasks().size() > 1:
 		chosen_task = random_task()
 		while chosen_task == $current_task.text:
 			chosen_task = random_task()
-	else:
+	elif populate_tasks().size() == 1:
 		chosen_task = random_task()
 	
-	for i in tasks.size():
-		if tasks[i] == chosen_task:
-			
-			if task_suggestion == false:
-				$current_task.text = chosen_task
-				$suggest_task/choose_task_button/Label.text = "Click to get another suggestion"
-				task_suggestion = true
-				break
-			else:
-				$current_task.text = chosen_task
+	if chosen_task != null:
+		$suggest_task/choose_task_button/Label.text = "Click to get another suggestion"
+		$current_task.text = chosen_task
+	else:
+		$current_task.text = "no more tasks!"
+		$end_task.visible = false
 	
 func _on_end_task_button_pressed():
 	if $current_task.text == "": return
@@ -55,6 +49,21 @@ func _on_end_task_button_pressed():
 	delete_task($current_task.text)
 	$current_task.text = ""
 	$end_task.visible = false
+	
+func _on_clear_button_pressed():
+	var confirm_window = ConfirmationDialog.new()
+	
+	self.add_child(confirm_window)
+	confirm_window.name = "confirm_window"
+	$confirm_window.dialog_text = "do you really want to clear all completed tasks?"
+	$confirm_window.rect_position = Vector2(342, 200)
+	$confirm_window.connect("confirmed", self, "_on_task_deletion_confirm")
+	$confirm_window.visible = true
+	
+func _on_task_deletion_confirm():
+	for i in $completed_tasks/completed_list.get_children():
+		$completed_tasks/completed_list.remove_child(i)
+		i.queue_free()
 
 #------------------------------------------------------------------
 
@@ -73,10 +82,10 @@ func random_task():
 	
 func end_task(task):
 	var completed_task = RichTextLabel.new()
-	$completed_tasks.add_child(completed_task)
-	$completed_tasks.get_children()[-1].bbcode_enabled = true
-	$completed_tasks.get_children()[-1].rect_min_size.y = 20
-	$completed_tasks.get_children()[-1].append_bbcode("[s]"+task+"[/s]")
+	$completed_tasks/completed_list.add_child(completed_task)
+	$completed_tasks/completed_list.get_children()[-1].bbcode_enabled = true
+	$completed_tasks/completed_list.get_children()[-1].rect_min_size.y = 20
+	$completed_tasks/completed_list.get_children()[-1].append_bbcode("[s]"+task+"[/s]")
 
 func delete_task(task):
 	var f = File.new()
@@ -95,9 +104,8 @@ func delete_task(task):
 	
 func save_task_state():
 	var completed_tasks = []
-	for i in $completed_tasks.get_children().size():
-		completed_tasks.push_back($completed_tasks.get_children()[i].text)
-	completed_tasks.remove(0)
+	for i in $completed_tasks/completed_list.get_children().size():
+		completed_tasks.push_back($completed_tasks/completed_list.get_children()[i].text)
 		
 	var state = {
 		"current_task": $current_task.text,
@@ -121,11 +129,12 @@ func load_task_state():
 	for i in states.result["completed_tasks"]:
 		end_task(i)
 		
-	f.close()
-	
+	f.close()	
 	
 			
 # todo: sub tasks?
 # todo: task notes
-# todo: write to disk save files: current task, close task btn visibility, completed tasks
-# todo: when first item is added to task_filepath the entry is started with an "," delimiter which causes an empty suggestion in populate_tasks
+# deploy executable
+
+
+
