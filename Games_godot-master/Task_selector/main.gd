@@ -1,7 +1,7 @@
 extends CanvasLayer
 
-const state_filepath = "user://task_state.json"
-const tasks_filepath = "user://tasks.txt"
+const STATE_FILEPATH = "user://task_state.json"
+const TASKS_FILEPATH = "user://tasks.txt"
 
 func _ready():
 	load_task_state()
@@ -12,11 +12,11 @@ func _process(delta):
 	
 func _on_add_task_button_pressed():
 	var f = File.new()
-	if not f.file_exists(tasks_filepath): return
-	f.open(tasks_filepath, File.READ)
+	if not f.file_exists(TASKS_FILEPATH): return 
+	f.open(TASKS_FILEPATH, File.READ)
 	var tasks = f.get_as_text().split(",")
 	tasks.push_back($add_task/add_task_prompt.text)
-	f.open(tasks_filepath, File.WRITE)
+	f.open(TASKS_FILEPATH, File.WRITE)
 	f.store_string(tasks.join(","))
 	f.close()
 	$add_task/add_task_prompt.text = ""
@@ -69,7 +69,7 @@ func _on_task_deletion_confirm():
 
 func populate_tasks():
 	var f = File.new()
-	f.open(tasks_filepath, File.READ)
+	f.open(TASKS_FILEPATH, File.READ)
 	var tasks = f.get_as_text().split(",", false)
 	f.close()
 	return tasks
@@ -89,15 +89,15 @@ func end_task(task):
 
 func delete_task(task):
 	var f = File.new()
-	f.open(tasks_filepath, File.READ)
+	f.open(TASKS_FILEPATH, File.READ)
 	var tasks = f.get_as_text().split(",")
-	f.open("rtasks_filepath", File.WRITE)
+	f.open("rTASKS_FILEPATH", File.WRITE)
 	f.close()
 #
 	for i in tasks.size():
 		if tasks[i] == task:
 			tasks.remove(i)
-			f.open(tasks_filepath, File.WRITE)
+			f.open(TASKS_FILEPATH, File.WRITE)
 			f.store_string(tasks.join(","))
 			f.close()
 			break
@@ -114,14 +114,14 @@ func save_task_state():
 	}
 	
 	var f = File.new()
-	f.open(state_filepath, File.WRITE)
+	f.open(STATE_FILEPATH, File.WRITE)
 	f.store_line(to_json(state))
 	f.close()
 	
 func load_task_state():
 	var f = File.new()
-	if not f.file_exists(state_filepath): return
-	f.open(state_filepath, File.READ)
+	if not f.file_exists(STATE_FILEPATH): return
+	f.open(STATE_FILEPATH, File.READ)
 	var states = JSON.parse(f.get_as_text())
 	
 	$end_task.visible = states.result["button_vis"]
@@ -129,7 +129,7 @@ func load_task_state():
 	for i in states.result["completed_tasks"]:
 		end_task(i)
 		
-	f.close()	
+	f.close()
 	
 			
 # todo: sub tasks?
