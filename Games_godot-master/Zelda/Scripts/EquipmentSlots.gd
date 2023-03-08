@@ -82,7 +82,12 @@ func insert_item(pos):
 	return true
 
 func grab_item(pos):
-	var item = get_item_under_pos(pos)
+	var item
+	if pos != null:
+		item = get_item_under_pos(pos)
+		print("item ", item.name)
+	else:
+		print("dumb")
 	var inventory_item
 	if item == null:
 		return null

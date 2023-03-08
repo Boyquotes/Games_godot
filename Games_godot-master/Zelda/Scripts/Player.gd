@@ -146,6 +146,7 @@ func player_collision():
 	var coll = move_and_collide(Vector2() * move_speed)
 
 	if coll:
+#		print(coll.collider.name)
 #		if coll.collider.name == "Shop_Entrance_Entry":
 #			GV.GUI["current_mana"] = GV.GUI["GUI"].get_node("mana_progress").get_node("mana_value").text
 #			GF.goto_scene("res://Scenes/Levels/Shop.tscn", "null")
@@ -252,7 +253,7 @@ func player_collision():
 			
 			despawn_drop(coll)
 			
-		if "item" in coll.collider.name:
+		if "item" in coll.collider.name or "ammo" in coll.collider.name:
 			for i in GV.Item["dropped_items"]:
 				if i["id"] == int(coll.collider.get_node("id").text):
 					GV.GUI["add_stats"] = true
@@ -437,14 +438,17 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			weapon.position = self.position
 			var arrow = load("res://Assets/arrow.png")
 			if GV.Item["current_ammo"] != null and GV.Item["current_ammo_num"] != 0:
-				var special_arrow = load("res://Assets/ammo_" + GV.Item["current_ammo"] + ".png")
+				var special_arrow = load("res://Assets/items/ammo_" + GV.Item["current_ammo"] + ".png")
 				weapon.get_node("weapon").set_texture(special_arrow)
 				weapon.get_node("weapon").rotation_degrees = -45
 				GV.Item["current_ammo_num"] -= 1
 				GV.GUI["GUI"].get_node("ammo_num").text = str(GV.Item["current_ammo_num"])
 				if GV.Item["current_ammo_num"] == 0:
+					GV.GUI["inventory"].remove_buff(GV.Item["current_ammo"].trim_suffix(" arrow"))
 					GV.Item["current_ammo"] = "standard arrow"
 					GV.GUI["GUI"].get_node("ammo").text = "standard arrow"
+					
+					
 #				ammo -= 1
 			else:
 				weapon.get_node("weapon").set_texture(arrow)

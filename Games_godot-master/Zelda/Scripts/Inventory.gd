@@ -41,6 +41,15 @@ func _ready():
 				pickup_item(i)
 		return
 
+func remove_buff(buff):
+	for i in GV.Item["inventory_items"]:
+		if buff in i.name:
+			eq_slots.grab_item(null)
+#			print("name ",i)
+#			print("inv ",GV.Item["inventory_items"])
+#			print("item ", GV.Item["inventory_items"].find(i))
+#			GV.Item["inventory_items"].remove(GV.Item["inventory_items"].find(i))
+
 func _process(delta):
 	var cursor_pos = get_global_mouse_position()
 	if Input.is_action_just_pressed("inv_grab"):

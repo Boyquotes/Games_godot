@@ -117,6 +117,13 @@ func buff_effects(buff, effect):
 		elif "lazor" in buff:
 			GV.Weapon["wand_proj"] = "wand_beam_proj"
 			return
+		elif "ammo" in buff:
+			print("buff ",buff)
+			GV.Item["current_ammo"] = buff.trim_prefix("pwrup_ammo_") + " arrow"
+			GV.Item["current_ammo_num"] = 3
+			GV.GUI["GUI"].get_node("ammo").text = buff.trim_prefix("pwrup_ammo_") + " arrow"
+			GV.GUI["GUI"].get_node("ammo_num").text = "3"
+
 	else:
 		GV.Weapon["wand_proj"] = null
 
