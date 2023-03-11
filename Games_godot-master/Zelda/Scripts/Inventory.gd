@@ -44,11 +44,10 @@ func _ready():
 func remove_buff(buff):
 	for i in GV.Item["inventory_items"]:
 		if buff in i.name:
-			eq_slots.grab_item(null)
-#			print("name ",i)
-#			print("inv ",GV.Item["inventory_items"])
-#			print("item ", GV.Item["inventory_items"].find(i))
-#			GV.Item["inventory_items"].remove(GV.Item["inventory_items"].find(i))
+			self.get_node(i.name).queue_free()
+			GV.Item["inventory_items"].remove(GV.Item["inventory_items"].find(i))
+			eq_slots.items["POWERUP"] = null
+			item_held = null
 
 func _process(delta):
 	var cursor_pos = get_global_mouse_position()
@@ -133,6 +132,7 @@ func pickup_item(item_id):
 		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
 	if item_id["slot"] == "POWERUP":
 		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
+		item.name = item_id["name"]
 	if !weap_slot_taken and item_id["slot"] == "WEAPON":
 		eq_slots.insert_item(item)
 		weap_slot_taken = true

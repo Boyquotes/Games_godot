@@ -82,12 +82,7 @@ func insert_item(pos):
 	return true
 
 func grab_item(pos):
-	var item
-	if pos != null:
-		item = get_item_under_pos(pos)
-		print("item ", item.name)
-	else:
-		print("dumb")
+	var item = get_item_under_pos(pos)
 	var inventory_item
 	if item == null:
 		return null
@@ -126,7 +121,6 @@ func grab_item(pos):
 		GV.GUI["GUI"].buff_effects(item, "deactivate")
 
 	return item
-	
 	
 func special_mod(item, mode):
 	if "quality" in item["special"][0]:
