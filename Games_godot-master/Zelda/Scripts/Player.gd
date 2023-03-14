@@ -260,6 +260,7 @@ func player_collision():
 					GV.Item["inventory_items"].push_front(i)
 					GV.Item["dropped_items"].remove(GV.Item["dropped_items"].find(i))
 					GV.GUI["inventory"].pickup_item(i)
+					print("pickup ", i)
 					GV.GUI["add_stats"] = false
 
 			GV.Scene["current_scene"].get_node(coll.collider.name).queue_free()
@@ -436,7 +437,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 					weapon.special = special
 			GV.Scene["current_scene"].add_child(weapon)
 			weapon.position = self.position
-			var arrow = load("res://Assets/arrow.png")
+			var arrow = load("res://Assets/items/ammo_standard arrow.png")
 			if GV.Item["current_ammo"] != null and GV.Item["current_ammo_num"] != 0:
 				var special_arrow = load("res://Assets/items/ammo_" + GV.Item["current_ammo"] + ".png")
 				weapon.get_node("weapon").set_texture(special_arrow)
@@ -447,8 +448,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 					GV.GUI["inventory"].remove_buff(GV.Item["current_ammo"].trim_suffix(" arrow"))
 					GV.Item["current_ammo"] = "standard arrow"
 					GV.GUI["GUI"].get_node("ammo").text = "standard arrow"
-					
-					
+					GV.GUI["GUI"].get_node("ammo_num").text = "unl."
 #				ammo -= 1
 			else:
 				weapon.get_node("weapon").set_texture(arrow)

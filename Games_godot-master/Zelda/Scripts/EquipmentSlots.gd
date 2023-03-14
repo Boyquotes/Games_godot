@@ -38,7 +38,7 @@ func insert_item(pos):
 		GV.Item["current_weapon_id"] = item["id"]
 		
 		if GV.Player["player_weapon"] == "bow":
-			if GV.Item["current_ammo"] == null:
+			if "standard" in GV.Item["current_ammo"]:
 				GV.Item["current_ammo"] = "standard arrow"
 				GV.GUI["GUI"].get_node("ammo").text = "standard arrow"
 				GV.GUI["GUI"].get_node("ammo_num").text = "unl."
@@ -77,7 +77,7 @@ func insert_item(pos):
 			return
 	
 	if slot == $POWERUP:
-		GV.GUI["GUI"].buff_effects(item.name, "activate")
+		GV.GUI["GUI"].buff_effects(item.name, "activate", GV.Item["current_ammo_num"])
 	
 	return true
 
@@ -110,7 +110,7 @@ func grab_item(pos):
 
 		GV.GUI["GUI"].remove_points(GUI_stats.get_node("stat_screen").get_node("dex").get_node("dex"), item_id)
 		GV.GUI["GUI"].remove_points(GUI_stats.get_node("stat_screen").get_node("int").get_node("intel"), item_id)
-		GV.GUI["GUI"].remove_points(GUI_stats.get_node("stat_screen").get_node("str").get_node("stren"), item_id)		
+		GV.GUI["GUI"].remove_points(GUI_stats.get_node("stat_screen").get_node("str").get_node("stren"), item_id)
 		GV.GUI["GUI"].remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("fire").get_node("fire"), item_id)
 		GV.GUI["GUI"].remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("cold").get_node("cold"), item_id)
 		GV.GUI["GUI"].remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("lightning").get_node("lightning"), item_id)
@@ -118,7 +118,7 @@ func grab_item(pos):
 		GV.GUI["GUI"].remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("poison").get_node("poison"), item_id)
 
 	elif item_slot == "POWERUP":
-		GV.GUI["GUI"].buff_effects(item, "deactivate")
+		GV.GUI["GUI"].buff_effects(item, "deactivate", GV.Item["current_ammo_num"])
 
 	return item
 	

@@ -378,6 +378,9 @@ func drop_pwrup(pos):
 	drop.position = pos
 	drop.get_node("id").text = str(GV.Item["item_id"])
 	
+	if "ammo" in drop_name:
+		GV.Item["current_ammo_num"] = 5
+	
 	var icon = item.icon
 	
 	item = {
@@ -385,7 +388,8 @@ func drop_pwrup(pos):
 		"name": item.name,
 		"icon": icon,
 		"type": item.type,
-		"slot": item.slot
+		"slot": item.slot,
+		"num": GV.Item["current_ammo_num"]
 	}
 	
 	GV.Item["dropped_items"].push_front(item)

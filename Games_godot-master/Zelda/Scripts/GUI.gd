@@ -110,20 +110,22 @@ func attribute_effects(stat, effect, value):
 			GV.Player["player_move_speed"] -= (0.02 * value)
 			print("decSpeed ", GV.Player["player_move_speed"])
 			
-func buff_effects(buff, effect):
+func buff_effects(buff, effect, ammo_num):
 	if effect == "activate":
 		if "fire_proj" in buff:
 			GV.Weapon["wand_proj"] = "fire_one"
 		elif "lazor" in buff:
 			GV.Weapon["wand_proj"] = "wand_beam_proj"
 			return
-		elif "ammo" in buff:
-			print("buff ",buff)
+		elif "ammo" in buff: 
 			GV.Item["current_ammo"] = buff.trim_prefix("pwrup_ammo_") + " arrow"
-			GV.Item["current_ammo_num"] = 3
+#			GV.Item["current_ammo_num"] = ammo_num
 			GV.GUI["GUI"].get_node("ammo").text = buff.trim_prefix("pwrup_ammo_") + " arrow"
-			GV.GUI["GUI"].get_node("ammo_num").text = "3"
-
+			GV.GUI["GUI"].get_node("ammo_num").text = str(ammo_num)
 	else:
 		GV.Weapon["wand_proj"] = null
+		GV.Item["current_ammo"] = null
+		GV.GUI["GUI"].get_node("ammo").text = "standard arrow"
+		GV.GUI["GUI"].get_node("ammo_num").text = "unl."
+		
 
