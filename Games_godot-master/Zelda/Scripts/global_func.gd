@@ -369,6 +369,7 @@ func drop_pwrup(pos):
 	var drop_texture = ItemDB.PWRUP[drop_id]
 	var drop_name = ItemDB.PWRUP[drop_id].name
 	var drop = ResourceLoader.load("res://Scenes/body_armour_drop.tscn").instance()
+	var ammo_num
 	
 	item = ItemDB.PWRUP[drop_id]
 
@@ -379,7 +380,15 @@ func drop_pwrup(pos):
 	drop.get_node("id").text = str(GV.Item["item_id"])
 	
 	if "ammo" in drop_name:
-		GV.Item["current_ammo_num"] = 5
+		var rand = RandomNumberGenerator.new()
+		rand.randomize()
+		var ammo_label = Label.new()
+		ammo_label.set_name("ammo_num")
+		ammo_label.set("custom_colors/font_color", Color(1,0,0,3))
+		ammo_num = rand.randi_range(3, 10)
+		drop.add_child(ammo_label)
+		drop.get_node("ammo_num").text = str(ammo_num)
+#		GV.Item["current_ammo_num"] = ammo_num
 	
 	var icon = item.icon
 	
@@ -389,7 +398,7 @@ func drop_pwrup(pos):
 		"icon": icon,
 		"type": item.type,
 		"slot": item.slot,
-		"num": GV.Item["current_ammo_num"]
+		"num": ammo_num
 	}
 	
 	GV.Item["dropped_items"].push_front(item)

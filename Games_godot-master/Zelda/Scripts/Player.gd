@@ -260,7 +260,6 @@ func player_collision():
 					GV.Item["inventory_items"].push_front(i)
 					GV.Item["dropped_items"].remove(GV.Item["dropped_items"].find(i))
 					GV.GUI["inventory"].pickup_item(i)
-					print("pickup ", i)
 					GV.GUI["add_stats"] = false
 
 			GV.Scene["current_scene"].get_node(coll.collider.name).queue_free()
@@ -439,6 +438,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 			weapon.position = self.position
 			var arrow = load("res://Assets/items/ammo_standard arrow.png")
 			if GV.Item["current_ammo"] != null and GV.Item["current_ammo_num"] != 0:
+				print("firearrow")
 				var special_arrow = load("res://Assets/items/ammo_" + GV.Item["current_ammo"] + ".png")
 				weapon.get_node("weapon").set_texture(special_arrow)
 				weapon.get_node("weapon").rotation_degrees = -45
@@ -452,6 +452,7 @@ func weapon_attack(move_vec, axe_pos, axe_dir):
 #				ammo -= 1
 			else:
 				weapon.get_node("weapon").set_texture(arrow)
+				weapon.get_node("weapon").rotation_degrees = -45
 			if weapon_dir == "DOWN":  #or move_vec == Vector2.ZERO:
 				weapon.rotation_degrees = -90
 				weapon.velocity = Vector2.DOWN

@@ -77,7 +77,7 @@ func insert_item(pos):
 			return
 	
 	if slot == $POWERUP:
-		GV.GUI["GUI"].buff_effects(item.name, "activate", GV.Item["current_ammo_num"])
+		GV.GUI["GUI"].buff_effects(item.name, "activate", item.num)
 	
 	return true
 

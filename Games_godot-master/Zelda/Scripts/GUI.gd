@@ -119,7 +119,7 @@ func buff_effects(buff, effect, ammo_num):
 			return
 		elif "ammo" in buff: 
 			GV.Item["current_ammo"] = buff.trim_prefix("pwrup_ammo_") + " arrow"
-#			GV.Item["current_ammo_num"] = ammo_num
+			GV.Item["current_ammo_num"] = ammo_num
 			GV.GUI["GUI"].get_node("ammo").text = buff.trim_prefix("pwrup_ammo_") + " arrow"
 			GV.GUI["GUI"].get_node("ammo_num").text = str(ammo_num)
 	else:
