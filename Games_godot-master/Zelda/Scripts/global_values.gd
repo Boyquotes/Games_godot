@@ -59,6 +59,7 @@ var Item = {
 	"current_weapon_id": null,
 	"current_gloves_id": 0,
 	"current_boots_id": 0,
+	"current_ammo_id": 0,
 	"current_ammo": "standard arrow",
 	"current_ammo_num": 0,
 	"quality": 0,

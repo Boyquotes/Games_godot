@@ -112,15 +112,15 @@ func attribute_effects(stat, effect, value):
 			
 func buff_effects(buff, effect, ammo_num):
 	if effect == "activate":
-		if "fire_proj" in buff:
+		if "fire_proj" in buff.name:
 			GV.Weapon["wand_proj"] = "fire_one"
-		elif "lazor" in buff:
+		elif "lazor" in buff.name:
 			GV.Weapon["wand_proj"] = "wand_beam_proj"
 			return
-		elif "ammo" in buff: 
-			GV.Item["current_ammo"] = buff.trim_prefix("pwrup_ammo_") + " arrow"
+		elif "ammo" in buff.name: 
+			GV.Item["current_ammo"] = buff.name.trim_prefix("pwrup_ammo_") + " arrow"
 			GV.Item["current_ammo_num"] = ammo_num
-			GV.GUI["GUI"].get_node("ammo").text = buff.trim_prefix("pwrup_ammo_") + " arrow"
+			GV.GUI["GUI"].get_node("ammo").text = buff.name.trim_prefix("pwrup_ammo_") + " arrow"
 			GV.GUI["GUI"].get_node("ammo_num").text = str(ammo_num)
 	else:
 		GV.Weapon["wand_proj"] = null

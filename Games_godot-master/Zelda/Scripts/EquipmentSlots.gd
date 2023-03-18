@@ -77,7 +77,10 @@ func insert_item(pos):
 			return
 	
 	if slot == $POWERUP:
-		GV.GUI["GUI"].buff_effects(item.name, "activate", item.num)
+		GV.GUI["GUI"].buff_effects(item, "activate", item.num)
+		GV.Item["current_ammo_id"] = item["id"]
+		
+#		GV.GUI["GUI"].buff_effects(item.name, "activate", item.num)
 	
 	return true
 
@@ -94,6 +97,7 @@ func grab_item(pos):
 			item_slot = i["slot"]
 			item_id = i["id"]
 			inventory_item = i
+			GV.Item["current_ammo_id"] = i["id"]
 	items[item_slot] = null
 	
 	if item_slot == "WEAPON":
@@ -118,7 +122,7 @@ func grab_item(pos):
 		GV.GUI["GUI"].remove_points(GUI_stats.get_node("item_stats").get_node("res").get_node("poison").get_node("poison"), item_id)
 
 	elif item_slot == "POWERUP":
-		GV.GUI["GUI"].buff_effects(item, "deactivate", GV.Item["current_ammo_num"])
+		GV.GUI["GUI"].buff_effects(inventory_item, "deactivate", inventory_item.num)
 
 	return item
 	

@@ -41,6 +41,11 @@ func _ready():
 				pickup_item(i)
 		return
 
+func remove_ammo(ammo, num):
+	for i in GV.Item["inventory_items"]:
+		if ammo in i.name:
+			self.get_node(i.name).get_node("ammo_num").text = str(num)
+
 func remove_buff(buff):
 	for i in GV.Item["inventory_items"]:
 		if buff in i.name:
@@ -133,6 +138,7 @@ func pickup_item(item_id):
 	if item_id["slot"] == "POWERUP":
 		item.get_node("stats_tt/stats_tt_popup/stats/item_name").text = str(item_id["name"])
 		item.name = item_id["name"]
+		item.get_node("ammo_num").text = str(item_id["num"])
 	if !weap_slot_taken and item_id["slot"] == "WEAPON":
 		eq_slots.insert_item(item)
 		weap_slot_taken = true
