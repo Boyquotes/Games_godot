@@ -80,7 +80,7 @@ var GUI = {
 }
 
 var Starting_values = {
-	"enemy_hp_value": 150,
+	"enemy_hp_value": 300,
 	"player_lvl": 0,
 	"player_weapon": "1",
 	"weapon_power": 900,

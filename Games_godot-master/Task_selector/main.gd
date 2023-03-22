@@ -2,6 +2,7 @@ extends CanvasLayer
 
 const STATE_FILEPATH = "user://task_state.json"
 const TASKS_FILEPATH = "user://tasks.txt"
+const NOTES_FILEPATH = "user://notes_tm.txt"
 
 func _ready():
 	load_task_state()
@@ -47,7 +48,7 @@ func _on_end_task_button_pressed():
 	if $current_task.text == "": return
 	end_task($current_task.text)
 	delete_task($current_task.text)
-	$current_task.text = ""
+	$current_task.text = "Task Done!"
 	$end_task.visible = false
 	
 func _on_clear_button_pressed():
@@ -64,6 +65,26 @@ func _on_task_deletion_confirm():
 	for i in $completed_tasks/completed_list.get_children():
 		$completed_tasks/completed_list.remove_child(i)
 		i.queue_free()
+		
+func _on_delete_button_pressed():
+	var confirm_delete_all_window = ConfirmationDialog.new()
+	
+	self.add_child(confirm_delete_all_window)
+	confirm_delete_all_window.name = "confirm_delete_all_window"
+	$confirm_delete_all_window.dialog_text = "do you really want to clear all current tasks?"
+	$confirm_delete_all_window.rect_position = Vector2(342, 200)
+	$confirm_delete_all_window.connect("confirmed", self, "_on_deletion_all_confirm")
+	$confirm_delete_all_window.visible = true
+	
+func _on_deletion_all_confirm():
+	var f = File.new()
+	f.open(TASKS_FILEPATH, File.WRITE)
+	f.close()
+	$current_task.text = "no more tasks!"
+	$end_task.visible = false
+	
+func _on_notes_button_pressed():
+	OS.shell_open(ProjectSettings.globalize_path(NOTES_FILEPATH))
 
 #------------------------------------------------------------------
 
@@ -91,7 +112,7 @@ func delete_task(task):
 	var f = File.new()
 	f.open(TASKS_FILEPATH, File.READ)
 	var tasks = f.get_as_text().split(",")
-	f.open("rTASKS_FILEPATH", File.WRITE)
+	f.open("TASKS_FILEPATH", File.WRITE)
 	f.close()
 #
 	for i in tasks.size():
@@ -132,9 +153,10 @@ func load_task_state():
 	f.close()
 	
 			
-# todo: sub tasks?
-# todo: task notes
-# deploy executable
+# todo: sub tasks
+# todo: show all tasks (in program or new window)
+
+
 
 
 

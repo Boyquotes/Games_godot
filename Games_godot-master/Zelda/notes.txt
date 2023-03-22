@@ -46,6 +46,10 @@ if you don't know what to do -> just play the game and write down ideas + fix th
 
 --NOTES--
 
+21/03/22
+	- stackable ammo (inv)
+	- work on task manager (integrate notes and subtasks)
+
 15/03/22
 	- ammo num is not persistance as global ammo_num value gets changed when arrow is picked up
 		- the num would also change if another arrow is picked up -> make the num local to the picked up item and overwrite the global ammo_num value when another type of ammo is equipped

@@ -329,7 +329,7 @@ func drop(pos, freq, weighting):
 
 #	pwrup is 0 armour is 1, weapon is 2
 	if weighting == null:
-		weighting = drop_weighting({0:090, 1:0.05, 2:0.05})
+		weighting = drop_weighting({0:0.60, 1:0.20, 2:0.20})
 
 	if weighting == 0:
 		drop_pwrup(pos)

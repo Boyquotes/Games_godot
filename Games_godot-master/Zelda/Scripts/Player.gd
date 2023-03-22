@@ -203,11 +203,11 @@ func player_collision():
 		if "Snow" in coll.collider.name and player_invuln == false:
 			GV.Enemy["enemy_dmg_type"] = "cold"
 			snow_attack()
-		elif "lightning" in coll.collider.name and player_invuln == false:
+		elif "Enemy_lightning" in coll.collider.name and player_invuln == false:
 			loose_hp(GV.Enemy["enemy_dmg_modifier"])
-		elif "Fire" in coll.collider.name and player_invuln == false:
+		elif "Enemy_Fire" in coll.collider.name and player_invuln == false:
 			loose_hp(GV.Enemy["enemy_dmg_modifier"])
-		elif "Starting" in coll.collider.name and player_invuln == false:
+		elif "Enemy_Starting" in coll.collider.name and player_invuln == false:
 			GV.Enemy["enemy_dmg_type"] = "physical"
 			loose_hp(GV.Enemy["enemy_dmg_modifier"])
 				
