@@ -12,15 +12,42 @@ func _process(delta):
 		get_tree().quit()
 	
 func _on_add_task_button_pressed():
-	var f = File.new()
-	if not f.file_exists(TASKS_FILEPATH): return 
-	f.open(TASKS_FILEPATH, File.READ)
-	var tasks = f.get_as_text().split(",")
-	tasks.push_back($add_task/add_task_prompt.text)
-	f.open(TASKS_FILEPATH, File.WRITE)
-	f.store_string(tasks.join(","))
-	f.close()
-	$add_task/add_task_prompt.text = ""
+	for i in self.get_children():
+		if i.name == "confirm_add_task_window": return
+	
+	var confirm_add_task_window = ConfirmationDialog.new()
+	
+	self.add_child(confirm_add_task_window)
+	confirm_add_task_window.name = "confirm_add_task_window"
+	$confirm_add_task_window.dialog_text = "do you want to add sub tasks?"
+	$confirm_add_task_window.rect_position = Vector2(20, 150)
+	$confirm_add_task_window.get_ok().text = "Yes"
+	$confirm_add_task_window.connect("confirmed", self, "_on_add_sub_confirm")
+	$confirm_add_task_window.add_button("No, create Task", true , "_on_add_task_confirm")
+	$confirm_add_task_window.connect("custom_action", self, "_on_add_task_confirm")
+	$confirm_add_task_window.visible = true
+	
+func _on_add_sub_confirm():
+	$add_sub_task.visible = true
+	
+func _on_add_task_confirm(something):
+	print("new task added")
+	
+#	var f = File.new()
+#	if not f.file_exists(TASKS_FILEPATH): return 
+#	f.open(TASKS_FILEPATH, File.READ)
+#	var tasks = f.get_as_text().split(",")
+#	tasks.push_back($add_task/add_task_prompt.text)
+#	f.open(TASKS_FILEPATH, File.WRITE)
+#	f.store_string(tasks.join(","))
+#	f.close()
+#	$add_task/add_task_prompt.text = ""
+	
+func _on_sub_task_button_pressed():
+#	add the sub task to the TASK dict
+	$confirm_add_task_window.visible = true
+	$confirm_add_task_window.dialog_text = "do you want to add another sub task?"
+	
 	
 func _on_close_button_pressed():
 	save_task_state()
@@ -82,9 +109,12 @@ func _on_deletion_all_confirm():
 	f.close()
 	$current_task.text = "no more tasks!"
 	$end_task.visible = false
+	$confirm_delete_all_window.queue_free()
 	
 func _on_notes_button_pressed():
 	OS.shell_open(ProjectSettings.globalize_path(NOTES_FILEPATH))
+
+
 
 #------------------------------------------------------------------
 
@@ -109,6 +139,7 @@ func end_task(task):
 	$completed_tasks/completed_list.get_children()[-1].append_bbcode("[s]"+task+"[/s]")
 
 func delete_task(task):
+#	show all tasks before delete
 	var f = File.new()
 	f.open(TASKS_FILEPATH, File.READ)
 	var tasks = f.get_as_text().split(",")
@@ -155,7 +186,7 @@ func load_task_state():
 			
 # todo: sub tasks
 # todo: show all tasks (in program or new window)
-
+# todo: show all tasks before delete
 
 
 
