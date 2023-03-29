@@ -3,6 +3,7 @@ extends CanvasLayer
 const STATE_FILEPATH = "user://task_state.json"
 const TASKS_FILEPATH = "user://tasks.txt"
 const NOTES_FILEPATH = "user://notes_tm.txt"
+const SUB_TASKS_FILEPATH = "user://sub_tasks.json"
 
 func _ready():
 	load_task_state()
@@ -16,7 +17,6 @@ func _on_add_task_button_pressed():
 		if i.name == "confirm_add_task_window": return
 	
 	var confirm_add_task_window = ConfirmationDialog.new()
-	
 	self.add_child(confirm_add_task_window)
 	confirm_add_task_window.name = "confirm_add_task_window"
 	$confirm_add_task_window.dialog_text = "do you want to add sub tasks?"
@@ -31,20 +31,24 @@ func _on_add_sub_confirm():
 	$add_sub_task.visible = true
 	
 func _on_add_task_confirm(something):
-	print("new task added")
-	
-#	var f = File.new()
-#	if not f.file_exists(TASKS_FILEPATH): return 
-#	f.open(TASKS_FILEPATH, File.READ)
-#	var tasks = f.get_as_text().split(",")
-#	tasks.push_back($add_task/add_task_prompt.text)
-#	f.open(TASKS_FILEPATH, File.WRITE)
-#	f.store_string(tasks.join(","))
-#	f.close()
-#	$add_task/add_task_prompt.text = ""
+	var f = File.new()
+	if not f.file_exists(TASKS_FILEPATH): return 
+	f.open(TASKS_FILEPATH, File.READ)
+	var tasks = f.get_as_text().split(",")
+	tasks.push_back($add_task/add_task_prompt.text)
+	f.open(TASKS_FILEPATH, File.WRITE)
+	f.store_string(tasks.join(","))
+	f.close()
+	$add_task/add_task_prompt.text = ""
+	$add_sub_task/sub_task_txt.text = ""
+	$add_sub_task.visible = false
+	$confirm_add_task_window.queue_free()
 	
 func _on_sub_task_button_pressed():
 #	add the sub task to the TASK dict
+	save_sub_tasks($add_task/add_task_prompt.text, $add_sub_task/sub_task_txt.text)
+	$add_sub_task/sub_task_txt.text = ""
+	
 	$confirm_add_task_window.visible = true
 	$confirm_add_task_window.dialog_text = "do you want to add another sub task?"
 	
@@ -114,8 +118,6 @@ func _on_deletion_all_confirm():
 func _on_notes_button_pressed():
 	OS.shell_open(ProjectSettings.globalize_path(NOTES_FILEPATH))
 
-
-
 #------------------------------------------------------------------
 
 func populate_tasks():
@@ -153,7 +155,36 @@ func delete_task(task):
 			f.store_string(tasks.join(","))
 			f.close()
 			break
+
+func save_sub_tasks(main_task, sub_task):
+	var f = File.new()
+	if not f.file_exists(SUB_TASKS_FILEPATH): return
+	f.open(SUB_TASKS_FILEPATH, File.READ_WRITE)
+	var a = JSON.parse(f.get_as_text()).result
+	if typeof(a) == TYPE_DICTIONARY:
+		if main_task in a.keys():
+			a[main_task][str(a[main_task].size()+1)] = sub_task
+			print(a)
+			f.store_line(to_json(a))
+		else:
+			print("makeNewDict")
+			a[main_task] = {"1": sub_task}
+			f.store_line(to_json(a))
+	else:
+		f.store_line(to_json({main_task:{"1": sub_task}}))
+
+	f.close()
 	
+#	var f = File.new()
+#	if not f.file_exists(TASKS_FILEPATH): return 
+#	f.open(TASKS_FILEPATH, File.READ)
+#	var tasks = f.get_as_text().split(",")
+#	tasks.push_back($add_task/add_task_prompt.text)
+#	f.open(TASKS_FILEPATH, File.WRITE)
+#	f.store_string(tasks.join(","))
+#	f.close()
+	
+
 func save_task_state():
 	var completed_tasks = []
 	for i in $completed_tasks/completed_list.get_children().size():
@@ -185,6 +216,7 @@ func load_task_state():
 	
 			
 # todo: sub tasks
+# todo: handle duplicates (tasks and sub tasks)
 # todo: show all tasks (in program or new window)
 # todo: show all tasks before delete
 
