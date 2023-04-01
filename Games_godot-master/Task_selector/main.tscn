@@ -199,6 +199,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="sub_tasks" type="VBoxContainer" parent="."]
+margin_left = 20.0
+margin_top = 180.0
+margin_right = 320.0
+margin_bottom = 580.0
+rect_min_size = Vector2( 300, 44 )
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="delete_tasks" type="VBoxContainer" parent="."]
 margin_left = 210.0
 margin_top = 20.0

@@ -56,17 +56,35 @@ func _on_sub_task_button_pressed():
 func _on_close_button_pressed():
 	save_task_state()
 	get_tree().quit()
-	
+
+func populate_sub_tasks(chosen_task):
+	for i in $sub_tasks.get_children():
+		i.free()
+	var f = File.new()
+	f.open(SUB_TASKS_FILEPATH, File.READ)
+	var a = JSON.parse(f.get_as_text()).result
+	for i in a[chosen_task].values():
+		var sub = CheckBox.new()
+		var label = Label.new()
+		sub.name = str(i)
+		label.text = str(i)
+		label.rect_position = Vector2(25, 5)
+		$sub_tasks.add_child(sub)
+		$sub_tasks.get_children()[-1].add_child(label)
+	f.close()
+
 func _on_choose_task_button_pressed():
 	var chosen_task
 	$end_task.visible = true
-	
 	if $current_task.text != "" and populate_tasks().size() > 1:
 		chosen_task = random_task()
+		populate_sub_tasks(chosen_task)
 		while chosen_task == $current_task.text:
 			chosen_task = random_task()
+			populate_sub_tasks(chosen_task)
 	elif populate_tasks().size() == 1:
 		chosen_task = random_task()
+		populate_sub_tasks(chosen_task)
 	
 	if chosen_task != null:
 		$suggest_task/choose_task_button/Label.text = "Click to get another suggestion"
@@ -122,8 +140,13 @@ func _on_notes_button_pressed():
 
 func populate_tasks():
 	var f = File.new()
-	f.open(TASKS_FILEPATH, File.READ)
-	var tasks = f.get_as_text().split(",", false)
+	f.open(SUB_TASKS_FILEPATH, File.READ)
+	
+	var tasks = JSON.parse(f.get_as_text()).result.keys()
+	
+#	var f = File.new()
+#	f.open(TASKS_FILEPATH, File.READ)
+#	var tasks = f.get_as_text().split(",", false)
 	f.close()
 	return tasks
 	
@@ -215,10 +238,9 @@ func load_task_state():
 	f.close()
 	
 			
-# todo: sub tasks
+# todo: sub tasks // integrate populate tasks into sub-tasks populate func
 # todo: handle duplicates (tasks and sub tasks)
-# todo: show all tasks (in program or new window)
-# todo: show all tasks before delete
+# todo: show all tasks (in program or new window) // show all tasks before delete
 
 
 
