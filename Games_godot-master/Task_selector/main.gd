@@ -31,61 +31,33 @@ func _on_add_sub_confirm():
 	$add_sub_task.visible = true
 	
 func _on_add_task_confirm(something):
-	var f = File.new()
-	if not f.file_exists(TASKS_FILEPATH): return 
-	f.open(TASKS_FILEPATH, File.READ)
-	var tasks = f.get_as_text().split(",")
-	tasks.push_back($add_task/add_task_prompt.text)
-	f.open(TASKS_FILEPATH, File.WRITE)
-	f.store_string(tasks.join(","))
-	f.close()
+	if !$add_sub_task.visible:
+		save_tasks($add_task/add_task_prompt.text, null)
 	$add_task/add_task_prompt.text = ""
 	$add_sub_task/sub_task_txt.text = ""
 	$add_sub_task.visible = false
 	$confirm_add_task_window.queue_free()
 	
 func _on_sub_task_button_pressed():
-#	add the sub task to the TASK dict
-	save_sub_tasks($add_task/add_task_prompt.text, $add_sub_task/sub_task_txt.text)
+	save_tasks($add_task/add_task_prompt.text, $add_sub_task/sub_task_txt.text)
 	$add_sub_task/sub_task_txt.text = ""
 	
 	$confirm_add_task_window.visible = true
 	$confirm_add_task_window.dialog_text = "do you want to add another sub task?"
 	
-	
 func _on_close_button_pressed():
 	save_task_state()
 	get_tree().quit()
 
-func populate_sub_tasks(chosen_task):
-	for i in $sub_tasks.get_children():
-		i.free()
-	var f = File.new()
-	f.open(SUB_TASKS_FILEPATH, File.READ)
-	var a = JSON.parse(f.get_as_text()).result
-	for i in a[chosen_task].values():
-		var sub = CheckBox.new()
-		var label = Label.new()
-		sub.name = str(i)
-		label.text = str(i)
-		label.rect_position = Vector2(25, 5)
-		$sub_tasks.add_child(sub)
-		$sub_tasks.get_children()[-1].add_child(label)
-	f.close()
-
 func _on_choose_task_button_pressed():
 	var chosen_task
 	$end_task.visible = true
-	if $current_task.text != "" and populate_tasks().size() > 1:
-		chosen_task = random_task()
-		populate_sub_tasks(chosen_task)
+	if $current_task.text != "" and populate_tasks()[0].size() > 1:
+		chosen_task = populate_tasks()[1]
 		while chosen_task == $current_task.text:
-			chosen_task = random_task()
-			populate_sub_tasks(chosen_task)
-	elif populate_tasks().size() == 1:
-		chosen_task = random_task()
-		populate_sub_tasks(chosen_task)
-	
+			chosen_task = populate_tasks()[1]
+	elif populate_tasks().size()[0] == 1:
+		chosen_task = populate_tasks()[1]
 	if chosen_task != null:
 		$suggest_task/choose_task_button/Label.text = "Click to get another suggestion"
 		$current_task.text = chosen_task
@@ -96,7 +68,7 @@ func _on_choose_task_button_pressed():
 func _on_end_task_button_pressed():
 	if $current_task.text == "": return
 	end_task($current_task.text)
-	delete_task($current_task.text)
+	delete_ended_task($current_task.text)
 	$current_task.text = "Task Done!"
 	$end_task.visible = false
 	
@@ -139,22 +111,26 @@ func _on_notes_button_pressed():
 #------------------------------------------------------------------
 
 func populate_tasks():
-	var f = File.new()
-	f.open(SUB_TASKS_FILEPATH, File.READ)
-	
-	var tasks = JSON.parse(f.get_as_text()).result.keys()
-	
-#	var f = File.new()
-#	f.open(TASKS_FILEPATH, File.READ)
-#	var tasks = f.get_as_text().split(",", false)
-	f.close()
-	return tasks
-	
-func random_task():
-	var tasks = populate_tasks()
 	var rand = RandomNumberGenerator.new()
 	rand.randomize()
-	return tasks[rand.randf_range(0, tasks.size())]
+	for i in $sub_tasks.get_children():
+		i.free()
+	var f = File.new()
+	f.open(SUB_TASKS_FILEPATH, File.READ)
+	var a = JSON.parse(f.get_as_text()).result
+	var main_tasks = JSON.parse(f.get_as_text()).result.keys()
+	var main_task = main_tasks[rand.randf_range(0, main_tasks.size())]
+	for i in a[main_task].values():
+		var sub = CheckBox.new()
+		var label = Label.new()
+		sub.name = str(i)
+		label.text = str(i)
+		label.rect_position = Vector2(25, 5)
+		$sub_tasks.add_child(sub)
+		$sub_tasks.get_children()[-1].add_child(label)
+	f.close()
+	
+	return [main_tasks, main_task]
 	
 func end_task(task):
 	var completed_task = RichTextLabel.new()
@@ -163,8 +139,7 @@ func end_task(task):
 	$completed_tasks/completed_list.get_children()[-1].rect_min_size.y = 20
 	$completed_tasks/completed_list.get_children()[-1].append_bbcode("[s]"+task+"[/s]")
 
-func delete_task(task):
-#	show all tasks before delete
+func delete_ended_task(task):
 	var f = File.new()
 	f.open(TASKS_FILEPATH, File.READ)
 	var tasks = f.get_as_text().split(",")
@@ -179,7 +154,7 @@ func delete_task(task):
 			f.close()
 			break
 
-func save_sub_tasks(main_task, sub_task):
+func save_tasks(main_task, sub_task):
 	var f = File.new()
 	if not f.file_exists(SUB_TASKS_FILEPATH): return
 	f.open(SUB_TASKS_FILEPATH, File.READ_WRITE)
@@ -187,26 +162,16 @@ func save_sub_tasks(main_task, sub_task):
 	if typeof(a) == TYPE_DICTIONARY:
 		if main_task in a.keys():
 			a[main_task][str(a[main_task].size()+1)] = sub_task
-			print(a)
+			f.store_line(to_json(a))
+		elif sub_task == null:
+			a[main_task] = {}
 			f.store_line(to_json(a))
 		else:
-			print("makeNewDict")
 			a[main_task] = {"1": sub_task}
 			f.store_line(to_json(a))
 	else:
 		f.store_line(to_json({main_task:{"1": sub_task}}))
-
 	f.close()
-	
-#	var f = File.new()
-#	if not f.file_exists(TASKS_FILEPATH): return 
-#	f.open(TASKS_FILEPATH, File.READ)
-#	var tasks = f.get_as_text().split(",")
-#	tasks.push_back($add_task/add_task_prompt.text)
-#	f.open(TASKS_FILEPATH, File.WRITE)
-#	f.store_string(tasks.join(","))
-#	f.close()
-	
 
 func save_task_state():
 	var completed_tasks = []
@@ -238,9 +203,12 @@ func load_task_state():
 	f.close()
 	
 			
-# todo: sub tasks // integrate populate tasks into sub-tasks populate func
+# todo: delete ended tasks with new add_tasks func -> delete TASKS.txt file
+# todo: delete all tasks with new add_tasks func -> delete TASKS.txt file
 # todo: handle duplicates (tasks and sub tasks)
 # todo: show all tasks (in program or new window) // show all tasks before delete
+# todo: save sub and main task states
+# todo: how to handle deleted sub tasks
 
 
 
