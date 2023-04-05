@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 const STATE_FILEPATH = "user://task_state.json"
-const TASKS_FILEPATH = "user://tasks.txt"
+#const TASKS_FILEPATH = "user://tasks.txt"
 const NOTES_FILEPATH = "user://notes_tm.txt"
 const SUB_TASKS_FILEPATH = "user://sub_tasks.json"
 
@@ -15,6 +15,17 @@ func _process(delta):
 func _on_add_task_button_pressed():
 	for i in self.get_children():
 		if i.name == "confirm_add_task_window": return
+	if $add_task/add_task_prompt.text == "": 
+		print("no content")
+		return
+	var f = File.new()
+	f.open(SUB_TASKS_FILEPATH, File.READ)
+	var a = JSON.parse(f.get_as_text()).result
+	var main_tasks = JSON.parse(f.get_as_text()).result.keys()
+	for i in main_tasks:
+		if i == $add_task/add_task_prompt.text:
+			print("duplicate")
+			return
 	
 	var confirm_add_task_window = ConfirmationDialog.new()
 	self.add_child(confirm_add_task_window)
@@ -99,7 +110,7 @@ func _on_delete_button_pressed():
 	
 func _on_deletion_all_confirm():
 	var f = File.new()
-	f.open(TASKS_FILEPATH, File.WRITE)
+	f.open(SUB_TASKS_FILEPATH, File.WRITE)
 	f.close()
 	$current_task.text = "no more tasks!"
 	$end_task.visible = false
@@ -141,18 +152,14 @@ func end_task(task):
 
 func delete_ended_task(task):
 	var f = File.new()
-	f.open(TASKS_FILEPATH, File.READ)
-	var tasks = f.get_as_text().split(",")
-	f.open("TASKS_FILEPATH", File.WRITE)
+	f.open(SUB_TASKS_FILEPATH, File.READ)
+	var tasks = JSON.parse(f.get_as_text()).result
+	f.open("SUB_TASKS_FILEPATH", File.WRITE)
 	f.close()
-#
-	for i in tasks.size():
-		if tasks[i] == task:
-			tasks.remove(i)
-			f.open(TASKS_FILEPATH, File.WRITE)
-			f.store_string(tasks.join(","))
-			f.close()
-			break
+	tasks.erase(task)
+	f.open(SUB_TASKS_FILEPATH, File.WRITE)
+	f.store_line(to_json(tasks))
+	f.close()
 
 func save_tasks(main_task, sub_task):
 	var f = File.new()
@@ -203,12 +210,11 @@ func load_task_state():
 	f.close()
 	
 			
-# todo: delete ended tasks with new add_tasks func -> delete TASKS.txt file
-# todo: delete all tasks with new add_tasks func -> delete TASKS.txt file
-# todo: handle duplicates (tasks and sub tasks)
+# todo: handle duplicate sub tasks
 # todo: show all tasks (in program or new window) // show all tasks before delete
 # todo: save sub and main task states
-# todo: how to handle deleted sub tasks
+# todo: how to handle deleted sub tasks (how when hovering over deleted tasks?)
+# todo: tween anim (for sub tasks) when start new task
 
 
 
