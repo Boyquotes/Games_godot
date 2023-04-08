@@ -51,10 +51,6 @@ func _on_add_task_confirm(something):
 	
 func _on_sub_task_button_pressed():
 	save_tasks($add_task/add_task_prompt.text, $add_sub_task/sub_task_txt.text)
-	$add_sub_task/sub_task_txt.text = ""
-	
-	$confirm_add_task_window.visible = true
-	$confirm_add_task_window.dialog_text = "do you want to add another sub task?"
 	
 func _on_close_button_pressed():
 	save_task_state()
@@ -168,8 +164,13 @@ func save_tasks(main_task, sub_task):
 	var a = JSON.parse(f.get_as_text()).result
 	if typeof(a) == TYPE_DICTIONARY:
 		if main_task in a.keys():
-			a[main_task][str(a[main_task].size()+1)] = sub_task
-			f.store_line(to_json(a))
+			print(a[main_task].values())
+			if a[main_task].values().has(sub_task):
+				print("duplicate sub")
+				return
+			else:
+				a[main_task][str(a[main_task].size()+1)] = sub_task
+				f.store_line(to_json(a))
 		elif sub_task == null:
 			a[main_task] = {}
 			f.store_line(to_json(a))
@@ -179,6 +180,10 @@ func save_tasks(main_task, sub_task):
 	else:
 		f.store_line(to_json({main_task:{"1": sub_task}}))
 	f.close()
+	
+	$confirm_add_task_window.visible = true
+	$confirm_add_task_window.dialog_text = "do you want to add another sub task?"
+	$add_sub_task/sub_task_txt.text = ""
 
 func save_task_state():
 	var completed_tasks = []
